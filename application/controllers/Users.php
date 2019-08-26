@@ -16,16 +16,14 @@ class Users extends MY_Controller {
 				'`users`.`username`',
 				'`users`.`email`',
 				'`users`.`phone`',
-				'`u`.`first_name`',
+				'`roles`.`role_name`',
 				'action'
 			);
 
 			$query = $this
 						->model
-						->common_select('users.*, u.first_name as `reportee`')
-						->common_join('users u','u.id = users.reporting_to','LEFT')
-						->common_join('user_roles','user_roles.user_id = users.id','LEFT')
-						->common_join('user_types','user_types.id = user_roles.user_type_id','LEFT')
+						->common_select('users.*,`roles`.`role_name`')
+						->common_join('roles','roles.id = users.role_id','LEFT')
 						->common_get('users');
 
 			echo $this->model->common_datatable($colsArr, $query, "users.status = 1");die;
@@ -41,7 +39,7 @@ class Users extends MY_Controller {
 			'username'		=> '',
 			'email'			=> '',
 			'phone'			=> '',
-			'reporting_to'	=> '',
+            'role_id'       =>  '',
 		);
 		if($id){
 			$this->data['page_title'] = 'Update User';
@@ -51,6 +49,7 @@ class Users extends MY_Controller {
 		}
 
 		if($this->input->server("REQUEST_METHOD") == "POST"){
+
 			$username = $this->input->post('username');
 			$email = $this->input->post('email');
 			$phone = $this->input->post('phone');
@@ -80,15 +79,15 @@ class Users extends MY_Controller {
 				'phone'			=>$phone,
 				'email'			=>$email,
 				'username'		=>$username,
-				'password'		=>$this->input->post('password'),
-				'reporting_to'	=>$this->input->post('reporting_to'),
+                'role_id'       =>$this->input->post('role'),
 			);
-			$userRoleArr = array(array(
-				'user_type_id'=>$this->input->post('role')
-			));
+
+            if($password = $this->input->post('password')){
+                $userData['password'] = $password;
+            }
 
 			// add or update records
-			if($this->user->insert_update($userData, $userRoleArr, $id)){
+			if($this->user->insert_update($userData, $id)){
 				$msg = 'User created successfully.';
 				$type = 'success';
 				if($id){
@@ -102,8 +101,7 @@ class Users extends MY_Controller {
 			}
 			redirect('users','location');
 		}
-		$this->data['roles'] = $this->model->get("user_types");
-		$this->data['reporting_users'] = $this->user->get_admins();
+		$this->data['roles'] = $this->model->get("roles");
 		$this->data['id'] = $id;
 		$this->data['user_data'] = $userArr;
 		$this->load_content('user/add_update', $this->data);
@@ -112,10 +110,8 @@ class Users extends MY_Controller {
 	public function user_export(){
 		$query = $this
 						->model
-						->common_select('users.first_name, users.last_name, users.username, users.email, users.phone, user_types.name as Role, u.first_name as Reporting_to')
-						->common_join('users u','u.id = users.reporting_to','LEFT')
-						->common_join('user_roles','user_roles.user_id = users.id','LEFT')
-						->common_join('user_types','user_types.id = user_roles.user_type_id','LEFT')
+						->common_select('users.first_name, users.last_name, users.username, users.email, users.phone, roles.role_name')
+						->common_join('roles','roles.id = users.role_id','LEFT')
 						->common_get('users');
 
 		$resultData = $this->db->query($query)->result_array();

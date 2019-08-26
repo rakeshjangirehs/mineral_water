@@ -4,7 +4,10 @@
 		  	<div class="panel panel-primary">
 			    <div class="panel-heading">
 			    	<?php echo $page_title; ?>
-			    	<span class="pull-right"><a class="btn btn-info btn-sm" style="margin-top: -8px;" href="<?php echo $this->baseUrl; ?>users/user_export">Export</a></span>
+			    	<span class="pull-right"><a class="btn btn-success btn-minier" style="margin-top: -8px;" href="<?php echo $this->baseUrl; ?>users/user_export">
+                            <i class="ace-icon fa fa-file-excel-o bigger-110"></i>
+                            Export
+                    </a></span>
 			    </div>
 			    <div class="panel-body">
 			    	<table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>users/index">
@@ -15,7 +18,7 @@
 								<th>Username</th>
 								<th>Email</th>
 								<th>Phone</th>
-								<th>Reporting To</th>
+								<th>Role</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -59,11 +62,11 @@
                 { "data": "username" },
                 { "data": "email" },
                 { "data": "phone" },
-                { "data": "reportee" },
+                { "data": "role_name" },
                 {
                 	"data": 'link',
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='green plant_edit' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"'><i class='ace-icon fa fa-pencil bigger-130'></i></a>";
+				      return "<a class='plant_edit' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='ace-icon fa fa-pencil-square-o bigger-130'></i></a>";
 				    }
             	}
             ],

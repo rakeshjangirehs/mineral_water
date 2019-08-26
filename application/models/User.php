@@ -46,7 +46,7 @@ class User extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data, $roleArr,$user_id = NULL){
+    public function insert_update($data,$user_id = NULL){
         
         $this->db->trans_start();
         if($user_id){
@@ -56,21 +56,12 @@ class User extends CI_Model {
             $this->db->where("id", $user_id);
             $this->db->update("users", $data);
 
-            // delete old roles data
-            $this->db->delete("user_roles", array("user_id"=>$user_id));
         }else{
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['created_by'] = USER_ID;
             $this->db->insert("users", $data);
             $user_id = $this->db->insert_id();
         }
-        if(!empty($roleArr)){
-            foreach( $roleArr as &$role ){
-                $role['user_id'] = $user_id;
-            }
-        }
-
-        $this->db->insert_batch("user_roles", $roleArr);
 
         $this->db->trans_complete();
         if($this->db->trans_status()){
@@ -96,11 +87,9 @@ class User extends CI_Model {
     public function get_user($id){
         // echo "<pre>"; var_dump($id);die;
 
-        return $this->db->select("users.*, user_types.name as role_name, u.first_name as reportee, user_types.id as user_type_id")
+        return $this->db->select("users.*, roles.role_name as role_name")
                         ->from("users")
-                        ->join("users u", "u.id = users.reporting_to", "left")
-                        ->join("user_roles", "user_roles.user_id = users.id", "left")
-                        ->join("user_types", "user_types.id = user_roles.user_type_id", "left")
+                        ->join("roles", "roles.id = users.role_id", "left")
                         ->where("users.id", $id)
                         ->get()
                         ->row_array();
