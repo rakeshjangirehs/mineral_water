@@ -70,7 +70,7 @@ class MY_Model extends CI_Model{
 
 		return "SELECT 
 					$this->fields
-				FROM $this->table
+				FROM $this->table				
 				$str
 		";
 	}
@@ -80,7 +80,7 @@ class MY_Model extends CI_Model{
 		Date: 06-08-2019
 		Description: common data table function which is used for generate formal datatable
 	*/
-	public function common_datatable($columns = array(), $query, $whereClause = NULL){
+	public function common_datatable($columns = array(), $query, $whereClause = NULL,$group_by=NULL){
 		$request= $_REQUEST;
 		$where = " WHERE 1=1 ";
 		$where .= ($whereClause) ? " AND $whereClause ":"";
@@ -110,22 +110,22 @@ class MY_Model extends CI_Model{
             $where .= " )";
 		}
 		$sql .= $where;
-		if( count($request['order']) > 0 ) {
-			
-			$temp = array();
-			
-			foreach($request['order'] as $order){
-				$temp[]= "".$columns[$order['column']]." ".$order['dir'];
-			}
+        $sql .= ($group_by) ? " GROUP BY " . $group_by : "";
+        if( count($request['order']) > 0 ) {
 
-			$sql .= " ORDER BY ";
-			$sql .= implode(",",$temp);
-		}
-		
-		$c = $this->db->query($sql);
-		$records_filtered = $this->db->affected_rows();
-		
-		if($request['length'] != -1){				
+            $temp = array();
+
+            foreach($request['order'] as $order){
+                $temp[]= "".$columns[$order['column']]." ".$order['dir'];
+            }
+
+            $sql .= " ORDER BY ";
+            $sql .= implode(",",$temp);
+        }
+
+        $c = $this->db->query($sql);
+        $records_filtered = $this->db->affected_rows();
+		if($request['length'] != -1){
 			$sql .= " LIMIT ".$request['start']." ,".$request['length'];
 		}
 
