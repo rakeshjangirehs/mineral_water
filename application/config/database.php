@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '172.16.3.124',
+	'hostname' => '172.16.3.123',
 	'username' => 'root',
 	'password' => '',
 	'database' => 'mineral_water',
