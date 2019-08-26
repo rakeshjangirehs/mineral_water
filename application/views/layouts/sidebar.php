@@ -72,6 +72,36 @@
 			</ul>
 		</li>
 
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-user"></i>
+                <span class="menu-text">
+					Client Management
+				</span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="add_client_li">
+                    <a href="<?php echo $this->baseUrl; ?>clients/add_update">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Add
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="cilent_list_li">
+                    <a href="<?php echo $this->baseUrl; ?>clients">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        List
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
 		<li class="">
 			<a href="#" class="dropdown-toggle">
 				<i class="menu-icon fa fa-sitemap"></i>

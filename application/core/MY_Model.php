@@ -33,9 +33,13 @@ class MY_Model extends CI_Model{
 		return $id;
 	}
 
-	public function get( $table, $id = NULL, $whereCol = NULL ){
+	public function get( $table, $id = NULL, $whereCol = NULL, $multiple=false ){
 		if($id){
-			return $this->db->get_where($table, array($whereCol=>$id, 'status'=>'Active'))->row_array();
+		    if($multiple){
+                return $this->db->get_where($table, array($whereCol=>$id, 'status'=>'Active'))->result_array();
+            }else{
+                return $this->db->get_where($table, array($whereCol=>$id, 'status'=>'Active'))->row_array();
+            }
 		}else{
 			return $this->db->get_where($table, array('status'=>'Active'))->result_array();
 		}
