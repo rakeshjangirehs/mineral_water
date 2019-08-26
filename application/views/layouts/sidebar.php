@@ -85,75 +85,22 @@
 			<b class="arrow"></b>
 
 			<ul class="submenu">
-				<li class="department_li">
-					<a href="<?php echo $this->baseUrl; ?>departments">
+				<li class="zipcode_li">
+					<a href="<?php echo $this->baseUrl; ?>zipcodes">
 						<i class="menu-icon fa fa-caret-right"></i>
-						Departments
+						Zipcodes
 					</a>
 
 					<b class="arrow"></b>
 				</li>
-				<li class="plant_li">
-					<a href="<?php echo $this->baseUrl; ?>plants">
+
+				<li class="product_li">
+					<a href="<?php echo $this->baseUrl; ?>products">
 						<i class="menu-icon fa fa-caret-right"></i>
-						Plants
+						Products
 					</a>
 
 					<b class="arrow"></b>
-				</li>
-				<li class="equipment_type_li">
-					<a href="<?php echo $this->baseUrl; ?>equipment_types">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Equipment Types
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-				<li class="equipment_li">
-					<a href="<?php echo $this->baseUrl; ?>equipments">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Equipments
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-				<li class="equipment_tag_li">
-					<a href="<?php echo $this->baseUrl; ?>equipment_tags">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Equipment Tags
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-				<li class="">
-					<a href="#" class="dropdown-toggle">
-						<i class="menu-icon fa fa-caret-right"></i>
-
-						Imports
-						<b class="arrow fa fa-angle-down"></b>
-					</a>
-
-					<b class="arrow"></b>
-
-					<ul class="submenu">
-						<li class="equipment_tags_import_li">
-							<a href="<?php echo $this->baseUrl; ?>imports/import_equipment_tags">
-								<i class="menu-icon fa fa-leaf green"></i>
-								Equipment Tags
-							</a>
-
-							<b class="arrow"></b>
-						</li>
-
-						<li class="equipment_import_li">
-							<a href="<?php echo $this->baseUrl; ?>imports/import_equipments">
-								<i class="menu-icon fa fa-leaf green"></i>
-								Equipments
-							</a>
-
-							<b class="arrow"></b>
-						</li>
-					</ul>
 				</li>
 			</ul>
 		</li>
