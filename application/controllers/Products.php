@@ -79,6 +79,7 @@
      * file value and type check during validation
      */
     public function file_check($str){
+    	// var_dump($_FILES['product_image']['type']);die;
         $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
         $mime = $_FILES['product_image']['type'];
         if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['name']!=""){
