@@ -66,7 +66,7 @@
                 {
                 	"data": 'link',
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='plant_edit' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='ace-icon fa fa-pencil-square-o bigger-130'></i></a>";
+				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='ace-icon fa fa-pencil-squaregit  bigger-130'></i></a>";
 				    }
             	}
             ],
