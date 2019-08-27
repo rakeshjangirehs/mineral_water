@@ -65,6 +65,7 @@
                 { "data": "role_name" },
                 {
                 	"data": 'link',
+                	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='ace-icon fa fa-pencil-square bigger-130'></i></a>";
 				    }

@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-sm-12">
-		<form class="form-horizontal" method="post" action="<?php echo $this->baseUrl; ?>products/add_update" enctype="multipart/form-data">
+		<form class="form-horizontal" method="post" action="<?php echo $this->baseUrl; ?>products/add_update/<?php echo $id; ?>" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
@@ -69,7 +69,12 @@
 				  	</div>
 				</div>
 			</div>
-			<input type="submit" value="Submit" />
+			<div class="panel-footer" style="background-color: #ffffff !important;">
+                <div class="text-right">
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>products/">Cancel</a>
+                </div>
+            </div>
 		</form>
 	</div>
 </div>

@@ -65,6 +65,7 @@
                 { "data": "zip_code" },
                 {
                 	"data": 'link',
+                	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='ace-icon fa fa-pencil-square bigger-130'></i></a>" +
                           "&nbsp;<a class='green' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='ace-icon fa fa-phone-square bigger-130'></i></a>";

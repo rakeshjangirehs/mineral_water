@@ -65,6 +65,7 @@
                 { "data": "zip_code" },
                 {
                 	"data": null,
+                	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='green zip_edit' href='#' data-id='"+data.id+"' data-name='"+data.zip_code+"'><i class='ace-icon fa fa-pencil bigger-130'></i></a>";
 				    }

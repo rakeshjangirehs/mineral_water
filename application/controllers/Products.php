@@ -13,7 +13,11 @@
  	}
 
  	public function index(){
-
+ 		if($this->input->is_ajax_request()){
+			$this->product_model->getAllProducts();
+		}
+ 		$this->data['page_title'] = "Product List";
+ 		$this->load_content('product/product_list', $this->data);
  	}
 
  	public function add_update( $id = NULL ){
@@ -28,7 +32,7 @@
  		);
  		$this->data['page_title'] = 'Add Product';
  		if($id){
- 			$productsArr = $this->model->get("products");
+ 			$productsArr = $this->model->get("products", $id, 'id');
  			$this->data['page_title'] = 'Update Product';
  		}
 
@@ -44,9 +48,6 @@
 
  		if ($this->form_validation->run() == TRUE)
 	    {
-        	echo "<pre>"; print_r($_POST);
-        	// print_r($_FILES);
-        	// die;
         	$productData = array(
         		'product_name'		=> $this->input->post('product_name'),
         		'product_code'		=> $this->input->post('product_code'),
@@ -57,11 +58,12 @@
         		'sale_price'		=> $this->input->post('sale_price')
         	);
 
+        	// upload product image if selected
         	$productImageData = array();
         	if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['name']!=""){
-	        	$imageData = $this->store('product_image');
+	        	$imageData = $this->store('product_image');		// generate original image upload
 	        	if(!empty($imageData['file_name'])){
-	        		if($this->do_resize($imageData)){        			
+	        		if($this->do_resize($imageData)){        	// resize image and generate thumbnail
 	        			$thumbImageName = explode('.', $imageData['file_name']);
 	        			$thumb = $thumbImageName[0].'_thumb'.'.'.$thumbImageName[1];
 	        		}
@@ -76,7 +78,7 @@
 
         	if($this->product_model->add_update($productData, $productImageData, $id)){
         		$msg = '';
-        		$type = 'success';
+        		$type = 'message';
         		if($id){
         			$msg = 'Product updated successfully.';
         		}else{
@@ -91,9 +93,13 @@
 	    }
 
  		$this->data['products'] = $productsArr;
+ 		$this->data['id'] = $id;
  		$this->load_content('product/add_update', $this->data);
  	}
 
+ 	/*
+		check duplicate product code
+ 	*/
  	public function check_duplicate(){
  		$id = $this->uri->segment(3);
 		$where = " WHERE 1=1";
@@ -138,9 +144,6 @@
     public function store($str){
     	$config['upload_path'] = FCPATH. 'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'originals'.DIRECTORY_SEPARATOR;
         $config['allowed_types'] = 'gif|jpg|png';
-        // $config['max_size'] = 2000;
-        // $config['max_width'] = 1500;
-        // $config['max_height'] = 1500;
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload($str)) {
@@ -152,6 +155,7 @@
         }
     }
 
+    // generate image thumbnails
     public function do_resize($image_data = array()){
     	$this->load->library('image_lib');
         $configer =  array(
@@ -168,4 +172,16 @@
         $this->image_lib->initialize($configer);
         return $this->image_lib->resize();
     }
+
+    // export all products in xlsx
+    public function product_export(){
+		$query = $this->model->common_select('product_code, products.product_name, products.weight, dimension, cost_price, sale_price')->common_get('products');
+
+		$resultData = $this->db->query($query)->result_array();
+		$headerColumns = implode(',', array_keys($resultData[0]));
+		$filename = 'products-'.time().'.xlsx';
+		$title = 'Product List';
+		$sheetTitle = 'Product List';
+		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
+	}
 }
