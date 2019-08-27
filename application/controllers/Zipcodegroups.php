@@ -13,8 +13,12 @@ class Zipcodegroups extends MY_Controller {
 
 	    if($zipcode_group_id){
             $this->data['form_title'] = "Update ZIP Code Group";
+            $this->data['group_details'] = $this->model->get("zip_code_groups",$zipcode_group_id,"id");
+            $this->data['group_zip_codes'] = array_column($this->model->get("group_to_zip_code",$zipcode_group_id,"zip_code_group_id",true),'zip_code_id');
         }else{
             $this->data['form_title'] = "Add ZIP Code Group";
+            $this->data['group_details'] = array('id'=>null,'group_name'=>null);
+            $this->data['group_zip_codes'] = [];
         }
 
 
@@ -54,17 +58,6 @@ class Zipcodegroups extends MY_Controller {
                 $this->flash('error', 'Some error ocurred. Please try again later.');
             }
             redirect("zipcodegroups/index/{$zipcode_group_id}",'location');
-        }
-
-        if($zipcode_group_id){
-            $this->data['group_details'] = $this->model->get("zip_code_groups",$zipcode_group_id,"id");
-            $this->data['group_zip_codes'] = array_column($this->model->get("group_to_zip_code",$zipcode_group_id,"zip_code_group_id",true),'zip_code_id');
-
-//            echo "<pre>";print_r($this->data['group_details']);echo "</pre>";
-//            echo "<pre>";print_r($this->data['group_zip_codes']);echo "</pre>";
-        }else{
-            $this->data['group_details'] = array('id'=>null,'group_name'=>null);
-            $this->data['group_zip_codes'] = [];
         }
 
         $this->data['all_zipcodes'] = array_column($this->model->get("zip_codes"),"zip_code","id");
