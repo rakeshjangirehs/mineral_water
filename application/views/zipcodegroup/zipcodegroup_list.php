@@ -1,5 +1,5 @@
 <style>
-    .editing_contact{
+    .editing_zipcodegroup{
         background: #337ab7!important;
         color: #fff!important;
     }
@@ -77,6 +77,7 @@
     // to active the sidebar
     $('.nav .nav-list').activeSidebar('.user_list_li');
 
+    var zipcodegroup_id = <?php echo ($zipcode_group_id) ? $zipcode_group_id : "null";?>;
     var table = $("#dynamic-table");
     var imgUrl = table.attr('data-imageUrl');
     var oTable = table
@@ -100,6 +101,11 @@
                     }
                 }
             ],
+            "createdRow": function ( row, data, index ) {
+                if(zipcodegroup_id == data.id){
+                    $(row).addClass('editing_zipcodegroup');
+                }
+            }
         });
 </script>
 @endscript
