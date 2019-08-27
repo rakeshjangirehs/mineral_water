@@ -234,6 +234,8 @@ class ApiV1 extends REST_Controller {
     public function add_update_client_post(){
 
         $id = $this->post('client_id');
+        $user_id = $this->post('user_id');
+
 
         $email = ($this->input->post('email')) ? $this->input->post('email') : NULL;
 
@@ -263,7 +265,7 @@ class ApiV1 extends REST_Controller {
         );
 
 
-        if($this->client->insert_update($userData, $id)){
+        if($this->client->insert_update($userData, $id,$user_id)){
             $msg = 'Client created successfully.';
 
             if($id){
@@ -314,6 +316,7 @@ class ApiV1 extends REST_Controller {
     public function add_update_client_contact_post(){
 
         $client_id = $this->post('client_id');
+        $user_id = $this->post('user_id');
         $contact_id = $this->post('contact_id');
         $phone = $this->input->post('phone');
 
@@ -341,7 +344,7 @@ class ApiV1 extends REST_Controller {
             'is_primary'    =>  ($this->input->post('is_primary')=='Yes') ? 'Yes' : 'No',
         );
 
-        if($this->client->insert_update_client_contact($data,$client_id,$contact_id)){
+        if($this->client->insert_update_client_contact($data,$client_id,$contact_id,$user_id)){
             $msg = 'Client Contact created successfully.';
 
             if($contact_id){

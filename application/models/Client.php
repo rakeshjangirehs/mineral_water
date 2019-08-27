@@ -15,19 +15,19 @@ class Client extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data,$user_id = NULL){
+    public function insert_update($data,$user_id = NULL,$create_by=NULL){
         
         $this->db->trans_start();
         if($user_id){
             $data['updated_at'] = date('Y-m-d H:i:s');
-            $data['updated_by'] = USER_ID;
+            $data['updated_by'] = ($create_by) ? $create_by : USER_ID;
 
             $this->db->where("id", $user_id);
             $this->db->update("clients", $data);
 
         }else{
             $data['created_at'] = date('Y-m-d H:i:s');
-            $data['created_by'] = USER_ID;
+            $data['created_by'] = ($create_by) ? $create_by : USER_ID;
             $this->db->insert("clients", $data);
             $user_id = $this->db->insert_id();
         }
@@ -40,13 +40,13 @@ class Client extends CI_Model {
         }
     }
 
-    public function insert_update_client_contact($data,$client_id,$contact_id=null){
+    public function insert_update_client_contact($data,$client_id,$contact_id=null,$create_by=NULL){
 
         $this->db->trans_start();
 
         if($data['is_primary']=='Yes'){
             $data['updated_at'] = date('Y-m-d H:i:s');
-            $data['updated_by'] = USER_ID;
+            $data['updated_by'] = ($create_by) ? $create_by : USER_ID;
 
             $this->db->where("client_id", $client_id);
             $this->db->update("client_contacts", array('is_primary'=>'No'));
@@ -54,14 +54,14 @@ class Client extends CI_Model {
 
         if($contact_id){
             $data['updated_at'] = date('Y-m-d H:i:s');
-            $data['updated_by'] = USER_ID;
+            $data['updated_by'] = ($create_by) ? $create_by : USER_ID;
 
             $this->db->where("id", $contact_id);
             $this->db->update("client_contacts", $data);
 
         }else{
             $data['created_at'] = date('Y-m-d H:i:s');
-            $data['created_by'] = USER_ID;
+            $data['created_by'] = ($create_by) ? $create_by : USER_ID;
             $this->db->insert("client_contacts", $data);
             $contact_id = $this->db->insert_id();
         }
