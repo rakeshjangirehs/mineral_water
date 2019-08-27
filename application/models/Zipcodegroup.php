@@ -47,14 +47,18 @@ class Zipcodegroup extends CI_Model {
         if($insertable_zip_codes){
             $insertable_zip_codes_arr = [];
             foreach($insertable_zip_codes as $k=>$zip_code){
-                $insertable_zip_codes_arr[] = array(
-                    'zip_code_group_id' => $zipcode_group_id,
-                    'zip_code_id'  => $zip_code,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'created_by' => USER_ID,
-                );
+                if($zip_code) {
+                    $insertable_zip_codes_arr[] = array(
+                        'zip_code_group_id' => $zipcode_group_id,
+                        'zip_code_id' => $zip_code,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'created_by' => USER_ID,
+                    );
+                }
             }
-            $this->db->insert_batch("group_to_zip_code",$insertable_zip_codes_arr);
+            if($insertable_zip_codes_arr) {
+                $this->db->insert_batch("group_to_zip_code", $insertable_zip_codes_arr);
+            }
         }
 
         $this->db->trans_complete();

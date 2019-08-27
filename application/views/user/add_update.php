@@ -50,6 +50,38 @@
                                 <label for="equipment_id">Password:</label>
                                 <input type="password" name="password" id="password" class="form-control" value="" <?php echo (!$id) ? 'required' : ''; ?> />
                             </div>
+                            <div class="form-group">
+                                <label for="role">ZIP Code Groups:</label>
+                                <select class="form-control" name="zip_code_group[]" id="zip_code_group" multiple>
+                                    <option value="">Choose ZIP Code Groups</option>
+                                    <?php
+                                    if(!empty($zip_code_groups)):
+                                        foreach($zip_code_groups as $key=>$zip_code_group):
+                                            $selected = (in_array($key,explode(',',$user_data['user_zip_code_groups']))) ? 'selected' : '';
+                                            ?>
+                                            <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $zip_code_group; ?></option>
+                                        <?php
+                                        endforeach;
+                                    endif;
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="role">ZIP Codes:</label>
+                                <select class="form-control" name="zip_codes[]" id="zip_codes" multiple>
+                                    <option value="">Choose ZIP Codes</option>
+                                    <?php
+                                    if(!empty($zip_codes)):
+                                        foreach($zip_codes as $key=>$zip_code):
+                                            $selected = (in_array($key,explode(',',$user_data['user_zip_codes']))) ? 'selected' : '';
+                                            ?>
+                                            <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $zip_code; ?></option>
+                                        <?php
+                                        endforeach;
+                                    endif;
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
 

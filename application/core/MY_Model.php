@@ -7,6 +7,7 @@ class MY_Model extends CI_Model{
 	protected $joinType;
 	protected $fields;
 	protected $joinedTable;
+    protected $group_by;
 
 	public function __construct(){
 		parent::__construct();
@@ -59,6 +60,11 @@ class MY_Model extends CI_Model{
 		return $this;
 	}
 
+	public function common_group_by($group_by){
+	    $this->group_by[] = $group_by;
+	    return $this;
+    }
+
 	public function common_get($table){
 		$this->table = $table;
 		$str = "";
@@ -67,6 +73,11 @@ class MY_Model extends CI_Model{
 				$str .= " ".$this->joinType[$i]." JOIN ".$this->joinedTable[$i]." ON ".$this->joinClause[$i];
 			}
 		}
+
+        if(is_array($this->group_by) && !empty($this->group_by)){
+
+            $str .= " GROUP BY ".implode(",",$this->group_by);
+        }
 
 		return "SELECT 
 					$this->fields

@@ -46,8 +46,16 @@ class User extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data,$user_id = NULL){
-        
+    public function insert_update($data,$new_zip_codes,$new_zip_code_groups,$user_id = NULL){
+
+        $old_zip_codes = ($user_id) ? array_column($this->model->get("user_zip_codes",$user_id,"user_id",true),'zip_code_id') : [];
+        $removable_zip_codes = array_diff($old_zip_codes,$new_zip_codes);
+        $insertable_zip_codes = array_diff($new_zip_codes,$old_zip_codes);
+
+        $old_zip_code_groups = ($user_id) ? array_column($this->model->get("user_zip_code_groups",$user_id,"user_id",true),'zip_code_group_id') : [];
+        $removable_zip_code_groups = array_diff($old_zip_code_groups,$new_zip_code_groups);
+        $insertable_zip_code_groups = array_diff($new_zip_code_groups,$old_zip_code_groups);
+
         $this->db->trans_start();
         if($user_id){
             $data['updated_at'] = date('Y-m-d H:i:s');
@@ -61,6 +69,52 @@ class User extends CI_Model {
             $data['created_by'] = USER_ID;
             $this->db->insert("users", $data);
             $user_id = $this->db->insert_id();
+        }
+
+        if($removable_zip_codes){
+            $removable_zip_codes_str = implode(",",$removable_zip_codes);
+            $delete_query = "DELETE FROM `user_zip_codes` WHERE `user_zip_codes`.`zip_code_id` IN ({$removable_zip_codes_str}) AND `user_zip_codes`.`user_id` = {$user_id}";
+            $this->db->query($delete_query);
+        }
+
+        if($insertable_zip_codes){
+            $insertable_zip_codes_arr = [];
+            foreach($insertable_zip_codes as $k=>$zip_code){
+                if($zip_code){
+                    $insertable_zip_codes_arr[] = array(
+                        'user_id' => $user_id,
+                        'zip_code_id'  => $zip_code,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'created_by' => USER_ID,
+                    );
+                }
+            }
+            if($insertable_zip_codes_arr){
+                $this->db->insert_batch("user_zip_codes",$insertable_zip_codes_arr);
+            }
+        }
+
+        if($removable_zip_code_groups){
+            $removable_zip_code_groups_arr = implode(",",$removable_zip_code_groups);
+            $delete_query = "DELETE FROM `user_zip_code_groups` WHERE `user_zip_code_groups`.`zip_code_group_id` IN ({$removable_zip_code_groups_arr}) AND `user_zip_code_groups`.`user_id` = {$user_id}";
+            $this->db->query($delete_query);
+        }
+
+        if($insertable_zip_code_groups){
+            $insertable_zip_code_groups_arr = [];
+            foreach($insertable_zip_code_groups as $k=>$zip_code_group){
+                if($zip_code_group){
+                    $insertable_zip_code_groups_arr[] = array(
+                        'user_id' => $user_id,
+                        'zip_code_group_id'  => $zip_code_group,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'created_by' => USER_ID,
+                    );
+                }
+            }
+            if($insertable_zip_code_groups_arr){
+                $this->db->insert_batch("user_zip_code_groups",$insertable_zip_code_groups_arr);
+            }
         }
 
         $this->db->trans_complete();
@@ -85,11 +139,13 @@ class User extends CI_Model {
     }
 
     public function get_user($id){
-        // echo "<pre>"; var_dump($id);die;
 
-        return $this->db->select("users.*, roles.role_name as role_name")
+        return $this->db->select("users.*, roles.role_name as role_name,GROUP_CONCAT(DISTINCT `user_zip_codes`.`zip_code_id`) AS `user_zip_codes`,GROUP_CONCAT(DISTINCT `user_zip_code_groups`.`zip_code_group_id`) AS `user_zip_code_groups`")
                         ->from("users")
                         ->join("roles", "roles.id = users.role_id", "left")
+                        ->join("user_zip_codes", "user_zip_codes.user_id = users.id", "left")
+                        ->join("user_zip_code_groups", "user_zip_code_groups.user_id = users.id", "left")
+                        ->group_by("users.id")
                         ->where("users.id", $id)
                         ->get()
                         ->row_array();

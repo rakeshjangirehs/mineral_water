@@ -19,6 +19,8 @@
 								<th>Email</th>
 								<th>Phone</th>
 								<th>Role</th>
+								<th>ZIP Codes</th>
+								<th>ZIP Code Groups</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -64,7 +66,31 @@
                 { "data": "phone" },
                 { "data": "role_name" },
                 {
+                    "data": "user_zip_codes",
+                    orderable:false,
+                    "render": function ( data, type, row, meta ) {
+                        if(data !== null && data.length > 20){
+                            return data.substring(0,20) + "...";
+                        }else{
+                            return data;
+                        }
+                    }
+                },
+                {
+                    "data": "user_zip_code_groups",
+                    orderable:false,
+                    "render": function ( data, type, row, meta ) {
+
+                        if(data !== null && data.length > 20){
+                            return data.substring(0,20) + "...";
+                        }else{
+                            return data;
+                        }
+                    }
+                },
+                {
                 	"data": 'link',
+                    orderable:false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='ace-icon fa fa-pencil-square bigger-130'></i></a>";
 				    }
