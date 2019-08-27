@@ -75,7 +75,7 @@
 @script
 <script type="text/javascript">
     // to active the sidebar
-    $('.nav .nav-list').activeSidebar('.user_list_li');
+    $('.nav .nav-list').activeSidebar('.zipcodegroup_li');
 
     var zipcodegroup_id = <?php echo ($zipcode_group_id) ? $zipcode_group_id : "null";?>;
     var table = $("#dynamic-table");

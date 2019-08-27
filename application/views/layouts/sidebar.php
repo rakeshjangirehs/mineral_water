@@ -124,6 +124,15 @@
 					<b class="arrow"></b>
 				</li>
 
+                <li class="zipcodegroup_li">
+                    <a href="<?php echo $this->baseUrl; ?>zipcodegroups">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Zip Code Groups
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
 				<li class="product_li">
 					<a href="<?php echo $this->baseUrl; ?>products">
 						<i class="menu-icon fa fa-caret-right"></i>
