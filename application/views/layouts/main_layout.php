@@ -62,7 +62,7 @@
 					<a href="<?php echo $this->baseUrl; ?>" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							Maintainance Admin
+							Neervana Admin
 						</small>
 					</a>
 				</div>
