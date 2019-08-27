@@ -59,9 +59,9 @@
 				</button>
 
 				<div class="navbar-header pull-left">
-					<a href="<?php echo $this->assetsUrl; ?>assets/images/logo.png" class="navbar-brand">
+					<a href="<?php echo $this->baseUrl; ?>" class="navbar-brand">
 						<small>
-							<i class="fa fa-leaf"></i>
+							<img src="<?php echo $this->assetsUrl; ?>assets/images/logo.PNG" width="27"/>
 							Neervana Admin
 						</small>
 					</a>

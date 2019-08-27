@@ -16,7 +16,7 @@ class User extends CI_Model {
      * Get rows from the users table
      */
     function getRows($params = array()){
-        $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, roles.role_name AS `role`")
+        $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, roles.role_name `role`")
                  ->from("users")
                  ->join("roles", "roles.id = users.role_id", "LEFT")
                  ->where("users.status", 1)
