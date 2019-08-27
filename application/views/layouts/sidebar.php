@@ -133,6 +133,15 @@
                     <b class="arrow"></b>
                 </li>
 
+                <li class="vehicle_li">
+                    <a href="<?php echo $this->baseUrl; ?>vehicles">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Vehicles
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
 				<li class="product_li">
 					<a href="<?php echo $this->baseUrl; ?>products/add_update">
 						<i class="menu-icon fa fa-caret-right"></i>
