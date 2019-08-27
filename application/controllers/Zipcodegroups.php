@@ -75,18 +75,4 @@ class Zipcodegroups extends MY_Controller {
 		$this->load_content('zipcodegroup/zipcodegroup_list', $this->data);
 	}
 
-	public function client_export(){
-		$query = $this
-                    ->model
-                    ->common_select('`clients`.`first_name`,`clients`.`last_name`,`clients`.`credit_limit`,`clients`.`email`,`clients`.`address`,`zip_codes`.`zip_code`')
-                    ->common_join('zip_codes','zip_codes.id = clients.zip_code_id','LEFT')
-                    ->common_get('clients');
-
-		$resultData = $this->db->query($query)->result_array();
-		$headerColumns = implode(',', array_keys($resultData[0]));
-		$filename = 'clients-'.time().'.xlsx';
-		$title = 'Client List';
-		$sheetTitle = 'Client List';
-		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
-	}
 }
