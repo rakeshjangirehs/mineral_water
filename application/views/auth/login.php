@@ -65,8 +65,7 @@
 
 											<form id="loginFrm" 
 												data-action="<?php echo base_url(); ?>index.php/auth/login"
-												data-redirect_uri1="<?php echo current_url(); ?>"
-												data-redirect_uri="<?php echo base_url(); ?>index.php/departments"
+												data-redirect_uri="<?php echo base_url(); ?>index.php/dashboard"
 											>
 												<fieldset>
 													<label class="block clearfix">
