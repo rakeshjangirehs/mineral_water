@@ -134,7 +134,7 @@
                 </li>
 
 				<li class="product_li">
-					<a href="<?php echo $this->baseUrl; ?>products">
+					<a href="<?php echo $this->baseUrl; ?>products/add_update">
 						<i class="menu-icon fa fa-caret-right"></i>
 						Products
 					</a>
