@@ -51,7 +51,6 @@ class Clients extends MY_Controller {
 
 			$email = $this->input->post('email');
 
-			// check username exist or not
 			$existEmail = $this->client->check_exist("email", $email, $id);
 
 			if($existEmail){
@@ -61,7 +60,7 @@ class Clients extends MY_Controller {
 
 			$userData = array(
 				'first_name'	=>$this->input->post('first_name'),
-				'last_name'		=>$this->input->post('last_name'),
+                'last_name'		=>($this->input->post('last_name')) ? $this->input->post('last_name') : NULL,
                 'address'		=>($this->input->post('address')) ? $this->input->post('address') : NULL,
                 'credit_limit'	=>($this->input->post('credit_limit')) ? $this->input->post('credit_limit') : NULL,
                 'zip_code_id'	=>($this->input->post('zip_code_id')) ? $this->input->post('zip_code_id') : NULL,
