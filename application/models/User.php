@@ -16,30 +16,14 @@ class User extends CI_Model {
      * Get rows from the users table
      */
     function getRows($params = array()){
-        // echo "<pre>"; print_r($params);die;
-        $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, user_types.id AS `role_id`, user_types.name AS `role`")
+        $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, roles.role_name AS `role`")
                  ->from("users")
-                 ->join("user_roles", "user_roles.user_id = users.id", "LEFT")
-                 ->join("user_types", "user_types.id = user_roles.user_type_id", "LEFT")
+                 ->join("roles", "roles.id = users.role_id", "LEFT")
                  ->where("users.status", 1)
                  ->where("(users.email = '{$params['conditions']['email']}' OR users.username = '{$params['conditions']['email']}')")
                  ->where("users.password", $params['conditions']['password'])
                  ->get()
                  ->row_array();
-
-        if(!empty($resultUser)){
-            $resultDepartment = $this->db->query("SELECT 
-                                                `user_departments`.`department_id`, 
-                                                `departments`.`name` AS `department_name`
-                                            FROM `user_departments`
-                                            LEFT JOIN `users` ON `users`.`id` = `user_departments`.`user_id`
-                                            LEFT JOIN `departments` ON `departments`.`id` = `user_departments`.`department_id`
-                                            WHERE `user_departments`.`user_id` = {$resultUser['user_id']}
-                                            ")->result_array();
-
-            $resultUser['departments'] = $resultDepartment;
-        }
-
         return $resultUser;
     }
     

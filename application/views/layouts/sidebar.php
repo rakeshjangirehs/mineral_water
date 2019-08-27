@@ -143,35 +143,6 @@
 				</li>
 			</ul>
 		</li>
-		<li class="">
-			<a href="#" class="dropdown-toggle">
-				<i class="menu-icon fa fa-flag-o"></i>
-				Reports
-				<b class="arrow fa fa-angle-down"></b>
-			</a>
-
-			<b class="arrow"></b>
-
-			<ul class="submenu">
-				<li class="reports_li">
-					<a href="<?php echo $this->baseUrl; ?>reports">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Maintenance Report
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-
-				<li class="reports_activity_li">
-					<a href="<?php echo $this->baseUrl; ?>reports/routine_activity">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Routine Activities
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-			</ul>
-		</li>
 	</ul><!-- /.nav-list -->
 
 	<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
