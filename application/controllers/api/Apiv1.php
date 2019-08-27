@@ -16,19 +16,6 @@ class ApiV1 extends REST_Controller {
         $this->load->helper('url');
     }
     
-    // general function start
-    public function getTagId($tag_no){
-        return $this->db->get_where("equipment_tags", array("tag_no"=>$tag_no))->row_array()['id'];
-    }
-
-    public function getDeviceIds($user_id){
-        return $this->db->query("SELECT 
-                            `user_devices`.`device_id` 
-                        FROM `user_devices`
-                        WHERE `user_devices`.`user_id` = (SELECT reporting_to FROM `users` WHERE id = $user_id)
-                        ")->result_array();
-    }
-
     public function send_notification( $deviceIds = array(), $msg = 'test' ){
         // API access key from Google FCM App Console
         define( 'API_ACCESS_KEY', 'AAAAttXlDzw:APA91bFay0Y4UpcRFTefhlu2zNJbnGUcyImoBp7v3oUwh3SGK6hs8NBS2s_gXBvmr7SUM9QnWMsjGU5_WrIhfqsftRVMOH5DQZY8E8Zt1FRGGkwPIT5s9s1mGFK71s2_u72Xw8qRf807' );
@@ -87,23 +74,42 @@ class ApiV1 extends REST_Controller {
         // echo $result . "\n\n";
     }
 
-    public function fetch_users_get( $user_id = NULL ){
-        $resultData = [];
-        $resultData = $this->user->fetch_admin_users($user_id);
-        // echo "<pre>"; print_r($resultData);die;
-        if(!empty($resultData)){
+    public function products_get(){
+        $originalImgUrl = base_url()."assets/uploads/products/originals";
+        $thumbImgUrl = base_url()."assets/uploads/products/thumbnails";
+        $products = [];
+        $products = $this->db->query("SELECT 
+                    `products`.`product_name`,
+                    `products`.`product_code`,
+                    `products`.`description`,
+                    `products`.`weight`,
+                    `products`.`sale_price`,
+                    `products`.`status`,
+                    `original_image_name`,
+                    `thumb`
+                FROM `products`
+                LEFT JOIN `product_images` ON `product_images`.`product_id` = `products`.`id`
+                ")->result_array();
+
+        if(!empty($products)){
+            foreach($products as &$pr){
+                $pr['original_image_name'] = $originalImgUrl.'/'.$pr['original_image_name'];
+                $pr['thumb'] = $thumbImgUrl.'/'.$pr['thumb'];
+            }
+        }
+        if(!empty($products)){
             $this->response([
                 'status' => TRUE,
-                'message' => 'Users Data found.',
-                'data' => $resultData
+                'message' => 'Data found.',
+                'data' => $products
             ], REST_Controller::HTTP_OK);
         }else{
             $this->response([
                 'status' => FALSE,
-                'message' => 'Users Data found.',
-                'data' => $resultData
+                'message' => 'Data not found.',
+                'data' => $products
             ], REST_Controller::HTTP_OK);
-        }        
+        }
     }
     // general function stop
     
