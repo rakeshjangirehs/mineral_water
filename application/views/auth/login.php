@@ -1,214 +1,210 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
-		<title><?php echo $page_title; ?> - Maintenance Admin</title>
 
-		<meta name="description" content="User login page" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<head>
+    <title><?php echo $page_title; ?> - Neervana</title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="#">
+    <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
+    <meta name="author" content="#">
+    <!-- Favicon icon -->
+    <link rel="icon" href="<?php echo base_url(); ?>files\assets\images\favicon.ico" type="image/x-icon">
+    <!-- Google font--><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>files\bower_components\bootstrap\css\bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>files\assets\icon\themify-icons\themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>files\assets\icon\icofont\css\icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>files\assets\css\style.css">
+</head>
 
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+<body class="fix-menu">
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+        <div class="ball-scale">
+            <div class='contain'>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+            </div>
+        </div>
+    </div>
+    <!-- Pre-loader end -->
 
-		<!-- text fonts -->
-		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/fonts.googleapis.com.css" />
-
-		<!-- ace styles -->
-		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/ace.min.css" />
-
-		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="assets/css/ace-part2.min.css" />
-		<![endif]-->
-		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/ace-rtl.min.css" />
-
-		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
-		<![endif]-->
-
-		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
-		<!--[if lte IE 8]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-		<![endif]-->
-	</head>
-
-	<body class="login-layout">
-		<div class="main-container">
-			<div class="main-content">
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="login-container">
-							<div class="center">
-								<h1>
-									<i class="ace-icon fa fa-leaf green"></i>
-									<span class="red">Maintenance</span>
-									<span class="white" id="id-text2">Application</span>
-								</h1>
-								<h4 class="blue" id="id-company-text">&copy; Maintenance</h4>
-							</div>
-
-							<div class="space-6"></div>
-
-							<div class="position-relative">
-								<div id="login-box" class="login-box visible widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-coffee green"></i>
-												Please Enter Your Information
-											</h4>
-
-											<div class="space-6"></div>
-
-											<form id="loginFrm" 
-												data-action="<?php echo base_url(); ?>index.php/auth/login"
-												data-redirect_uri="<?php echo base_url(); ?>index.php/dashboard"
-											>
-												<fieldset>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="text" name="username" id="username" class="form-control" placeholder="Username" required />
-															<i class="ace-icon fa fa-user"></i>
-														</span>
-													</label>
-
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="password" name="password" id="password" class="form-control" placeholder="Password" required />
-															<i class="ace-icon fa fa-lock"></i>
-														</span>
-													</label>
-
-													<div class="space"></div>
-
-													<div class="clearfix">
-														<label class="inline">
-															<input type="checkbox" class="ace" />
-															<span class="lbl"> Remember Me</span>
-														</label>
-
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-															<i class="ace-icon fa fa-key"></i>
-															<span class="bigger-110">Login</span>
-														</button>
-													</div>
-
-													<div class="space-4"></div>
-												</fieldset>
-											</form>
-										</div><!-- /.widget-main -->
-
-										<div class="toolbar clearfix">
-											<div>
-												<a href="#" data-target="#forgot-box" class="forgot-password-link">
-													<i class="ace-icon fa fa-arrow-left"></i>
-													I forgot my password
-												</a>
-											</div>
-										</div>
-									</div><!-- /.widget-body -->
-								</div><!-- /.login-box -->
-
-								<div id="forgot-box" class="forgot-box widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="header red lighter bigger">
-												<i class="ace-icon fa fa-key"></i>
-												Retrieve Password
-											</h4>
-
-											<div class="space-6"></div>
-											<p>
-												Enter your email and to receive instructions
-											</p>
-
-											<form>
-												<fieldset>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
-															<i class="ace-icon fa fa-envelope"></i>
-														</span>
-													</label>
-
-													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
-															<i class="ace-icon fa fa-lightbulb-o"></i>
-															<span class="bigger-110">Send Me!</span>
-														</button>
-													</div>
-												</fieldset>
-											</form>
-										</div><!-- /.widget-main -->
-
-										<div class="toolbar center">
-											<a href="#" data-target="#login-box" class="back-to-login-link">
-												Back to login
-												<i class="ace-icon fa fa-arrow-right"></i>
-											</a>
-										</div>
-									</div><!-- /.widget-body -->
-								</div><!-- /.forgot-box -->
-							</div><!-- /.position-relative -->
-						</div>
-					</div><!-- /.col -->
-				</div><!-- /.row -->
-			</div><!-- /.main-content -->
-		</div><!-- /.main-container -->
-
-		<!-- basic scripts -->
-
-		<!--[if !IE]> -->
-		<script src="<?php echo base_url(); ?>assets/js/jquery-2.1.4.min.js"></script>
-
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script src="<?php echo base_url(); ?>assets/js/jquery-1.11.3.min.js"></script>
+    <section class="login-block">
+        <!-- Container-fluid starts -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Authentication card start -->
+                    
+                        <form class="md-float-material form-material" id="loginFrm"
+                              data-action="<?php echo base_url(); ?>index.php/auth/login"
+                              data-redirect_uri="<?php echo base_url(); ?>index.php/dashboard">
+                            <div class="text-center">
+                                <img src="<?php echo base_url(); ?>files\assets\images\logo.png" alt="logo.png" class="img-60">
+                            </div>
+                            <div class="auth-box card">
+                                <div class="card-block">
+                                    <div class="row m-b-20 text-center">
+                                        <div class="col-md-12">
+                                            <h3 class="text-center">Sign In</h3>
+                                            <span>Neervana Admin</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-primary">
+                                        <input type="text" name="username" id="username" class="form-control" required="" placeholder="Your username">
+                                        <span class="form-bar"></span>
+                                    </div>
+                                    <div class="form-group form-primary">
+                                        <input type="password" name="password" id="password" class="form-control" required="" placeholder="Password">
+                                        <span class="form-bar"></span>
+                                    </div>
+                                    <div class="row m-t-25 text-left">
+                                        <div class="col-12">
+                                            <div class="checkbox-fade fade-in-primary d-">
+                                                <label style="display:none;">
+                                                    <input type="checkbox" value="">
+                                                    <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+                                                    <span class="text-inverse">Remember me</span>
+                                                </label>
+                                            </div>
+                                            <div class="forgot-phone text-right f-right">
+                                                <a href="auth-reset-password.htm" class="text-right f-w-600"> Forgot Password?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row m-t-30">
+                                        <div class="col-md-12">
+                                            <input type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" value="Sign in"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- end of form -->
+                </div>
+                <!-- end of col-sm-12 -->
+            </div>
+            <!-- end of row -->
+        </div>
+        <!-- end of container-fluid -->
+    </section>
+    <!-- Warning Section Starts -->
+    <!-- Older IE warning message -->
+    <!--[if lt IE 10]>
+<div class="ie-warning">
+    <h1>Warning!!</h1>
+    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+    <div class="iew-container">
+        <ul class="iew-download">
+            <li>
+                <a href="http://www.google.com/chrome/">
+                    <img src="../files/assets/images/browser/chrome.png" alt="Chrome">
+                    <div>Chrome</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                    <img src="../files/assets/images/browser/firefox.png" alt="Firefox">
+                    <div>Firefox</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.opera.com">
+                    <img src="../files/assets/images/browser/opera.png" alt="Opera">
+                    <div>Opera</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.apple.com/safari/">
+                    <img src="../files/assets/images/browser/safari.png" alt="Safari">
+                    <div>Safari</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                    <img src="../files/assets/images/browser/ie.png" alt="">
+                    <div>IE (9 & above)</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>Sorry for the inconvenience!</p>
+</div>
 <![endif]-->
-		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='<?php echo base_url(); ?>assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-		</script>
+    <!-- Warning Section Ends -->
+    <!-- Required Jquery -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\jquery\js\jquery.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\jquery-ui\js\jquery-ui.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\popper.js\js\popper.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\bootstrap\js\bootstrap.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\jquery-slimscroll\js\jquery.slimscroll.js"></script>
+    <!-- modernizr js -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\modernizr\js\modernizr.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\modernizr\js\css-scrollbars.js"></script>
+    <!-- i18next.min.js -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\i18next\js\i18next.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\i18next-xhr-backend\js\i18nextXHRBackend.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\i18next-browser-languagedetector\js\i18nextBrowserLanguageDetector.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\bower_components\jquery-i18next\js\jquery-i18next.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>files\assets\js\common-pages.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			jQuery(function($) {
-				var loginFrm = $("#loginFrm");
-				$(document).on('click', '.toolbar a[data-target]', function(e) {
-					e.preventDefault();
-					var target = $(this).data('target');
-					$('.widget-box.visible').removeClass('visible');//hide others
-					$(target).addClass('visible');//show target
-				});
+  gtag('config', 'UA-23581568-13');
 
-				loginFrm.on('submit', function(e){
-					e.preventDefault();
-					var data = {
-						'username'		: $("#username").val(),
-						'password'		: $("#password").val(),
-						'redirect_url'	: $(loginFrm).data('redirect_uri')
-					}
+  jQuery(function($) {
+      var loginFrm = $("#loginFrm");
+      loginFrm.on('submit', function(e){
+          e.preventDefault();
+          var data = {
+              'username'		: $("#username").val(),
+              'password'		: $("#password").val(),
+              'redirect_url'	: $(loginFrm).data('redirect_uri')
+          }
 
-					$.ajax({
-						url: loginFrm.data('action'),
-						type: 'post',
-						dataType: 'json',
-						data: data,
-						success: function(result){
-							if(result.error){
-								alert(result.message);
-								return;
-							}else{
-								window.location.href = result.redirect_url;
-							}
-						}
-					});
+          $.ajax({
+              url: loginFrm.data('action'),
+              type: 'post',
+              dataType: 'json',
+              data: data,
+              success: function(result){
+                  if(result.error){
+                      alert(result.message);
+                      return;
+                  }else{
+                      window.location.href = result.redirect_url;
+                  }
+              }
+          });
 
-				});
-			});
-		</script>
-	</body>
+      });
+  });
+</script>
+</body>
+
 </html>

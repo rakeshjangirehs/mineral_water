@@ -1,3 +1,5 @@
+
+
 <div class="row">
 	<div class="col-sm-6">
 		<div class="panel-group">
@@ -44,7 +46,8 @@
 @script
 <script type="text/javascript">
 	// to active the sidebar
-    $('.nav .nav-list').activeSidebar('.zipcode_li');
+    // $('.nav .nav-list').activeSidebar('.zipcode_li');
+    $(".zipcode_li").active();
 
 	var deptFrm = $("#deptFrm");
 	var table = $("#dynamic-table");

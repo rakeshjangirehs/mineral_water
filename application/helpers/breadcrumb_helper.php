@@ -5,8 +5,8 @@ if(!function_exists('generatedBreadcrumb')){
         $i=1;
         $uri = $ci->uri->segment($i);
         $link='
-        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb"><li><i class="ace-icon fa fa-home home-icon"></i><a href="'.$ci->baseUrl.'">Home</a></li>';
+        <div class="page-header-breadcrumb" id="breadcrumbs">
+        <ul class="breadcrumb-title"><li class="breadcrumb-item"><i class="feather icon-home"></i><a href="'.$ci->baseUrl.'"></a></li>';
 
         while($uri != ''){
             $prep_link = '';
@@ -15,11 +15,11 @@ if(!function_exists('generatedBreadcrumb')){
             }
 
             if($ci->uri->segment($i+1)== ''){
-                $link.='<li class="active">';
+                $link.='<li class="breadcrumb-item active">';
                 $link.=str_replace('_', ' ', ucfirst($ci->uri->segment($i))).'</li>';
             }else{
-                $link.='<li><a href="'.site_url($prep_link).'">';
-                $link.=str_replace('_',' ', ucfirst($ci->uri->segment($i))).'</a><span class="divider"></span></li>';
+                $link.='<li class="breadcrumb-item"><a href="'.site_url($prep_link).'">';
+                $link.=str_replace('_',' ', ucfirst($ci->uri->segment($i))).'</a></li>';
             }
 
             $i++;

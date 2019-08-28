@@ -42,7 +42,8 @@
 @script
 <script type="text/javascript">
 	// to active the sidebar
-    $('.nav .nav-list').activeSidebar('.product_li');
+    // $('.nav .nav-list').activeSidebar('.product_li');
+    $(".product_li").active();
 
 	var table = $("#dynamic-table");
 	var imgUrl = table.attr('data-imageUrl');

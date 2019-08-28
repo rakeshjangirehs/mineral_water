@@ -1,60 +1,46 @@
-<!-- basic scripts -->
+<!-- Required Jquery -->
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery\js\jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery-ui\js\jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\popper.js\js\popper.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\bootstrap\js\bootstrap.min.js"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery-slimscroll\js\jquery.slimscroll.js"></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\modernizr\js\modernizr.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\modernizr\js\css-scrollbars.js"></script>
 
-<!--[if !IE]> -->
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery-2.1.4.min.js"></script>
+<!-- data-table js -->
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net\js\jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-buttons\js\dataTables.buttons.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\assets\pages\data-table\js\jszip.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\assets\pages\data-table\js\pdfmake.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\assets\pages\data-table\js\vfs_fonts.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-buttons\js\buttons.print.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-buttons\js\buttons.html5.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-bs4\js\dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-responsive\js\dataTables.responsive.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-responsive-bs4\js\responsive.bootstrap4.min.js"></script>
 
-<!-- <![endif]-->
+<!-- i18next.min.js -->
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\i18next\js\i18next.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\i18next-xhr-backend\js\i18nextXHRBackend.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\i18next-browser-languagedetector\js\i18nextBrowserLanguageDetector.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery-i18next\js\jquery-i18next.min.js"></script>
 
-<!--[if IE]>
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
-<script type="text/javascript">
-if('ontouchstart' in document.documentElement) document.write("<script src='<?php echo $this->assetsUrl; ?>assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-</script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\assets\js\pcoded.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\assets\js\vartical-layout.min.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\assets\js\jquery.mCustomScrollbar.concat.min.js"></script>
 
-<!-- page specific plugin scripts -->
+<!-- Custom js -->
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\assets\js\script.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\maintenance.js"></script>
 
-<!--[if lte IE 8]>
-<script src="assets/js/excanvas.min.js"></script>
-<![endif]-->
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery-ui.custom.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/select2.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.ui.touch-punch.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.easypiechart.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.sparkline.index.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.flot.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.flot.pie.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.flot.resize.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-<!-- ace scripts -->
-<script src="<?php echo $this->assetsUrl; ?>assets/js/ace-elements.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/ace.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/moment.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/maintenance.js"></script>
-
-<!-- table scripts -->
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo $this->assetsUrl; ?>assets/js/jquery.dataTables.bootstrap.min.js"></script>
-
-<!-- inline scripts related to this page -->
-<script type="text/javascript">
-jQuery(function($) {
-	$('.easy-pie-chart.percentage').each(function(){
-		var $box = $(this).closest('.infobox');
-		var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
-		var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
-		var size = parseInt($(this).data('size')) || 50;
-		$(this).easyPieChart({
-			barColor: barColor,
-			trackColor: trackColor,
-			scaleColor: false,
-			lineCap: 'butt',
-			lineWidth: parseInt(size/10),
-			animate: ace.vars['old_ie'] ? false : 1000,
-			size: size
-		});
-	});
-
-});
+    gtag('config', 'UA-23581568-13');
 </script>
