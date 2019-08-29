@@ -46,8 +46,7 @@ class Zipcodegroups extends MY_Controller {
                 ->common_group_by("`zip_code_groups`.`id`")
                 ->common_get('`zip_code_groups`');
 
-            $query = "SELECT * FROM ({$query}) AS `tmp`";
-			echo $this->model->common_datatable($colsArr, $query, "status = 'Active'");die;
+			echo $this->model->common_datatable($colsArr, $query, "status = 'Active'",NULL,true);die;
 		}
 
         if($this->input->server("REQUEST_METHOD") == "POST"){

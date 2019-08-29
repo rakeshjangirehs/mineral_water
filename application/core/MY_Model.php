@@ -91,7 +91,12 @@ class MY_Model extends CI_Model{
 		Date: 06-08-2019
 		Description: common data table function which is used for generate formal datatable
 	*/
-	public function common_datatable($columns = array(), $query, $whereClause = NULL,$group_by=NULL){
+	public function common_datatable($columns = array(), $query, $whereClause = NULL,$group_by=NULL,$wrapable=false){
+
+	    if($wrapable){
+            $query = "SELECT * FROM ({$query}) AS `tmp`";
+        }
+
 		$request= $_REQUEST;
 		$where = " WHERE 1=1 ";
 		$where .= ($whereClause) ? " AND $whereClause ":"";

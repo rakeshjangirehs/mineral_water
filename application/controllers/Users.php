@@ -49,12 +49,14 @@ class Users extends MY_Controller {
 	public function index(){
 		if($this->input->is_ajax_request()){
 			$colsArr = array(
-				'`users`.`first_name`',
-				'`users`.`last_name`',
-				'`users`.`username`',
-				'`users`.`email`',
-				'`users`.`phone`',
-				'`roles`.`role_name`',
+				'`first_name`',
+				'`last_name`',
+				'`username`',
+				'`email`',
+				'`phone`',
+				'`role_name`',
+				'`user_zip_codes`',
+				'`user_zip_code_groups`',
 				'action'
 			);
 
@@ -66,9 +68,10 @@ class Users extends MY_Controller {
 						->common_join('zip_codes','user_zip_codes.zip_code_id = zip_codes.id','LEFT')
                         ->common_join('user_zip_code_groups','user_zip_code_groups.user_id = users.id','LEFT')
                         ->common_join('zip_code_groups','user_zip_code_groups.zip_code_group_id = zip_code_groups.id','LEFT')
+                        ->common_group_by("`users`.`id`")
 						->common_get('users');
 
-			echo $this->model->common_datatable($colsArr, $query, "users.status = 1","`users`.`id`");die;
+            echo $this->model->common_datatable($colsArr, $query, "status = 'Active'",NULL,true);die;
 		}
 		$this->data['page_title'] = 'User List';
 		$this->load_content('user/user_list', $this->data);

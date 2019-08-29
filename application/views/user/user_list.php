@@ -88,7 +88,7 @@
                 {
                 	"data": 'link',
                     orderable:false,
-                    "sortable": false,
+                    // "sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='feather icon-edit'></i></a>";
 				    }
