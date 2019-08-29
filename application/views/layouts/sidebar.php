@@ -50,6 +50,25 @@
 
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="feather icon-user-check"></i></span>
+                    <span class="pcoded-mtext">Product Management</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="add_product_li">
+                        <a href="<?php echo $this->baseUrl; ?>clients/add_update">
+                            <span class="pcoded-mtext">Add Product</span>
+                        </a>
+                    </li>
+                    <li class="product_list_li">
+                        <a href="<?php echo $this->baseUrl; ?>products">
+                            <span class="pcoded-mtext">Product List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                     <span class="pcoded-mtext">Masters</span>
                 </a>
@@ -67,11 +86,6 @@
                     <li class="vehicle_li">
                         <a href="<?php echo $this->baseUrl; ?>vehicles">
                             <span class="pcoded-mtext">Vehicles</span>
-                        </a>
-                    </li>
-                    <li class="product_li">
-                        <a href="<?php echo $this->baseUrl; ?>products">
-                            <span class="pcoded-mtext">Products</span>
                         </a>
                     </li>
                 </ul>

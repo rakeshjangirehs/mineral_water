@@ -37,12 +37,12 @@
                                 <div class="row">
                                     <div class="col-sm-12 ">
                                         <div class="form-group">
-                                            <label for="equipment_id">Group Name:</label>
+                                            <label for="group_name" class="control-label">Group Name:</label>
                                             <input type="text" name="group_name" id="group_name" class="form-control" value="<?php echo (isset($_POST['group_name']))? set_value('group_name') : $group_details['group_name']; ?>"  />
                                             <span class="messages"><?php echo form_error('group_name');?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="role">Zip Codes:</label>
+                                            <label for="zip_code" class="control-label">Zip Codes:</label>
                                             <select class="form-control" name="zip_code[]" id="zip_code" multiple="multiple">
                                                 <option value="">Choose ZIP Codes</option>
                                                 <?php

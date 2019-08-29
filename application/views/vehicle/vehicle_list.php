@@ -37,17 +37,17 @@
                                 <div class="row">
                                     <div class="col-sm-12 ">
                                         <div class="form-group">
-                                            <label for="equipment_id">Vehicle Name:</label>
+                                            <label for="name" class="control-label">Vehicle Name:</label>
                                             <input type="text" name="name" id="name" class="form-control" value="<?php echo (isset($_POST['name']))? set_value('name') : $vehicle_details['name']; ?>" />
                                             <span class="messages"><?php echo form_error('name');?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="equipment_id">Vehicle Number:</label>
+                                            <label for="number" class="control-label">Vehicle Number:</label>
                                             <input type="text" name="number" id="number" class="form-control" value="<?php echo (isset($_POST['number']))? set_value('number') : $vehicle_details['number']; ?>" />
                                             <span class="messages"><?php echo form_error('number');?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="equipment_id">Capactiy (In Tons):</label>
+                                            <label for="capacity_in_ton" class="control-label">Capactiy (In Tons):</label>
                                             <input type="text" name="capacity_in_ton" id="capacity_in_ton" class="form-control" value="<?php echo (isset($_POST['capacity_in_ton']))? set_value('capacity_in_ton') : $vehicle_details['capacity_in_ton']; ?>" />
                                             <span class="messages"><?php echo form_error('capacity_in_ton');?></span>
                                         </div>

@@ -41,9 +41,9 @@
                             </div>
                             <div class="card-block">
                                 <div class="row">
-                                    <div class="col-sm-12 ">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="zipcode">Zip Code:</label>
+                                            <label for="zipcode" class="control-label">Zip Code:</label>
                                             <input type="text" name="zipcode" id="zipcode" class="form-control" required/>
                                         </div>
                                     </div>
