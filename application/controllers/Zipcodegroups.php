@@ -79,5 +79,4 @@ class Zipcodegroups extends MY_Controller {
 		$this->data['page_title'] = 'ZipCode Groups';
 		$this->load_content('zipcodegroup/zipcodegroup_list', $this->data);
 	}
-
 }
