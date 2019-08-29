@@ -69,7 +69,9 @@
                             <div class="card-footer">
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-sm btn-primary"><?php echo ($zipcode_group_id) ? "Update" : "Add";?></button>
+                                    <?php if($zipcode_group_id):?>
                                     <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl.'zipcodegroups/index'; ?>">Cancel</a>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>

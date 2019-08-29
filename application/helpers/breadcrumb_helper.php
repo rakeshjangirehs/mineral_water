@@ -6,7 +6,7 @@ if(!function_exists('generatedBreadcrumb')){
         $uri = $ci->uri->segment($i);
         $link='
         <div class="page-header-breadcrumb" id="breadcrumbs">
-        <ul class="breadcrumb-title"><li class="breadcrumb-item"><i class="feather icon-home"></i><a href="'.$ci->baseUrl.'"></a></li>';
+        <ul class="breadcrumb-title"><li class="breadcrumb-item"><a href="'.$ci->baseUrl.'"><i class="feather icon-home"></i></a></li>';
 
         while($uri != ''){
             $prep_link = '';

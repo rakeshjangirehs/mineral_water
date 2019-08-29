@@ -46,6 +46,7 @@
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\css\style.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\css\jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\style.css">
 <!--    <link rel="stylesheet" href="--><?php //echo $this->assetsUrl; ?><!--files\assets\scss\partials\menu\_pcmenu.htm">-->
 </head>
 
@@ -309,8 +310,17 @@
                         <!-- Main-body start -->
                         <div class="main-body">
                             <div class="page-wrapper">
+                                <div class="card">
+                                    <div class="card-block info-breadcrumb">
+                                        <h5><?php echo (isset($page_title)) ? $page_title : ''; ?></h5>
+                                        <span><?php echo (isset($sub_page_title)) ? $sub_page_title : ''; ?></span>
+                                        <div class="page-header-breadcrumb">
+                                            <?php echo generateBreadcrumb(); ?>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- Page-header start -->
-                                <div class="page-header m-b-20">
+                                <!--<div class="page-header m-b-20">
                                     <div class="row align-items-end">
                                         <div class="col-lg-8">
                                             <div class="page-header-title">
@@ -321,19 +331,20 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <!--<div class="page-header-breadcrumb">
+                                            <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
                                                     <li class="breadcrumb-item">
                                                         <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                                                     </li>
                                                     <li class="breadcrumb-item"><a href="#!">Widget</a> </li>
                                                 </ul>
-                                            </div>-->
-                                            <?php echo generateBreadcrumb(); ?>
+                                            </div>
+
+                                            <?php //echo generateBreadcrumb(); ?>
                                         </div>
                                     </div>
                                     <?php include_once('flash.php');?>
-                                </div>
+                                </div>-->
                                 <!-- Page-header end -->
                                 <?php echo $content; ?>
                             </div>

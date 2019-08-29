@@ -61,7 +61,9 @@
                             <div class="card-footer">
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-sm btn-primary"><?php echo ($vehicle_id) ? "Update" : "Add";?></button>
+                                    <?php if($vehicle_id):?>
                                     <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl.'vehicles/index'; ?>">Cancel</a>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>

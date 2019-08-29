@@ -75,7 +75,9 @@
                             <div class="card-footer">
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-sm btn-primary"><?php echo ($contact_id) ? "Update" : "Add";?></button>
+                                    <?php if($contact_id):?>
                                     <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl.'clients/contacts/'.$client_id; ?>">Cancel</a>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>
