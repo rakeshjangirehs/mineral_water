@@ -33,19 +33,21 @@ class Zipcodegroups extends MY_Controller {
 
 		if($this->input->is_ajax_request()){
 			$colsArr = array(
-				'`zip_code_groups`.`group_name`',
-                `zip_codes`.`zip_code`,
+				'group_name',
+                'zip_codes',
 				'action'
 			);
 
             $query = $this
                 ->model
-                ->common_select('`zip_code_groups`.`id`,`zip_code_groups`.`group_name`,GROUP_CONCAT(`zip_codes`.`zip_code`) AS `zip_codes`')
+                ->common_select('`zip_code_groups`.`id`,`zip_code_groups`.`group_name`,GROUP_CONCAT(`zip_codes`.`zip_code`) AS `zip_codes`,zip_code_groups.status')
                 ->common_join('`group_to_zip_code`','`group_to_zip_code`.`zip_code_group_id` = `zip_code_groups`.`id`','LEFT')
                 ->common_join('`zip_codes`','`zip_codes`.`id` = `group_to_zip_code`.`zip_code_id`','LEFT')
+                ->common_group_by("`zip_code_groups`.`id`")
                 ->common_get('`zip_code_groups`');
 
-			echo $this->model->common_datatable($colsArr, $query, "zip_code_groups.status = 'Active'","`zip_code_groups`.`id`");die;
+            $query = "SELECT * FROM ({$query}) AS `tmp`";
+			echo $this->model->common_datatable($colsArr, $query, "status = 'Active'");die;
 		}
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
