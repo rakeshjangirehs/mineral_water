@@ -49,7 +49,7 @@
 <!--    <link rel="stylesheet" href="--><?php //echo $this->assetsUrl; ?><!--files\assets\scss\partials\menu\_pcmenu.htm">-->
 </head>
 
-<body>
+<body data-check_activity="<?php echo $this->assetsUrl; ?>index.php/inactivity/check_inactivity">
 <!-- Pre-loader start -->
 <div class="theme-loader">
     <div class="ball-scale">
