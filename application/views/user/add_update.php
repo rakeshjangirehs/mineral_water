@@ -58,8 +58,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="zip_code_group" class="control-label">ZIP Code Groups:</label>
-                                    <select class="form-control" name="zip_code_group[]" id="zip_code_group" multiple>
-                                        <option value="">Choose ZIP Code Groups</option>
+                                    <select class="form-control select2 multiple" name="zip_code_group[]" id="zip_code_group" data-placeholder="Choose ZIP Code Groups" multiple>
+                                        <option value=""></option>
                                         <?php
                                         if(!empty($zip_code_groups)):
                                             foreach($zip_code_groups as $key=>$zip_code_group):
@@ -74,8 +74,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="zip_codes" class="control-label">ZIP Codes:</label>
-                                    <select class="form-control" name="zip_codes[]" id="zip_codes" multiple>
-                                        <option value="">Choose ZIP Codes</option>
+                                    <select class="form-control select2 multiple" name="zip_codes[]" id="zip_codes" data-placeholder="Choose ZIP Codes" multiple>
+                                        <option value=""></option>
                                         <?php
                                         if(!empty($zip_codes)):
                                             foreach($zip_codes as $key=>$zip_code):

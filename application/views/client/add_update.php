@@ -35,8 +35,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="zip_code_id" class="control-label">ZIP Code:</label>
-                                    <select class="form-control" name="zip_code_id" id="zip_code_id" data-placeholder="Choose ZIP Code">
-                                        <option value="">Choose ZIP Code</option>
+                                    <select class="form-control select2" name="zip_code_id" id="zip_code_id" data-placeholder="Choose ZIP Code">
+                                        <option value=""></option>
                                         <?php
                                         if(!empty($zip_codes)):
                                             foreach($zip_codes as $zip_code):

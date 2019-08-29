@@ -1,5 +1,7 @@
 // global select2 apply
-// $('.select2').select2({allowClear:true})
+$('.select2').select2({allowClear:true});
+$('.select2.multiple').select2({});
+
 Date.prototype.formatDate = function (format = 'DD/MM/YYYY'){
 	var dd = this.getDate();
 

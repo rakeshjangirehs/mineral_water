@@ -61,10 +61,15 @@
                                             <input type="text" name="phone" id="phone" class="form-control" value="<?php echo $current_contact['phone']; ?>" required />
                                         </div>
                                         <div class="form-group">
-                                            <label>
-                                                <input name="is_primary" type="checkbox" class="ace" value="Yes" <?php echo ($current_contact['is_primary']=='Yes') ? 'checked' : '';?>>
-                                                <span class="lbl"> Set as Primary Contact</span>
-                                            </label>
+                                            <div class="checkbox-fade fade-in-primary">
+                                                <label>
+                                                    <input type="checkbox" name="is_primary" value="Yes" <?php echo ($current_contact['is_primary']=='Yes') ? 'checked' : '';?>>
+                                                    <span class="cr">
+                                                        <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
+                                                    </span>
+                                                    <span>Set as Primary Contact</span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
