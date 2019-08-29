@@ -8,29 +8,34 @@
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="equipment_id">First Name:</label>
-                                    <input type="text" name="first_name" id="first_name" class="form-control" value="<?php echo $user_data['first_name']; ?>" required />
+                                    <input type="text" name="first_name" id="first_name" class="form-control" value="<?php echo (isset($_POST['first_name']))? set_value('first_name') : $user_data['first_name']; ?>"/>
+                                    <span class="messages"><?php echo form_error('first_name');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="equipment_id">Last Name:</label>
-                                    <input type="text" name="last_name" id="last_name" class="form-control" value="<?php echo $user_data['last_name']; ?>" required />
+                                    <input type="text" name="last_name" id="last_name" class="form-control" value="<?php echo (isset($_POST['last_name']))? set_value('last_name') : $user_data['last_name']; ?>"/>
+                                    <span class="messages"><?php echo form_error('last_name');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="equipment_id">Address:</label>
-                                    <textarea name="address" id="address" class="form-control" required><?php echo $user_data['address']; ?></textarea>
+                                    <textarea name="address" id="address" class="form-control"><?php echo (isset($_POST['address']))? set_value('address') : $user_data['address']; ?></textarea>
+                                    <span class="messages"><?php echo form_error('address');?></span>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="equipment_id">Credit Limit:</label>
-                                    <input type="text" name="credit_limit" id="credit_limit" class="form-control" value="<?php echo $user_data['credit_limit']; ?>" required />
+                                    <input type="text" name="credit_limit" id="credit_limit" class="form-control" value="<?php echo (isset($_POST['credit_limit']))? set_value('credit_limit') : $user_data['credit_limit']; ?>" />
+                                    <span class="messages"><?php echo form_error('credit_limit');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="equipment_id">Email:</label>
-                                    <input type="email" name="email" id="email" class="form-control" value="<?php echo $user_data['email']; ?>" required />
+                                    <input type="email" name="email" id="email" class="form-control" value="<?php echo (isset($_POST['email']))? set_value('email') : $user_data['email']; ?>" />
+                                    <span class="messages"><?php echo form_error('email');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="role">ZIP Code:</label>
-                                    <select class="form-control" name="zip_code_id" id="zip_code_id" data-placeholder="Choose ZIP Code" required>
+                                    <select class="form-control" name="zip_code_id" id="zip_code_id" data-placeholder="Choose ZIP Code">
                                         <option value="">Choose ZIP Code</option>
                                         <?php
                                         if(!empty($zip_codes)):
@@ -43,6 +48,7 @@
                                         endif;
                                         ?>
                                     </select>
+                                    <span class="messages"><?php echo form_error('zip_code_id');?></span>
                                 </div>
                             </div>
                         </div>

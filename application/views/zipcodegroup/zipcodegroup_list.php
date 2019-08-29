@@ -38,7 +38,8 @@
                                     <div class="col-sm-12 ">
                                         <div class="form-group">
                                             <label for="equipment_id">Group Name:</label>
-                                            <input type="text" name="group_name" id="group_name" class="form-control" value="<?php echo $group_details['group_name']; ?>" required />
+                                            <input type="text" name="group_name" id="group_name" class="form-control" value="<?php echo (isset($_POST['group_name']))? set_value('group_name') : $group_details['group_name']; ?>"  />
+                                            <span class="messages"><?php echo form_error('group_name');?></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="role">Zip Codes:</label>
@@ -62,9 +63,7 @@
                             <div class="card-footer">
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-sm btn-primary"><?php echo ($zipcode_group_id) ? "Update" : "Add";?></button>
-                                    <?php if($zipcode_group_id):?>
                                     <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl.'zipcodegroups/index'; ?>">Cancel</a>
-                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>

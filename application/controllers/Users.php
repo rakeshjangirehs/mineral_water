@@ -9,6 +9,41 @@ class Users extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('user');
+
+        //validation config
+        $this->user_validation_config = array(
+            array(
+                'field' => 'first_name',
+                'label' => 'First Name',
+                'rules' => 'required|max_length[200]'
+            ),
+            array(
+                'field' => 'last_name',
+                'label' => 'Last Name',
+                'rules' => 'max_length[200]'
+            ),
+            array(
+                'field' => 'email',
+                'label' => 'Email',
+                'rules' => 'valid_email|max_length[300]|callback_check_duplicate_email'
+            ),
+            array(
+                'field' => 'username',
+                'label' => 'username',
+                'rules' => 'max_length[200]|callback_check_duplicate_username'
+            ),
+            array(
+                'field' => 'phone',
+                'label' => 'Phone',
+                'rules' => 'integer|max_length[50]|callback_check_duplicate_phone'
+            ),
+            array(
+                'field' => 'password',
+                'label' => 'Password',
+                'rules' => 'max_length[200]'
+            ),
+
+        );
 	}
 
 	public function index(){
@@ -58,60 +93,41 @@ class Users extends MY_Controller {
 
 		if($this->input->server("REQUEST_METHOD") == "POST"){
 
-//		    echo "<pre>";print_r($_POST);die;
+            $this->form_validation->set_rules($this->user_validation_config);
 
-			$username = $this->input->post('username');
-			$email = $this->input->post('email');
-			$phone = $this->input->post('phone');
-			$zip_code_group = $this->input->post('zip_code_group');
-			$zip_codes = $this->input->post('zip_codes');
+            if ($this->form_validation->run() == TRUE) {
 
-			// check username exist or not
-			$existUsername = $this->user->check_exist("username", $username, $id);
-			$existEmail = $this->user->check_exist("email", $email, $id);
-			$existPhone = $this->user->check_exist("phone", $phone, $id);
+                $zip_code_group = $this->input->post('zip_code_group');
+                $zip_codes = $this->input->post('zip_codes');
 
+                $userData = array(
+                    'first_name' => ($this->input->post('first_name')) ? $this->input->post('first_name') : NULL,
+                    'last_name' => ($this->input->post('last_name')) ? $this->input->post('last_name') : NULL,
+                    'phone' => ($this->input->post('phone')) ? $this->input->post('phone') : NULL,
+                    'email' => ($this->input->post('email')) ? $this->input->post('email') : NULL,
+                    'username' => ($this->input->post('username')) ? $this->input->post('username') : NULL,
+                    'role_id' => ($this->input->post('role')) ? $this->input->post('role') : NULL,
+                );
 
-			if($existUsername){
-				$this->flash('error', 'Username already exist.');
-				redirect('users/add_update/'.$id, 'location');
-			}
-			if($existEmail){
-				$this->flash('error', 'Email already exist.');
-				redirect('users/add_update/'.$id, 'location');
-			}
-			if($existPhone){
-				$this->flash('error', 'Phone already exist.');
-				redirect('users/add_update/'.$id, 'location');
-			}
+                if ($password = $this->input->post('password')) {
+                    $userData['password'] = $password;
+                }
 
-			$userData = array(
-				'first_name'	=>$this->input->post('first_name'),
-				'last_name'		=>$this->input->post('last_name'),
-				'phone'			=>$phone,
-				'email'			=>$email,
-				'username'		=>$username,
-                'role_id'       =>$this->input->post('role'),
-			);
-
-            if($password = $this->input->post('password')){
-                $userData['password'] = $password;
+                // add or update records
+                if ($this->user->insert_update($userData, $zip_codes, $zip_code_group, $id)) {
+                    $msg = 'User created successfully.';
+                    $type = 'success';
+                    if ($id) {
+                        $msg = "User updated successfully.";
+                        $this->flash($type, $msg);
+                    } else {
+                        $this->flash($type, $msg);
+                    }
+                } else {
+                    $this->flash('error', 'Some error ocurred. Please try again later.');
+                }
+                redirect('users', 'location');
             }
-
-			// add or update records
-			if($this->user->insert_update($userData,$zip_codes,$zip_code_group,$id)){
-				$msg = 'User created successfully.';
-				$type = 'success';
-				if($id){
-					$msg = "User updated successfully.";
-					$this->flash($type, $msg);
-				}else{
-					$this->flash($type, $msg);
-				}
-			}else{
-				$this->flash('error', 'Some error ocurred. Please try again later.');
-			}
-			redirect('users','location');
 		}
 		$this->data['roles'] = $this->model->get("roles");
 		$this->data['id'] = $id;
@@ -141,4 +157,40 @@ class Users extends MY_Controller {
 		$sheetTitle = 'User List';
 		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
 	}
+
+    public function check_duplicate_email($new_email){
+
+        $client_id = $this->uri->segment(3);
+
+        if($new_email && $this->user->check_exist("email", $new_email, $client_id)){
+            $this->form_validation->set_message('check_duplicate_email',"Email id {$new_email} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function check_duplicate_username($new_username){
+
+        $client_id = $this->uri->segment(3);
+
+        if($new_username && $this->user->check_exist("username", $new_username, $client_id)){
+            $this->form_validation->set_message('check_duplicate_username',"username {$new_username} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function check_duplicate_phone($new_phone){
+
+        $client_id = $this->uri->segment(3);
+
+        if($new_phone && $this->user->check_exist("phone", $new_phone, $client_id)){
+            $this->form_validation->set_message('check_duplicate_phone',"Phone {$new_phone} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

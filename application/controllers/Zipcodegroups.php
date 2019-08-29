@@ -5,6 +5,15 @@ class Zipcodegroups extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('zipcodegroup');
+
+		//validation config
+		$this->zipcodegroup_validation_config = array(
+            array(
+                'field' => 'group_name',
+                'label' => 'ZIP Code Group Name',
+                'rules' => 'required'
+            ),
+        );
 	}
 
 	public function index($zipcode_group_id=null){
@@ -41,23 +50,26 @@ class Zipcodegroups extends MY_Controller {
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
 
-//            echo "<pre>";print_r($_POST);echo "</pre>";die;
-            $zip_code = $this->input->post('zip_code');
-            $group_name = $this->input->post('group_name');
+            $this->form_validation->set_rules($this->zipcodegroup_validation_config);
 
-            if($this->zipcodegroup->insert_update($group_name, $zip_code,$zipcode_group_id)){
-                $msg = 'ZIP Code Group created successfully.';
-                $type = 'success';
-                if($zipcode_group_id){
-                    $msg = "ZIP Code Group updated successfully.";
-                    $this->flash($type, $msg);
+            if ($this->form_validation->run() == TRUE){
+                $zip_code = $this->input->post('zip_code');
+                $group_name = $this->input->post('group_name');
+
+                if($this->zipcodegroup->insert_update($group_name, $zip_code,$zipcode_group_id)){
+                    $msg = 'ZIP Code Group created successfully.';
+                    $type = 'success';
+                    if($zipcode_group_id){
+                        $msg = "ZIP Code Group updated successfully.";
+                        $this->flash($type, $msg);
+                    }else{
+                        $this->flash($type, $msg);
+                    }
                 }else{
-                    $this->flash($type, $msg);
+                    $this->flash('error', 'Some error ocurred. Please try again later.');
                 }
-            }else{
-                $this->flash('error', 'Some error ocurred. Please try again later.');
+                redirect("zipcodegroups/index/{$zipcode_group_id}",'location');
             }
-            redirect("zipcodegroups/index/{$zipcode_group_id}",'location');
         }
 
         $this->data['all_zipcodes'] = array_column($this->model->get("zip_codes"),"zip_code","id");

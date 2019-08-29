@@ -8,15 +8,18 @@
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="equipment_id">First Name:</label>
-                                    <input type="text" name="first_name" id="first_name" class="form-control" value="<?php echo $user_data['first_name']; ?>" required />
+                                    <input type="text" name="first_name" id="first_name" class="form-control" value="<?php echo (isset($_POST['first_name']))? set_value('first_name') : $user_data['first_name']; ?>"/>
+                                    <span class="messages"><?php echo form_error('first_name');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="equipment_id">Last Name:</label>
-                                    <input type="text" name="last_name" id="last_name" class="form-control" value="<?php echo $user_data['last_name']; ?>" required />
+                                    <input type="text" name="last_name" id="last_name" class="form-control" value="<?php echo (isset($_POST['last_name']))? set_value('last_name') : $user_data['last_name']; ?>" />
+                                    <span class="messages"><?php echo form_error('last_name');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="equipment_id">phone:</label>
-                                    <input type="text" name="phone" id="phone" class="form-control" value="<?php echo $user_data['phone']; ?>" required />
+                                    <input type="text" name="phone" id="phone" class="form-control" value="<?php echo (isset($_POST['phone']))? set_value('phone') : $user_data['phone']; ?>" />
+                                    <span class="messages"><?php echo form_error('phone');?></span>
                                 </div>
 
                                 <div class="form-group">
@@ -34,20 +37,24 @@
                                         endif;
                                         ?>
                                     </select>
+                                    <span class="messages"><?php echo form_error('role');?></span>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="equipment_id">Username:</label>
-                                    <input type="text" name="username" id="username" class="form-control" value="<?php echo $user_data['username']; ?>" required />
+                                    <input type="text" name="username" id="username" class="form-control" value="<?php echo (isset($_POST['username']))? set_value('username') : $user_data['username']; ?>"  />
+                                    <span class="messages"><?php echo form_error('username');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="equipment_id">Email:</label>
-                                    <input type="email" name="email" id="email" class="form-control" value="<?php echo $user_data['email']; ?>" required />
+                                    <input type="email" name="email" id="email" class="form-control" value="<?php echo (isset($_POST['email']))? set_value('email') : $user_data['email']; ?>"  />
+                                    <span class="messages"><?php echo form_error('email');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="equipment_id">Password:</label>
-                                    <input type="password" name="password" id="password" class="form-control" value="" <?php echo (!$id) ? 'required' : ''; ?> />
+                                    <input type="password" name="password" id="password" class="form-control" value="" <?php //echo (!$id) ? 'required' : ''; ?> />
+                                    <span class="messages"><?php echo form_error('password');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="role">ZIP Code Groups:</label>

@@ -14,7 +14,7 @@
 				  	<div class="form-group">
 				    	<label class="col-md-3 control-label" for="product_code">Product Code</label>
 				    	<div class="col-md-9">
-				    		<input type="text" name="product_code" id="product_code" class="form-control" value="<?php echo (isset($_POST['product_code'])) ? $_POST['product_code'] : $products['product_code']; ?>" />
+				    		<input type="text" name="product_code" id="product_code" class="form-control" value="<?php echo (isset($_POST['product_code'])) ? set_value($_POST['product_code']) : set_value($products['product_code']); ?>" />
 				    		<?php echo "<span class='red'>".form_error('product_code')."</span>"; ?>
 				    	</div>
 				  	</div>

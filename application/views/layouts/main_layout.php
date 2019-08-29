@@ -319,6 +319,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <?php include_once('flash.php');?>
                                 <!-- Page-header start -->
                                 <!--<div class="page-header m-b-20">
                                     <div class="row align-items-end">

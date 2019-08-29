@@ -38,15 +38,18 @@
                                     <div class="col-sm-12 ">
                                         <div class="form-group">
                                             <label for="equipment_id">Vehicle Name:</label>
-                                            <input type="text" name="name" id="name" class="form-control" value="<?php echo $vehicle_details['name']; ?>" />
+                                            <input type="text" name="name" id="name" class="form-control" value="<?php echo (isset($_POST['name']))? set_value('name') : $vehicle_details['name']; ?>" />
+                                            <span class="messages"><?php echo form_error('name');?></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="equipment_id">Vehicle Number:</label>
-                                            <input type="text" name="number" id="number" class="form-control" value="<?php echo $vehicle_details['number']; ?>" required />
+                                            <input type="text" name="number" id="number" class="form-control" value="<?php echo (isset($_POST['number']))? set_value('number') : $vehicle_details['number']; ?>" />
+                                            <span class="messages"><?php echo form_error('number');?></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="equipment_id">Capactiy (In Tons):</label>
-                                            <input type="text" name="capacity_in_ton" id="capacity_in_ton" class="form-control" value="<?php echo $vehicle_details['capacity_in_ton']; ?>" />
+                                            <input type="text" name="capacity_in_ton" id="capacity_in_ton" class="form-control" value="<?php echo (isset($_POST['capacity_in_ton']))? set_value('capacity_in_ton') : $vehicle_details['capacity_in_ton']; ?>" />
+                                            <span class="messages"><?php echo form_error('capacity_in_ton');?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -54,9 +57,7 @@
                             <div class="card-footer">
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-sm btn-primary"><?php echo ($vehicle_id) ? "Update" : "Add";?></button>
-                                    <?php if($vehicle_id):?>
                                     <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl.'vehicles/index'; ?>">Cancel</a>
-                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>

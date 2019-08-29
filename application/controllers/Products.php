@@ -36,7 +36,7 @@
  			$this->data['page_title'] = 'Update Product';
  		}
 
- 		$this->load->library('form_validation');
+ 		$this->load->library('form_validation');    //form validation loaded in autoload file no need here
  		$this->form_validation->set_rules('product_name', 'Product Name', 'trim|required');
  		$this->form_validation->set_rules('product_code', 'Product Code', 'trim|required|callback_check_duplicate');
  		$this->form_validation->set_rules('weight', 'Weight', 'trim|required');

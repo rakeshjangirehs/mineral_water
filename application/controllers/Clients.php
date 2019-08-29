@@ -5,6 +5,36 @@ class Clients extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('client');
+
+        //validation config
+        $this->client_validation_config = array(
+            array(
+                'field' => 'first_name',
+                'label' => 'First Name',
+                'rules' => 'required|max_length[200]'
+            ),
+            array(
+                'field' => 'last_name',
+                'label' => 'Last Name',
+                'rules' => 'max_length[200]'
+            ),
+            array(
+                'field' => 'credit_limit',
+                'label' => 'Credit Limit',
+                'rules' => 'numeric'
+            ),
+            array(
+                'field' => 'email',
+                'label' => 'Email',
+                'rules' => 'valid_email|max_length[300]|callback_check_duplicate_email'
+            ),
+            array(
+                'field' => 'address',
+                'label' => 'Address',
+                'rules' => 'max_length[500]'
+            ),
+
+        );
 	}
 
 	public function index(){
@@ -32,6 +62,7 @@ class Clients extends MY_Controller {
 	}
 
 	public function add_update( $id = NULL ){
+
 		$userArr = array(
 			'first_name'	=> '',
 			'last_name'		=> '',
@@ -40,6 +71,7 @@ class Clients extends MY_Controller {
 			'email'			=> '',
 			'zip_code'	    => '',
 		);
+
 		if($id){
 			$this->data['page_title'] = 'Update Client';
 			$userArr = $this->client->get_client($id);
@@ -49,38 +81,34 @@ class Clients extends MY_Controller {
 
 		if($this->input->server("REQUEST_METHOD") == "POST"){
 
-			$email = $this->input->post('email');
+            $this->form_validation->set_rules($this->client_validation_config);
 
-			$existEmail = $this->client->check_exist("email", $email, $id);
+            if ($this->form_validation->run() == TRUE) {
 
-			if($existEmail){
-				$this->flash('error', 'Email already exist.');
-				redirect('clients/add_update/'.$id, 'location');
-			}
+                $userData = array(
+                    'first_name' => ($this->input->post('first_name')) ? $this->input->post('first_name') : NULL,
+                    'last_name' => ($this->input->post('last_name')) ? $this->input->post('last_name') : NULL,
+                    'address' => ($this->input->post('address')) ? $this->input->post('address') : NULL,
+                    'credit_limit' => ($this->input->post('credit_limit')) ? $this->input->post('credit_limit') : NULL,
+                    'zip_code_id' => ($this->input->post('zip_code_id')) ? $this->input->post('zip_code_id') : NULL,
+                    'email' => ($this->input->post('email')) ? $this->input->post('email') : NULL,
+                );
 
-			$userData = array(
-				'first_name'	=>$this->input->post('first_name'),
-                'last_name'		=>($this->input->post('last_name')) ? $this->input->post('last_name') : NULL,
-                'address'		=>($this->input->post('address')) ? $this->input->post('address') : NULL,
-                'credit_limit'	=>($this->input->post('credit_limit')) ? $this->input->post('credit_limit') : NULL,
-                'zip_code_id'	=>($this->input->post('zip_code_id')) ? $this->input->post('zip_code_id') : NULL,
-				'email'			=>$email,
-			);
-
-			// add or update records
-			if($this->client->insert_update($userData, $id)){
-				$msg = 'Client created successfully.';
-				$type = 'success';
-				if($id){
-					$msg = "Client updated successfully.";
-					$this->flash($type, $msg);
-				}else{
-					$this->flash($type, $msg);
-				}
-			}else{
-				$this->flash('error', 'Some error ocurred. Please try again later.');
-			}
-			redirect('clients','location');
+                // add or update records
+                if ($this->client->insert_update($userData, $id)) {
+                    $msg = 'Client created successfully.';
+                    $type = 'success';
+                    if ($id) {
+                        $msg = "Client updated successfully.";
+                        $this->flash($type, $msg);
+                    } else {
+                        $this->flash($type, $msg);
+                    }
+                } else {
+                    $this->flash('error', 'Some error ocurred. Please try again later.');
+                }
+                redirect('clients', 'location');
+            }
 		}
 
         $this->data['zip_codes'] = $this->model->get("zip_codes");
@@ -155,5 +183,17 @@ class Clients extends MY_Controller {
         $this->load_content('client/client_contact_list', $this->data);
     }
 
+
+    public function check_duplicate_email($new_email){
+
+	    $client_id = $this->uri->segment(3);
+
+	    if($new_email && $this->client->check_exist("email", $new_email, $client_id)){
+            $this->form_validation->set_message('check_duplicate_email',"Email id {$new_email} already exist.");
+            return false;
+        }else{
+	        return true;
+        }
+    }
 
 }
