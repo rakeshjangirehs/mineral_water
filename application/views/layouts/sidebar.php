@@ -55,7 +55,7 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <li class="add_product_li">
-                        <a href="<?php echo $this->baseUrl; ?>clients/add_update">
+                        <a href="<?php echo $this->baseUrl; ?>products/add_update">
                             <span class="pcoded-mtext">Add Product</span>
                         </a>
                     </li>
