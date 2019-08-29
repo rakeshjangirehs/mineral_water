@@ -134,7 +134,7 @@
         	if(in_array($mime, $allowed_mime_type_arr)){
                 return true;
             }else{
-                $this->form_validation->set_message('file_check', 'Please select only pdf/gif/jpg/png file.');
+                $this->form_validation->set_message('file_check', 'Please select only gif/jpg/png file.');
                 return false;
             }
         }
