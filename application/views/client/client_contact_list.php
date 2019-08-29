@@ -1,8 +1,5 @@
 <style>
-    .editing_contact{
-        background: #337ab7!important;
-        color: #fff!important;
-    }
+
 </style>
 
 <div class="row">
@@ -25,7 +22,7 @@
                                     <tbody>
                                     <?php if($client_contacts){
                                         foreach($client_contacts as $contact){
-                                            $class= ($contact['id'] == $contact_id) ? "editing_contact" : '';
+                                            $class= ($contact['id'] == $contact_id) ? "active_row" : '';
                                             echo "<tr class='{$class}'>
                                             <td>{$contact['person_name']}</td>
                                             <td>{$contact['phone']}</td>

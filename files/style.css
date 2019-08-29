@@ -1,3 +1,12 @@
+.active_row{
+    background: #01a9ac!important;
+    color: #fff!important;
+}
+
+.active_row a, .active_row a:focus, .active_row a:hover {
+    color: #fff;
+}
+
 .breadcrumb-item.active {
     /*color: #fff;*/
 }

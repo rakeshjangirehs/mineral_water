@@ -111,6 +111,7 @@ class Clients extends MY_Controller {
         $this->data['current_contact'] = ($contact_id) ? $this->model->get("client_contacts",$contact_id,'id') : array('person_name'=>'','phone'=>'','is_primary'=>"No");
 
         $this->data['page_title'] = 'Client Contacts';
+        $this->data['sub_page_title'] = $this->data['client']['first_name'].' '.$this->data['client']['last_name'];
 
         $this->data['client_id'] = $client_id;
         $this->data['contact_id'] = $contact_id;

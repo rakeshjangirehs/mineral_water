@@ -1,10 +1,3 @@
-<style>
-    .editing_vehicle{
-        background: #337ab7!important;
-        color: #fff!important;
-    }
-</style>
-
 <div class="row">
     <div class="col-sm-12 col-md-8">
         <div class="page-body">
@@ -106,7 +99,7 @@
             ],
             "createdRow": function ( row, data, index ) {
                 if(vehicle_id == data.id){
-                    $(row).addClass('editing_vehicle');
+                    $(row).addClass('active_row');
                 }
             }
         });

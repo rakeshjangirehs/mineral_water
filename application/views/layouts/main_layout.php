@@ -311,7 +311,7 @@
                         <div class="main-body">
                             <div class="page-wrapper">
                                 <div class="card">
-                                    <div class="card-block info-breadcrumb">
+                                    <div class="card-block primary-breadcrumb">
                                         <h5><?php echo (isset($page_title)) ? $page_title : ''; ?></h5>
                                         <span><?php echo (isset($sub_page_title)) ? $sub_page_title : ''; ?></span>
                                         <div class="page-header-breadcrumb">

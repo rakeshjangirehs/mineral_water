@@ -1,10 +1,3 @@
-<style>
-    .editing_zipcodegroup{
-        background: #337ab7!important;
-        color: #fff!important;
-    }
-</style>
-
 <div class="row">
     <div class="col-sm-12 col-md-8">
         <div class="page-body">
@@ -114,7 +107,7 @@
             ],
             "createdRow": function ( row, data, index ) {
                 if(zipcodegroup_id == data.id){
-                    $(row).addClass('editing_zipcodegroup');
+                    $(row).addClass('active_row');
                 }
             }
         });
