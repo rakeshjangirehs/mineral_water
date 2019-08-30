@@ -50,7 +50,7 @@
 
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="feather icon-user-check"></i></span>
+                    <span class="pcoded-micon"><i class="feather icon-package"></i></span>
                     <span class="pcoded-mtext">Product Management</span>
                 </a>
                 <ul class="pcoded-submenu">
