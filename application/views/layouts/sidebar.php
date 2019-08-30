@@ -93,7 +93,7 @@
 
             <li class="setting_li">
                 <a href="<?php echo $this->baseUrl; ?>settings">
-                    <span class="pcoded-micon"><i class="feather icon-monitor"></i></span>
+                    <span class="pcoded-micon"><i class="feather icon-settings"></i></span>
                     <span class="pcoded-mtext">Settings</span>
                 </a>
             </li>
