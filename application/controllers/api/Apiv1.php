@@ -230,8 +230,8 @@ class ApiV1 extends REST_Controller {
         );
     }
 
-    //Add/Update Client
-    public function add_update_client_post(){
+    //Add/Update Visit - Client
+    public function add_update_visit_post(){
 
         $id = $this->post('client_id');
         $user_id = $this->post('user_id');
@@ -258,14 +258,17 @@ class ApiV1 extends REST_Controller {
         $userData = array(
             'first_name'	=>$this->input->post('first_name'),
             'last_name'		=>($this->input->post('last_name')) ? $this->input->post('last_name') : NULL,
+            'phone'		    =>($this->input->post('phone')) ? $this->input->post('phone') : NULL,
             'address'		=>($this->input->post('address')) ? $this->input->post('address') : NULL,
             'credit_limit'	=>($this->input->post('credit_limit')) ? $this->input->post('credit_limit') : NULL,
             'zip_code_id'	=>($this->input->post('zip_code_id')) ? $this->input->post('zip_code_id') : NULL,
             'email'			=>$email,
         );
 
+        $visit_notes = ($this->input->post('visit_notes')) ? $this->input->post('visit_notes') : NULL;
 
-        if($this->client->insert_update($userData, $id,$user_id)){
+
+        if($this->client->insert_update($userData, $id,$user_id,$visit_notes)){
             $msg = 'Client created successfully.';
 
             if($id){

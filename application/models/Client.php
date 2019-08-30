@@ -15,7 +15,7 @@ class Client extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data,$user_id = NULL,$create_by=NULL){
+    public function insert_update($data,$user_id = NULL,$create_by=NULL,$visit_note=NULL){
         
         $this->db->trans_start();
         if($user_id){
@@ -30,6 +30,17 @@ class Client extends CI_Model {
             $data['created_by'] = ($create_by) ? $create_by : USER_ID;
             $this->db->insert("clients", $data);
             $user_id = $this->db->insert_id();
+        }
+
+        if($visit_note){
+            $visit_data = array(
+                'visit_notes'=> $visit_note,
+                'client_id' => $user_id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'created_by' => ($create_by) ? $create_by : USER_ID,
+            );
+
+            $this->db->insert("client_visits",$visit_data);
         }
 
         $this->db->trans_complete();
