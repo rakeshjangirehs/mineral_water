@@ -21,12 +21,17 @@ class Clients extends MY_Controller {
             array(
                 'field' => 'credit_limit',
                 'label' => 'Credit Limit',
-                'rules' => 'numeric'
+                'rules' => 'numeric|max_length[20]'
             ),
             array(
                 'field' => 'email',
                 'label' => 'Email',
                 'rules' => 'valid_email|max_length[300]|callback_check_duplicate_email'
+            ),
+            array(
+                'field' => 'phone',
+                'label' => 'Phone',
+                'rules' => 'integer'
             ),
             array(
                 'field' => 'address',
@@ -70,6 +75,7 @@ class Clients extends MY_Controller {
 			'credit_limit'  => '',
 			'email'			=> '',
 			'zip_code'	    => '',
+			'phone'	    => '',
 		);
 
 		if($id){
@@ -92,6 +98,7 @@ class Clients extends MY_Controller {
                     'credit_limit' => ($this->input->post('credit_limit')) ? $this->input->post('credit_limit') : NULL,
                     'zip_code_id' => ($this->input->post('zip_code_id')) ? $this->input->post('zip_code_id') : NULL,
                     'email' => ($this->input->post('email')) ? $this->input->post('email') : NULL,
+                    'phone' => ($this->input->post('phone')) ? $this->input->post('phone') : NULL,
                 );
 
                 // add or update records
