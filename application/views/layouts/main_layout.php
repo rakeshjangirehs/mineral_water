@@ -38,6 +38,9 @@
     <!-- font-awesome -->
     <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\icon\font-awesome\css\font-awesome.min.css">
 
+    <!--forms-wizard css-->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\jquery.steps\css\jquery.steps.css">
+
     <!-- Data Table Css -->
     <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-bs4\css\dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\pages\data-table\css\buttons.dataTables.min.css">
