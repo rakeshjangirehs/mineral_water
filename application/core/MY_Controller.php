@@ -4,9 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+/*PHP Mailer*/
+// Import PHPMailer classes into the global namespace
+// These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Load Composer's autoloader
+require FCPATH.'vendor/autoload.php';
+
 class MY_Controller extends CI_Controller {
 	public $baseUrl;
 	protected $data = null;
+	protected $emailSettingArr = array();
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
@@ -33,6 +43,7 @@ class MY_Controller extends CI_Controller {
 	    }
 		$this->load->helper('breadcrumb_helper');
 		$this->load->model('MY_Model','model'); //Load the Model here
+		$this->emailSettingArr = $this->model->get_settings();
 	}
 
 	public function load_content($content = NULL, $data = array()){
@@ -177,6 +188,46 @@ class MY_Controller extends CI_Controller {
             unlink($codeFile);
             return $fileName;
     	}
+	}
+
+	public function commonSendMail(){
+		// Instantiation and passing `true` enables exceptions
+		$mail = new PHPMailer(true);
+
+		try {
+		    //Server settings
+		    $mail->SMTPDebug = 2;                                       // Enable verbose debug output
+		    $mail->isSMTP();                                            // Set mailer to use SMTP
+		    $mail->Host       = $this->emailSettingArr['email_host'];  // Specify main and backup SMTP servers
+		    $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+		    $mail->Username   = $this->emailSettingArr['username'];                     // SMTP username
+		    $mail->Password   = $this->emailSettingArr['password'];     // SMTP password
+		    $mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
+		    $mail->Port       = 587;                                    // TCP port to connect to
+
+		    //Recipients
+		    $mail->setFrom($this->emailSettingArr['username'], $this->emailSettingArr['from_name']);
+		    $mail->addAddress('milans@letsenkindle.com', 'Milan Soni');     // Add a recipient
+		    // $mail->addAddress('snehalt@letsenkindle.com');               // Name is optional
+		    $mail->addReplyTo($this->emailSettingArr['reply_to'], $this->emailSettingArr['reply_to_name']);
+		    // $mail->addCC('ravip@letsenkindle.com');
+		    // $mail->addBCC('rakeshj@letsenkindle.com');
+
+		    // Attachments
+		    $mail->addAttachment(FCPATH.'files/assets/images/logo.png');         // Add attachments
+		    $mail->addAttachment(FCPATH.'files/assets/images/logo-blue.png', 'logo-blue.jpg');    // Optional name
+
+		    // Content
+		    $mail->isHTML(true);                                  // Set email format to HTML
+		    $mail->Subject = 'Here is the subject';
+		    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+		    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+		    $mail->send();
+		    echo 'Message has been sent';
+		} catch (Exception $e) {
+		    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+		}
 	}
 }
 ?>

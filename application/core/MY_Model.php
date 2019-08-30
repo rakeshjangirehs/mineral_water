@@ -13,6 +13,10 @@ class MY_Model extends CI_Model{
 		parent::__construct();
 	}
 
+	public function get_settings(){
+		return $this->db->get("settings")->row_array();
+	}
+
 	public function insert_update($data = array(), $table = NULL, $id = NULL,$whereCol = NULL){
 		$this->db->trans_start();
 		if($id){
