@@ -18,7 +18,7 @@
     <meta name="author" content="#">
 
     <!-- Favicon icon -->
-    <link rel="icon" href="<?php echo $this->assetsUrl; ?>files\assets\images\favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?php echo $this->assetsUrl; ?>files\assets\images\favicon\favicon.ico" type="image/x-icon">
 
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
@@ -414,6 +414,11 @@
 <!-- Warning Section Ends -->
 <?php require_once('jquery.php');?>
 <?php echo $page_js; ?>
+<script>
+    window.onload = function(e){
+        getLocation();
+    }
+</script>
 </body>
 
 </html>
