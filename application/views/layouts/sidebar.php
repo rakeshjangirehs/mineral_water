@@ -90,6 +90,13 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="setting_li">
+                <a href="<?php echo $this->baseUrl; ?>settings?q=system_setting">
+                    <span class="pcoded-micon"><i class="feather icon-monitor"></i></span>
+                    <span class="pcoded-mtext">Settings</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

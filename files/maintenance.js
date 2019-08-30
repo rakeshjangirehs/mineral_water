@@ -92,3 +92,17 @@ function startTimer(duration, display) {
         }
     }, 1000);
 }
+
+// Function to get location
+function getLocation(){
+  navigator.geolocation.getCurrentPosition(function (pos) {
+      var lat = pos.coords.latitude;
+      console.log()
+      var lng = pos.coords.longitude;
+      if (lat == null) {
+          alert("GPS not activated!");
+      } else {
+          alert("Latitude: "+ lat + " , Longitude: " + lng );
+      }
+  });
+}
