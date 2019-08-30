@@ -91,6 +91,13 @@
                 </ul>
             </li>
 
+            <li class="tracking_li">
+                <a href="<?php echo $this->baseUrl; ?>tracking">
+                    <span class="pcoded-micon"><i class="feather icon-map"></i></span>
+                    <span class="pcoded-mtext">Live Tracking</span>
+                </a>
+            </li>
+
             <li class="setting_li">
                 <a href="<?php echo $this->baseUrl; ?>settings">
                     <span class="pcoded-micon"><i class="feather icon-settings"></i></span>
