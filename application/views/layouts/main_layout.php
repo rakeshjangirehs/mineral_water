@@ -421,7 +421,7 @@
 <?php echo $page_js; ?>
 <script>
     window.onload = function(e){
-        getLocation();
+        //getLocation();
     }
 </script>
 </body>

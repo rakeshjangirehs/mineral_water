@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    <div id="map" markerGetUrl="<?php echo $this->baseUrl.'tracking/getLatLng';?>"></div>
+                    <div id="map" markerSaveUrl="<?php echo $this->baseUrl.'tracking/saveLatLng';?>"></div>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
     $(".tracking_li").active();
 </script>
 
-<script src="<?php echo $this->assetsUrl; ?>files/tracking/tracking_map.js" async defer></script>
+<script src="<?php echo $this->assetsUrl; ?>files/tracking/add_marker.js" async defer></script>
 
 <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
