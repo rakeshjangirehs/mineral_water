@@ -32,7 +32,7 @@
     $(".tracking_li").active();
 </script>
 
-<script src="<?php echo $this->assetsUrl; ?>files/tracking/add_marker.js" async defer></script>
-<script src="<?php echo $this->assetsUrl; ?>files/tracking/socket.io.js" async defer></script>
+<script src="<?php echo $this->assetsUrl; ?>files/tracking/add_marker.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files/tracking/socket.io.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0Y32XCpdaQf8ixZTQVR0whMoqgUs40G4&callback=initMap" async defer></script>
 @endscript
