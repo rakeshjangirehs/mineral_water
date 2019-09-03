@@ -10,17 +10,10 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-header-right" style="padding:0px 0px;">                        
-						Choose User: <select id="user_id">
-							<option value="">Choose User</option>
-							<?php foreach($users as $user){
-								echo "<option value='{$user['id']}'>{$user['username']}</option>";
-							}?>
-						</select>						
-                    </div>
+
                 </div>
                 <div class="card-block">
-                    <div id="map" markerGetUrl="<?php echo $this->baseUrl.'tracking/getLatLng';?>"></div>
+                    <div id="map" markerGetUrl="<?php echo $this->baseUrl.'tracking/getLatLng';?>" users='<?php echo json_encode($users);?>'></div>
                 </div>
             </div>
         </div>
@@ -33,13 +26,6 @@
 </script>
 
 <script src="<?php echo $this->assetsUrl; ?>files/tracking/tracking_map.js" async defer></script>
-
-<!--Load the API from the specified URL
-    * The async attribute allows the browser to render the page while the API loads
-    * The key parameter will contain your own API key (which is not needed for this tutorial)
-    * The callback parameter executes the initMap() function
-    -->
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0Y32XCpdaQf8ixZTQVR0whMoqgUs40G4&callback=initMap">
-</script>
+<script src="<?php echo $this->assetsUrl; ?>files/tracking/socket.io.js" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0Y32XCpdaQf8ixZTQVR0whMoqgUs40G4&callback=initMap" async defer></script>
 @endscript
