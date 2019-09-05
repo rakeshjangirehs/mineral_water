@@ -41,7 +41,7 @@
 <!-- Custom js -->
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\assets\js\script.js"></script>
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\maintenance.js"></script>
-<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\assets\pages\google-maps\gmaps.js"></script>
+<!--<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\assets\pages\google-maps\gmaps.js"></script>-->
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <!--<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>-->

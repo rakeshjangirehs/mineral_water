@@ -319,15 +319,17 @@
                         <!-- Main-body start -->
                         <div class="main-body">
                             <div class="page-wrapper">
-                                <div class="card">
-                                    <div class="card-block primary-breadcrumb">
-                                        <h5><?php echo (isset($page_title)) ? $page_title : ''; ?></h5>
-                                        <span><?php echo (isset($sub_page_title)) ? $sub_page_title : ''; ?></span>
-                                        <div class="page-header-breadcrumb">
-                                            <?php echo generateBreadcrumb(); ?>
+                                <?php if(!isset($no_breadcrumb)):?>
+                                    <div class="card">
+                                        <div class="card-block primary-breadcrumb">
+                                            <h5><?php echo (isset($page_title)) ? $page_title : ''; ?></h5>
+                                            <span><?php echo (isset($sub_page_title)) ? $sub_page_title : ''; ?></span>
+                                            <div class="page-header-breadcrumb">
+                                                <?php echo generateBreadcrumb(); ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php endif;?>
                                 <?php include_once('flash.php');?>
                                 <!-- Page-header start -->
                                 <!--<div class="page-header m-b-20">
@@ -419,7 +421,7 @@
 <?php echo $page_js; ?>
 <script>
     window.onload = function(e){
-        getLocation();
+        //getLocation();
     }
 </script>
 </body>

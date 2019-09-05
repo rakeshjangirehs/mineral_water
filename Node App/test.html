@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test Socket.IO Connection</title>
+    
+</head>
+<body>    
+<script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+<script>
+	var server_url = "http://172.16.3.123:3000";	//URL of the NPM Server
+    var socket = io(server_url);
+	
+    socket.on('save_coordinates', function(data){
+		socket.emit('push_coordinates', data);
+		console.log(data);
+    });
+</script>
+</body>
+</html>
