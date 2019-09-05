@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://172.16.3.123/mineral_water/';
+$config['base_url'] = 'http://172.16.3.124/mineral_water/';
 
 /*
 |--------------------------------------------------------------------------

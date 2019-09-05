@@ -209,7 +209,7 @@ class MY_Controller extends CI_Controller {
 		    $mail->setFrom($this->emailSettingArr['username'], $this->emailSettingArr['from_name']);
 		    $mail->addAddress('rakeshj@letsenkindle.com', 'Milan Soni');     // Add a recipient
 		    // $mail->addAddress('snehalt@letsenkindle.com');               // Name is optional
-		    $mail->addReplyTo($this->emailSettingArr['reply_to'], $this->emailSettingArr['reply_to_name']);
+		    $mail->addReplyTo($this->emailSettingArr['email_host'], $this->emailSettingArr['from_name']);
 		    // $mail->addCC('ravip@letsenkindle.com');
 		    // $mail->addBCC('rakeshj@letsenkindle.com');
 
