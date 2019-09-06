@@ -16,7 +16,7 @@ require FCPATH.'vendor/autoload.php';
 class MY_Controller extends CI_Controller {
 	public $baseUrl;
 	protected $data = null;
-	protected $emailSettingArr = array();
+	public $system_setting = array();
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
@@ -43,7 +43,7 @@ class MY_Controller extends CI_Controller {
 	    }
 		$this->load->helper('breadcrumb_helper');
 		$this->load->model('MY_Model','model'); //Load the Model here
-		$this->emailSettingArr = $this->model->get_settings();
+		$this->system_setting = $this->model->get_settings();
 	}
 
 	public function load_content($content = NULL, $data = array()){
@@ -198,18 +198,18 @@ class MY_Controller extends CI_Controller {
 		    //Server settings
 		    $mail->SMTPDebug = 2;                                       // Enable verbose debug output
 		    $mail->isSMTP();                                            // Set mailer to use SMTP
-		    $mail->Host       = $this->emailSettingArr['email_host'];  // Specify main and backup SMTP servers
+		    $mail->Host       = $this->system_setting['email_host'];  // Specify main and backup SMTP servers
 		    $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-		    $mail->Username   = $this->emailSettingArr['username'];                     // SMTP username
-		    $mail->Password   = $this->emailSettingArr['password'];     // SMTP password
+		    $mail->Username   = $this->system_setting['username'];                     // SMTP username
+		    $mail->Password   = $this->system_setting['password'];     // SMTP password
 		    $mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
 		    $mail->Port       = 587;                                    // TCP port to connect to
 
 		    //Recipients
-		    $mail->setFrom($this->emailSettingArr['username'], $this->emailSettingArr['from_name']);
+		    $mail->setFrom($this->system_setting['username'], $this->system_setting['from_name']);
 		    $mail->addAddress('rakeshj@letsenkindle.com', 'Milan Soni');     // Add a recipient
 		    // $mail->addAddress('snehalt@letsenkindle.com');               // Name is optional
-		    $mail->addReplyTo($this->emailSettingArr['email_host'], $this->emailSettingArr['from_name']);
+		    $mail->addReplyTo($this->system_setting['email_host'], $this->system_setting['from_name']);
 		    // $mail->addCC('ravip@letsenkindle.com');
 		    // $mail->addBCC('rakeshj@letsenkindle.com');
 

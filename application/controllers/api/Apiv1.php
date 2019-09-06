@@ -362,7 +362,6 @@ class ApiV1 extends REST_Controller {
                 ),
                 REST_Controller::HTTP_OK
             );
-
         }else{
             $this->response(
                 array(
@@ -405,6 +404,4 @@ class ApiV1 extends REST_Controller {
             );
         }
     }
-
-
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Neervana - <?php echo $page_title; ?></title>
+    <title><?php echo $this->system_setting['system_name']; ?> - <?php echo $page_title; ?></title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -111,7 +111,7 @@
                     </a>
                     <a href="<?php echo $this->baseUrl; ?>">
                         <img class="img-fluid" src="<?php echo $this->assetsUrl; ?>files\assets\images\logo.png" alt="Theme-Logo" style="width:40px;">
-                        Neervana Admin
+                        <?php echo $this->system_setting['system_name']; ?>
                     </a>
                     <a class="mobile-options">
                         <i class="feather icon-more-horizontal"></i>

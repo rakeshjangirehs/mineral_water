@@ -37,10 +37,11 @@
                                     <form class="form-horizontal" method="post" action="<?php echo $this->baseUrl; ?>settings/index/system_setting" class="<?php echo ($mode == 'system_setting') ? 'active': ''; ?>">
                                         <div class="form-group row">
                                             <div class="col-sm-12">
-                                                <label for="userName-2" class="block">System Name *</label>
+                                                <label for="system_name" class="block">System Name <span style="color:red;">*</span></label>
                                             </div>
                                             <div class="col-sm-12">
-                                                <input id="userName-22" name="system_name" type="text" class="form-control">
+                                                <input id="system_name" name="system_name" type="text" class="form-control" value="<?php echo $settings['system_name']; ?>">
+                                                <span class="messages"><?php echo form_error('system_name');?></span>
                                             </div>
                                         </div>
 
@@ -64,7 +65,7 @@
                                                 <label for="userName-2" class="block">SMTP Host</label>
                                             </div>
                                             <div class="col-sm-12">
-                                                <input id="userName-22" class="form-control" name="smtp_host" id="smtp_host" value="<?php echo $smtp['email_host']; ?>">
+                                                <input id="userName-22" class="form-control" name="smtp_host" id="smtp_host" value="<?php echo $settings['email_host']; ?>">
                                                 <span class="messages"><?php echo form_error('smtp_host');?></span>
                                             </div>
                                         </div>
@@ -74,7 +75,7 @@
                                                 <label for="userName-2" class="block">SMTP User</label>
                                             </div>
                                             <div class="col-sm-12">
-                                                <input id="userName-22" class="form-control" name="username" id="username" value="<?php echo $smtp['username']; ?>">
+                                                <input id="userName-22" class="form-control" name="username" id="username" value="<?php echo $settings['username']; ?>">
                                                 <span class="messages"><?php echo form_error('username');?></span>
                                             </div>
                                         </div>
@@ -84,7 +85,7 @@
                                                 <label for="userName-2" class="block">SMTP Password</label>
                                             </div>
                                             <div class="col-sm-12">
-                                                <input id="userName-22" class="form-control" name="password" id="password" value="<?php echo $smtp['password']; ?>">
+                                                <input type="password" id="userName-22" class="form-control" name="password" id="password" value="<?php echo $settings['password']; ?>">
                                                 <span class="messages"><?php echo form_error('password');?></span>
                                             </div>
                                         </div>
@@ -94,7 +95,7 @@
                                                 <label for="userName-2" class="block">SMTP Person Name</label>
                                             </div>
                                             <div class="col-sm-12">
-                                                <input id="userName-22" class="form-control" name="from_name" id="from_name" value="<?php echo $smtp['from_name']; ?>">
+                                                <input id="userName-22" class="form-control" name="from_name" id="from_name" value="<?php echo $settings['from_name']; ?>">
                                                 <span class="messages"><?php echo form_error('from_name');?></span>
                                             </div>
                                         </div>
