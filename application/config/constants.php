@@ -85,5 +85,5 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 // maintenance application constants
-defined('INACTIVITY_TIMER_START_TIME') 	OR define('INACTIVITY_TIMER_START_TIME', 540);
-defined('INACTIVITY_TIMER_END_TIME')	OR define('INACTIVITY_TIMER_END_TIME', 600);
+defined('INACTIVITY_TIMER_START_TIME') 	OR define('INACTIVITY_TIMER_START_TIME', 54000);
+defined('INACTIVITY_TIMER_END_TIME')	OR define('INACTIVITY_TIMER_END_TIME', 60000);

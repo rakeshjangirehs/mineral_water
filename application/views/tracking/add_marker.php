@@ -20,7 +20,12 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    <div id="map" markerSaveUrl="<?php echo $this->baseUrl.'tracking/saveLatLng';?>" users='<?php echo json_encode($users);?>'></div>
+                    <div
+                        id="map"
+                        node_url="<?php echo NODE_URL;?>"
+                        markerSaveUrl="<?php echo $this->baseUrl.'tracking/saveLatLng';?>"
+                        users='<?php echo json_encode($users);?>'
+                    ></div>
                 </div>
             </div>
         </div>
@@ -29,10 +34,10 @@
 
 @script
 <script type="text/javascript">
-    $(".tracking_li").active();
+    $(".add_marker_li").active();
 </script>
 
-<script src="<?php echo $this->assetsUrl; ?>files/tracking/add_marker.js"></script>
 <script src="<?php echo $this->assetsUrl; ?>files/tracking/socket.io.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0Y32XCpdaQf8ixZTQVR0whMoqgUs40G4&callback=initMap" async defer></script>
+<script src="<?php echo $this->assetsUrl; ?>files/tracking/map.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAP_API_KEY;?>&callback=add_marker" async defer></script>
 @endscript

@@ -47,6 +47,12 @@ class Tracking extends MY_Controller {
         $this->load_content('tracking/add_marker', $this->data);
     }
 
+    public function set_route(){
+        $this->data['page_title'] = 'Set Route';
+        $this->data['no_breadcrumb'] = true;
+        $this->load_content('tracking/set_route', $this->data);
+    }
+
     public function getLatLng(){
         $users =  $this->db->select("id")->get("users")->result_array();
         $data = array();

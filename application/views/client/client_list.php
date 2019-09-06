@@ -64,8 +64,9 @@
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +
-                          "&nbsp;<a class='green' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>";
+				      return "<a class='' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +
+                          "&nbsp;<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
+                          "&nbsp;<a class=' ' href='<?php echo $this->baseUrl; ?>clients/add_location/"+data.id+"' title='Client Location'><i class='feather icon-map-pin'></i></a>";
 				    }
             	}
             ],

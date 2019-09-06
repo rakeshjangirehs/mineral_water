@@ -361,9 +361,6 @@
                                 <?php echo $content; ?>
                             </div>
                         </div>
-                        <div id="styleSelector" style="display:none;">
-
-                        </div>
                     </div>
                 </div>
             </div>

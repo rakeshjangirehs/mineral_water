@@ -19,6 +19,10 @@ class MY_Controller extends CI_Controller {
 	protected $emailSettingArr = array();
 	public function __construct(){
 		parent::__construct();
+
+        defined('NODE_URL')  OR define('NODE_URL', 'http://172.16.3.123:3000'); //Node App URL
+        defined('MAP_API_KEY')  OR define('MAP_API_KEY', 'AIzaSyAORZjG4KZf9oLcCo4XbKFDExSCvpIHaDQ'); //Google Maps API Key AIzaSyB0Y32XCpdaQf8ixZTQVR0whMoqgUs40G4
+
 		$this->load->helper('url');
 		if(!$this->session->userdata('id')){
 			redirect('auth/login', 'location');

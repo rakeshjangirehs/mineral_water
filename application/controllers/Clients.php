@@ -124,6 +124,22 @@ class Clients extends MY_Controller {
 		$this->load_content('client/add_update', $this->data);
 	}
 
+	public function add_location($id=null){
+
+        $client = $this->client->get_client($id);
+        $this->data['client'] = $client;
+//        echo "<pre>";print_r($client);die;
+
+        if($this->input->server("REQUEST_METHOD") == "POST"){
+
+        }
+
+        $this->data['page_title'] = 'Client Location';
+        $this->data['sub_page_title'] = "{$client['first_name']} {$client['last_name']}";
+//        $this->data['no_breadcrumb'] = true;
+        $this->load_content('client/client_location', $this->data);
+    }
+
 	public function client_export(){
 		$query = $this
                     ->model

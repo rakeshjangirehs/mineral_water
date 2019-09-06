@@ -17,3 +17,362 @@
 .breadcrumb-item.active {
     /*color: #fff;*/
 }
+
+td a .feather{
+    /*padding: 0px 2px;*/
+    margin: 0px 3px;
+}
+
+
+.pcoded #mapSelector:hover .mCSB_dragger_bar,
+.pcoded .main-menu:hover .mCSB_dragger_bar {
+    background-color: rgba(64, 78, 103, 0.2)
+}
+
+.pcoded[theme-layout="vertical"][vertical-layout="box"] #mapSelector,
+.pcoded[theme-layout="vertical"][vertical-layout="box"] .p-chat-user,
+.pcoded[theme-layout="vertical"][vertical-layout="box"] .showChat_inner {
+    position: absolute
+}
+
+.pcoded[theme-layout="vertical"][vertical-layout="box"] #mapSelector {
+    top: 0
+}
+
+.pcoded.nocollapsed[theme-layout="vertical"][pcoded-device-type="phone"] #mapSelector {
+    top: 100px
+}
+.pcoded #mapSelector {
+    min-height: 300px;
+    height: calc(100vh - 56px);
+    border: 1px solid #e9e9e9;
+    background: #FFF;
+    position: fixed;
+    margin: 0;
+    padding: 20px;
+    width: 400px;
+    top: 56px;
+    z-index: 190;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    -o-transition: 0.5s
+}
+
+.pcoded #mapSelector.open {
+    background: #FFF none repeat scroll 0 0;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2)
+}
+
+.pcoded #mapSelector a>i {
+    padding: 0;
+    margin: 0 5px 0 0
+}
+
+.pcoded #mapSelector .soc-icon {
+    width: 55px;
+    height: 55px;
+    padding: 15px;
+    border-radius: 50%
+}
+
+.pcoded #mapSelector .soc-icon i {
+    font-size: 25px;
+    margin-right: 0
+}
+
+@media only screen and (max-width: 992px) {
+    .pcoded #mapSelector {
+        display: none
+    }
+}
+
+.pcoded[theme-layout="horizontal"] #mapSelector,
+.pcoded[vertical-placement="left"] #mapSelector {
+    right: -400px;
+    border-left: 2px solid rgba(48, 53, 73, 0.28)
+}
+
+.pcoded[theme-layout="horizontal"] #mapSelector.open,
+.pcoded[vertical-placement="left"] #mapSelector.open {
+    right: 0
+}
+
+.pcoded[vertical-placement="right"] #mapSelector {
+    left: -400px;
+    border-right: 2px solid rgba(48, 53, 73, 0.28)
+}
+
+.pcoded[vertical-placement="right"] #mapSelector.open {
+    left: 0
+}
+
+.mapSelector-toggle {
+    position: relative
+}
+
+.pcoded .mapSelector-toggle>a {
+    position: absolute;
+    top: 200px;
+    width: 55px;
+    height: 55px;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    background: #01a9ac;
+    color: #fff;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    padding: 10px 8px
+}
+
+.pcoded[theme-layout="horizontal"] .mapSelector-toggle>a,
+.pcoded[vertical-placement="left"] .mapSelector-toggle>a {
+    left: -75px;
+    border-right: 0;
+    border-radius: 50% 0 0 50%
+}
+
+.pcoded[vertical-placement="right"] .mapSelector-toggle>a {
+    right: -75px;
+    border-left: 0;
+    border-radius: 0 50% 50% 0
+}
+
+.mapSelector-toggle>a:before {
+    font-family: 'feather';
+    font-size: 20px;
+    content: "\e8c3";
+    position: relative;
+    float: left;
+    left: 13px;
+    line-height: 35px;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    -webkit-animation: mymove 1.3s infinite linear;
+    animation: mymove 1.3s infinite linear
+}
+
+.open .mapSelector-toggle>a:before {
+    content: "\e8f6";
+    -webkit-animation: mymove 0s infinite linear;
+    animation: mymove 0s infinite linear
+}
+
+#mapSelector .nav-tabs {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #01a9ac;
+    padding-bottom: 5px
+}
+
+#mapSelector .nav-tabs .nav-item {
+    width: calc(100% / 2);
+    margin: 0;
+    padding: 0;
+    float: left
+}
+
+#mapSelector .nav-tabs .nav-item a {
+    color: #404E67;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 0.66rem 1rem;
+    border-radius: 2px;
+    border: none;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out
+}
+
+#mapSelector .nav-tabs .nav-item a.active {
+    color: #fff;
+    background-color: #01a9ac
+}
+
+#mapSelector .style-cont {
+    background-color: #F6F7FB;
+    padding: 10px
+}
+
+#mapSelector .st-main-title {
+    font-size: 18px
+}
+
+#mapSelector .btn-success {
+    background-color: #11c15b
+}
+
+#mapSelector .checkbox-fade label {
+    margin-bottom: 0.8rem
+}
+
+#mapSelector .sub-title {
+    text-transform: capitalize
+}
+
+#mapSelector #menu-effect {
+    padding-bottom: 15px
+}
+
+#mapSelector #menu-effect .radio>label {
+    padding-left: 0
+}
+
+#mapSelector #menu-effect .radio .helper {
+    bottom: -30px;
+    left: 3px
+}
+
+#mapSelector #menu-effect .radio .helper:after,
+#mapSelector #menu-effect .radio .helper:before {
+    top: auto;
+    bottom: 0
+}
+
+#mapSelector #menu-effect .micon {
+    font-size: 15px;
+    padding: 2px 4px 4px;
+    border-radius: 4px;
+    width: 30px;
+    display: block;
+    height: 30px;
+    text-align: center
+}
+
+#mapSelector #menu-effect .micon.st1 i,
+#mapSelector #menu-effect .micon.st3 i {
+    display: none
+}
+
+#mapSelector #menu-effect .micon.st2 b,
+#mapSelector #menu-effect .micon.st4 b,
+#mapSelector #menu-effect .micon.st5 b {
+    display: none
+}
+
+#mapSelector #menu-effect .micon.st1 {
+    background-color: #01a9ac
+}
+
+#mapSelector #menu-effect .micon.st1 b,
+#mapSelector #menu-effect .micon.st1 i {
+    color: #fff
+}
+
+#mapSelector #menu-effect .micon.st2 {
+    background-color: #0ac282
+}
+
+#mapSelector #menu-effect .micon.st2 b,
+#mapSelector #menu-effect .micon.st2 i {
+    color: #fff
+}
+
+#mapSelector #menu-effect .micon.st3 {
+    background-color: #fec8b1
+}
+
+#mapSelector #menu-effect .micon.st3 b,
+#mapSelector #menu-effect .micon.st3 i {
+    color: #fb4d02
+}
+
+#mapSelector #menu-effect .micon.st4 {
+    background-color: #fea9b3
+}
+
+#mapSelector #menu-effect .micon.st4 b,
+#mapSelector #menu-effect .micon.st4 i {
+    color: #f3021e
+}
+
+#mapSelector #menu-effect .micon.st5 {
+    background-color: transparent
+}
+
+#mapSelector #menu-effect .micon.st5 i {
+    color: #01a9ac
+}
+
+#mapSelector #bg-pattern-visiblity {
+    padding-left: 30px
+}
+
+#mapSelector .form-control {
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: #f1f1f1;
+    margin-bottom: 10px
+}
+
+#mapSelector .form-control:focus {
+    border: none;
+    background-color: #f1f1f1
+}
+
+#mapSelector ul {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+    width: 100%
+}
+
+#mapSelector ul li {
+    border-bottom: 0 solid #e9e9e9;
+    display: block;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    width: 100%
+}
+
+#mapSelector ul li p.selector-title,
+#mapSelector ul li span.selector-title {
+    color: #444;
+    font-size: 14px;
+    margin: 0 0 15px;
+    padding: 10px 0;
+    text-align: left
+}
+
+#mapSelector ul li p.selector-title {
+    font-weight: 600;
+    border-bottom: 1px solid #e9e9e9
+}
+
+#mapSelector ul li p.selector-title.main-title {
+    font-weight: 600
+}
+
+#mapSelector ul li p.sub-title.drp-title {
+    border-bottom: 0 solid transparent;
+    margin-bottom: 0;
+    margin-top: 10px
+}
+
+#mapSelector>ul>li>.sub-title {
+    color: #9c9c9c;
+    display: block;
+    font-size: 13px;
+    margin: 0;
+    padding: 5px 0;
+    position: relative;
+    text-align: left
+}
+
+#mapSelector li {
+    padding: 5px
+}
+.pcoded[layout-type="dark"] #mapSelector,
+body.dark #mapSelector {
+    color: #404E67
+}
+
+.pcoded[layout-type="dark"] #mapSelector .form-control,
+body.dark #mapSelector .form-control {
+    color: #404E67
+}

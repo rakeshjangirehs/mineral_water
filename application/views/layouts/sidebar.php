@@ -91,11 +91,33 @@
                 </ul>
             </li>
 
-            <li class="tracking_li">
-                <a href="<?php echo $this->baseUrl; ?>tracking">
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-map"></i></span>
-                    <span class="pcoded-mtext">Live Tracking</span>
+                    <span class="pcoded-mtext">Tracking</span>
                 </a>
+                <ul class="pcoded-submenu">
+                    <li class="tracking_li">
+                        <a href="<?php echo $this->baseUrl; ?>tracking/live_location">
+                            <span class="pcoded-mtext">Live Tracking</span>
+                        </a>
+                    </li>
+                    <li class="tracking_path_li">
+                        <a href="<?php echo $this->baseUrl; ?>tracking/tracking_path">
+                            <span class="pcoded-mtext">Tracking Path</span>
+                        </a>
+                    </li>
+                    <li class="add_marker_li">
+                        <a href="<?php echo $this->baseUrl; ?>tracking/add_marker">
+                            <span class="pcoded-mtext">Add Marker</span>
+                        </a>
+                    </li>
+                    <li class="set_route_li">
+                        <a href="<?php echo $this->baseUrl; ?>tracking/set_route">
+                            <span class="pcoded-mtext">Set Route</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <li class="setting_li">

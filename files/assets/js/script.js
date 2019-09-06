@@ -175,7 +175,7 @@ function toggleFullScreen() {
 /* --------------------------------------------------------
         Color picker - demo only
         --------------------------------------------------------   */
-$('#styleSelector').append('' +
+/*$('#styleSelector').append('' +
     '<div class="selector-toggle">' +
         '<a href="javascript:void(0)"></a>' +
     '</div>' +
@@ -351,4 +351,4 @@ $('#styleSelector').append('' +
         '<a href="#!" target="_blank" class="btn btn-twitter soc-icon m-l-20 m-b-20"><i class="feather icon-twitter"></i></a>' +
     '</li>' +
 '</ul>'+
-'');
+'');*/

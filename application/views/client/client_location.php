@@ -15,9 +15,8 @@
                 <div class="card-block">
                     <div
                         id="map"
+                        locationSaveUrl="<?php echo $this->baseUrl.'clients/add_update_location/'.$client['id'];?>"
                         node_url="<?php echo NODE_URL;?>"
-                        markerGetUrl="<?php echo $this->baseUrl.'tracking/getLatLng';?>"
-                        users='<?php echo json_encode($users);?>'
                     ></div>
                 </div>
             </div>
@@ -27,10 +26,9 @@
 
 @script
 <script type="text/javascript">
-    $(".tracking_li").active();
+    $(".add_cilent_li").active();
 </script>
 
-<script src="<?php echo $this->assetsUrl; ?>files/tracking/socket.io.js"></script>
 <script src="<?php echo $this->assetsUrl; ?>files/tracking/map.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAP_API_KEY;?>&callback=tracking_map" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAP_API_KEY;?>&callback=client_location" async defer></script>
 @endscript
