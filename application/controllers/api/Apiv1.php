@@ -14,6 +14,7 @@ class ApiV1 extends REST_Controller {
         $this->load->model('user');
         $this->load->model('client');
         $this->load->model('activity');
+        $this->load->model('order_model', 'order');
         $this->load->helper('url');
     }
     
@@ -402,6 +403,85 @@ class ApiV1 extends REST_Controller {
                 ),
                 REST_Controller::HTTP_BAD_REQUEST
             );
+        }
+    }
+
+    public function make_order_post(){
+        $entityBody = file_get_contents('php://input');
+        // var_dump($entityBody);die;
+        /*
+            {
+                "client_id": 1,
+                "user_id":1,
+                "order_details":[
+                    {
+                        "product_id": 1,
+                        "quantity":10,
+                        "actual_price": 10,
+                        "effective_price": 12
+                    },
+                    {
+                        "product_id": 2,
+                        "quantity":10,
+                        "actual_price": 12,
+                        "effective_price": 15
+                    }
+                ]
+            }
+        */
+
+        if(!empty($entityBody)){
+            $orders = json_decode($entityBody,true);
+            if(!empty($orders)){
+                // echo "<pre>"; print_r($orders);die;
+                if(!empty($orders['client_id']) && !empty($orders['user_id']) && !empty($orders['order_details'])){
+                    foreach($orders['order_details'] as $detail){
+                        if(!empty($detail['product_id']) && !empty($detail['quantity']) && !empty($detail['effective_price'])){
+
+                            // order table array data
+                            $arrOrder = array(
+                                'client_id'=>$orders['client_id'],
+                                'created_at'=>date('Y-m-d H:i:s'),
+                                'created_by'=>$orders['user_id']
+                            );
+
+                            // order items array data
+                            $arrOrderItems[] = array(
+                                'product_id'=>$detail['product_id'],
+                                'quantity'=>$detail['quantity'],
+                                'actual_price'=>$detail['actual_price'],
+                                'effective_price'=>$detail['effective_price']
+                            );
+                        }else{
+                            $this->response([
+                                'status' => FALSE,
+                                'message' => 'Provide product_id, quantity and effective price.',
+                            ], REST_Controller::HTTP_OK);
+                        }
+                    }
+                    if($this->order->insert_order($arrOrder, $arrOrderItems)){
+                        $this->response([
+                            'status' => TRUE,
+                            'message' => 'Order placed successfully.',
+                        ], REST_Controller::HTTP_OK);
+                    }else{
+                        $this->response([
+                            'status' => FALSE,
+                            'message' => 'Failed to place order.',
+                        ], REST_Controller::HTTP_OK);
+                    }
+                }else{
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Please provide client_id, user_id and order details.',
+                    ], REST_Controller::HTTP_OK);
+                }
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Please provide json body.',
+            ], REST_Controller::HTTP_OK);
         }
     }
 }
