@@ -476,12 +476,78 @@ class ApiV1 extends REST_Controller {
                         'message' => 'Please provide client_id, user_id and order details.',
                     ], REST_Controller::HTTP_OK);
                 }
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Invalid json request.',
+                ], REST_Controller::HTTP_OK);
             }
         }else{
             $this->response([
                 'status' => FALSE,
                 'message' => 'Please provide json body.',
             ], REST_Controller::HTTP_OK);
+        }
+    }
+
+    // delivery boy
+    public function order_delivery_post(){
+        $user_id = $this->post('user_id');
+        $order_id = $this->post('order_id');
+        $lat = $this->post('lat');
+        $lng = $this->post('lng');
+
+        // echo "<pre>"; print_r($_FILES);die;
+
+        if(!empty($user_id) && !empty($order_id) && !empty($lat) && !empty($lng) && !empty($_FILES)){
+            // check file type validation (image only)
+            $this->file_check();
+
+            $imageData = $this->store('signature');     // generate original image upload
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Provide user_id, order_id, lat, lng and signature.",
+                    'data' => []
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
+            );   
+        }
+    }
+
+    // file validation
+    public function file_check(){
+        // var_dump($_FILES['signature']['type']);die;
+        $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
+        $mime = $_FILES['signature']['type'];
+        if(isset($_FILES['signature']['name']) && $_FILES['signature']['name']!=""){
+            if(!in_array($mime, $allowed_mime_type_arr)){
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Signature is only image file.",
+                        'data' => []
+                    ),
+                    REST_Controller::HTTP_BAD_REQUEST
+                );
+            }
+        }
+        return true;
+    }
+
+    // store signature
+    public function store($str){
+        $config['upload_path'] = FCPATH. 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'orders'.DIRECTORY_SEPARATOR.'signatures'.DIRECTORY_SEPARATOR;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload($str)) {
+            $error = array('error' => $this->upload->display_errors());
+            echo "<pre>"; print_r($error);die;
+        } else {
+            $image_data = $this->upload->data();
+            return $image_data;
         }
     }
 }

@@ -45,6 +45,7 @@ class Vehicles extends MY_Controller {
 
 		if($this->input->is_ajax_request()){
 			$colsArr = array(
+                '`vehicle`.`name`',
 				'`vehicle`.`number`',
 				'`vehicle`.`capacity_in_ton`',
 				'action'
@@ -88,8 +89,22 @@ class Vehicles extends MY_Controller {
             }
         }
 
-		$this->data['page_title'] = 'Vehilcles';
+		$this->data['page_title'] = 'Vehicles';
 		$this->load_content('vehicle/vehicle_list', $this->data);
 	}
+
+    public function vehicle_export(){
+        $query = $this
+            ->model
+            ->common_select('`vehicle`.`name`,`vehicle`.`number`,`vehicle`.`capacity_in_ton` AS `capacity(ton)`')
+            ->common_get('vehicle');
+
+        $resultData = $this->db->query($query)->result_array();
+        $headerColumns = implode(',', array_keys($resultData[0]));
+        $filename = 'vehicles-'.time().'.xlsx';
+        $title = 'Vehicle List';
+        $sheetTitle = 'Vehicle List';
+        $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
+    }
 
 }

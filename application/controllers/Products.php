@@ -161,7 +161,7 @@
         $configer =  array(
           'image_library'   => 'gd2',
           'source_image'    =>  $image_data['full_path'],
-          'new_image'		=>	FCPATH. 'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR,
+          'new_image'		=>	FCPATH. 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR,
           'maintain_ratio'  =>  TRUE,
           'create_thumb'	=> 	TRUE,
           'thumb_marker' 	=> '_thumb',

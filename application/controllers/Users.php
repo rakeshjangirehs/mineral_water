@@ -20,12 +20,12 @@ class Users extends MY_Controller {
             array(
                 'field' => 'last_name',
                 'label' => 'Last Name',
-                'rules' => 'max_length[200]'
+                'rules' => 'required|max_length[200]'
             ),
             array(
                 'field' => 'email',
                 'label' => 'Email',
-                'rules' => 'valid_email|max_length[300]|callback_check_duplicate_email'
+                'rules' => 'required|valid_email|max_length[300]|callback_check_duplicate_email'
             ),
             array(
                 'field' => 'username',
@@ -40,7 +40,22 @@ class Users extends MY_Controller {
             array(
                 'field' => 'password',
                 'label' => 'Password',
-                'rules' => 'max_length[200]'
+                'rules' => 'required|max_length[200]'
+            ),
+            array(
+                'field' => 'role',
+                'label' => 'Role',
+                'rules' => 'required|max_length[200]'
+            ),
+            array(
+                'field' => 'username',
+                'label' => 'Username',
+                'rules' => 'required|max_length[200]'
+            ),
+            array(
+                'field' => 'zip_codes[]',
+                'label' => 'Zipcode',
+                'rules' => 'required'
             ),
 
         );
