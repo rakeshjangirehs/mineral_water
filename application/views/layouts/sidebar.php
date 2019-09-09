@@ -12,6 +12,30 @@
 
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
+                    <span class="pcoded-mtext">Masters</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="zipcode_li">
+                        <a href="<?php echo $this->baseUrl; ?>zipcodes">
+                            <span class="pcoded-mtext">Zipcodes</span>
+                        </a>
+                    </li>
+                    <li class="zipcodegroup_li">
+                        <a href="<?php echo $this->baseUrl; ?>zipcodegroups">
+                            <span class="pcoded-mtext">Zip Code Groups</span>
+                        </a>
+                    </li>
+                    <li class="vehicle_li">
+                        <a href="<?php echo $this->baseUrl; ?>vehicles">
+                            <span class="pcoded-mtext">Vehicles</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-users"></i></span>
                     <span class="pcoded-mtext">User Management</span>
                 </a>
@@ -81,29 +105,6 @@
                 </ul>
             </li>
 
-            <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
-                    <span class="pcoded-mtext">Masters</span>
-                </a>
-                <ul class="pcoded-submenu">
-                    <li class="zipcode_li">
-                        <a href="<?php echo $this->baseUrl; ?>zipcodes">
-                            <span class="pcoded-mtext">Zipcodes</span>
-                        </a>
-                    </li>
-                    <li class="zipcodegroup_li">
-                        <a href="<?php echo $this->baseUrl; ?>zipcodegroups">
-                            <span class="pcoded-mtext">Zip Code Groups</span>
-                        </a>
-                    </li>
-                    <li class="vehicle_li">
-                        <a href="<?php echo $this->baseUrl; ?>vehicles">
-                            <span class="pcoded-mtext">Vehicles</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
