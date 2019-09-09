@@ -156,6 +156,10 @@ class MY_Model extends CI_Model{
 			$data[$k]['link'] = $val;
 		}
 
+//		$h = fopen("debug.txt","a+");
+//		fwrite($h,$sql);
+//		fclose($h);
+
 		$json_data = array(
 			"draw"            => intval( $request['draw'] ),
 			"recordsTotal"    => intval( $records_total ),

@@ -69,6 +69,20 @@
 
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="feather icon-shopping-cart"></i></span>
+                    <span class="pcoded-mtext">Orders</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="order_list_li">
+                        <a href="<?php echo $this->baseUrl; ?>orders">
+                            <span class="pcoded-mtext">Order List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                     <span class="pcoded-mtext">Masters</span>
                 </a>
