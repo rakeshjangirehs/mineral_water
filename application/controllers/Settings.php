@@ -35,7 +35,7 @@
 				    		'from_name'		=>($this->input->post('from_name')) ? $this->input->post('from_name') : NULL,
 				    	);
 
-				    	if($this->settings_model->add_update_smtp($dataSmtp)){
+				    	if($this->settings_model->add_update($dataSmtp)){
 			    			$this->flash('success', 'SMTP updated successfully.');
 				    	}else{
 				    		$this->flash('success', 'SMTP failed to update.');
@@ -62,15 +62,29 @@
                         redirect("settings/index/{$mode}", 'location');
                     }
                     break;
- 				
+ 				case 'system_setting':
+
+ 					$this->form_validation->set_rules('system_name', 'System Name', 'trim|required');
+
+ 					if($this->form_validation->run() == TRUE){
+ 						$dataSystemSetting = array(
+ 							'system_name'=>$this->input->post('system_name')
+ 						);
+ 						if($this->settings_model->add_update($dataSystemSetting)){
+			    			$this->flash('success', 'System setting updated successfully.');
+				    	}else{
+				    		$this->flash('success', 'System setting failed to update.');
+				    	}
+				    	redirect("settings/index/{$mode}", 'location');
+ 					}
+ 					break;
  				default:
  					# code...
  					break;
  			}
  		}
-
  		$this->data['smtp'] = $this->db->get('settings')->row_array();
-
+ 		$this->data['settings'] = $this->db->get('settings')->row_array();
  		$this->data['page_title'] = 'Settings';
 		$this->load_content('setting/setting', $this->data);
  	}

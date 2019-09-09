@@ -4,7 +4,7 @@ class Settings_model extends MY_Model{
 		parent::__construct();
 	}
 
-	public function add_update_smtp($data){
+	public function add_update($data){
 		$this->db->where('id', 1);
 		$this->db->update('settings', $data);
 		return true;
