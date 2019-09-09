@@ -40,17 +40,37 @@
 				    	}else{
 				    		$this->flash('success', 'SMTP failed to update.');
 				    	}
+                        redirect("settings/index/{$mode}", 'location');
 				    }
  					break;
+                case 'maps':
+                    $this->form_validation->set_rules('maps_api_key', 'API Key', 'trim|required');
+                    $this->form_validation->set_rules('node_server_url', 'Node Server Url', 'trim|required');
+
+                    if ($this->form_validation->run() == TRUE)
+                    {
+                        $dataSmtp = array(
+                            'maps_api_key'	    =>($this->input->post('maps_api_key')) ? $this->input->post('maps_api_key') : NULL,
+                            'node_server_url'	=>($this->input->post('node_server_url')) ? $this->input->post('node_server_url') : NULL,
+                        );
+
+                        if($this->settings_model->add_update_smtp($dataSmtp)){
+                            $this->flash('success', 'Map Settings updated successfully.');
+                        }else{
+                            $this->flash('success', 'Map Settings failed to update.');
+                        }
+                        redirect("settings/index/{$mode}", 'location');
+                    }
+                    break;
  				
  				default:
  					# code...
  					break;
  			}
-            redirect("settings/index/{$mode}", 'location');
  		}
 
  		$this->data['smtp'] = $this->db->get('settings')->row_array();
+
  		$this->data['page_title'] = 'Settings';
 		$this->load_content('setting/setting', $this->data);
  	}

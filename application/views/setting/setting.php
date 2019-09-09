@@ -30,6 +30,11 @@
                                             SMTP Setup
                                         </a>
                                     </li>
+                                    <li role="tab" class="disabled <?php echo ($mode == 'maps') ? 'current': ''; ?>" aria-disabled="true">
+                                        <a id="verticle-wizard-t-2" href="<?php echo $this->baseUrl; ?>settings/index/maps" aria-controls="verticle-wizard-p-2">
+                                            Maps Setting
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="content clearfix">
@@ -99,6 +104,35 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-right">
+                                                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </fieldset>
+                                <fieldset id="verticle-wizard-p-2" role="tabpanel" aria-labelledby="verticle-wizard-h-2" class="body <?php echo ($mode == 'maps') ? '': 'hidden-fs'; ?>" aria-hidden="true">
+                                    <form class="form-horizontal" method="post" action="<?php echo $this->baseUrl; ?>settings/index/maps" class="<?php echo ($mode == 'maps') ? 'active': ''; ?>">
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="userName-2" class="block">API Key</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="userName-22" class="form-control" name="maps_api_key" id="maps_api_key" value="<?php echo $smtp['maps_api_key']; ?>">
+                                                <span class="messages"><?php echo form_error('maps_api_key');?></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="userName-2" class="block">Node Server URL</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="userName-22" class="form-control" name="node_server_url" id="node_server_url" value="<?php echo $smtp['node_server_url']; ?>">
+                                                <span class="messages"><?php echo form_error('node_server_url');?></span>
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <div class="col-sm-12 text-right">
                                                 <button type="submit" class="btn btn-sm btn-primary">Save</button>
