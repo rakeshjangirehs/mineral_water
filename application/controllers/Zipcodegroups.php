@@ -83,11 +83,13 @@ class Zipcodegroups extends MY_Controller {
 
     public function sendMail(){
 //        $this->commonSendMail();
+        $this->load->library('mymailer');
+
         $a = array(
             FCPATH.'files/assets/images/logo.png',
             FCPATH.'files/assets/images/logo-blue.png'
         );
-        var_dump($this->send_email("test","test","rakeshj@letsenkindle.com",null,null,$a));
+        var_dump($this->mymailer->send_email("test","test","rakeshj@letsenkindle.com",null,null,$a));
 
     }
 }
