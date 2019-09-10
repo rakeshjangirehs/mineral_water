@@ -44,7 +44,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="zipcode" class="control-label">Zip Code:</label>
-                                            <input type="text" name="zipcode" id="zipcode" class="form-control" required/>
+                                            <input type="number" name="zipcode" id="zipcode" class="form-control" min="6" max="6" required/>
                                         </div>
                                     </div>
                                 </div>

@@ -25,7 +25,7 @@
                                 <div class="form-group">
                                     <label for="role" class="control-label">Role:</label>
                                     <select class="form-control" name="role" id="role">
-                                        <option value=""></option>
+                                        <option value="">Select Role</option>
                                         <?php
                                         if(!empty($roles)):
                                             foreach($roles as $role):
@@ -87,6 +87,7 @@
                                         endif;
                                         ?>
                                     </select>
+                                    <span class="messages"><?php echo form_error('zip_codes');?></span>
                                 </div>
                             </div>
                         </div>

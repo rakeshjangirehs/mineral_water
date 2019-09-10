@@ -18,11 +18,9 @@
  		// check whether user already logged in or not
  		if( $this->session->userdata('id') ){
  			$this->session->set_flashdata('message', 'You are already logged in.');
- 			redirect('departments', 'location');
+ 			redirect('dashboard', 'location');
  		}
- 		if($this->input->server('REQUEST_METHOD') == 'POST'){
- 			// echo "<pre>"; print_r($_REQUEST);die;
- 		}
+ 		
  		$response = array(
  			"error"=>true
  		);
