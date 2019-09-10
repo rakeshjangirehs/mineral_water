@@ -12,6 +12,7 @@
         ini_set('memory_limit','2048M');
         ini_set('max_execution_time',0);
  	 	$this->load->model('order_model');
+        $this->load->model('client');
  	}
 
  	public function index(){
@@ -78,12 +79,96 @@
         return $order;
     }
 
-     public function print_invoice($id){
+    public function print_invoice($id){
 
          $order = $this->get_order($id);
          $this->data['order'] = $order;
-         $c = $this->load->view('order/order_print', $this->data,true);
-//echo $c;die;
+         $invoice = $this->load->view('order/order_print', $this->data,true);
+
+         $date = date('d-m-Y',strtotime($order['created_at']));
+         $file_name = "Invoice #{$order['id']} {$order['client_name']} {$date}.pdf";
+
+         $this->generate_pdf($invoice,$file_name);
+     }
+
+    public function email_order($order_id){
+
+        $response = array(
+            'success'    => false,
+            'message'    => 'Please try again'
+        );
+
+         if($order = $this->get_order($order_id)){
+
+            $client = $this->client->get_client($order['client_id']);
+
+            if($client['email']){
+
+                $this->data['order'] = $order;
+                $invoice = $this->load->view('order/order_print', $this->data,true);
+
+                $date = date('d-m-Y',strtotime($order['created_at']));
+                $file_name = "Invoice #{$order['id']} {$order['client_name']} {$date}.pdf";
+                $file_name = FCPATH.'uploads'.DIRECTORY_SEPARATOR.$file_name;
+
+                $this->generate_pdf($invoice,$file_name,'F');
+                if(file_exists($file_name)){
+                    $this->load->library('mymailer');
+                    $attachment = array($file_name);
+                    $email_response = $this->mymailer->send_email("Invoice","Please Find Attached Invoice",$client['email'],null,null,$attachment);
+                    if($email_response['status']){
+                        $response = array(
+                            'success'    => true,
+                            'message'    => "Email sent successfully to {$client['email']}"
+                        );
+                    }else{
+                        $response = array(
+                            'success'    => false,
+                            'message'    => "Email can't be send."
+                        );
+                    }
+                    unlink($file_name);
+                }else{
+                    $response = array(
+                        'success'    => false,
+                        'message'    => "Can't generate Invoice"
+                    );
+                }
+            }else{
+                $response = array(
+                    'success'    => false,
+                    'message'    => 'No email is associated with this client'
+                );
+            }
+
+         }else{
+             $response = array(
+                 'success'    => false,
+                 'message'    => 'Order not found'
+             );
+         }
+
+         echo json_encode($response);
+     }
+
+    private function generate_pdf($html,$file_name=NULL,$mode='I'){
+
+        $pathInfo = pathinfo($file_name);
+        if(isset($pathInfo['extension']) && $pathInfo['dirname']!='.'){
+
+            $dir_structure =dirname($file_name);
+            if (!file_exists($dir_structure)) {
+                mkdir($dir_structure, 0777, true);
+            }
+        }
+
+         $modeArr = array(
+             'I'=>\Mpdf\Output\Destination::INLINE,
+             'D'=>\Mpdf\Output\Destination::DOWNLOAD,
+             'F'=>\Mpdf\Output\Destination::FILE,
+             'S'=>\Mpdf\Output\Destination::STRING_RETURN,
+         );
+
          $mpdf = new \Mpdf\Mpdf(
              array(
 //                 'mode' => 'utf-8',
@@ -100,7 +185,7 @@
              )
          );
          $mpdf->SetDisplayMode('fullpage');
-         $mpdf->WriteHTML($c);
-         $mpdf->Output();
+         $mpdf->WriteHTML($html);
+         $mpdf->Output($file_name,$modeArr[$mode]);
      }
 }

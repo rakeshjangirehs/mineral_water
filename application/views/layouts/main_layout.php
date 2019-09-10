@@ -276,7 +276,9 @@
                                         </div>
                                     </div>
                                 <?php endif;?>
-                                <?php include_once('flash.php');?>
+                                <div id="flash_parent" style="margin-bottom: 2rem;">
+                                    <?php include_once('flash.php');?>
+                                </div>
                                 <!-- Page-header start -->
                                 <!--<div class="page-header m-b-20">
                                     <div class="row align-items-end">

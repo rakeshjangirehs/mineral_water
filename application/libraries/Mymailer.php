@@ -23,6 +23,7 @@ class Mymailer
     public function send_email($subject,$body,$to,$cc=null,$bcc=null,$attachments_str_arr=NULL){
 
         $phpmailer = new PHPMailer(true);
+
         try {
 
             //ssl on 465 or tls on 587

@@ -1,7 +1,7 @@
 <?php if($this->session->flashdata('message')) : ?>
-    <div class="row align-items-end m-t-20">
+    <div class="row align-items-end m-t-5">
         <div class="col-sm-12">
-            <div class="alert alert-success background-success">
+            <div class="alert alert-success background-success" style="margin-bottom:5px;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top: 2px;">
                     <i class="feather icon-x text-white"></i>
                 </button>
@@ -12,9 +12,9 @@
 <?php endif; ?>
 
 <?php if($this->session->flashdata('success')) : ?>
-    <div class="row align-items-end m-t-20">
+    <div class="row align-items-end m-t-5">
         <div class="col-sm-12">
-            <div class="alert alert-success background-success">
+            <div class="alert alert-success background-success" style="margin-bottom:5px;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top: 2px;">
                     <i class="feather icon-x text-white"></i>
                 </button>
@@ -25,9 +25,9 @@
 <?php endif; ?>
 
 <?php if($this->session->flashdata('error')) : ?>
-    <div class="row align-items-end m-t-20">
+    <div class="row align-items-end m-t-5">
         <div class="col-sm-12">
-            <div class="alert alert-warning background-warning">
+            <div class="alert alert-warning background-warning" style="margin-bottom:5px;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top: 2px;">
                     <i class="feather icon-x text-white"></i>
                 </button>
@@ -38,9 +38,9 @@
 <?php endif; ?>
 
 <div id="inactivity_logout" style="display:none;">
-    <div class="row align-items-end m-t-20">
+    <div class="row align-items-end m-t-5">
         <div class="col-sm-12">
-            <div class="alert alert-block alert-warning background-danger">
+            <div class="alert alert-block alert-warning background-danger" style="margin-bottom:5px;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top: 2px;">
                     <i class="feather icon-x text-white"></i>
                 </button>

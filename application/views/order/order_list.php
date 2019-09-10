@@ -64,10 +64,57 @@
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>";
+				      return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
+                          "<a class='' id='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Email'><i class='feather icon-mail'></i></a>";
 				    }
             	}
             ],
 		});
+
+	oTable.on('click','#order_email',function(e){
+	    e.preventDefault();
+
+        $('.theme-loader').fadeIn();
+
+        $.ajax({
+            url: this.getAttribute('href'),
+            method: 'GET',
+            dataType: 'json',
+            // data: {},
+            success: function(data){
+
+                if(data.success){
+                    $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
+                        "        <div class='col-sm-12'>\n" +
+                        "            <div class='alert alert-success background-success' style='margin-bottom:5px;'>\n" +
+                        "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
+                        "                    <i class='feather icon-x text-white'></i>\n" +
+                        "                </button>\n" +
+                        data.message +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>");
+                }else{
+                    $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
+                        "        <div class='col-sm-12'>\n" +
+                        "            <div class='alert alert-warning background-warning' style='margin-bottom:5px;'>\n" +
+                        "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
+                        "                    <i class='feather icon-x text-white'></i>\n" +
+                        "                </button>\n" +
+                        data.message +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>");
+                }
+            },
+            error	: function(xmlhttprequest,textStatus,error){
+                // console.log(xmlhttprequest.responseText);
+            },
+            complete: function(xmlhttprequest,textStatus ){
+                console.log(arguments);
+                $('.theme-loader').fadeOut();
+            }
+        });
+    });
 </script>
 @endscript

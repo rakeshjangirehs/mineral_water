@@ -20,7 +20,11 @@
 
 td a .feather{
     /*padding: 0px 2px;*/
-    margin: 0px 3px;
+    margin: 0px 5px;
+}
+
+.card {
+    margin-bottom: 10px
 }
 
 

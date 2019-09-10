@@ -58,11 +58,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                        <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                            <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
+                        </div>
                     </div>
                 </div>
             </form>
