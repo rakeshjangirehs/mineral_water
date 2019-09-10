@@ -19,7 +19,7 @@ class User extends CI_Model {
         $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, roles.role_name `role`")
                  ->from("users")
                  ->join("roles", "roles.id = users.role_id", "LEFT")
-                 ->where("users.status", 1)
+                 ->where("users.status", 'Active')
                  ->where("(users.email = '{$params['conditions']['email']}' OR users.username = '{$params['conditions']['email']}')")
                  ->where("users.password", $params['conditions']['password'])
                  ->get()

@@ -139,6 +139,12 @@
                     </div>
                 </div>
             </div>
+            <div class="row text-center">
+                <div class="col-sm-12 invoice-btn-group text-center">
+                    <button type="button" id="print_button" class="btn btn-primary btn-print-invoice m-b-10 btn-sm waves-effect waves-light m-r-20">Print</button>
+                    <button type="button" id="back_button" class="btn btn-danger waves-effect m-b-10 btn-sm waves-light">Back</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -147,5 +153,13 @@
 <script type="text/javascript">
 	// to active the sidebar
     $(".order_list_li").active();
+    $("#print_button").click(function(e){
+        window.open('<?php echo $this->baseUrl."orders/print_invoice/{$id}"; ?>');
+    });
+
+    $("#back_button").click(function(e){
+        window.location.href = '<?php echo $this->baseUrl."orders/"; ?>';
+    });
+
 </script>
 @endscript

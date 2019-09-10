@@ -42,14 +42,22 @@
 
  	public function order_details($id){
 
+        $order = $this->get_order($id);
+        $this->data['id'] = $id;
+        $this->data['order'] = $order;
+        $this->data['page_title'] = 'Order Details';
+        $this->load_content('order/order_details', $this->data);
+    }
+
+    private function get_order($id){
         $order = $this->db
-                                ->select("orders.*,CONCAT(`clients`.`first_name`,' ',IFNULL(`clients`.`last_name`, '')) as `client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
-                                ->where("orders.id = {$id}")
-                                ->from("orders")
-                                ->join("clients","clients.id = orders.client_id","left")
-                                ->join("users as salesman","salesman.id = orders.created_by","left")
-                                ->get()
-                                ->row_array();
+            ->select("orders.*,CONCAT(`clients`.`first_name`,' ',IFNULL(`clients`.`last_name`, '')) as `client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
+            ->where("orders.id = {$id}")
+            ->from("orders")
+            ->join("clients","clients.id = orders.client_id","left")
+            ->join("users as salesman","salesman.id = orders.created_by","left")
+            ->get()
+            ->row_array();
 
         if($order){
             $order['order_items'] = $this->db
@@ -67,55 +75,30 @@
                 ->get()
                 ->row_array();
         }
-        $this->data['order'] = $order;
-        $this->data['page_title'] = 'Order Details';
-        $this->load_content('order/order_details', $this->data);
+        return $order;
     }
 
      public function print_invoice($id){
 
-         $order = $this->db
-             ->select("orders.*,CONCAT(`clients`.`first_name`,' ',IFNULL(`clients`.`last_name`, '')) as `client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
-             ->where("orders.id = {$id}")
-             ->from("orders")
-             ->join("clients","clients.id = orders.client_id","left")
-             ->join("users as salesman","salesman.id = orders.created_by","left")
-             ->get()
-             ->row_array();
-
-         if($order){
-             $order['order_items'] = $this->db
-                 ->select("order_items.*,products.product_name,products.product_code,products.description,products.weight,products.dimension")
-                 ->where("order_id = {$order['id']}")
-                 ->from("order_items")
-                 ->join("products","products.id = order_items.product_id","left")
-                 ->get()
-                 ->result_array();
-
-             $order['order_client'] = $this->db
-                 ->select("clients.*")
-                 ->where("id = {$order['client_id']}")
-                 ->from("clients")
-                 ->get()
-                 ->row_array();
-         }
+         $order = $this->get_order($id);
          $this->data['order'] = $order;
-         $this->data['page_title'] = 'Order Details';
          $c = $this->load->view('order/order_print', $this->data,true);
 //echo $c;die;
-         $mpdf = new \Mpdf\Mpdf([
-             'mode' => 'utf-8',
-             'format' => [210, 297],
-             'orientation' => $orientation,
-             'setAutoTopMargin' => 'stretch',
-             'autoMarginPadding' => 0,
-             'bleedMargin' => 0,
-             'crossMarkMargin' => 0,
-             'cropMarkMargin' => 0,
-             'nonPrintMargin' => 0,
-             'margBuffer' => 0,
-             'collapseBlockMargins' => false,
-         ]);
+         $mpdf = new \Mpdf\Mpdf(
+             array(
+//                 'mode' => 'utf-8',
+//                 'format' => array(210, 297),
+//                 'orientation' => 'P',
+//                 'setAutoTopMargin' => 'stretch',
+//                 'autoMarginPadding' => 0,
+//                 'bleedMargin' => 0,
+//                 'crossMarkMargin' => 0,
+//                 'cropMarkMargin' => 0,
+//                 'nonPrintMargin' => 0,
+//                 'margBuffer' => 0,
+//                 'collapseBlockMargins' => false,
+             )
+         );
          $mpdf->SetDisplayMode('fullpage');
          $mpdf->WriteHTML($c);
          $mpdf->Output();
