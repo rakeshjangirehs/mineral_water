@@ -11,7 +11,7 @@
                                     <tr>
                                         <td><img src="<?php echo base_url(); ?>files\assets\images\logo.png" class="img-80" alt=""></td>
                                         <td style="padding-left:20px;">
-                                            <span>Neervana Mineral Water</span><br/>
+                                            <span><?php echo $this->system_setting['system_name'];?></span><br/>
                                             <span>123 6th St. Melbourne, FL 32904 West Chicago, IL 60185</span><br/>
                                             <span>test@test.com</span><br/>
                                             <span>+91 9166650505</span><br/>

@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 require FCPATH.'vendor/autoload.php';
 
 class MY_Controller extends CI_Controller {
+
 	public $baseUrl;
 	protected $data = null;
 	public $system_setting = array();

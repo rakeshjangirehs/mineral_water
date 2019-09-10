@@ -18,7 +18,6 @@ class Mymailer
     {
         $this->CI =& get_instance();
         $this->settings = $this->CI->db->get('settings')->row_array();
-        require_once(FCPATH.'vendor/autoload.php');
     }
 
     public function send_email($subject,$body,$to,$cc=null,$bcc=null,$attachments_str_arr=NULL){
