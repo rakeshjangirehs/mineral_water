@@ -12,7 +12,7 @@
             font-size:5px;
         }
         .mini-seprator{
-            font-size:10px;
+            font-size:4px;
         }
 
         .primary{
@@ -47,8 +47,7 @@
 
         .amount_td{
             color:#01a9ac;
-            font-size:13px!important;
-            font-size: 15px!important;
+            /*font-size:13px!important;*/
             font-weight: bold;
         }
 
@@ -104,7 +103,7 @@
                 </div>
             </td>
             <td class="vt" style="width:30%;">
-                <div class="primary muted">Total Due :<?php echo $order['payable_amount'];?></div>
+                <div class="primary muted amount_td">Total Due :<?php echo $order['payable_amount'];?></div>
             </td>
         </tr>
     </table>
