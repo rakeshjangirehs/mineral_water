@@ -313,4 +313,14 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+
+$xml=simplexml_load_file(FCPATH."config.xml") or die("Error: Cannot create object");
+
+defined('BASE_URL')        OR define('BASE_URL', $xml->BASE_URL);
+defined('HOST_NAME')        OR define('HOST_NAME', $xml->MYSQL->HOST_NAME);
+defined('DATABASE')        OR define('DATABASE', $xml->MYSQL->DATABASE);
+defined('USRE_NAME')        OR define('USRE_NAME', $xml->MYSQL->USRE_NAME);
+defined('PASSWORD')        OR define('PASSWORD', $xml->MYSQL->PASSWORD);
+VAR_DUMP(PASSWORD);
+
 require_once BASEPATH.'core/CodeIgniter.php';
