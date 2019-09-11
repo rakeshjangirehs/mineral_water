@@ -10,15 +10,13 @@ class Payments extends MY_Controller {
  	public function __construct() {
  		parent::__construct();
  		$this->load->model('order_model');
+ 		$this->load->model('client');
  	}
 
- 	public function index(){
-
- 	}
-
- 	public function add(){
+ 	public function index($client_id = NULL){
+ 		$this->data['client_detail'] = $this->client->get_client($client_id);
+ 		$this->data['invoice_list'] = $this->order_model->get_invoice($client_id);
  		$this->data['page_title'] = 'Post Payment';
- 		$this->data['invoice_list'] = $this->order_model->
 		$this->load_content('payment/add', $this->data);
  	}
 }

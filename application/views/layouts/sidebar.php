@@ -69,6 +69,11 @@
                             <span class="pcoded-mtext">Client List</span>
                         </a>
                     </li>
+                    <!--<li class="payments_list_li">
+                        <a href="<?php echo $this->baseUrl; ?>payments">
+                            <span class="pcoded-mtext">Post Payment</span>
+                        </a>
+                    </li>-->
                 </ul>
             </li>
 
@@ -104,7 +109,6 @@
                     </li>
                 </ul>
             </li>
-
 
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">

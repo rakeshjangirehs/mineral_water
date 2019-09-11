@@ -22,4 +22,18 @@ class Order_model extends CI_Model {
 		$this->db->trans_complete();
 		return $this->db->trans_status();
     }
+
+    public function get_invoice($client_id){
+    	return $this->db->select('orders.id as order_id, orders.client_id, CONCAT_WS(" ", `first_name`, `last_name`) AS `client_name`, IFNULL(payments.paid_amount,0) AS `paid_amount`, IFNULL(payments.credit_amount, 0) AS `credit_amount`, IFNULL(payments.partial_amount,0) AS `partial_amount`, orders.payable_amount')
+    						->from('orders')
+    						->join('clients', 'clients.id = orders.client_id', 'LEFT')
+    						->join('payments', 'payments.order_id = orders.id', 'LEFT')
+    						->where('orders.client_id', $client_id)
+    						->where('(payments.paid_amount IS NULL OR payments.paid_amount = 0)', NULL, FALSE)
+    						->where('(payments.status IS NULL || payments.status = "PARTIAL" || payments.status = "PENDING")', NULL, FALSE)
+    						->get()
+    						->result_array();
+
+    	// echo $this->db->last_query();die;
+    }
 }
