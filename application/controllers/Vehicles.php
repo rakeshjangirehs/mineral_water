@@ -96,7 +96,7 @@ class Vehicles extends MY_Controller {
     public function vehicle_export(){
         $query = $this
             ->model
-            ->common_select('`vehicle`.`name`,`vehicle`.`number`,`vehicle`.`capacity_in_ton` AS `capacity(ton)`')
+            ->common_select('`vehicle`.`name` AS `vehicle_name`,`vehicle`.`number`,`vehicle`.`capacity_in_ton` AS `capacity(ton)`')
             ->common_get('vehicle');
 
         $resultData = $this->db->query($query)->result_array();
