@@ -53,9 +53,6 @@
                         <div class="col-sm-12">
                             <select class="form-control" data-placeholder="Choose Delivery Boy" id="delivery_boy" name="delivery_boy">
                                 <option></option>
-                                <?php foreach($delivery_boys as $boy){
-                                    echo "<option value='{$boy['id']}'>{$boy['first_name']} {$boy['last_name']}</option>";
-                                }?>
                             </select>
                         </div>
                     </div>
@@ -153,8 +150,7 @@
                 // console.log(xmlhttprequest.responseText);
             },
             complete: function(xmlhttprequest,textStatus ){
-                console.log(arguments);
-                $('.theme-loader').fadeOut();
+                // $('.theme-loader').fadeOut();
             }
         });
     }).on('click','#allocate_delivery_boy',function(e) {
@@ -162,14 +158,52 @@
         var $this = $(this);
         var order_id = $this.data('order_id');
         var delivery_boy_id = $this.data('delivery_boy_id');
-        $delivery_boy.val(delivery_boy_id).trigger('change');
-        $order_id.val(order_id);
-        $delivery_boy_modal.modal('show');
+
+        $delivery_boy.children().not(":first").remove();
+        console.log(order_id,delivery_boy_id);
+
+        $.ajax({
+            url: '<?php echo $this->baseUrl; ?>orders/get_deliveryboy_by_order_id',
+            method: 'POST',
+            dataType: 'json',
+            data: {'order_id':order_id},
+            success: function(data){
+                var optStr = "";
+
+                console.log(data);
+                $.each(data,function(i,delivery_boy){
+                    var selected = (delivery_boy_id == delivery_boy.id) ? "selected" : "";
+                    optStr += "<option value='"+delivery_boy.id+"' "+selected+">"+delivery_boy.first_name+" "+delivery_boy.last_name+"</option>";
+                });
+                $delivery_boy.append(optStr);
+                $order_id.val(order_id);
+                $delivery_boy_modal.modal('show');
+            },
+            error	: function(xmlhttprequest,textStatus,error){
+                // console.log(xmlhttprequest.responseText);
+                $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
+                    "        <div class='col-sm-12'>\n" +
+                    "            <div class='alert alert-warning background-warning' style='margin-bottom:5px;'>\n" +
+                    "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
+                    "                    <i class='feather icon-x text-white'></i>\n" +
+                    "                </button>\n" +
+                    "Unable to fetch data" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "    </div>");
+
+            },
+            complete: function(xmlhttprequest,textStatus ){
+                // $('.theme-loader').fadeOut();
+            }
+        });
+
+        // $delivery_boy.val(delivery_boy_id).trigger('change');
     });
 
-    $delivery_boy_modal.on('hidden.bs.modal',function(e){
-        $delivery_boy.val('').trigger('change');
-        $order_id.val('');
-    });
+    // $delivery_boy_modal.on('hidden.bs.modal',function(e){
+    //     $delivery_boy.val('').trigger('change');
+    //     $order_id.val('');
+    // });
 </script>
 @endscript

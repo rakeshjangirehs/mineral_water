@@ -40,12 +40,19 @@
             echo $this->model->common_datatable($colsArr, $query, "orders.status = 'Active'");die;
         }
 
-//        $this->data['delivery_boys'] = $this->user->get_user_by_role(3);
-        $this->data['delivery_boys'] = $this->user->get_user();
+        $this->data['delivery_boys'] = $this->user->get_user_by_role(3);
 //        echo "<pre>";print_r($this->data['delivery_boys']);die;
         $this->data['page_title'] = 'Order List';
         $this->load_content('order/order_list', $this->data);
  	}
+
+ 	public function get_deliveryboy_by_order_id(){
+ 	    $order_id = $this->input->post('order_id');
+        $order = $this->get_order($order_id);
+        $zip_code_id = $order['order_client']['zip_code_id'];
+ 	    $users = $this->user->get_user_by_role_and_zip_code(2,null,$zip_code_id);
+        echo json_encode($users);
+    }
 
  	public function order_details($id){
 
@@ -124,7 +131,7 @@
 
          if($order = $this->get_order($order_id)){
 
-            $client = $this->client->get_client($order['client_id']);
+            $client = $this->client->get_client_by_id($order['client_id']);
 
             if($client['email']){
 

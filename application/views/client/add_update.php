@@ -21,23 +21,6 @@
                                     <textarea name="address" id="address" rows="7" class="form-control"><?php echo (isset($_POST['address']))? set_value('address') : $user_data['address']; ?></textarea>
                                     <span class="messages"><?php echo form_error('address');?></span>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="credit_limit" class="control-label">Credit Limit:</label>
-                                    <input type="text" name="credit_limit" id="credit_limit" class="form-control" value="<?php echo (isset($_POST['credit_limit']))? set_value('credit_limit') : $user_data['credit_limit']; ?>" />
-                                    <span class="messages"><?php echo form_error('credit_limit');?></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone" class="control-label">Phone:</label>
-                                    <input type="text" name="phone" id="phone" class="form-control" value="<?php echo (isset($_POST['phone']))? set_value('phone') : $user_data['phone']; ?>" />
-                                    <span class="messages"><?php echo form_error('phone');?></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email" class="control-label">Email:</label>
-                                    <input type="email" name="email" id="email" class="form-control" value="<?php echo (isset($_POST['email']))? set_value('email') : $user_data['email']; ?>" />
-                                    <span class="messages"><?php echo form_error('email');?></span>
-                                </div>
                                 <div class="form-group">
                                     <label for="zip_code_id" class="control-label">ZIP Code:</label>
                                     <select class="form-control select2" name="zip_code_id" id="zip_code_id" data-placeholder="Choose ZIP Code">
@@ -55,6 +38,41 @@
                                     </select>
                                     <span class="messages"><?php echo form_error('zip_code_id');?></span>
                                 </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="phone" class="control-label">Phone:</label>
+                                    <input type="text" name="phone" id="phone" class="form-control" value="<?php echo (isset($_POST['phone']))? set_value('phone') : $user_data['phone']; ?>" />
+                                    <span class="messages"><?php echo form_error('phone');?></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Email:</label>
+                                    <input type="email" name="email" id="email" class="form-control" value="<?php echo (isset($_POST['email']))? set_value('email') : $user_data['email']; ?>" />
+                                    <span class="messages"><?php echo form_error('email');?></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="credit_limit" class="control-label">Credit Limit:</label>
+                                    <input type="text" name="credit_limit" id="credit_limit" class="form-control" value="<?php echo (isset($_POST['credit_limit']))? set_value('credit_limit') : $user_data['credit_limit']; ?>" />
+                                    <span class="messages"><?php echo form_error('credit_limit');?></span>
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <label for="salesmen_ids" class="control-label">Salesman:</label>
+                                    <select class="form-control select2 multiple" name="salesmen_ids[]" id="salesmen_ids" data-placeholder="Choose Salesman" multiple="multiple">
+                                        <option value=""></option>
+                                        <?php
+                                        if(!empty($salesmen)):
+                                            foreach($salesmen as $sale):
+                                                $selected = (in_array($sale['id'],$user_data['salesmans'])) ? 'selected' : '';
+                                                ?>
+                                                <option value="<?php echo $sale['id']; ?>" <?php echo $selected; ?>><?php echo "{$sale['first_name']} {$sale['last_name']}"; ?></option>
+                                            <?php
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                    </select>
+                                    <span class="messages"><?php echo form_error('salesmen_ids');?></span>
+                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -147,6 +147,48 @@ class User extends CI_Model {
         return $this->get_user($where);
     }
 
+    public function get_user_by_role_and_zip_code($role_id=null,$zip_code=null,$zip_code_id=null){
+
+        $where = "WHERE 1=1 ";
+        $where .= ($zip_code_id) ? "AND ( FIND_IN_SET('{$zip_code_id}',`t1`.`zip_code_id`) OR FIND_IN_SET('{$zip_code_id}',`t2`.`zip_code_id`) ) " : "";
+        $where .= ($zip_code) ? "AND ( FIND_IN_SET('{$zip_code}',`t1`.`zip_code`) OR FIND_IN_SET('{$zip_code}',`t2`.`zip_code`) ) " : "";
+        $where .= ($role_id) ? "AND `users`.`role_id` = {$role_id}" : "";
+
+        $query = "SELECT
+                        `users`.*,
+                        `roles`.`role_name`,
+                        `t1`.`zip_code` AS `zip_code`,
+                        `t2`.`zip_code` AS `group_zip_code`,
+                        `t1`.`zip_code_id` AS `zip_code_id`,
+                        `t2`.`zip_code_id` AS `group_zip_code_id`	
+                    FROM `users`
+                    LEFT JOIN `roles` ON `roles`.`id` = `users`.`role_id`
+                    LEFT JOIN (
+                        SELECT
+                            `users`.`id`,
+                            GROUP_CONCAT(`zip_codes`.`zip_code`) AS `zip_code`,
+                            GROUP_CONCAT(`zip_codes`.`id`) AS `zip_code_id`
+                        FROM `users`
+                        LEFT JOIN `user_zip_codes` ON `user_zip_codes`.`user_id` = `users`.`id`
+                        LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `user_zip_codes`.`zip_code_id`
+                        GROUP BY `users`.`id`
+                    ) AS `t1` ON `t1`.`id` = `users`.`id`
+                    LEFT JOIN (
+                        SELECT
+                            `users`.`id`,
+                            GROUP_CONCAT(`zip_codes`.`zip_code`) AS `zip_code`,
+                            GROUP_CONCAT(`zip_codes`.`id`) AS `zip_code_id`
+                        FROM `users`
+                        LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
+                        LEFT JOIN `zip_code_groups` ON `zip_code_groups`.`id` = `user_zip_code_groups`.`zip_code_group_id`
+                        LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `zip_code_groups`.`id`
+                        LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `group_to_zip_code`.`zip_code_id`
+                        GROUP BY `users`.`id`
+                    ) AS `t2` ON `t2`.`id` = `users`.`id`
+                    $where";
+        return $this->db->query($query)->result_array();
+    }
+
     public function check_exist( $whereKey, $whereVal, $id = NULL ){
         if($id){
             $res = $this->db->select("*")

@@ -5,6 +5,7 @@ class Clients extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('client');
+		$this->load->model('user');
 
         //validation config
         $this->client_validation_config = array(
@@ -80,7 +81,8 @@ class Clients extends MY_Controller {
 
 		if($id){
 			$this->data['page_title'] = 'Update Client';
-			$userArr = $this->client->get_client($id);
+			$userArr = $this->client->get_client_by_id($id);
+//			echo "<pre>";print_r($userArr);die;
 		}else{
 			$this->data['page_title'] = 'Add Client';
 		}
@@ -90,6 +92,8 @@ class Clients extends MY_Controller {
             $this->form_validation->set_rules($this->client_validation_config);
 
             if ($this->form_validation->run() == TRUE) {
+
+                $salesmen_ids = ($this->input->post('salesmen_ids')) ? $this->input->post('salesmen_ids') : array();
 
                 $userData = array(
                     'first_name' => ($this->input->post('first_name')) ? $this->input->post('first_name') : NULL,
@@ -102,7 +106,7 @@ class Clients extends MY_Controller {
                 );
 
                 // add or update records
-                if ($this->client->insert_update($userData, $id)) {
+                if ($this->client->insert_update($userData, $id,$salesmen_ids)) {
                     $msg = 'Client created successfully.';
                     $type = 'success';
                     if ($id) {
@@ -119,6 +123,8 @@ class Clients extends MY_Controller {
 		}
 
         $this->data['zip_codes'] = $this->model->get("zip_codes");
+        $this->data['salesmen'] = $this->user->get_user_by_role(2);
+//        echo "<pre>";print_r($this->data['salesmen']);die;
 		$this->data['id'] = $id;
 		$this->data['user_data'] = $userArr;
 		$this->load_content('client/add_update', $this->data);
@@ -126,7 +132,7 @@ class Clients extends MY_Controller {
 
 	public function add_location($id=null){
 
-        $client = $this->client->get_client($id);
+        $client = $this->client->get_client_by_id($id);
         $this->data['client'] = $client;
 //        echo "<pre>";print_r($client);die;
 

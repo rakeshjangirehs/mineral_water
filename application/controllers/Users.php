@@ -40,7 +40,7 @@ class Users extends MY_Controller {
             array(
                 'field' => 'password',
                 'label' => 'Password',
-                'rules' => 'required|max_length[200]'
+                'rules' => 'max_length[200]'
             ),
             array(
                 'field' => 'role',

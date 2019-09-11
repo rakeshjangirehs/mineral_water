@@ -15,27 +15,43 @@ class Client extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data,$user_id = NULL,$create_by=NULL,$visit_note=NULL){
+    public function insert_update($data,$client_id = NULL,$salesmen_ids=NULL,$create_by=NULL,$visit_note=NULL){
         
         $this->db->trans_start();
-        if($user_id){
+        if($client_id){
             $data['updated_at'] = date('Y-m-d H:i:s');
             $data['updated_by'] = ($create_by) ? $create_by : USER_ID;
 
-            $this->db->where("id", $user_id);
+            $this->db->where("id", $client_id);
             $this->db->update("clients", $data);
 
         }else{
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['created_by'] = ($create_by) ? $create_by : USER_ID;
             $this->db->insert("clients", $data);
-            $user_id = $this->db->insert_id();
+            $client_id = $this->db->insert_id();
+        }
+
+        if($salesmen_ids !== NULL){
+            $this->db->delete("client_selesmans",array("client_id"=> $client_id));
+            $insert_array = array();
+            foreach($salesmen_ids as $salesman_id){
+                $insert_array[] = array(
+                    'client_id'     =>  $client_id,
+                    'salesman_id'   =>  $salesman_id,
+                    'created_at'    =>  date('Y-m-d H:i:s'),
+                    'created_by'    =>  ($create_by) ? $create_by : USER_ID,
+                );
+            }
+            if($insert_array){
+                $this->db->insert_batch("client_selesmans",$insert_array);
+            }
         }
 
         if($visit_note){
             $visit_data = array(
                 'visit_notes'=> $visit_note,
-                'client_id' => $user_id,
+                'client_id' => $client_id,
                 'created_at' => date('Y-m-d H:i:s'),
                 'created_by' => ($create_by) ? $create_by : USER_ID,
             );
@@ -45,7 +61,7 @@ class Client extends CI_Model {
 
         $this->db->trans_complete();
         if($this->db->trans_status()){
-            return $user_id;
+            return $client_id;
         }else{
             return false;
         }
@@ -85,15 +101,42 @@ class Client extends CI_Model {
         }
     }
 
-    public function get_client($id){
-        // echo "<pre>"; var_dump($id);die;
+    public function get_client($where=null,$mode='multiple'){
 
-        return $this->db->select('clients.*,`zip_codes`.`zip_code`')
-                        ->from("clients")
-                        ->join("zip_codes", "zip_codes.id = clients.zip_code_id", "left")
-                        ->where("clients.id", $id)
-                        ->get()
-                        ->row_array();
+        $db = ($where) ? $this->db->where($where) : $this->db;
+
+        $db->select('clients.*,`zip_codes`.`zip_code`')
+            ->from("clients")
+            ->join("zip_codes", "zip_codes.id = clients.zip_code_id", "left");
+
+        if($mode != 'multiple'){
+
+            $client =  $db->get()->row_array();
+            if($client){
+                $client['salesmans'] = array_column($this->db
+                    ->select("salesman_id")
+                    ->where("client_selesmans.client_id = {$client['id']}")
+                    ->get("client_selesmans")
+                    ->result_array(),'salesman_id');
+            }
+            return $client;
+        }else{
+            $clients =  $db->get()->result_array();
+            if($clients){
+                foreach($clients as $k=>$client){
+                    $clients[$k]['salesmans'] = $this->db
+                        ->where("client_selesmans.client_id = {$client['id']}")
+                        ->get("client_selesmans")
+                        ->result_array();
+                }
+            }
+            return $clients;
+        }
+    }
+
+    public function get_client_by_id($id){
+        $where = "clients.id = {$id}";
+        return $this->get_client($where,'single');
     }
 
     public function check_exist( $whereKey, $whereVal, $id = NULL ){

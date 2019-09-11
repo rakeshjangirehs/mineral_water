@@ -269,7 +269,7 @@ class ApiV1 extends REST_Controller {
         $visit_notes = ($this->input->post('visit_notes')) ? $this->input->post('visit_notes') : NULL;
 
 
-        if($this->client->insert_update($userData, $id,$user_id,$visit_notes)){
+        if($this->client->insert_update($userData, $id,NULL,$user_id,$visit_notes)){
             $msg = 'Client created successfully.';
 
             if($id){
