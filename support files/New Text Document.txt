@@ -1,0 +1,36 @@
+User Type.
+1. Salesman (Direct)
+2. Delivery boy (Direct)
+3. Client (Indirect)
+3. Admin panel (Web portal)
+
+
+1. Salesman
+-Add visit
+- Inquiry generation
+-Convert to client
+-Add Order
+-Pending invoice details of client
+- Pop up if credit balance is exceed
+
+2. Delivery boy
+-Today's delivery
+- Ideal Rout planning
+-Signature,Geo Location submit while delivered the product
+
+3.Cient
+-Get Email of invoice while delivered the product
+-Get SMS while delivered the product
+
+4. Admin panel
+-Product Management
+-Client Management
+-Salesman
+-Delivery boy
+-zipcode group
+-Client Payment due detail
+-Set Credit limit for client
+-Client Payment post detail
+-Delivery boy real time tracking
+-Assign Ideal route to delivery boy
+- Dashboard & Reports

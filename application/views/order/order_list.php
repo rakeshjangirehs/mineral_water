@@ -21,6 +21,7 @@
                                 <th>Expected Delivery Date</th>
                                 <th>Actual Delivery Date</th>
                                 <th>Salesman</th>
+                                <th>DeliveryBoy</th>
 <!--                                <th>Delivery Boy</th>-->
                                 <th>Action</th>
                             </tr>
@@ -35,12 +36,49 @@
         </div>
     </div>
 </div>
+<!-- Modal static-->
+<div class="modal fade" id="delivery_boy_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add/Update Delivery Boy</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <select class="form-control" data-placeholder="Choose Salesman" id="salesman">
+                                <option>Choose Salesman</option>
+                                <?php foreach($delivery_boys as $boy){
+                                    echo "<option vlaue='{$boy['id']}'>{$boy['first_name']} {$boy['last_name']}</option>";
+                                }?>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light ">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @script
 <script type="text/javascript">
 	// to active the sidebar
     // $('.nav .nav-list').activeSidebar('.product_li');
     $(".order_list_li").active();
+    $delivery_boy_modal = $("#delivery_boy_modal");
+    $salesman = $("#salesman");
+    // $salesman.select2({
+    //     allowClear:true,
+    //     dropdownParent:$delivery_boy_modal
+    // });
 
 	var table = $("#dynamic-table");
 	var imgUrl = table.attr('data-imageUrl');
@@ -60,15 +98,18 @@
                 { "data": "expected_delivery_date" },
                 { "data": "actual_delivery_date" },
                 { "data": "salesman_name" },
+                { "data": "deliveryboy_name" },
                 {
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
-                          "<a class='' id='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Email'><i class='feather icon-mail'></i></a>";
+                          "<a class='' id='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Email'><i class='feather icon-mail'></i></a>"+
+                          "<a class='' id='allocate_delivery_boy' href='<?php echo $this->baseUrl; ?>orders/update_delivery_boy' data-order_id='"+data.id+"' data-delivery_boy_id='"+data.delivery_boy_id+"'title='Allocat/Change Delivery Boy'><i class='feather icon-airplay'></i></a>";
 				    }
             	}
             ],
+            "createdRow": function ( row, data, index ) {}
 		});
 
 	oTable.on('click','#order_email',function(e){
@@ -115,6 +156,14 @@
                 $('.theme-loader').fadeOut();
             }
         });
+    }).on('click','#allocate_delivery_boy',function(e) {
+        e.preventDefault();
+        var $this = $(this);
+        var order_id = $this.data('order_id');
+        var delivery_boy_id = $this.data('delivery_boy_id');
+        console.log(order_id,delivery_boy_id);
+        $salesman.val("Zahid Mansuri");
+        $delivery_boy_modal.modal('show');
     });
 </script>
 @endscript

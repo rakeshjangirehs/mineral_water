@@ -122,17 +122,29 @@ class User extends CI_Model {
                         ->result_array();
     }
 
-    public function get_user($id){
+    public function get_user($where=null){
 
-        return $this->db->select("users.*, roles.role_name as role_name,GROUP_CONCAT(DISTINCT `user_zip_codes`.`zip_code_id`) AS `user_zip_codes`,GROUP_CONCAT(DISTINCT `user_zip_code_groups`.`zip_code_group_id`) AS `user_zip_code_groups`")
+        $query =  $this->db->select("users.*, roles.role_name as role_name,GROUP_CONCAT(DISTINCT `user_zip_codes`.`zip_code_id`) AS `user_zip_codes`,GROUP_CONCAT(DISTINCT `user_zip_code_groups`.`zip_code_group_id`) AS `user_zip_code_groups`")
                         ->from("users")
                         ->join("roles", "roles.id = users.role_id", "left")
                         ->join("user_zip_codes", "user_zip_codes.user_id = users.id", "left")
                         ->join("user_zip_code_groups", "user_zip_code_groups.user_id = users.id", "left")
-                        ->group_by("users.id")
-                        ->where("users.id", $id)
-                        ->get()
-                        ->row_array();
+                        ->group_by("users.id");
+        if($where)  $query->where($where);
+
+                    return $query
+                            ->get()
+                            ->result_array();
+    }
+
+    public function get_user_by_id($id){
+        $where = "users.id = {$id}";
+        return $this->get_user($where);
+    }
+
+    public function get_user_by_role($id){
+        $where = "roles.id = {$id}";
+        return $this->get_user($where);
     }
 
     public function check_exist( $whereKey, $whereVal, $id = NULL ){

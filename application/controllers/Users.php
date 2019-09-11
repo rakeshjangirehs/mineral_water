@@ -103,7 +103,7 @@ class Users extends MY_Controller {
 		);
 		if($id){
 			$this->data['page_title'] = 'Update User';
-			$userArr = $this->user->get_user($id);
+			$userArr = $this->user->get_user_by_id($id)[0];
 //			echo "<pre>";print_r($userArr);die;
 		}else{
 			$this->data['page_title'] = 'Add User';

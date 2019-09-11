@@ -13,6 +13,7 @@
         ini_set('max_execution_time',0);
  	 	$this->load->model('order_model');
         $this->load->model('client');
+        $this->load->model('user');
  	}
 
  	public function index(){
@@ -24,19 +25,24 @@
                 '`orders`.`expected_delivery_date`',
                 '`orders`.`actual_delivery_date`',
                 'CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, ""))',
+                'CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, ""))',
                 'action'
             );
 
             $query = $this
                 ->model
-                ->common_select('orders.*,`clients`.`id` AS `client_id`,CONCAT(`clients`.`first_name`," ",IFNULL(`clients`.`last_name`, "")) as `client_name`,`salesman`.`id` AS `salesman_id`,CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, "")) as `salesman_name`')
+                ->common_select('orders.*,`clients`.`id` AS `client_id`,CONCAT(`clients`.`first_name`," ",IFNULL(`clients`.`last_name`, "")) as `client_name`,`salesman`.`id` AS `salesman_id`, CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, "")) as `salesman_name`,`deliveryboy`.`id` AS `deliveryboy_id`, CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, "")) as `deliveryboy_name`')
                 ->common_join('clients','clients.id = orders.client_id','LEFT')
                 ->common_join('users as salesman','salesman.id = orders.created_by','LEFT')
+                ->common_join('users as deliveryboy','deliveryboy.id = orders.delivery_boy_id','LEFT')
                 ->common_get('orders');
 
             echo $this->model->common_datatable($colsArr, $query, "orders.status = 'Active'");die;
         }
 
+//        $this->data['delivery_boys'] = $this->user->get_user_by_role(3);
+        $this->data['delivery_boys'] = $this->user->get_user();
+//        echo "<pre>";print_r($this->data['delivery_boys']);die;
         $this->data['page_title'] = 'Order List';
         $this->load_content('order/order_list', $this->data);
  	}
@@ -48,6 +54,10 @@
         $this->data['order'] = $order;
         $this->data['page_title'] = 'Order Details';
         $this->load_content('order/order_details', $this->data);
+    }
+
+    public function update_delivery_boy(){
+
     }
 
     private function get_order($id){
