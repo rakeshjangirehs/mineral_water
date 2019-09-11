@@ -58,7 +58,7 @@
                     "data": "first_name",
                     "render": function(data, type, row, meta){
                         console.log(row);
-                        return "<a class='' href='<?php echo $this->baseUrl; ?>payments/index/"+row.id+"' title='Make Payment'>"+row.first_name+"</a>";
+                        return "<a class='text-primary' href='<?php echo $this->baseUrl; ?>payments/payment_post/"+row.id+"' title='Make Payment'>"+row.first_name+"</a>";
                     }
                 },
                 { "data": "last_name" },
