@@ -60,6 +60,6 @@ class Product_model extends MY_Model {
         );
 
         $query = $this->model->common_select('products.*')->common_get('products');
-        echo $this->model->common_datatable($colsArr, $query);die;
+        echo $this->model->common_datatable($colsArr, $query,"is_deleted = 0");die;
     }
 }

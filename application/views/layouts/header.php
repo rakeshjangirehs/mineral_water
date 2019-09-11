@@ -42,6 +42,10 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\pages\data-table\css\buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\datatables.net-responsive-bs4\css\responsive.bootstrap4.min.css">
 
+<!-- sweet alert framework -->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\sweetalert\css\sweetalert.css">
+
+
 <!-- Select 2 css -->
 <link rel="stylesheet" href="<?php echo $this->assetsUrl; ?>files\bower_components\select2\css\select2.min.css">
 <!-- Multi Select css -->

@@ -79,7 +79,7 @@ class ApiV1 extends REST_Controller {
     public function products_get(){
         $originalImgUrl = base_url()."assets/uploads/products/originals";
         $thumbImgUrl = base_url()."assets/uploads/products/thumbnails";
-        $products = [];
+        $products = array();
         $products = $this->db->query("SELECT 
                     `products`.`product_name`,
                     `products`.`product_code`,
@@ -91,6 +91,7 @@ class ApiV1 extends REST_Controller {
                     `thumb`
                 FROM `products`
                 LEFT JOIN `product_images` ON `product_images`.`product_id` = `products`.`id`
+                WHERE `products`.`is_deleted` = 0
                 ")->result_array();
 
         if(!empty($products)){
@@ -182,20 +183,22 @@ class ApiV1 extends REST_Controller {
         $query = "SELECT 
                         id,first_name,last_name,credit_limit,email,address
                     FROM clients
-                    WHERE zip_code_id IN (
-                        SELECT
-                            `user_zip_codes`.`zip_code_id`
-                        FROM `users`
-                        LEFT JOIN `user_zip_codes` ON `user_zip_codes`.`user_id` = `users`.`id`
-                        WHERE `users`.`id` = {$user_id}
-                    )
-                    OR zip_code_id IN (
-                        SELECT
-                            `group_to_zip_code`.`zip_code_id`
-                        FROM `users`
-                        LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
-                        LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `user_zip_code_groups`.`zip_code_group_id`
-                        WHERE `users`.`id` = {$user_id}
+                    WHERE `clients`.`is_deleted` = 0 
+                    AND (zip_code_id IN (
+                            SELECT
+                                `user_zip_codes`.`zip_code_id`
+                            FROM `users`
+                            LEFT JOIN `user_zip_codes` ON `user_zip_codes`.`user_id` = `users`.`id`
+                            WHERE `users`.`id` = {$user_id}
+                        )
+                        OR zip_code_id IN (
+                            SELECT
+                                `group_to_zip_code`.`zip_code_id`
+                            FROM `users`
+                            LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
+                            LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `user_zip_code_groups`.`zip_code_group_id`
+                            WHERE `users`.`id` = {$user_id}
+                        )
                     )";
         $clients = $this->db->query($query)->result_array();
 

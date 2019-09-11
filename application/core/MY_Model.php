@@ -6,6 +6,7 @@ class MY_Model extends CI_Model{
 	protected $joinClause;
 	protected $joinType;
 	protected $fields;
+	protected $where;
 	protected $joinedTable;
     protected $group_by;
 
@@ -55,6 +56,11 @@ class MY_Model extends CI_Model{
 		return $this;
 	}
 
+    public function common_where($where){
+        $this->where[] = $where;
+        return $this;
+    }
+
 	public function common_join($joinedTable, $joinClause, $joinType = NULL){
 		$this->joinedTable[] = $joinedTable;
 		$this->joinClause[] = $joinClause;
@@ -78,10 +84,18 @@ class MY_Model extends CI_Model{
 			}
 		}
 
+        if(is_array($this->where) && !empty($this->where)){
+
+            foreach($this->where as $k=>$whr){
+                $str .= ($k==0) ? " WHERE $whr" : " AND $whr";
+            }
+        }
+
         if(is_array($this->group_by) && !empty($this->group_by)){
 
             $str .= " GROUP BY ".implode(",",$this->group_by);
         }
+
 
 		return "SELECT 
 					$this->fields
@@ -156,7 +170,7 @@ class MY_Model extends CI_Model{
 			$data[$k]['link'] = $val;
 		}
 
-//		$h = fopen("debug.txt","a+");
+//        $h = fopen("debug.txt","a+");
 //		fwrite($h,$sql);
 //		fclose($h);
 

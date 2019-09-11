@@ -104,7 +104,8 @@
                     "data": 'link',
                     "orderable" : false,
                     "render": function ( data, type, row, meta ) {
-                        return "<a class='' href='<?php echo $this->baseUrl; ?>vehicles/index/"+data.id+"' title='Edit Vehicle'><i class='feather icon-edit'></i></a>";
+                        return "<a class='' href='<?php echo $this->baseUrl; ?>vehicles/index/"+data.id+"' title='Edit Vehicle'><i class='feather icon-edit'></i></a>" +
+                                "<a class='text-danger' id='delete_vehicle' href='<?php echo $this->baseUrl; ?>vehicles/delete/"+data.id+"' title='Delete Vehicle'><i class='feather icon-trash-2'></i></a>";
                     }
                 }
             ],
@@ -113,6 +114,27 @@
                     $(row).addClass('active_row');
                 }
             }
+        }).on('click','#delete_vehicle',function(e){
+            e.preventDefault();
+
+            var url = this.getAttribute('href');
+
+            swal(
+                {
+                    title: "Delete Vehicle ?",
+                    text: "You will not be able to recover this vehicle!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No"
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = url;
+                    }
+                }
+            );
         });
 </script>
 @endscript

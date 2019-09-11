@@ -65,10 +65,32 @@
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>products/add_update/"+data.id+"' title='Edit Product'><i class='feather icon-edit'></i></a>";
+				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>products/add_update/"+data.id+"' title='Edit Product'><i class='feather icon-edit'></i></a>" +
+                             "<a class='text-danger' id='delete_product' href='<?php echo $this->baseUrl; ?>products/delete/"+data.id+"' title='Delete Product'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
-		});
+		}).on('click','#delete_product',function(e){
+            e.preventDefault();
+
+            var url = this.getAttribute('href');
+
+            swal(
+                {
+                    title: "Delete Product ?",
+                    text: "You will not be able to recover this product!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No"
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = url;
+                    }
+                }
+            );
+        });
 </script>
 @endscript

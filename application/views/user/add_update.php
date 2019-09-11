@@ -71,6 +71,7 @@
                                         endif;
                                         ?>
                                     </select>
+                                    <span class="messages"><?php echo form_error('zip_code_group[]');?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="zip_codes" class="control-label">ZIP Codes:</label>
@@ -87,7 +88,7 @@
                                         endif;
                                         ?>
                                     </select>
-                                    <span class="messages"><?php echo form_error('zip_codes');?></span>
+                                    <span class="messages"><?php echo form_error('zip_codes[]');?></span>
                                 </div>
                             </div>
                         </div>

@@ -31,6 +31,9 @@
 <script src="<?php echo $this->assetsUrl; ?>files\assets\js\vartical-layout.min.js"></script>
 <script src="<?php echo $this->assetsUrl; ?>files\assets\js\jquery.mCustomScrollbar.concat.min.js"></script>
 
+<!-- sweet alert js -->
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\sweetalert\js\sweetalert.min.js"></script>
+
 <!-- Select 2 js -->
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\select2\js\select2.full.min.js"></script>
 <!-- Multiselect js -->

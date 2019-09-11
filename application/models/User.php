@@ -4,24 +4,22 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class User extends CI_Model {
 
     public function __construct() {
+
         parent::__construct();
-        
-        // Load the database library
-        $this->load->database();
-        
-        $this->userTbl = 'users';
     }
 
     /*
      * Get rows from the users table
      */
     function getRows($params = array()){
+
         $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, roles.role_name `role`")
                  ->from("users")
                  ->join("roles", "roles.id = users.role_id", "LEFT")
                  ->where("users.status", 'Active')
                  ->where("(users.email = '{$params['conditions']['email']}' OR users.username = '{$params['conditions']['email']}')")
                  ->where("users.password", $params['conditions']['password'])
+                 ->where("users.is_deleted", 0)
                  ->get()
                  ->row_array();
         return $resultUser;
@@ -110,6 +108,7 @@ class User extends CI_Model {
     }
 
     public function get_admins($id = NULL){
+
         return $this->db->select("users.*")
                         ->from("users")
                         ->join("user_roles", "user_roles.user_id = users.id", "left")
@@ -147,12 +146,13 @@ class User extends CI_Model {
         return $this->get_user($where);
     }
 
-    public function get_user_by_role_and_zip_code($role_id=null,$zip_code=null,$zip_code_id=null){
+    public function get_user_by_role_and_zip_code($role_id=null,$zip_code=null,$zip_code_id=null,$exclude_deleted=true){
 
         $where = "WHERE 1=1 ";
         $where .= ($zip_code_id) ? "AND ( FIND_IN_SET('{$zip_code_id}',`t1`.`zip_code_id`) OR FIND_IN_SET('{$zip_code_id}',`t2`.`zip_code_id`) ) " : "";
         $where .= ($zip_code) ? "AND ( FIND_IN_SET('{$zip_code}',`t1`.`zip_code`) OR FIND_IN_SET('{$zip_code}',`t2`.`zip_code`) ) " : "";
-        $where .= ($role_id) ? "AND `users`.`role_id` = {$role_id}" : "";
+        $where .= ($role_id) ? "AND `users`.`role_id` = {$role_id} " : "";
+        $where .= ($exclude_deleted) ? "AND `users`.`is_deleted` = 0 " : "";
 
         $query = "SELECT
                         `users`.*,

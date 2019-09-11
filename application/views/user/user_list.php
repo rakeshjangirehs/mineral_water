@@ -90,10 +90,32 @@
                     orderable:false,
                     // "sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='' href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='feather icon-edit'></i></a>";
+				      return "<a href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='feather icon-edit'></i></a>"+
+                          "<a class='text-danger' id='delete_user' href='<?php echo $this->baseUrl; ?>users/delete/"+data.id+"' title='Delete User'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
-		});
+		}).on('click','#delete_user',function(e){
+		    e.preventDefault();
+
+		    var url = this.getAttribute('href');
+
+            swal(
+                {
+                    title: "Delete User ?",
+                    text: "You will not be able to recover this user!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No"
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = url;
+                    }
+                }
+            );
+        });
 </script>
 @endscript

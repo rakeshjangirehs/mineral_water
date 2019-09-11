@@ -65,11 +65,33 @@
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +
-                          "&nbsp;<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
-                          "&nbsp;<a class=' ' href='<?php echo $this->baseUrl; ?>clients/add_location/"+data.id+"' title='Client Location'><i class='feather icon-map-pin'></i></a>";
+                          "<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
+                          "<a class=' ' href='<?php echo $this->baseUrl; ?>clients/add_location/"+data.id+"' title='Client Location'><i class='feather icon-map-pin'></i></a>" +
+                          "<a class='text-danger' id='delete_client' href='<?php echo $this->baseUrl; ?>clients/delete/"+data.id+"' title='Delete Client'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
-		});
+		}).on('click','#delete_client',function(e){
+            e.preventDefault();
+
+            var url = this.getAttribute('href');
+
+            swal(
+                {
+                    title: "Delete Client ?",
+                    text: "You will not be able to recover this client!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No"
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = url;
+                    }
+                }
+            );
+        });
 </script>
 @endscript

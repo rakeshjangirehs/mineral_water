@@ -61,7 +61,7 @@ class Clients extends MY_Controller {
 						->common_join('zip_codes','zip_codes.id = clients.zip_code_id','LEFT')
 						->common_get('clients');
 
-			echo $this->model->common_datatable($colsArr, $query, "clients.status = 'Active'");die;
+			echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0");die;
 		}
 		$this->data['page_title'] = 'Client List';
 		$this->load_content('client/client_list', $this->data);
@@ -82,7 +82,6 @@ class Clients extends MY_Controller {
 		if($id){
 			$this->data['page_title'] = 'Update Client';
 			$userArr = $this->client->get_client_by_id($id);
-//			echo "<pre>";print_r($userArr);die;
 		}else{
 			$this->data['page_title'] = 'Add Client';
 		}
@@ -124,17 +123,24 @@ class Clients extends MY_Controller {
 
         $this->data['zip_codes'] = $this->model->get("zip_codes");
         $this->data['salesmen'] = $this->user->get_user_by_role(2);
-//        echo "<pre>";print_r($this->data['salesmen']);die;
 		$this->data['id'] = $id;
 		$this->data['user_data'] = $userArr;
 		$this->load_content('client/add_update', $this->data);
 	}
 
-	public function add_location($id=null){
+    public function delete($client_id){
+        if($this->db->update("clients",array('is_deleted'=>1),array('id'=>$client_id))){
+            $this->flash("success","Client Deleted Successfully");
+        }else{
+            $this->flash("error","Client not Deleted");
+        }
+        redirect("clients/index");
+    }
 
+	public function add_location($id=null){
+        echo "Feedback Required";
         $client = $this->client->get_client_by_id($id);
         $this->data['client'] = $client;
-//        echo "<pre>";print_r($client);die;
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
 
@@ -142,7 +148,6 @@ class Clients extends MY_Controller {
 
         $this->data['page_title'] = 'Client Location';
         $this->data['sub_page_title'] = "{$client['first_name']} {$client['last_name']}";
-//        $this->data['no_breadcrumb'] = true;
         $this->load_content('client/client_location', $this->data);
     }
 
@@ -151,6 +156,7 @@ class Clients extends MY_Controller {
                     ->model
                     ->common_select('`clients`.`first_name`,`clients`.`last_name`,`clients`.`credit_limit`,`clients`.`email`,`clients`.`address`,`zip_codes`.`zip_code`')
                     ->common_join('zip_codes','zip_codes.id = clients.zip_code_id','LEFT')
+                    ->common_where('clients.is_deleted = 0')
                     ->common_get('clients');
 
 		$resultData = $this->db->query($query)->result_array();
@@ -211,7 +217,6 @@ class Clients extends MY_Controller {
 
         $this->load_content('client/client_contact_list', $this->data);
     }
-
 
     public function check_duplicate_email($new_email){
 

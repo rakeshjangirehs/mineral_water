@@ -97,6 +97,15 @@
  		$this->load_content('product/add_update', $this->data);
  	}
 
+     public function delete($product_id){
+         if($this->db->update("products",array('is_deleted'=>1),array('id'=>$product_id))){
+             $this->flash("success","Product Deleted Successfully");
+         }else{
+             $this->flash("error","Product not Deleted");
+         }
+         redirect("products/index");
+     }
+
  	/*
 		check duplicate product code
  	*/
@@ -175,7 +184,10 @@
 
     // export all products in xlsx
     public function product_export(){
-		$query = $this->model->common_select('product_code, products.product_name, products.weight, dimension, cost_price, sale_price')->common_get('products');
+		$query = $this->model
+                    ->common_select('product_code, products.product_name, products.weight, dimension, cost_price, sale_price')
+                    ->common_where('products.is_deleted = 0')
+                    ->common_get('products');
 
 		$resultData = $this->db->query($query)->result_array();
 		$headerColumns = implode(',', array_keys($resultData[0]));

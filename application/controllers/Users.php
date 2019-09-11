@@ -6,7 +6,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 class Users extends MY_Controller {
-	public function __construct(){
+
+    public function __construct(){
 		parent::__construct();
 		$this->load->model('user');
 
@@ -46,23 +47,13 @@ class Users extends MY_Controller {
                 'field' => 'role',
                 'label' => 'Role',
                 'rules' => 'required|max_length[200]'
-            ),
-            array(
-                'field' => 'username',
-                'label' => 'Username',
-                'rules' => 'required|max_length[200]'
-            ),
-            array(
-                'field' => 'zip_codes[]',
-                'label' => 'Zipcode',
-                'rules' => 'required'
-            ),
-
+            )
         );
 	}
 
 	public function index(){
 		if($this->input->is_ajax_request()){
+
 			$colsArr = array(
 				'`first_name`',
 				'`last_name`',
@@ -86,7 +77,7 @@ class Users extends MY_Controller {
                         ->common_group_by("`users`.`id`")
 						->common_get('users');
 
-            echo $this->model->common_datatable($colsArr, $query, "status = 'Active'",NULL,true);die;
+            echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0",NULL,true);die;
 		}
 		$this->data['page_title'] = 'User List';
 		$this->load_content('user/user_list', $this->data);
@@ -115,8 +106,8 @@ class Users extends MY_Controller {
 
             if ($this->form_validation->run() == TRUE) {
 
-                $zip_code_group = $this->input->post('zip_code_group');
-                $zip_codes = $this->input->post('zip_codes');
+                $zip_code_group = ($this->input->post('zip_code_group')) ? $this->input->post('zip_code_group') : [];
+                $zip_codes = ($this->input->post('zip_codes')) ? $this->input->post('zip_codes') : [];
 
                 $userData = array(
                     'first_name' => ($this->input->post('first_name')) ? $this->input->post('first_name') : NULL,
@@ -156,6 +147,15 @@ class Users extends MY_Controller {
 		$this->load_content('user/add_update', $this->data);
 	}
 
+    public function delete($user_id){
+        if($this->db->update("users",array('is_deleted'=>1),array('id'=>$user_id))){
+            $this->flash("success","User Deleted Successfully");
+        }else{
+            $this->flash("error","User not Deleted");
+        }
+        redirect("users/index");
+    }
+
 	public function user_export(){
 		$query = $this
             ->model
@@ -165,6 +165,7 @@ class Users extends MY_Controller {
             ->common_join('zip_codes','user_zip_codes.zip_code_id = zip_codes.id','LEFT')
             ->common_join('user_zip_code_groups','user_zip_code_groups.user_id = users.id','LEFT')
             ->common_join('zip_code_groups','user_zip_code_groups.zip_code_group_id = zip_code_groups.id','LEFT')
+            ->common_where('users.is_deleted = 0')
             ->common_group_by('`users`.`id`')
             ->common_get('users');
 
@@ -178,9 +179,9 @@ class Users extends MY_Controller {
 
     public function check_duplicate_email($new_email){
 
-        $client_id = $this->uri->segment(3);
+        $user_id = $this->uri->segment(3);
 
-        if($new_email && $this->user->check_exist("email", $new_email, $client_id)){
+        if($new_email && $this->user->check_exist("email", $new_email, $user_id)){
             $this->form_validation->set_message('check_duplicate_email',"Email id {$new_email} already exist.");
             return false;
         }else{
@@ -190,9 +191,9 @@ class Users extends MY_Controller {
 
     public function check_duplicate_username($new_username){
 
-        $client_id = $this->uri->segment(3);
+        $user_id = $this->uri->segment(3);
 
-        if($new_username && $this->user->check_exist("username", $new_username, $client_id)){
+        if($new_username && $this->user->check_exist("username", $new_username, $user_id)){
             $this->form_validation->set_message('check_duplicate_username',"username {$new_username} already exist.");
             return false;
         }else{
@@ -202,9 +203,9 @@ class Users extends MY_Controller {
 
     public function check_duplicate_phone($new_phone){
 
-        $client_id = $this->uri->segment(3);
+        $user_id = $this->uri->segment(3);
 
-        if($new_phone && $this->user->check_exist("phone", $new_phone, $client_id)){
+        if($new_phone && $this->user->check_exist("phone", $new_phone, $user_id)){
             $this->form_validation->set_message('check_duplicate_phone',"Phone {$new_phone} already exist.");
             return false;
         }else{

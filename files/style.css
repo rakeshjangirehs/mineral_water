@@ -21,6 +21,14 @@
     font-size: 18px;
 }
 
+.sweet-overlay {
+    background-color: rgba(43, 165, 137, 0.45);
+    z-index : 999999;
+}
+.sweet-alert{
+    z-index : 9999999;
+}
+
 .breadcrumb-item.active {
     /*color: #fff;*/
 }

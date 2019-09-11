@@ -36,7 +36,6 @@ class Vehicles extends MY_Controller {
 	    if($vehicle_id){
             $this->data['form_title'] = "Update Vehicle";
             $this->data['vehicle_details'] = $this->model->get("vehicle",$vehicle_id,"id");
-//            echo "<pre>";print_r($this->data['vehicle_details']);die;
         }else{
             $this->data['form_title'] = "Add Vehicle";
             $this->data['vehicle_details'] = array('name'=>'','number'=>'','capacity_in_ton'=>'');
@@ -56,7 +55,7 @@ class Vehicles extends MY_Controller {
                 ->common_select('`vehicle`.*')
                 ->common_get('`vehicle`');
 
-			echo $this->model->common_datatable($colsArr, $query, "vehicle.status = 'Active'");die;
+			echo $this->model->common_datatable($colsArr, $query, "vehicle.is_deleted = 0");die;
 		}
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
@@ -93,10 +92,20 @@ class Vehicles extends MY_Controller {
 		$this->load_content('vehicle/vehicle_list', $this->data);
 	}
 
+    public function delete($vehicle_id){
+        if($this->db->update("vehicle",array('is_deleted'=>1),array('id'=>$vehicle_id))){
+            $this->flash("success","Vehicle Deleted Successfully");
+        }else{
+            $this->flash("error","Vehicle not Deleted");
+        }
+        redirect("vehicles/index");
+    }
+
     public function vehicle_export(){
         $query = $this
             ->model
             ->common_select('`vehicle`.`name` AS `vehicle_name`,`vehicle`.`number`,`vehicle`.`capacity_in_ton` AS `capacity(ton)`')
+            ->common_where('vehicle.is_deleted = 0')
             ->common_get('vehicle');
 
         $resultData = $this->db->query($query)->result_array();
