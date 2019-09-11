@@ -58,6 +58,20 @@
 
     public function update_delivery_boy(){
 
+ 	    $order_id = $this->input->post('order_id');
+        $where = array(
+            'id'  =>  $order_id
+        );
+        $data = array(
+            'delivery_boy_id' => ($this->input->post('delivery_boy')) ? $this->input->post('delivery_boy') : NULL,
+        );
+
+        if($this->db->update("orders",$data,$where)){
+            $this->flash("success", "Delivery Boy Updated for Order Id # {$order_id}");
+        }else{
+            $this->flash("error", "Delivery Boy not Updated");
+        }
+        redirect("orders/index");
     }
 
     private function get_order($id){
