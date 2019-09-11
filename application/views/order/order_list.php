@@ -150,7 +150,7 @@
                 // console.log(xmlhttprequest.responseText);
             },
             complete: function(xmlhttprequest,textStatus ){
-                // $('.theme-loader').fadeOut();
+                $('.theme-loader').fadeOut();
             }
         });
     }).on('click','#allocate_delivery_boy',function(e) {
