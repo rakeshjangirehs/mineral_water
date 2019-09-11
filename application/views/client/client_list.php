@@ -54,7 +54,13 @@
                 "type": "POST",
             },
             "columns": [
-                { "data": "first_name" },
+                { 
+                    "data": "first_name",
+                    "render": function(data, type, row, meta){
+                        console.log(row);
+                        return "<a class='' href='<?php echo $this->baseUrl; ?>payments/index/"+row.id+"' title='Make Payment'>"+row.first_name+"</a>";
+                    }
+                },
                 { "data": "last_name" },
                 { "data": "credit_limit" },
                 { "data": "email" },

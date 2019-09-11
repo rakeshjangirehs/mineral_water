@@ -85,15 +85,15 @@ class Client extends CI_Model {
         }
     }
 
-    public function get_client($id){
-        // echo "<pre>"; var_dump($id);die;
-
-        return $this->db->select('clients.*,`zip_codes`.`zip_code`')
+    public function get_client($id = NULL){
+        $this->db->select('clients.*,`zip_codes`.`zip_code`')
                         ->from("clients")
-                        ->join("zip_codes", "zip_codes.id = clients.zip_code_id", "left")
-                        ->where("clients.id", $id)
-                        ->get()
-                        ->row_array();
+                        ->join("zip_codes", "zip_codes.id = clients.zip_code_id", "left");
+        if($id){            
+            return $this->db->where("clients.id", $id)->get()->row_array();
+        }else{
+            return $this->db->where("clients.status", 'Active')->get()->result_array();
+        }
     }
 
     public function check_exist( $whereKey, $whereVal, $id = NULL ){
