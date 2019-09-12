@@ -98,6 +98,20 @@
 
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="feather icon-credit-card"></i></span>
+                    <span class="pcoded-mtext">Payments</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="payment_list_li">
+                        <a href="<?php echo $this->baseUrl; ?>payments/payments_list">
+                            <span class="pcoded-mtext">Payment List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-shopping-cart"></i></span>
                     <span class="pcoded-mtext">Orders</span>
                 </a>
