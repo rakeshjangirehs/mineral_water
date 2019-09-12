@@ -13,10 +13,20 @@ class Payments extends MY_Controller {
  		$this->load->model('client');
  	}
 
- 	public function index($client_id = NULL){
- 		$this->data['client_detail'] = $this->client->get_client_by_id($client_id);
- 		$this->data['invoice_list'] = $this->order_model->get_invoice($client_id);
- 		$this->data['page_title'] = 'Post Payment';
-		$this->load_content('payment/add', $this->data);
+ 	public function index(){
+
  	}
+
+ 	public function payment_post($client_id){
+
+        if($this->input->server("REQUEST_METHOD") == "POST"){
+            echo "<pre>";print_r($_POST);
+            die;
+        }
+
+        $this->data['client_detail'] = $this->client->get_client_by_id($client_id);
+        $this->data['invoice_list'] = $this->order_model->get_invoice($client_id);
+        $this->data['page_title'] = 'Post Payment';
+        $this->load_content('payment/add', $this->data);
+    }
 }
