@@ -64,7 +64,7 @@
 
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <div class="p-20    z-depth-0">
+                                <div class="p-20 z-depth-0">
                                     <div class="text-center p-b-10 f-16 f-w-900" style="border-bottom: 2px solid #bbbbbd;">
                                         Client Details
                                     </div>
@@ -128,9 +128,12 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="card-footer">
                         <div class="text-right">
+                            <?php if(!empty($invoice_list)): ?>
                             <button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
+                            <?php endif; ?>
                             <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
                         </div>
                     </div>
@@ -144,5 +147,12 @@
 <script type="text/javascript">
 	// to active the sidebar
     $('.cilent_list_li').active();
+    var $amount = $("#amount");
+
+    // $amount.on('keyup', function(){
+    //     alert();
+    // });
+
+    $amount.forceNumeric();
 </script>
 @endscript
