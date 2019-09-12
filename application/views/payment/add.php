@@ -8,6 +8,7 @@
     <div class="col-sm-12">
         <div class="page-body">
             <form data-action="<?php echo $this->baseUrl; ?>users/add_update/<?php //echo $id; ?>" id="post_payment_form" method="post">
+                <input type="hidden" name="client_id" value="<?php echo $client_detail['id']; ?>"/>
                 <div class="card">
                     <div class="card-header">
                         <div class="card-header-right" style="padding:0px 0px;">
@@ -26,18 +27,18 @@
                                     <div class="col-sm-8">
                                         <select name="payment_mode" id="payment_mode" class="form-control">
                                             <option value="" disabled>Choose Payment Mode</option>
-                                            <option value="cash">Cash</option>
-                                            <option value="cheque">Cheque</option>
-                                            <option value="cc">Credit Card</option>
+                                            <option value="Cash">Cash</option>
+                                            <option value="Cheque">Cheque</option>
+                                            <option value="Credit Card">Credit Card</option>
                                         </select>
                                         <span class="messages"><?php echo form_error('payment_mode');?></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="amount" class="col-form-label col-md-4">Amount:</label>
+                                    <label for="paid_amount" class="col-form-label col-md-4">Paid Amount:</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="amount" id="amount" class="form-control"/>
-                                        <span class="messages"><?php echo form_error('amount');?></span>
+                                        <input type="text" name="paid_amount" id="paid_amount" class="form-control"/>
+                                        <span class="messages"><?php echo form_error('paid_amount');?></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -64,9 +65,9 @@
                                 <div class="form-group row">
                                     <label for="" class="col-form-label col-md-4">Credit Balance:</label>
                                     <div class="col-sm-8">
-                                        <input type="hidden" name="original_credit_balance" id="original_credit_balance" value="1000"/>
-                                        <input type="hidden" name="credit_balance" id="credit_balance" value="1000"/>
-                                        <label for="" class="col-form-label" id="credit_balance_lbl">1000</label>
+                                        <input type="hidden" name="original_credit_balance" id="original_credit_balance" value="<?php echo $client_detail['credit_balance']; ?>"/>
+                                        <input type="hidden" name="credit_balance" id="credit_balance" value="<?php echo $client_detail['credit_balance']; ?>"/>
+                                        <label for="" class="col-form-label" id="credit_balance_lbl"><?php echo $client_detail['credit_balance']; ?></label>
                                     </div>
                                 </div>
 
@@ -114,14 +115,14 @@
                                                     $pending_amount = $invoice['payable_amount'] - $invoice['paid_amount'];//number_format(($invoice['payable_amount'] - $invoice['paid_amount']), 2);
                                                     echo "<tr>
                                                                 <th scope='row'>
-                                                                    {$invoice['order_id']}
-                                                                    <input type='hidden' name='payments[{$invoice['order_id']}][order_id]' value='{$invoice['order_id']}'/>
-                                                                    <input type='hidden' name='payments[{$invoice['order_id']}][payable_amount]' value='{$invoice['payable_amount']}'/>
+                                                                    {$invoice['id']}
+                                                                    <input type='hidden' name='payments[{$invoice['id']}][order_id]' value='{$invoice['id']}'/>
+                                                                    <input type='hidden' name='payments[{$invoice['id']}][payable_amount]' value='{$invoice['payable_amount']}'/>
                                                                 </th>
                                                                 <td>{$invoice['payable_amount']}</td>
                                                                 <td class='to_be_paid_amound'>{$pending_amount}</td>
-                                                                <td><input type='hidden' name='payments[{$invoice['order_id']}][amount_used]' class='amount_used'/><span class='amount_used_lbl'></span></td>
-                                                                <td><input type='hidden' name='payments[{$invoice['order_id']}][credit_used]' class='credit_used'/><span class='credit_used_lbl'></span></td>
+                                                                <td><input type='hidden' name='payments[{$invoice['id']}][amount_used]' class='amount_used'/><span class='amount_used_lbl'></span></td>
+                                                                <td><input type='hidden' name='payments[{$invoice['id']}][credit_used]' class='credit_used'/><span class='credit_used_lbl'></span></td>
                                                             </tr>";
                                                 }
                                             }else{
@@ -164,39 +165,39 @@
         $check_date.attr('readonly','readonly').val('');
 
         switch(value){
-            case 'cheque':
+            case 'Cheque':
                 $check_no.removeAttr('readonly');
                 $check_date.removeAttr('readonly');
                 break;
-            case 'cc':
+            case 'Credit Card':
                 $transection_no.removeAttr('readonly');
                 break;
         }
     });
 
-    var $amount = $("#amount");
+    var $paid_amount = $("#paid_amount");
     var $payment = $("#payments");
     var $original_credit_balance = $("#original_credit_balance");
     var $credit_balance = $("#credit_balance");
     var $credit_balance_lbl = $("#credit_balance_lbl");
 
     /* Fill paid amount automatically when amount is filled */
-    $amount.on('change',function(e){
+    $paid_amount.on('change',function(e){
 
         var original_credit_balance = parseFloat($original_credit_balance.val()) || 0;
         console.log("Original Credit Balance:",original_credit_balance);
 
-        var amount = parseFloat($amount.val()) || 0;
-        console.log("Amount Entered: ",amount);
+        var paid_amount = parseFloat($paid_amount.val()) || 0;
+        console.log("Paid Amount Entered: ",paid_amount);
 
-        // amount = amount+original_credit_balance;
-        // console.log("Amount Effective: ",amount);
+        // paid_amount = paid_amount+original_credit_balance;
+        // console.log("Amount Effective: ",paid_amount);
 
         $("#payments tr").each(function(e){
 
             var amount_to_be_paid = parseFloat($(".to_be_paid_amound",this).text()) || 0;
 
-            console.log("Current amount in hand: ",amount);
+            console.log("Current amount in hand: ",paid_amount);
             console.log("Current Credit Balance in hand: ",original_credit_balance);
             console.log("Pending Amount: ",amount_to_be_paid);
 
@@ -218,18 +219,18 @@
             }
 
             if(amount_to_be_paid>0){
-                if(amount > 0){
-                    if(amount >= amount_to_be_paid){
+                if(paid_amount > 0){
+                    if(paid_amount >= amount_to_be_paid){
                         $(".amount_used",this).val(amount_to_be_paid);
                         $(".amount_used_lbl",this).text(amount_to_be_paid);
 
-                        amount = parseFloat((amount-amount_to_be_paid).toFixed(2)) || 0;
-                        console.log("Amoun after use: ",amount);
+                        paid_amount = parseFloat((paid_amount-amount_to_be_paid).toFixed(2)) || 0;
+                        console.log("Amoun after use: ",paid_amount);
                     }else{
-                        console.log("Pending amount is > amount in hand. Amount in hand : ",amount," Pending amount:",amount_to_be_paid);
-                        $(".amount_used",this).val(amount);
-                        $(".amount_used_lbl",this).text(amount);
-                        amount =0;
+                        console.log("Pending paid_amount is > amount in hand. Amount in hand : ",paid_amount," Pending amount:",amount_to_be_paid);
+                        $(".amount_used",this).val(paid_amount);
+                        $(".amount_used_lbl",this).text(paid_amount);
+                        paid_amount =0;
                     }
                 }else{
                     $(".amount_used",this).val('');
@@ -238,8 +239,8 @@
             }
         });
 
-        if(amount>0 || original_credit_balance>0){
-            var new_credit_balance = parseFloat(amount+original_credit_balance) || 0;
+        if(paid_amount>0 || original_credit_balance>0){
+            var new_credit_balance = parseFloat(paid_amount+original_credit_balance) || 0;
             new_credit_balance = new_credit_balance.toFixed(2);
 
             $credit_balance.val(new_credit_balance);
@@ -264,7 +265,7 @@
 
         var original_credit_balance = parseFloat($original_credit_balance.val()) || 0;
         var credit_balance = parseFloat($credit_balance.val()) || 0;
-        var amount = parseFloat($amount.val()) || 0;
+        var amount = parseFloat($paid_amount.val()) || 0;
 
         var total_amount_used = 0;
         var total_crdit_balance_used = 0;
