@@ -18,6 +18,7 @@
                             <tr>
                                 <th>Order ID</th>
                                 <th>Client</th>
+                                <th>Order Amount</th>
                                 <th>Expected Delivery Date</th>
                                 <th>Actual Delivery Date</th>
                                 <th>Salesman</th>
@@ -90,9 +91,13 @@
                 "dataType": "json",
                 "type": "POST",
             },
+            "order": [
+                [ 0, "desc" ]
+            ],
             "columns": [
                 { "data": "id" },
                 { "data": "client_name" },
+                { "data": "payable_amount" },
                 { "data": "expected_delivery_date" },
                 { "data": "actual_delivery_date" },
                 { "data": "salesman_name" },

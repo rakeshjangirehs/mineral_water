@@ -22,6 +22,7 @@
             $colsArr = array(
                 '`orders`.`id`',
                 'CONCAT(`clients`.`first_name`," ",IFNULL(`clients`.`last_name`, ""))',
+                '`orders`.`payable_amount`',
                 '`orders`.`expected_delivery_date`',
                 '`orders`.`actual_delivery_date`',
                 'CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, ""))',

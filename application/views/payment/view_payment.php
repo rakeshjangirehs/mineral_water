@@ -94,7 +94,7 @@
                                                 foreach($payment_data['invoices'] as $k=>$invoice){
                                                     $payable_amount = number_format($invoice['payable_amount'],2);
                                                     echo "<tr>
-                                                                <th scope='row'>{$invoice['id']}</th>
+                                                                <th><a title='View Order' href='{$this->baseUrl}orders/order_details/{$invoice['order_id']}' target='_blank'>{$invoice['order_id']}</a></th>
                                                                 <td>{$invoice['payable_amount']}</td>
                                                                 <td>{$invoice['amount_used']}</td>
                                                                 <td>{$invoice['credit_used']}</td>

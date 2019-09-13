@@ -116,8 +116,8 @@
                                                     $payable_amount = number_format($invoice['payable_amount'],2);
                                                     $pending_amount = $invoice['payable_amount'] - $invoice['paid_amount'];//number_format(($invoice['payable_amount'] - $invoice['paid_amount']), 2);
                                                     echo "<tr>
-                                                                <th scope='row'>
-                                                                    {$invoice['id']}
+                                                                <th>
+                                                                    <a title='View Order' href='{$this->baseUrl}orders/order_details/{$invoice['id']}' target='_blank'>{$invoice['id']}</a>
                                                                     <input type='hidden' name='payments[{$invoice['id']}][order_id]' value='{$invoice['id']}'/>
                                                                     <input type='hidden' name='payments[{$invoice['id']}][payable_amount]' value='{$invoice['payable_amount']}'/>
                                                                 </th>
