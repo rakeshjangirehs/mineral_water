@@ -80,17 +80,7 @@
                                             Credit Limit : <span class="details"><?php echo $payment_data['credit_limit']; ?></span>
                                         </div>
                                         <div class="m-t-10">
-<<<<<<< HEAD:application/views/payment/add.php
-                                            Used Credit Limit : <span class="details"><?php echo $client_detail['payment_due']; ?></span>
-                                        </div>
-                                        <div class="m-t-10">
-                                            Available Credit Limit : <span class="details"><?php echo $client_detail['available_credit']; ?></span>
-                                        </div>
-                                        <div class="m-t-10">
-                                            Address : <span class="details"><?php echo $client_detail['address']; ?></span>
-=======
                                             Address : <span class="details"><?php echo $payment_data['address']; ?></span>
->>>>>>> 2806817c49b5194ab0a4b23ee114592e2a508ae3:application/views/payment/view_payment.php
                                         </div>
                                     </div>
                                 </div>
@@ -114,18 +104,10 @@
                                                 foreach($payment_data['invoices'] as $k=>$invoice){
                                                     $payable_amount = number_format($invoice['payable_amount'],2);
                                                     echo "<tr>
-<<<<<<< HEAD:application/views/payment/add.php
-                                                                <th scope='row'>{$invoice['order_id']}</th>
-                                                                <td>{$payable_amount}</td>
-                                                                <td>{$pending_amount}</td>
-                                                                <td><input type='text' name='paid_amount[]'/></td>
-                                                                <td><input type='text' name='credit_amount[]'/></td>
-=======
                                                                 <th scope='row'>{$invoice['id']}</th>
                                                                 <td>{$invoice['payable_amount']}</td>
                                                                 <td>{$invoice['amount_used']}</td>
                                                                 <td>{$invoice['credit_used']}</td>
->>>>>>> 2806817c49b5194ab0a4b23ee114592e2a508ae3:application/views/payment/view_payment.php
                                                             </tr>";
                                                 }
                                             }else{

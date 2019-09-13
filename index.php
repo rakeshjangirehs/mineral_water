@@ -314,9 +314,9 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 
-$config_path = FCPATH."config.xml";
+$config_path = FCPATH."config-example.xml";
 if(file_exists($config_path)){
-    $xml=simplexml_load_file(FCPATH."config.xml") or die("Error: Cannot create object");
+    $xml=simplexml_load_file(FCPATH."config-example.xml") or die("Error: Cannot create object");
     defined('BASE_URL')        OR define('BASE_URL', $xml->BASE_URL);
     defined('HOST_NAME')        OR define('HOST_NAME', $xml->MYSQL->HOST_NAME);
     defined('DATABASE')        OR define('DATABASE', $xml->MYSQL->DATABASE);
