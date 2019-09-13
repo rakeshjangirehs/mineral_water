@@ -679,4 +679,50 @@ class ApiV1 extends REST_Controller {
             return $image_data;
         }
     }
+
+    public function client_invoice_summary_get(){
+        $client = array();
+        $client = $this->db->query("SELECT 
+                                        `clients`.*,
+                                        IFNULL(`paid_inv`.`paid`,0) AS `paid_invoice`,
+                                        IFNULL(`partial_inv`.`partial`,0) AS `partial_invoice`,
+                                        IFNULL(`pending_inv`.`pending`,0) AS `pending_invoice`
+                                    FROM `orders`
+                                    LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                                    LEFT JOIN (
+                                        SELECT
+                                            COUNT(*) AS `paid`,
+                                            `order_id`
+                                        FROM `payment_details`
+                                        WHERE `payment_details`.`status` = 'PAID'
+                                    ) AS `paid_inv` ON `paid_inv`.`order_id` = `orders`.`id`
+                                    LEFT JOIN (
+                                        SELECT
+                                            COUNT(*) AS `partial`,
+                                            `order_id`
+                                        FROM `payment_details`
+                                        WHERE `payment_details`.`status` = 'PARTIAL'
+                                    ) AS `partial_inv` ON `partial_inv`.`order_id` = `orders`.`id`
+                                    LEFT JOIN (
+                                        SELECT
+                                            COUNT(*) AS `pending`,
+                                            `order_id`
+                                        FROM `payment_details`
+                                        LEFT JOIN `orders` ON `orders`.`id` = `payment_details`.`order_id`
+                                        WHERE (`payment_details`.`status` = 'PENDING' OR `payment_details`.`status` IS NULL)
+                                    ) AS `pending_inv` ON `pending_inv`.`order_id` = `orders`.`id`
+                                    GROUP BY `orders`.`client_id`
+                                ")->result_array();
+
+        if($client){
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Pending invoice found.",
+                    'data' => $client
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+    }
 }
