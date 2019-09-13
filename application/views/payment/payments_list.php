@@ -8,7 +8,7 @@
                             <div class="card-header-right" style="padding:0px 0px;">
                                 <ul class="list-unstyled card-option">
                                     <li><i class="feather icon-maximize full-card"></i></li>
-                                    <li title="Export Excel"><a href="<?php echo $this->baseUrl; ?>payments/zip_export"><i class="fa fa-file-excel-o"></i></a></li>
+                                    <li title="Export Excel"><a href="<?php echo $this->baseUrl; ?>payments/payments_list_export"><i class="fa fa-file-excel-o"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -53,6 +53,9 @@
                 'cache': false,
                 "type": "POST",
             },
+            "order": [
+                [ 3, "desc" ]
+            ],
             "columns": [
                 { "data": "client_name" },
                 { "data": "payment_mode" },
@@ -62,10 +65,32 @@
                 	"data": null,
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='' href='<?php echo $this->baseUrl; ?>payments/view_payment/"+data.id+"' title='View Payment'><i class='feather icon-eye'></i></a>";
+				      return "<a class='' href='<?php echo $this->baseUrl; ?>payments/view_payment/"+data.id+"' title='View Payment'><i class='feather icon-eye'></i></a>" +
+                            "<a class='text-danger' id='delete_payment' href='<?php echo $this->baseUrl; ?>payments/delete_payment/"+data.id+"' title='Delete Payment'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
-		});
+		}).on('click','#delete_payment',function(e){
+            e.preventDefault();
+
+            var url = this.getAttribute('href');
+
+            swal(
+                {
+                    title: "Delete Payment ?",
+                    text: "You will not be able to recover this payment!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No"
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = url;
+                    }
+                }
+            );
+        });
 </script>
 @endscript

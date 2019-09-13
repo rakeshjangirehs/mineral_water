@@ -1,7 +1,7 @@
 <style>
     .details{
         position: absolute;
-        left: 200px;
+        left: 170px;
     }
 </style>
 <div class="row">
@@ -78,18 +78,20 @@
                                         Client Details
                                     </div>
                                     <div class="m-r-10">
-                                        <div class="m-t-10">
-                                            Name : <span class="details f-w-900"><?php echo $client_detail['first_name'].' '.$client_detail['last_name']; ?></span>
-                                        </div>
-                                        <div class="m-t-10">
-                                            Contact No. : <span class="details"><?php echo $client_detail['phone']; ?></span>
-                                        </div>
-                                        <div class="m-t-10">
-                                            Credit Limit : <span class="details"><?php echo $client_detail['credit_limit']; ?></span>
-                                        </div>
-                                        <div class="m-t-10">
-                                            Address : <span class="details"><?php echo $client_detail['address']; ?></span>
-                                        </div>
+                                        <ul>
+                                            <li class="p-t-10">
+                                                <i class="icofont icofont-double-right text-success"></i> Name : <span class="details f-w-900"><?php echo $client_detail['first_name'].' '.$client_detail['last_name']; ?></span>
+                                            </li>
+                                            <li class="p-t-10">
+                                                <i class="icofont icofont-double-right text-success"></i> Contact No. : <span class="details"><?php echo $client_detail['phone']; ?></span>
+                                            </li>
+                                            <li class="p-t-10">
+                                                <i class="icofont icofont-double-right text-success"></i> Credit Limit : <span class="details"><?php echo $client_detail['credit_limit']; ?></span>
+                                            </li>
+                                            <li class="p-t-10">
+                                                <i class="icofont icofont-double-right text-success"></i> Address : <span class="details"><?php echo $client_detail['address']; ?></span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

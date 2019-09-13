@@ -1,4 +1,3 @@
 $h = fopen("debug.txt","a+");
 fwrite($h,$this->db->last_query());
 fclose($h);
-

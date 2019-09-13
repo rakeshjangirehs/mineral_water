@@ -171,7 +171,7 @@ class MY_Model extends CI_Model{
 		}
 
 //        $h = fopen("debug.txt","a+");
-//		fwrite($h,$sql);
+//		fwrite($h,$this->db->last_query());
 //		fclose($h);
 
 		$json_data = array(

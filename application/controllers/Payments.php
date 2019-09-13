@@ -34,9 +34,9 @@ class Payments extends MY_Controller {
                 'check_no'  =>  ($this->input->post('check_no')) ? $this->input->post('check_no') : null,
                 'check_date'  =>  ($this->input->post('check_date')) ? $this->input->post('check_date') : null,
                 'transection_no'  =>  ($this->input->post('transection_no')) ? $this->input->post('transection_no') : null,
-                'paid_amount'  =>  ($this->input->post('paid_amount')) ? $this->input->post('paid_amount') : null,
-                'previous_credit_balance'  =>  ($this->input->post('original_credit_balance')) ? $this->input->post('original_credit_balance') : null,
-                'new_credit_balance'  =>  ($this->input->post('credit_balance')) ? $this->input->post('credit_balance') : null,
+                'paid_amount'  =>  ($this->input->post('paid_amount')) ? $this->input->post('paid_amount') : 0,
+                'previous_credit_balance'  =>  ($this->input->post('original_credit_balance')) ? $this->input->post('original_credit_balance') : 0,
+                'new_credit_balance'  =>  ($this->input->post('credit_balance')) ? $this->input->post('credit_balance') : 0,
             );
 
             $this->db->trans_start();
@@ -45,11 +45,14 @@ class Payments extends MY_Controller {
 
                 $payment_id = $this->db->insert_id();
 
+                $total_credit_used = 0;
                 foreach($payments as $k=>$payment){
 
                     $amount_used = floatval($payment['amount_used']);
                     $credit_used = floatval($payment['credit_used']);
                     $total_payment = $amount_used + $credit_used;
+
+                    $total_credit_used += $credit_used;
 
                     $payable_amount = floatval($payment['payable_amount']);
                     unset($payments[$k]['payable_amount']);
@@ -66,13 +69,16 @@ class Payments extends MY_Controller {
                     }
                 }
 
+                if($total_credit_used){
+                    $this->db->update("payments",array('credit_balance_used'=>$total_credit_used),array('id'=>$payment_id));
+                }
+
                 if($payments){
                     $this->db->insert_batch("payment_details",$payments);
                 }
 
-                if($credit_balance){
-                    $this->db->update("clients",array('credit_balance'=>$credit_balance),array('id'=>$client_id));
-                }
+                $this->db->update("clients",array('credit_balance'=>$credit_balance),array('id'=>$client_id));
+
             }
             $this->db->trans_complete();
 
@@ -105,7 +111,7 @@ class Payments extends MY_Controller {
             );
 
             $query = $this->model
-                        ->common_select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`')
+                        ->common_select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`')
                         ->common_join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
                         ->common_get('payments');
             echo $this->model->common_datatable($colsArr, $query);die;
@@ -139,5 +145,59 @@ class Payments extends MY_Controller {
         $this->data['payment_data'] = $payment_data;
         $this->data['page_title'] = 'Payment View';
         $this->load_content('payment/view_payment', $this->data);
+    }
+
+    public function delete_payment($payment_id){
+
+        if($payment = $this->db->get_where("payments",array('id'=> $payment_id))->row_array()){
+
+            $credit_balance_used = floatval($payment['credit_balance_used']);
+
+            $this->db->trans_start();
+
+            if($credit_balance_used){
+
+                $client_id = $payment['client_id'];
+                $client = $this->db->get_where("clients",array('id'=> $client_id))->row_array();
+
+                $client_credit_balance = floatval($client['credit_balance']);
+
+                $client_credit_balance += $credit_balance_used;
+
+                $this->db->update("clients",array('credit_balance'=>$client_credit_balance),array('id'=>$client_id));
+
+
+            }
+
+            $this->db->delete("payment_details",array('payment_id'=>$payment_id));
+            $this->db->delete("payments",array('id'=>$payment_id));
+
+            $this->db->trans_complete();
+
+            if($this->db->trans_status()){
+                $this->flash('success','Payment deleted successfully.');
+            }else{
+                $this->flash('error','Payment not deleted.');
+            }
+        }else{
+            $this->flash('error','Payment record not found.');
+        }
+
+        redirect("payments/payments_list");
+    }
+
+    public function payments_list_export(){
+
+        $query = $this->model
+            ->common_select('CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`payments`.`payment_mode`,`payments`.`paid_amount`,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`')
+            ->common_join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
+            ->common_get('payments');
+
+        $resultData = $this->db->query($query)->result_array();
+        $headerColumns = implode(',', array_keys($resultData[0]));
+        $filename = 'payment_list-'.time().'.xlsx';
+        $title = 'Payment List';
+        $sheetTitle = 'Payment List';
+        $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
     }
 }
