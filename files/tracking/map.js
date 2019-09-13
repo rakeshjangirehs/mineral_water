@@ -67,8 +67,11 @@ console.log(found_user);
 							</div>`
 			});
 
-			marker.addListener('click', function(event) {
+			marker.addListener('mouseover', function(event) {
 				infoWindow.open(map,marker);
+			});
+			marker.addListener('mouseout', function(event) {
+				infoWindow.close();
 			});
 			markers.push({marker:marker,user_id:obj.user_id});
 		}

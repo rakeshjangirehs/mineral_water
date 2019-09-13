@@ -197,6 +197,12 @@ class MY_Controller extends CI_Controller {
 
     protected function generate_pdf($html,$file_name=NULL,$mode='I'){
 
+        ini_set("pcre.backtrack_limit", "5000000");
+        ini_set('memory_limit','2048M');
+        ini_set('max_execution_time',0);
+
+        $root_path = FCPATH.'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR;
+
         $pathInfo = pathinfo($file_name);
         if(isset($pathInfo['extension']) && $pathInfo['dirname']!='.'){
 

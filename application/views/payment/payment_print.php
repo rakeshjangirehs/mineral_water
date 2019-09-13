@@ -113,7 +113,7 @@
                 <div class="secondary">
                     <?php echo ($order['paid_amount']) ? "Amount Paid : " . $order['paid_amount'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
                     <?php echo ($order['previous_credit_balance']) ? "Old Credit Balance : " . $order['previous_credit_balance'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
-                    <?php echo ($order['new_credit_balance']) ? "New Credit Balance : " . $order['new_credit_balance'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+                    <?php echo ($order['new_credit_balance']) ? "Remaining Credit Balance : " . $order['new_credit_balance'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
                 </div>
             </td>
         </tr>
@@ -134,8 +134,13 @@
         </thead>
         <tbody>
         <?php if(isset($order['invoices'])){
+            $total_amount_used = 0;
+            $total_credit_used = 0;
+
             foreach($order['invoices'] as $k=>$invoices){
                 $sr = ++$k;
+                $total_amount_used += floatval($invoices['amount_used']);
+                $total_credit_used += floatval($invoices['credit_used']);
                 echo "<tr>
                             <td class='bb'>{$invoices['order_id']}</td>                                                    
                             <td class='tc bb'>{$invoices['payable_amount']}</td>
@@ -144,11 +149,13 @@
                         </tr>";
             }
 
+            $total_amount_used = number_format($total_amount_used,2);
+            $total_credit_used = number_format($total_credit_used,2);
             echo "<tr><td colspan='4'>&nbsp;</td></tr>
                     <tr>
                         <td colspan='2'></td>
-                        <td class='tc bb amount_td'>5000.00</td>
-                        <td class='tc bb amount_td'>500.00</td>
+                        <td class='tc bb amount_td'>{$total_amount_used}</td>
+                        <td class='tc bb amount_td'>{$total_credit_used}</td>
                     </tr>";
         }?>
         </tbody>

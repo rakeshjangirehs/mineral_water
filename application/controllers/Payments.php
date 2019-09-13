@@ -134,11 +134,13 @@ class Payments extends MY_Controller {
     }
 
     public function print_payment_invoice($payment_id){
+
         $payments = $this->get_payments($payment_id);
 //        echo "<pre>";print_r($payments);die;
 
         $this->data['order'] = $payments;
         $invoice = $this->load->view('payment/payment_print', $this->data,true);
+
 //echo $invoice;die;
         $date = date('d-m-Y',strtotime($payments['created_at']));
         $file_name = "Invoice #{$payments['id']} {$payments['client_name']} {$date}.pdf";

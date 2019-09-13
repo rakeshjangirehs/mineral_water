@@ -15,6 +15,7 @@
  	 	if($this->input->is_ajax_request()){
 			$colsArr = array(
 				'zip_code',
+                'link'
 			);
 
 			$query = $this->model->common_select('zip_codes.*')->common_get('zip_codes');
