@@ -41,7 +41,7 @@ function tracking_map() {
 		var found_user = users.find(function(o){
 			return o.id == obj.user_id
 		});
-
+console.log(found_user);
 		var found_marker = markers.find(function(o){
 			return o.user_id == obj.user_id
 		});
@@ -60,7 +60,11 @@ function tracking_map() {
 
 			var marker = new google.maps.Marker(markerOptions);
 			var infoWindow = new google.maps.InfoWindow({
-				content : `<div>Name: ${found_user.first_name}<br/>Role: ${found_user.role_name}</div>`
+				content : `<div>
+								<div style="margin-bottom: 7px;"><i class="feather icon-user"></i> <span style="margin-left:5px;">${found_user.first_name}</span></div>
+								<div style="margin-bottom: 7px;"><i class="feather icon-award"></i> <span style="margin-left:5px;">${found_user.role_name}</span></div>
+								<div style="margin-bottom: 7px;"><i class="feather icon-phone"></i> <span style="margin-left:5px;">${found_user.phone}</span></div>
+							</div>`
 			});
 
 			marker.addListener('click', function(event) {
