@@ -54,13 +54,7 @@
                 "type": "POST",
             },
             "columns": [
-                { 
-                    "data": "first_name",
-                    "render": function(data, type, row, meta){
-                        console.log(row);
-                        return "<a class='text-primary' href='<?php echo $this->baseUrl; ?>payments/payment_post/"+row.id+"' title='Make Payment'>"+row.first_name+"</a>";
-                    }
-                },
+                { "data": "first_name" },
                 { "data": "last_name" },
                 { "data": "credit_limit" },
                 { "data": "email" },
@@ -72,7 +66,7 @@
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +
                           "<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
-                          "<a class=' ' href='<?php echo $this->baseUrl; ?>clients/add_location/"+data.id+"' title='Client Location'><i class='feather icon-map-pin'></i></a>" +
+                          "<a class=' ' href='<?php echo $this->baseUrl; ?>payments/payment_post/"+data.id+"' title='Post Payment'><i class='feather icon-credit-card'></i></a>" +
                           "<a class='text-danger' id='delete_client' href='<?php echo $this->baseUrl; ?>clients/delete/"+data.id+"' title='Delete Client'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
