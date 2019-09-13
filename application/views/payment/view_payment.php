@@ -33,19 +33,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="check_no" class="col-form-label col-md-6">Check No:</label>
+                                    <label for="check_no" class="col-form-label col-md-6">Cheque No:</label>
                                     <div class="col-md-6">
                                         <label for="" class="col-form-label"><?php echo $payment_data['check_no']; ?></label>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="check_date" class="col-form-label col-md-6">Check Date:</label>
+                                    <label for="check_date" class="col-form-label col-md-6">Cheque Date:</label>
                                     <div class="col-md-6">
                                         <label for="" class="col-form-label"><?php echo $payment_data['check_date']; ?></label>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="transection_no" class="col-form-label col-md-6">Transection No:</label>
+                                    <label for="transection_no" class="col-form-label col-md-6">Transaction No:</label>
                                     <div class="col-md-6">
                                         <label for="" class="col-form-label"><?php echo $payment_data['transection_no']; ?></label>
                                     </div>

@@ -5,7 +5,7 @@
   * Created By : CLI 
  */ 
  
- class Products extends MY_Controller {
+class Products extends MY_Controller {
  
  	public function __construct() {
  	 	parent::__construct();
@@ -97,14 +97,14 @@
  		$this->load_content('product/add_update', $this->data);
  	}
 
-     public function delete($product_id){
-         if($this->db->update("products",array('is_deleted'=>1),array('id'=>$product_id))){
-             $this->flash("success","Product Deleted Successfully");
-         }else{
-             $this->flash("error","Product not Deleted");
-         }
-         redirect("products/index");
-     }
+  public function delete($product_id){
+    if($this->db->update("products",array('is_deleted'=>1),array('id'=>$product_id))){
+        $this->flash("success","Product Deleted Successfully");
+    }else{
+        $this->flash("error","Product not Deleted");
+    }
+    redirect("products/index");
+  }
 
  	/*
 		check duplicate product code
@@ -135,65 +135,65 @@
  	/*
      * file value and type check during validation
      */
-    public function file_check($str){
-    	// var_dump($_FILES['product_image']['type']);die;
-        $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
-        $mime = $_FILES['product_image']['type'];
-        if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['name']!=""){
-        	if(in_array($mime, $allowed_mime_type_arr)){
-                return true;
-            }else{
-                $this->form_validation->set_message('file_check', 'Please select only gif/jpg/png file.');
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function store($str){
-    	$config['upload_path'] = FCPATH. 'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'originals'.DIRECTORY_SEPARATOR;
-        $config['allowed_types'] = 'gif|jpg|png';
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload($str)) {
-            $error = array('error' => $this->upload->display_errors());
-            echo "<pre>"; print_r($error);die;
-        } else {
-            $image_data = $this->upload->data();
-            return $image_data;
+  public function file_check($str){
+  	// var_dump($_FILES['product_image']['type']);die;
+    $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
+    $mime = $_FILES['product_image']['type'];
+    if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['name']!=""){
+    	if(in_array($mime, $allowed_mime_type_arr)){
+            return true;
+        }else{
+            $this->form_validation->set_message('file_check', 'Please select only gif/jpg/png file.');
+            return false;
         }
     }
+    return true;
+  }
 
-    // generate image thumbnails
-    public function do_resize($image_data = array()){
-    	$this->load->library('image_lib');
-        $configer =  array(
-          'image_library'   => 'gd2',
-          'source_image'    =>  $image_data['full_path'],
-          'new_image'		=>	FCPATH. 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR,
-          'maintain_ratio'  =>  TRUE,
-          'create_thumb'	=> 	TRUE,
-          'thumb_marker' 	=> '_thumb',
-          'width'           =>  250,
-          'height'          =>  250,
-        );
-        $this->image_lib->clear();
-        $this->image_lib->initialize($configer);
-        return $this->image_lib->resize();
+  public function store($str){
+  	$config['upload_path'] = FCPATH.'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'originals'.DIRECTORY_SEPARATOR;
+    $config['allowed_types'] = 'gif|jpg|png';
+    $this->load->library('upload', $config);
+
+    if (!$this->upload->do_upload($str)) {
+      $error = array('error' => $this->upload->display_errors());
+      echo "<pre>"; print_r($error);die;
+    } else {
+      $image_data = $this->upload->data();
+      return $image_data;
     }
+  }
 
-    // export all products in xlsx
-    public function product_export(){
-		$query = $this->model
+  // generate image thumbnails
+  public function do_resize($image_data = array()){
+  	$this->load->library('image_lib');
+    $configer =  array(
+      'image_library'   => 'gd2',
+      'source_image'    =>  $image_data['full_path'],
+      'new_image'		=>	FCPATH.'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR,
+      'maintain_ratio'  =>  TRUE,
+      'create_thumb'	=> 	TRUE,
+      'thumb_marker' 	=> '_thumb',
+      'width'           =>  250,
+      'height'          =>  250,
+    );
+    $this->image_lib->clear();
+    $this->image_lib->initialize($configer);
+    return $this->image_lib->resize();
+  }
+
+  // export all products in xlsx
+  public function product_export(){
+		  $query = $this->model
                     ->common_select('product_code, products.product_name, products.weight, dimension, cost_price, sale_price')
                     ->common_where('products.is_deleted = 0')
                     ->common_get('products');
 
-		$resultData = $this->db->query($query)->result_array();
-		$headerColumns = implode(',', array_keys($resultData[0]));
-		$filename = 'products-'.time().'.xlsx';
-		$title = 'Product List';
-		$sheetTitle = 'Product List';
-		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
+		  $resultData = $this->db->query($query)->result_array();
+		  $headerColumns = implode(',', array_keys($resultData[0]));
+		  $filename = 'products-'.time().'.xlsx';
+		  $title = 'Product List';
+		  $sheetTitle = 'Product List';
+		  $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
 	}
 }

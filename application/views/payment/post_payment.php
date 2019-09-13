@@ -42,14 +42,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="check_no" class="col-form-label col-md-4">Check No:</label>
+                                    <label for="check_no" class="col-form-label col-md-4">Cheque No:</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="check_no" id="check_no" class="form-control" readonly/>
                                         <span class="messages"><?php echo form_error('check_no');?></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="check_date" class="col-form-label col-md-4">Check Date:</label>
+                                    <label for="check_date" class="col-form-label col-md-4">Cheque Date:</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="check_date" id="check_date" class="form-control" readonly/>
                                         <span class="messages"><?php echo form_error('check_date');?></span>
@@ -137,7 +137,9 @@
                     </div>
                     <div class="card-footer">
                         <div class="text-right">
-                            <button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
+                            <?php if(!empty($invoice_list)) : ?>
+                                <button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
+                            <?php endif; ?>
                             <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
                         </div>
                     </div>

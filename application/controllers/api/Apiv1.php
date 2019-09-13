@@ -77,8 +77,8 @@ class ApiV1 extends REST_Controller {
     }
 
     public function products_get(){
-        $originalImgUrl = base_url()."assets/uploads/products/originals";
-        $thumbImgUrl = base_url()."assets/uploads/products/thumbnails";
+        $originalImgUrl = base_url()."files/assets/uploads/products/originals";
+        $thumbImgUrl = base_url()."files/assets/uploads/products/thumbnails";
         $products = array();
         $products = $this->db->query("SELECT 
                     `products`.`product_name`,
