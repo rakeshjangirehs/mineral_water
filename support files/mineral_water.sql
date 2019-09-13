@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2019 at 05:18 PM
+-- Generation Time: Sep 13, 2019 at 11:05 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -52,7 +52,7 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `first_name`, `last_name`, `credit_limit`, `credit_balance`, `email`, `phone`, `address`, `zip_code_id`, `lead_id`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 'Rakesh', NULL, '10000.00', 419.40, 'milans@letsenkindle.com', NULL, 'jaipur', NULL, NULL, 0, '2019-08-26 16:38:14', NULL, '2019-09-12 20:47:34', 2, 'Active'),
+(1, 'Rakesh', NULL, '10000.00', 234.70, 'milans@letsenkindle.com', NULL, 'jaipur', NULL, NULL, 0, '2019-08-26 16:38:14', NULL, '2019-09-13 14:28:48', 2, 'Active'),
 (2, 'test', 'test', '200.00', 0.00, 'test@test.com', NULL, 'test', 1, NULL, 0, '2019-08-26 17:05:10', 2, '2019-08-28 19:40:21', 2, 'Active'),
 (3, 'Rakesh', 'Jangir', NULL, 0.00, 'rakeshpdate@test.com', '9351561626', 'Jangir', 2, NULL, 0, '2019-08-27 19:25:56', 0, '2019-09-12 18:15:28', 5, 'Active'),
 (4, 'ravi', NULL, NULL, 0.00, 'rkj@test.com', NULL, NULL, NULL, NULL, 0, '2019-08-29 14:37:25', 2, '2019-08-29 16:33:19', 2, 'Active'),
@@ -358,11 +358,9 @@ CREATE TABLE `payments` (
   `check_date` date DEFAULT NULL,
   `transection_no` varchar(100) DEFAULT NULL,
   `paid_amount` decimal(14,2) DEFAULT NULL,
-  `credit_amount` decimal(14,2) DEFAULT NULL,
+  `credit_balance_used` decimal(14,2) NOT NULL DEFAULT '0.00',
   `previous_credit_balance` decimal(14,2) NOT NULL DEFAULT '0.00',
   `new_credit_balance` decimal(14,2) DEFAULT '0.00',
-  `partial_amount` decimal(14,2) DEFAULT NULL,
-  `status` varchar(10) DEFAULT NULL COMMENT 'PARTIAL | PENDING | PAID',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -371,8 +369,10 @@ CREATE TABLE `payments` (
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `client_id`, `payment_mode`, `check_no`, `check_date`, `transection_no`, `paid_amount`, `credit_amount`, `previous_credit_balance`, `new_credit_balance`, `partial_amount`, `status`, `created_at`, `created_by`) VALUES
-(19, 1, 'Cash', NULL, NULL, NULL, '2000.00', NULL, '484.70', '419.40', NULL, NULL, '2019-09-12 20:47:34', NULL);
+INSERT INTO `payments` (`id`, `client_id`, `payment_mode`, `check_no`, `check_date`, `transection_no`, `paid_amount`, `credit_balance_used`, `previous_credit_balance`, `new_credit_balance`, `created_at`, `created_by`) VALUES
+(25, 1, 'Cash', NULL, NULL, NULL, '200.00', '0.00', '0.00', '0.00', '2019-09-13 14:02:56', NULL),
+(26, 1, 'Cash', NULL, NULL, NULL, '200.00', '0.00', '0.00', '0.00', '2019-09-13 14:02:56', NULL),
+(27, 1, 'Cash', NULL, NULL, NULL, '1000.00', '0.00', '0.00', '34.70', '2019-09-13 14:04:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -395,8 +395,10 @@ CREATE TABLE `payment_details` (
 --
 
 INSERT INTO `payment_details` (`id`, `order_id`, `payment_id`, `amount_used`, `credit_used`, `total_payment`, `status`) VALUES
-(19, 4, 19, '1565.60', '484.70', '2050.30', 'PARTIAL'),
-(20, 6, 19, '15.00', '0.00', '15.00', 'PAID');
+(23, 4, 25, '200.00', '0.00', '200.00', 'PARTIAL'),
+(24, 4, 26, '200.00', '0.00', '200.00', 'PARTIAL'),
+(25, 4, 27, '950.30', '0.00', '950.30', 'PARTIAL'),
+(26, 6, 27, '15.00', '0.00', '15.00', 'PAID');
 
 -- --------------------------------------------------------
 
@@ -426,8 +428,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_name`, `product_code`, `description`, `weight`, `dimension`, `cost_price`, `sale_price`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 'Bislery', 'test', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-09-12 13:05:24', 2),
-(2, 'Kinley', 'B-102', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-08-27 15:12:13', 2);
+(1, 'Bislery', 'BSLY-001', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-09-13 12:59:04', 2),
+(2, 'Kinley', 'KINLY-002', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-09-13 12:59:37', 2),
+(3, '500 ML Kinley', 'KNLY-001', 'Test', 50, '65x65', 40, 50, 'Active', 0, '2019-09-13 12:56:49', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -452,7 +455,9 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `original_image_name`, `thumb`, `is_primary`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, 'Capture.PNG', 'Capture_thumb.PNG', 1, '2019-08-27 15:11:47', 2, NULL, NULL);
+(2, 3, 'bg.jpg', 'bg_thumb.jpg', 1, '2019-09-13 12:56:49', 2, NULL, NULL),
+(3, 1, 'Egreeting_logo.png', 'Egreeting_logo_thumb.png', 1, '2019-09-13 12:59:04', NULL, '2019-09-13 12:59:04', 2),
+(4, 2, 'Flowchart.png', 'Flowchart_thumb.png', 1, '2019-09-13 12:59:37', NULL, '2019-09-13 12:59:37', 2);
 
 -- --------------------------------------------------------
 
@@ -556,8 +561,8 @@ CREATE TABLE `user_devices` (
 --
 
 INSERT INTO `user_devices` (`id`, `user_id`, `device_id`, `created_at`) VALUES
-(4, 5, 'cXt_bzvfRz0:APA91bGwXB29yBmI3QRhi2IMtN5m8_5o7TT28fx3y_IBcGZR8veF3ggTlDQOLy5EU5qrUSKXCYyOS5uEJSB1MmP3n34KS2W1ns0YtWAOfYK82ITVmvyCYLvu4QxGsWW4R5GTWeM_CVav', '2019-09-12 15:29:44'),
-(5, 5, 'cXt_bzvfRz0:APA91bGwXB29yBmI3QRhi2IMtN5m8_5o7TT28fx3y_IBcGZR8veF3ggTlDQOLy5EU5qrUSKXCYyOS5uEJSB1MmP3n34KS2W1ns0YtWAOfYK82ITVmvyCYLvu4QxGsWW4R5GTWeM_CVav', '2019-09-12 18:02:05');
+(5, 5, 'cXt_bzvfRz0:APA91bGwXB29yBmI3QRhi2IMtN5m8_5o7TT28fx3y_IBcGZR8veF3ggTlDQOLy5EU5qrUSKXCYyOS5uEJSB1MmP3n34KS2W1ns0YtWAOfYK82ITVmvyCYLvu4QxGsWW4R5GTWeM_CVav', '2019-09-12 18:02:05'),
+(6, 5, 'czxrD4Ybwn8:APA91bEy3MzhcjsPnQi4ZKLixR6LB4ut-YSRGEb9R1Q4DpJdqgOusC5wuqZNIeoujkK1lMMtDLUycBOZ44-95QWGZSLxNvnG0O-DGjwiqRcddazewgRkWrAOgcLpZT5j6VXu9-bgHtBn', '2019-09-13 10:21:22');
 
 -- --------------------------------------------------------
 
@@ -941,13 +946,13 @@ ALTER TABLE `client_location_images`
 -- AUTO_INCREMENT for table `client_selesmans`
 --
 ALTER TABLE `client_selesmans`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `client_visits`
 --
 ALTER TABLE `client_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `coordinates`
@@ -1001,25 +1006,25 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `payment_details`
 --
 ALTER TABLE `payment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -1043,7 +1048,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_vehicle`
