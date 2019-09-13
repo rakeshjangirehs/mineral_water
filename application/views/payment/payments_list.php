@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <p class="text-custom">To post payment of a client, navigate to <a href="#" target="_blank"><u>Client List</u></a>.</p>
+                            <p class="text-custom">To post payment of a client, navigate to <a href="<?php echo $this->baseUrl;?>clients" target="_blank"><u>Client List</u></a>.</p>
                         </div>
                     </div>
                 </div>
