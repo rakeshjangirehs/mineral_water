@@ -17,7 +17,10 @@ class Payments extends MY_Controller {
 
  	}
 
- 	public function payment_post($client_id){
+ 	public function payment_post($client_id = NULL ){
+ 		if(!$client_id){ 
+ 			redirect('clients','location'); 
+ 		}
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
 //            echo "<pre>";print_r($_POST);

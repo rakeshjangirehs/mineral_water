@@ -42,21 +42,21 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="check_no" class="col-form-label col-md-4">Check No:</label>
+                                    <label for="check_no" class="col-form-label col-md-4">Cheque No:</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="check_no" id="check_no" class="form-control" readonly/>
                                         <span class="messages"><?php echo form_error('check_no');?></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="check_date" class="col-form-label col-md-4">Check Date:</label>
+                                    <label for="check_date" class="col-form-label col-md-4">Cheque Date:</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="check_date" id="check_date" class="form-control" readonly/>
                                         <span class="messages"><?php echo form_error('check_date');?></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="transection_no" class="col-form-label col-md-4">Transection No:</label>
+                                    <label for="transection_no" class="col-form-label col-md-4">Transaction No:</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="transection_no" id="transection_no" class="form-control" readonly/>
                                         <span class="messages"><?php echo form_error('transection_no');?></span>
@@ -73,7 +73,7 @@
 
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <div class="p-20    z-depth-0">
+                                <div class="p-20 well well-sm">
                                     <div class="text-center p-b-10 f-16 f-w-900" style="border-bottom: 2px solid #bbbbbd;">
                                         Client Details
                                     </div>
@@ -140,7 +140,7 @@
                     <div class="card-footer">
                         <div class="text-right">
                             <?php if(!empty($invoice_list)):?>
-                            <button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
                             <?php endif;?>
                             <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
                         </div>
