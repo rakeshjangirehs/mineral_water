@@ -139,7 +139,9 @@
                     </div>
                     <div class="card-footer">
                         <div class="text-right">
+                            <?php if(!empty($invoice_list)):?>
                             <button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
+                            <?php endif;?>
                             <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
                         </div>
                     </div>
