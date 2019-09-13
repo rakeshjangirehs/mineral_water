@@ -1,6 +1,6 @@
 <nav class="pcoded-navbar">
     <div class="pcoded-inner-navbar main-menu">
-        <div class="pcoded-navigatio-lavel">Navigation</div>
+<!--        <div class="pcoded-navigatio-lavel">Navigation</div>-->
 
         <ul class="pcoded-item pcoded-left-item">
             <li class="dashboard_li">
@@ -91,6 +91,20 @@
                     <li class="product_list_li">
                         <a href="<?php echo $this->baseUrl; ?>products">
                             <span class="pcoded-mtext">Product List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="feather icon-credit-card"></i></span>
+                    <span class="pcoded-mtext">Payments</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="payment_list_li">
+                        <a href="<?php echo $this->baseUrl; ?>payments/payments_list">
+                            <span class="pcoded-mtext">Payment List</span>
                         </a>
                     </li>
                 </ul>
