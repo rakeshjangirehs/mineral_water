@@ -79,10 +79,10 @@
                                             Credit Limit : <span class="details"><?php echo $client_detail['credit_limit']; ?></span>
                                         </div>
                                         <div class="m-t-10">
-                                            Used Credit Limit : <span class="details"><?php echo $client_detail['credit_limit']; ?></span>
+                                            Used Credit Limit : <span class="details"><?php echo $client_detail['payment_due']; ?></span>
                                         </div>
                                         <div class="m-t-10">
-                                            Available Credit Limit : <span class="details"><?php echo $client_detail['credit_limit']; ?></span>
+                                            Available Credit Limit : <span class="details"><?php echo $client_detail['available_credit']; ?></span>
                                         </div>
                                         <div class="m-t-10">
                                             Address : <span class="details"><?php echo $client_detail['address']; ?></span>
@@ -114,8 +114,8 @@
                                                                 <th scope='row'>{$invoice['order_id']}</th>
                                                                 <td>{$payable_amount}</td>
                                                                 <td>{$pending_amount}</td>
-                                                                <td><input type='text'/></td>
-                                                                <td><input type='text'/></td>
+                                                                <td><input type='text' name='paid_amount[]'/></td>
+                                                                <td><input type='text' name='credit_amount[]'/></td>
                                                             </tr>";
                                                 }
                                             }else{

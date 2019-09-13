@@ -177,11 +177,54 @@ class ApiV1 extends REST_Controller {
         }
     }
 
+    // dashboards
+    public function sales_dashboard_get($user_id){
+        $dashboard = array(
+            'today_visits'=>0,
+            'today_orders'=>0,
+            'today_leads'=>0,
+        );
+        $this->db
+            ->select("*")
+            ->from('client_visits')
+            ->where('created_by', $user_id)
+            ->where('date(created_at) = CURDATE()', NULL, FALSE)
+            ->get();
+        $dashboard['today_visits'] = $this->db->affected_rows();
+
+        $this->db
+            ->select("*")
+            ->from('orders')
+            ->where('created_by', $user_id)
+            ->where('date(created_at) = CURDATE()', NULL, FALSE)
+            ->get();
+
+        $dashboard['today_orders'] = $this->db->affected_rows();
+
+        $this->db
+            ->select("*")
+            ->from('leads')
+            ->where('created_by', $user_id)
+            ->where('date(created_at) = CURDATE()', NULL, FALSE)
+            ->get();
+
+        $dashboard['today_leads'] = $this->db->affected_rows();
+
+        $this->response(
+            array(
+            'status' => TRUE,
+            'message' => "Dashboard",
+            'data' => $dashboard
+            ),
+        REST_Controller::HTTP_OK
+        );
+    }
+
     //Get Clients by Salesman
     public function clients_by_salesman_get($user_id){
 
         $query = "SELECT 
-                        id,first_name,last_name,credit_limit,email,address
+                        id,first_name,last_name,credit_limit,email,address, phone
                     FROM clients
                     WHERE `clients`.`is_deleted` = 0 
                     AND (zip_code_id IN (
@@ -202,36 +245,73 @@ class ApiV1 extends REST_Controller {
                     )";
         $clients = $this->db->query($query)->result_array();
 
-        if($clients){
+        if(!empty($clients)){
             foreach($clients as $k=>$client){
 
                 $contacts = $this->db->select("id,phone,person_name,is_primary")->where("client_id = {$client['id']}")->get("client_contacts")->result_array();
                 $clients[$k]['contacts'] = $contacts;
             }
-        }
 
-        $this->response(
-            array(
-            'status' => TRUE,
-            'message' => "Clients",
-            'data' => $clients
-            ),
-        REST_Controller::HTTP_OK
-        );
+            $this->response(
+                array(
+                'status' => TRUE,
+                'message' => "Clients",
+                'data' => $clients
+                ),
+            REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                'status' => FALSE,
+                'message' => "Clients not found.",
+                'data' => $clients
+                ),
+            REST_Controller::HTTP_OK
+            );
+        }
     }
 
     //Get ZIP Code List
-    public function zip_codes_get(){
-
-        $zip_codes = $this->db->get("zip_codes")->result_array();
-        $this->response(
-            array(
-                'status' => FALSE,
-                'message' => "ZIP Codes",
-                'data' => $zip_codes
-            ),
-            REST_Controller::HTTP_OK
-        );
+    public function zip_codes_get($user_id){
+        $zip_codes = $this->db->query("SELECT 
+                   `zip_code_id`,
+                   `zip_code`
+                FROM `user_zip_codes`
+                LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `user_zip_codes`.`zip_code_id`
+                LEFT JOIN `users` ON `users`.`id` = `user_zip_codes`.`user_id`
+                WHERE `users`.`id` = $user_id
+                AND `zip_codes`.`status` = 'Active'
+                ")->result_array();
+        
+        $sql1 = $this->db->query("SELECT
+                        `group_to_zip_code`.`zip_code_id`,
+                        `zip_codes`.`zip_code`
+                    FROM `users`
+                    LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
+                    LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `user_zip_code_groups`.`zip_code_group_id`
+                    LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `group_to_zip_code`.`zip_code_id`
+                    WHERE `users`.`id` = {$user_id}")->result_array();
+        
+        if(!empty($zip_codes)){
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "ZIP Codes found.",
+                    'data' => $zip_codes
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "ZIP Codes not found.",
+                    'data' => $zip_codes
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
     }
 
     //Add/Update Visit - Client

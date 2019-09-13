@@ -48,7 +48,7 @@ class Client extends CI_Model {
             }
         }
 
-        if($visit_note){
+        if(!empty($visit_note)){
             $visit_data = array(
                 'visit_notes'=> $visit_note,
                 'client_id' => $client_id,
@@ -137,6 +137,22 @@ class Client extends CI_Model {
     public function get_client_by_id($id){
         $where = "clients.id = {$id}";
         return $this->get_client($where,'single');
+    }
+
+    public function get_client_full($id){
+        $sql = "SELECT 
+                    `clients`.*,
+                    SUM(`payable_amount`) AS `payment_due`,
+                    CAST((`clients`.`credit_limit`-(SUM(`payable_amount`))) AS DECIMAL(14,2)) AS `available_credit`
+                FROM `clients`
+                LEFT JOIN `orders` ON `orders`.`client_id` = `clients`.`id`
+                LEFT JOIN `payments` ON `payments`.`order_id` = `orders`.`id`
+                WHERE `clients`.`id` = $id
+                AND ( `payments`.`status` IS NULL OR `payments`.`status` = 'PARTIAL' OR `payments`.`status` = 'PENDING')
+                GROUP BY `clients`.`id`
+                ";
+
+        return $this->db->query($sql)->row_array();
     }
 
     public function check_exist( $whereKey, $whereVal, $id = NULL ){

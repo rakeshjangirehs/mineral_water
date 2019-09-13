@@ -76,7 +76,8 @@
 	var table = $("#dynamic-table");
 	var zipcode = $("#zipcode");
 	var zip_id = $("#zip_id");
-
+    // for integer validation
+    zipcode.forceInt();
 	var oTable = table
 		.DataTable({
 			"processing": true,
