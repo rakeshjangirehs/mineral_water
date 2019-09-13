@@ -140,7 +140,7 @@
                     <div class="card-footer">
                         <div class="text-right">
                             <?php if(!empty($invoice_list)):?>
-                                <button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
+                                <button type="submit" id="submit_button" class="btn btn-sm btn-primary" style="display:none;">Make Payment</button>
                             <?php endif;?>
                             <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
                         </div>
@@ -179,6 +179,7 @@
         }
     });
 
+    var $submit_button = $("#submit_button");
     var $paid_amount = $("#paid_amount");
     var $payment = $("#payments");
     var $original_credit_balance = $("#original_credit_balance");
@@ -253,6 +254,17 @@
             $credit_balance.val(0.00);
             $credit_balance_lbl.text(0.00);
         }
+    }).on('keyup',function(e){
+        console.log("Paid Amount Blur & Value Length: ",this.value.length);
+
+        if(this.value.length ==0){
+            console.log("Hiding Submit Button");
+            $submit_button.hide();
+        }else{
+            console.log("Showing Submit Button");
+            console.log($submit_button);
+            $submit_button.show();
+        }
     });
 
     /* Don't allow paid amount > pending amount
@@ -265,7 +277,9 @@
         }
     });*/
 
+
     $("#post_payment_form").on('submit',function(e){
+
 
         var original_credit_balance = parseFloat($original_credit_balance.val()) || 0;
         var credit_balance = parseFloat($credit_balance.val()) || 0;

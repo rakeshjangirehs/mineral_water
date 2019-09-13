@@ -195,5 +195,43 @@ class MY_Controller extends CI_Controller {
     	}
 	}
 
+    protected function generate_pdf($html,$file_name=NULL,$mode='I'){
+
+        $pathInfo = pathinfo($file_name);
+        if(isset($pathInfo['extension']) && $pathInfo['dirname']!='.'){
+
+            $dir_structure =dirname($file_name);
+            if (!file_exists($dir_structure)) {
+                mkdir($dir_structure, 0777, true);
+            }
+        }
+
+        $modeArr = array(
+            'I'=>\Mpdf\Output\Destination::INLINE,
+            'D'=>\Mpdf\Output\Destination::DOWNLOAD,
+            'F'=>\Mpdf\Output\Destination::FILE,
+            'S'=>\Mpdf\Output\Destination::STRING_RETURN,
+        );
+
+        $mpdf = new \Mpdf\Mpdf(
+            array(
+//                 'mode' => 'utf-8',
+//                 'format' => array(210, 297),
+//                 'orientation' => 'P',
+//                 'setAutoTopMargin' => 'stretch',
+//                 'autoMarginPadding' => 0,
+//                 'bleedMargin' => 0,
+//                 'crossMarkMargin' => 0,
+//                 'cropMarkMargin' => 0,
+//                 'nonPrintMargin' => 0,
+//                 'margBuffer' => 0,
+//                 'collapseBlockMargins' => false,
+            )
+        );
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($file_name,$modeArr[$mode]);
+    }
+
 }
 ?>

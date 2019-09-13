@@ -110,13 +110,13 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="card-footer">
-                        <div class="text-right">
-                            <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>payments/payments_list">Back</a>
-                        </div>
-                    </div>
                 </div>
+            <div class="row text-center">
+                <div class="col-sm-12 invoice-btn-group text-center">
+                    <button type="button" id="print_button" class="btn btn-primary btn-print-invoice m-b-10 btn-sm waves-effect waves-light m-r-20">Print</button>
+                    <button type="button" id="back_button" class="btn btn-danger waves-effect m-b-10 btn-sm waves-light">Back</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -126,6 +126,14 @@
 	
 	// to active the sidebar
     $('.payment_list_li').active();
-	
+
+    $("#print_button").click(function(e){
+        window.open('<?php echo $this->baseUrl."payments/print_payment_invoice/{$id}"; ?>');
+    });
+
+    $("#back_button").click(function(e){
+        window.location.href = '<?php echo $this->baseUrl."payments/payments_list"; ?>';
+    });
+
 </script>
 @endscript

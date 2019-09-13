@@ -125,29 +125,45 @@ class Payments extends MY_Controller {
 
     public function view_payment($payment_id){
 
+        $payment_data = $this->get_payments($payment_id);
+
+        $this->data['payment_data'] = $payment_data;
+        $this->data['id'] = $payment_id;
+        $this->data['page_title'] = 'Payment View';
+        $this->load_content('payment/view_payment', $this->data);
+    }
+
+    public function print_payment_invoice($payment_id){
+        $payments = $this->get_payments($payment_id);
+//        echo "<pre>";print_r($payments);die;
+
+        $this->data['order'] = $payments;
+        $invoice = $this->load->view('payment/payment_print', $this->data,true);
+//echo $invoice;die;
+        $date = date('d-m-Y',strtotime($payments['created_at']));
+        $file_name = "Invoice #{$payments['id']} {$payments['client_name']} {$date}.pdf";
+        $this->generate_pdf($invoice,$file_name);
+    }
+
+    private function get_payments($payment_id){
         $payment_data = $this->db
-                        ->select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`clients`.`phone`,`clients`.`credit_limit`,`clients`.`address`')
-                        ->join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
-                        ->where("`payments`.`id` = {$payment_id}")
-                        ->get('payments')
-                        ->row_array();
+            ->select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`clients`.`phone`,`clients`.`credit_limit`,`clients`.`address`,`clients`.`email`')
+            ->join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
+            ->where("`payments`.`id` = {$payment_id}")
+            ->get('payments')
+            ->row_array();
 
         if($payment_data){
             $payment_data['invoices'] = $this->db
-                                ->select("payment_details.*,orders.payable_amount")
-                                ->from("payment_details")
-                                ->join("orders","orders.id = payment_details.order_id","left")
-                                ->where("payment_details.payment_id = {$payment_data['id']}")
-                                ->get()
-                                ->result_array();
+                ->select("payment_details.*,orders.payable_amount")
+                ->from("payment_details")
+                ->join("orders","orders.id = payment_details.order_id","left")
+                ->where("payment_details.payment_id = {$payment_data['id']}")
+                ->get()
+                ->result_array();
 
         }
-
-//        echo "<pre>";print_r($payment_data);die;
-
-        $this->data['payment_data'] = $payment_data;
-        $this->data['page_title'] = 'Payment View';
-        $this->load_content('payment/view_payment', $this->data);
+        return $payment_data;
     }
 
     public function delete_payment($payment_id){

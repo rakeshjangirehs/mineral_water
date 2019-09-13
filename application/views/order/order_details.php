@@ -1,7 +1,16 @@
+<style>
+    .invoice_type{
+        position: absolute;
+        right: 65px;
+        top: 33px;
+        font-weight: 700;
+    }
+</style>
 <div class="page-body">
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
+                <span class="invoice_type f-18">ORDER INVOICE</span>
                 <div class="row invoice-contact">
                     <div class="col-md-8">
                         <div class="invoice-box row">

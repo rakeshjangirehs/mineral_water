@@ -78,7 +78,7 @@
                 </span>
             </td>
             <td class="vt tc muted primary">
-                ORDER INVOICE
+                PAYMENT RECIEPT
             </td>
         </tr>
     </table>
@@ -89,27 +89,32 @@
                 <div class="primary muted">CLIENT INFORMATION :</div>
                 <div class="seprator">&nbsp;</div>
                 <div class="secondary">
-                    <?php echo "{$order['order_client']['first_name']} {$order['order_client']['last_name']} <div class='mini-seprator'>&nbsp;</div>";?>
-                    <?php echo ($order['order_client']['address']) ? "{$order['order_client']['address']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
-                    <?php echo ($order['order_client']['phone']) ? "{$order['order_client']['phone']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
-                    <?php echo ($order['order_client']['email']) ? "{$order['order_client']['email']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo "{$order['client_name']} <div class='mini-seprator'>&nbsp;</div>";?>
+                    <?php echo ($order['address']) ? "{$order['address']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['phone']) ? "{$order['phone']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['email']) ? "{$order['email']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
                 </div>
             </td>
             <td class="vt" style="width:30%;">
-                <div class="primary muted">ORDER INFORMATION :</div>
+                <div class="primary muted">PAYMENT INFORMATION :</div>
                 <div class="seprator">&nbsp;</div>
                 <div class="secondary">
                     <?php echo ($order['created_at']) ? "Date : " . date('d-M-Y',strtotime($order['created_at'])) ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
-                    <?php if(empty($order['actual_delivery_date'])):?>
-                        <?php echo "Status : Pending <div class='mini-seprator'>&nbsp;</div>";?>
-                    <?php else:?>
-                        <?php echo "Status : Delivered <div class='mini-seprator'>&nbsp;</div>";?>
-                    <?php endif;?>
-                    <?php echo ($order['order_client']['id']) ? "Order ID: {$order['order_client']['id']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['payment_mode']) ? "Mode : " . $order['payment_mode'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+                    <?php echo ($order['check_no']) ? "Cheque No. : " . $order['check_no'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+                    <?php echo ($order['check_date']) ? "Cheque Date : " . date('d-M-Y',strtotime($order['check_date'])) ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+                    <?php echo ($order['transection_no']) ? "Transection No. : " . $order['transection_no'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+
                 </div>
             </td>
             <td class="vt" style="width:30%;">
-                <div class="primary muted amount_td">Total Due :<?php echo $order['payable_amount'];?></div>
+                <div class="primary muted">&nbsp;</div>
+                <div class="seprator">&nbsp;</div>
+                <div class="secondary">
+                    <?php echo ($order['paid_amount']) ? "Amount Paid : " . $order['paid_amount'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+                    <?php echo ($order['previous_credit_balance']) ? "Old Credit Balance : " . $order['previous_credit_balance'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+                    <?php echo ($order['new_credit_balance']) ? "New Credit Balance : " . $order['new_credit_balance'] ."<div class='mini-seprator'>&nbsp;</div>" : "";?>
+                </div>
             </td>
         </tr>
     </table>
@@ -121,32 +126,30 @@
     <table class="particulars">
         <thead>
             <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Amount</th>
-                <th>Total</th>
+                <th>Order Id</th>
+                <th>Billable Amount</th>
+                <th>Amount Used</th>
+                <th>Credit Balance Used</th>
             </tr>
         </thead>
         <tbody>
-        <?php if(isset($order['order_items'])){
-            foreach($order['order_items'] as $k=>$product){
+        <?php if(isset($order['invoices'])){
+            foreach($order['invoices'] as $k=>$invoices){
                 $sr = ++$k;
-                $product_price = $product['quantity'] * $product['effective_price'];
                 echo "<tr>
-                            <td class='bb'>
-                                {$product['product_name']} - {$product['product_code']}
-                            </td>                                                    
-                            <td class='tc bb'>{$product['quantity']}</td>
-                            <td class='tc bb'>{$product['effective_price']}</td>
-                            <td class='tr bb'>{$product_price}</td>
+                            <td class='bb'>{$invoices['order_id']}</td>                                                    
+                            <td class='tc bb'>{$invoices['payable_amount']}</td>
+                            <td class='tc bb'>{$invoices['amount_used']}</td>
+                            <td class='tc bb'>{$invoices['credit_used']}</td>
                         </tr>";
             }
 
             echo "<tr><td colspan='4'>&nbsp;</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr'>Subtotal:</td><td class='tr'>5000.00</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr'>Taxes (10%):</td><td class='tr'>57.00</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb'>Discount (5%):</td><td class='tr bb'>45.00</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb amount_td'><Total></Total>Total:</td><td class='tr bb amount_td'>5000</td></tr>";
+                    <tr>
+                        <td colspan='2'></td>
+                        <td class='tc bb amount_td'>5000.00</td>
+                        <td class='tc bb amount_td'>500.00</td>
+                    </tr>";
         }?>
         </tbody>
     </table>
