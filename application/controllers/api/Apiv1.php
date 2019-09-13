@@ -380,6 +380,52 @@ class ApiV1 extends REST_Controller {
         }
     }
 
+    // add/update lead
+    public function add_update_lead_post($lead_id = NULL){
+        $firstName = $this->post('first_name');
+        $lastName = $this->post('last_name');
+        $email = $this->post('email');
+        $phone = $this->post('phone');
+        $user_id = $this->post('user_id');
+
+        $visit_note = ($this->post('visit_note')) ? $this->post('visit_note') : NULL;
+
+        if( !empty($firstName) && !empty($lastName) && !empty($email) && !empty($phone) ){
+            $leadArr = array(
+                'first_name'=>$firstName,
+                'last_name'=>$lastName,
+                'email'=>$email,
+                'phone'=>$phone,
+                'created_by'=>$user_id
+            );
+
+            $visitArr = ($visit_note) ? array('visit_notes'=>$visit_note, 'created_by'=>$user_id) : array();
+
+            if($lead_id){
+                $leadArr['updated_by'] = $user_id;
+            }
+            if($this->client->add_update_lead($leadArr, $visitArr,$lead_id)){
+                $this->response([
+                    'status' => TRUE,
+                    'message' => "Inquiry generated successfully.",
+                    'data' => array()
+                ], REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Inquiry failed to generate.",
+                    'data' => array()
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => "Provide first_name, last_name, email and phone.",
+                'data' => array()
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
     //Get Client Contacts
     public function contacts_get($client_id,$contact_id=NULL){
 
