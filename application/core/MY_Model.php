@@ -109,7 +109,7 @@ class MY_Model extends CI_Model{
 		Date: 06-08-2019
 		Description: common data table function which is used for generate formal datatable
 	*/
-	public function common_datatable($columns = array(), $query, $whereClause = NULL,$group_by=NULL,$wrapable=false){
+	public function common_datatable($columns = array(), $query, $whereClause = NULL,$group_by=NULL,$wrapable=false,$imag_include=array()){
 
 	    if($wrapable){
             $query = "SELECT * FROM ({$query}) AS `tmp`";
@@ -133,11 +133,13 @@ class MY_Model extends CI_Model{
 				$intCount = COUNT($columns);
 				$intIteration = 1;
 				foreach($columns as $col):
-					if($intIteration == $intCount){
-						$where .="$col LIKE '%".$search_value."%' ";
-					}else{
-						$where .="$col LIKE '%".$search_value."%' OR ";
-					}
+                    if($col){
+                        if($intIteration == $intCount){
+                            $where .="$col LIKE '%".$search_value."%' ";
+                        }else{
+                            $where .="$col LIKE '%".$search_value."%' OR ";
+                        }
+                    }
 					$intIteration += 1;
 				endforeach;
 			}
@@ -173,6 +175,20 @@ class MY_Model extends CI_Model{
 //        $h = fopen("debug.txt","a+");
 //		fwrite($h,$this->db->last_query());
 //		fclose($h);
+
+        if($imag_include){
+            foreach($data as $k=>$dt){
+                if(file_exists(FCPATH.$imag_include['path'].$dt['thumb'])){
+                    $data[$k]['image_url'] = base_url().$imag_include['path'].$dt['thumb'];
+                }else{
+                    if($imag_include['no_image'] && file_exists($imag_include['no_image'])){
+                        $data[$k]['image_url'] = $imag_include['no_image'];
+                    }else{
+                        $data[$k]['image_url'] = null;
+                    }
+                }
+            }
+        }
 
 		$json_data = array(
 			"draw"            => intval( $request['draw'] ),

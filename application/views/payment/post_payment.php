@@ -167,7 +167,7 @@
         dropWidth: 200,
         dropPrimaryColor: "#1abc9c", 
         dropBorder: "1px solid #1abc9c",
-        format: "d/m/Y",
+        format: "Y-m-d",
     });
 
     var pending_amount = 0;
@@ -185,17 +185,17 @@
 
         var value = this.value;
 
-        $check_no.attr('readonly','readonly').val('');
-        $transection_no.attr('readonly','readonly').val('');
-        $check_date.attr('readonly','readonly').val('');
+        $check_no.attr('readonly','readonly').val('').removeAttr('required');
+        $transection_no.attr('readonly','readonly').val('').removeAttr('required');
+        $check_date.attr('readonly','readonly').val('').removeAttr('required');
 
         switch(value){
             case 'Cheque':
-                $check_no.removeAttr('readonly');
-                $check_date.removeAttr('readonly');
+                $check_no.attr('required','required').removeAttr('readonly');
+                $check_date.attr('required','required').removeAttr('readonly');
                 break;
             case 'Credit Card':
-                $transection_no.removeAttr('readonly');
+                $transection_no.attr('required','required').removeAttr('readonly');
                 break;
         }
     });

@@ -21,6 +21,7 @@
                                         <th>Payment Mode</th>
                                         <th>Paid Amount</th>
                                         <th>Payment Date</th>
+                                        <th>Client Email</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -64,16 +65,61 @@
                 { "data": "payment_mode" },
                 { "data": "paid_amount" },
                 { "data": "payment_date" },
+                { "data": "client_email" },
                 {
                 	"data": null,
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>payments/view_payment/"+data.id+"' title='View Payment'><i class='feather icon-eye'></i></a>" +
-                            "<a class='text-danger' id='delete_payment' href='<?php echo $this->baseUrl; ?>payments/delete_payment/"+data.id+"' title='Delete Payment'><i class='feather icon-trash-2'></i></a>";
+                              "<a class='send_reciept' href='<?php echo $this->baseUrl; ?>payments/email_reciept/"+data.id+"' title='Send Reciept to Client'><i class='feather icon-mail'></i></a>"+
+                            "<a class='text-danger delete_payment' href='<?php echo $this->baseUrl; ?>payments/delete_payment/"+data.id+"' title='Delete Payment'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
-		}).on('click','#delete_payment',function(e){
+		}).on('click','.send_reciept',function(e){
+            e.preventDefault();
+
+            $('.theme-loader').fadeIn();
+
+            $.ajax({
+                url: this.getAttribute('href'),
+                method: 'GET',
+                dataType: 'json',
+                // data: {},
+                success: function(data){
+
+                    if(data.success){
+                        $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
+                            "        <div class='col-sm-12'>\n" +
+                            "            <div class='alert alert-success background-success' style='margin-bottom:5px;'>\n" +
+                            "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
+                            "                    <i class='feather icon-x text-white'></i>\n" +
+                            "                </button>\n" +
+                            data.message +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>");
+                    }else{
+                        $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
+                            "        <div class='col-sm-12'>\n" +
+                            "            <div class='alert alert-warning background-warning' style='margin-bottom:5px;'>\n" +
+                            "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
+                            "                    <i class='feather icon-x text-white'></i>\n" +
+                            "                </button>\n" +
+                            data.message +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>");
+                    }
+                },
+                error	: function(xmlhttprequest,textStatus,error){
+                    // console.log(xmlhttprequest.responseText);
+                },
+                complete: function(xmlhttprequest,textStatus ){
+                    $('.theme-loader').fadeOut();
+                }
+            });
+        }).on('click','.delete_payment',function(e){
             e.preventDefault();
 
             var url = this.getAttribute('href');

@@ -27,12 +27,13 @@
                 '`orders`.`actual_delivery_date`',
                 'CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, ""))',
                 'CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, ""))',
+                '`clients`.`email`',
                 'action'
             );
 
             $query = $this
                 ->model
-                ->common_select('orders.*,`clients`.`id` AS `client_id`,CONCAT(`clients`.`first_name`," ",IFNULL(`clients`.`last_name`, "")) as `client_name`,`salesman`.`id` AS `salesman_id`, CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, "")) as `salesman_name`,`deliveryboy`.`id` AS `deliveryboy_id`, CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, "")) as `deliveryboy_name`')
+                ->common_select('orders.*,`clients`.`id` AS `client_id`,CONCAT(`clients`.`first_name`," ",IFNULL(`clients`.`last_name`, "")) as `client_name`,`salesman`.`id` AS `salesman_id`, CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, "")) as `salesman_name`,`deliveryboy`.`id` AS `deliveryboy_id`, CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, "")) as `deliveryboy_name`,`clients`.`email` AS `client_email`')
                 ->common_join('clients','clients.id = orders.client_id','LEFT')
                 ->common_join('users as salesman','salesman.id = orders.created_by','LEFT')
                 ->common_join('users as deliveryboy','deliveryboy.id = orders.delivery_boy_id','LEFT')

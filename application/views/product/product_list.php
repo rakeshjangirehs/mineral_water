@@ -16,6 +16,7 @@
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>products/index" style="width: 100%;">
                             <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Weight</th>
@@ -54,7 +55,17 @@
                 "dataType": "json",
                 "type": "POST",
             },
+            "order": [
+                [ 1, "desc" ]
+            ],
             "columns": [
+                {
+                    "data": "image_url",
+                    "sortable": false,
+                    "render":function ( data, type, row, meta ) {
+                        return "<img src='"+row.image_url+"' class='img_small' alt='Product Image' style='height: 25px;'/>";
+                    }
+                },
                 { "data": "product_code" },
                 { "data": "product_name" },
                 { "data": "weight" },
@@ -91,6 +102,10 @@
                     }
                 }
             );
+        }).on('mouseover','.img_small',function (e) {
+            // $(this).css({'height':'100px'});
+        }).on('mouseout','.img_small',function (e) {
+            // $(this).css({'height':'25px'});
         });
 </script>
 @endscript

@@ -51,6 +51,7 @@ class Product_model extends MY_Model {
 
     public function getAllProducts(){
         $colsArr = array(
+            '',
             'product_code',
             'product_name',
             'weight',
@@ -59,7 +60,13 @@ class Product_model extends MY_Model {
             'sale_price',
         );
 
-        $query = $this->model->common_select('products.*')->common_get('products');
-        echo $this->model->common_datatable($colsArr, $query,"is_deleted = 0");die;
+        $query = $this->model
+                    ->common_select('products.*,product_images.thumb')
+                    ->common_join("product_images","product_images.product_id = products.id","left")
+                    ->common_get('products');
+        echo $this->model->common_datatable($colsArr, $query,"products.is_deleted = 0","products.id",false,array(
+            'path'  =>  'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR,
+            'no_image' => null,
+        ));die;
     }
 }

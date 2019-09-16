@@ -110,11 +110,12 @@ class Payments extends MY_Controller {
                 '`payments`.`payment_mode`',
                 '`payments`.`paid_amount`',
                 '`payments`.`created_at`',
+                '`clients`.`email`',
                 'links'
             );
 
             $query = $this->model
-                        ->common_select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`')
+                        ->common_select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`clients`.`email` AS `client_email`')
                         ->common_join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
                         ->common_get('payments');
             echo $this->model->common_datatable($colsArr, $query);die;
@@ -145,6 +146,65 @@ class Payments extends MY_Controller {
         $date = date('d-m-Y',strtotime($payments['created_at']));
         $file_name = "Invoice #{$payments['id']} {$payments['client_name']} {$date}.pdf";
         $this->generate_pdf($invoice,$file_name);
+    }
+
+    public function email_reciept($payment_id){
+
+        $response = array(
+            'success'    => false,
+            'message'    => 'Please try again'
+        );
+
+        if($payment = $this->get_payments($payment_id)){
+            $client = $this->client->get_client_by_id($payment['client_id']);
+
+            if($client['email']){
+
+                $this->data['order'] = $payment;
+                $invoice = $this->load->view('payment/payment_print', $this->data,true);
+
+                $date = date('d-m-Y',strtotime($payment['created_at']));
+                $file_name = "Reciept #{$payment['id']} {$payment['client_name']} {$date}.pdf";
+                $file_name = FCPATH.'uploads'.DIRECTORY_SEPARATOR.$file_name;
+
+                $this->generate_pdf($invoice,$file_name,'F');
+                if(file_exists($file_name)){
+                    $this->load->library('mymailer');
+                    $attachment = array($file_name);
+                    $email_response = $this->mymailer->send_email("Reciept","Please Find Attached Payment Reciept",$client['email'],null,null,$attachment);
+                    if($email_response['status']){
+                        $response = array(
+                            'success'    => true,
+                            'message'    => "Email sent successfully to {$client['email']}"
+                        );
+                    }else{
+                        $response = array(
+                            'success'    => false,
+                            'message'    => "Email can't be send."
+                        );
+                    }
+                    unlink($file_name);
+                }else{
+                    $response = array(
+                        'success'    => false,
+                        'message'    => "Can't generate Invoice"
+                    );
+                }
+            }else{
+                $response = array(
+                    'success'    => false,
+                    'message'    => 'No email is associated with this client'
+                );
+            }
+
+        }else{
+            $response = array(
+                'success'    => false,
+                'message'    => 'Order not found'
+            );
+        }
+
+        echo json_encode($response);
     }
 
     private function get_payments($payment_id){
@@ -210,7 +270,7 @@ class Payments extends MY_Controller {
     public function payments_list_export(){
 
         $query = $this->model
-            ->common_select('CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`payments`.`payment_mode`,`payments`.`paid_amount`,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`')
+            ->common_select('CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`payments`.`payment_mode`,`payments`.`paid_amount`,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`,`clients`.`email` AS `client_email`')
             ->common_join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
             ->common_get('payments');
 

@@ -23,7 +23,7 @@
                                 <th>Actual Delivery Date</th>
                                 <th>Salesman</th>
                                 <th>DeliveryBoy</th>
-<!--                                <th>Delivery Boy</th>-->
+                                <th>Client Email</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -102,20 +102,21 @@
                 { "data": "actual_delivery_date" },
                 { "data": "salesman_name" },
                 { "data": "deliveryboy_name" },
+                { "data": "client_email" },
                 {
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
-                          "<a class='' id='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Email'><i class='feather icon-mail'></i></a>"+
-                          "<a class='' id='allocate_delivery_boy' href='<?php echo $this->baseUrl; ?>orders/update_delivery_boy' data-order_id='"+data.id+"' data-delivery_boy_id='"+data.delivery_boy_id+"'title='Allocat/Change Delivery Boy'><i class='feather icon-airplay'></i></a>";
+                          "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>"+
+                          "<a class='allocate_delivery_boy' href='<?php echo $this->baseUrl; ?>orders/update_delivery_boy' data-order_id='"+data.id+"' data-delivery_boy_id='"+data.delivery_boy_id+"'title='Allocat/Change Delivery Boy'><i class='feather icon-airplay'></i></a>";
 				    }
             	}
             ],
             "createdRow": function ( row, data, index ) {}
 		});
 
-	oTable.on('click','#order_email',function(e){
+	oTable.on('click','.order_email',function(e){
 	    e.preventDefault();
 
         $('.theme-loader').fadeIn();
@@ -158,7 +159,7 @@
                 $('.theme-loader').fadeOut();
             }
         });
-    }).on('click','#allocate_delivery_boy',function(e) {
+    }).on('click','.allocate_delivery_boy',function(e) {
         e.preventDefault();
         var $this = $(this);
         var order_id = $this.data('order_id');
