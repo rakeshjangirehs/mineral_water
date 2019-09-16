@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="" class="col-form-label col-md-4">Credit Balance:</label>
+                                    <label for="" class="col-form-label col-md-4">Available Credit Balance:</label>
                                     <div class="col-sm-8">
                                         <input type="hidden" name="original_credit_balance" id="original_credit_balance" value="<?php echo $client_detail['credit_balance']; ?>"/>
                                         <input type="hidden" name="credit_balance" id="credit_balance" value="<?php echo $client_detail['credit_balance']; ?>"/>
@@ -164,7 +164,7 @@
         dropWidth: 200,
         dropPrimaryColor: "#1abc9c", 
         dropBorder: "1px solid #1abc9c",
-        format: "d/m/Y",
+        format: "Y-m-d",
     });
 
     $("#payment_mode").on('change',function(e){
