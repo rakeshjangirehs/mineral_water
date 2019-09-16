@@ -56,4 +56,5 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\css\style.css">
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\css\jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\style.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\datedropper\css\datedropper.min.css">
 <!--    <link rel="stylesheet" href="--><?php //echo $this->assetsUrl; ?><!--files\assets\scss\partials\menu\_pcmenu.htm">-->

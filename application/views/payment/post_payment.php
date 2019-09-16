@@ -51,7 +51,7 @@
                                 <div class="form-group row">
                                     <label for="check_date" class="col-form-label col-md-4">Cheque Date:</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="check_date" id="check_date" class="form-control" readonly/>
+                                        <input type="text" name="check_date" id="dropper-default" class="form-control" readonly/>
                                         <span class="messages"><?php echo form_error('check_date');?></span>
                                     </div>
                                 </div>
@@ -161,7 +161,14 @@
 
     var $check_no = $("#check_no");
     var $transection_no = $("#transection_no");
-    var $check_date = $("#check_date");
+    var $check_date = $("#dropper-default");
+
+    $check_date.dateDropper({
+        dropWidth: 200,
+        dropPrimaryColor: "#1abc9c", 
+        dropBorder: "1px solid #1abc9c",
+        format: "d/m/Y",
+    });
 
     var pending_amount = 0;
     $("#payments tr").each(function (e) {
