@@ -63,7 +63,7 @@
                     "data": "image_url",
                     "sortable": false,
                     "render":function ( data, type, row, meta ) {
-                        return "<img src='"+row.image_url+"' class='img_small' alt='Product Image' style='height: 25px;'/>";
+                        return (row.image_url) ? "<img src='"+row.image_url+"' class='img_small' alt='Product Image' style='height: 25px;'/>" : '';
                     }
                 },
                 { "data": "product_code" },
