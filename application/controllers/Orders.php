@@ -51,7 +51,7 @@
  	    $order_id = $this->input->post('order_id');
         $order = $this->get_order($order_id);
         $zip_code_id = $order['order_client']['zip_code_id'];
- 	    $users = $this->user->get_user_by_role_and_zip_code(2,null,$zip_code_id);
+ 	    $users = $this->user->get_user_by_role_and_zip_code(3,null,$zip_code_id);   //3-salesman
         echo json_encode($users);
     }
 

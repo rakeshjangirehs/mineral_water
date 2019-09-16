@@ -1,7 +1,7 @@
 <style>
     .details{
         position: absolute;
-        left: 170px;
+        left: 190px;
     }
 </style>
 <div class="row">
@@ -91,6 +91,9 @@
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Address : <span class="details"><?php echo $client_detail['address']; ?></span>
                                             </li>
+                                            <li class="p-t-10" style="font-weight: 800;">
+                                                <i class="icofont icofont-double-right text-success"></i> Amount Due : <span class="details" id="total_amount_due">NIL</span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -104,7 +107,7 @@
                                             <tr>
                                                 <th>Order ID</th>
                                                 <th>Payable Amount</th>
-                                                <th>Amount To be Paid</th>
+                                                <th>Outstanding Amount</th>
                                                 <th>Amount Used</th>
                                                 <th>Credit Balance Used</th>
                                             </tr>
@@ -159,6 +162,17 @@
     var $check_no = $("#check_no");
     var $transection_no = $("#transection_no");
     var $check_date = $("#check_date");
+
+    var pending_amount = 0;
+    $("#payments tr").each(function (e) {
+        var $tr = $(this);
+        var to_be_paid = parseFloat($tr.find('.to_be_paid_amound').text()) || 0;
+        pending_amount += to_be_paid;
+    });
+
+    if(pending_amount > 0){
+        $("#total_amount_due").text(pending_amount);
+    }
 
     $("#payment_mode").on('change',function(e){
 
