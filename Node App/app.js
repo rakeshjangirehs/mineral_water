@@ -1,17 +1,15 @@
-var app		=	require('express')();
-var http	=	require('http').createServer(app);
+var http	=	require('http').createServer();
 var io		=	require('socket.io')(http);
 var mysql	=	require('mysql');
 var user_count = 0;
 
 
 var dbConfig = {
-	host     : 'localhost',
+	host     : '172.16.3.124',
 	user     : 'root',
 	password : '',
 	database : 'mineral_water'
 };
-// db.connect();
 
 io.on('connection', function(socket){
 	

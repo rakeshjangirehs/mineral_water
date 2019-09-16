@@ -54,7 +54,7 @@
                             'node_server_url'	=>($this->input->post('node_server_url')) ? $this->input->post('node_server_url') : NULL,
                         );
 
-                        if($this->settings_model->add_update_smtp($dataSmtp)){
+                        if($this->settings_model->add_update($dataSmtp)){
                             $this->flash('success', 'Map Settings updated successfully.');
                         }else{
                             $this->flash('success', 'Map Settings failed to update.');
