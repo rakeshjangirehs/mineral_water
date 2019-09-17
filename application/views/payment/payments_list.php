@@ -79,6 +79,8 @@
 		}).on('click','.send_reciept',function(e){
             e.preventDefault();
 
+            $("#flash_parent").children().not("#inactivity_logout").remove();
+
             $('.theme-loader').fadeIn();
 
             $.ajax({

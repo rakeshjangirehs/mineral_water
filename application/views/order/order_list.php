@@ -119,6 +119,8 @@
 	oTable.on('click','.order_email',function(e){
 	    e.preventDefault();
 
+        $("#flash_parent").children().not("#inactivity_logout").remove();
+
         $('.theme-loader').fadeIn();
 
         $.ajax({
