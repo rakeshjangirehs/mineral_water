@@ -20,7 +20,7 @@
                                             System Settings
                                         </a>
                                     </li>
-                                    <li role="tab" class="disabled <?php echo ($mode == 'logo') ? 'current': ''; ?>" aria-disabled="true">
+                                    <li role="tab" class="disabled <?php echo ($mode == 'logo') ? 'current': ''; ?>" aria-disabled="true" style="display:none;">
                                         <a id="verticle-wizard-t-1" href="<?php echo $this->baseUrl; ?>settings/index/logo" aria-controls="verticle-wizard-p-1">
                                             Upload Logo
                                         </a>

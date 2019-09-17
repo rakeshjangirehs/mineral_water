@@ -179,6 +179,9 @@ class ApiV1 extends REST_Controller {
 
     // dashboards
     public function sales_dashboard_get($user_id){
+
+        $date = date('Y-m-d');
+
         $dashboard = array(
             'today_visits'=>0,
             'today_orders'=>0,
@@ -188,7 +191,7 @@ class ApiV1 extends REST_Controller {
             ->select("*")
             ->from('client_visits')
             ->where('created_by', $user_id)
-            ->where('date(created_at) = CURDATE()', NULL, FALSE)
+            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
             ->get();
         $dashboard['today_visits'] = $this->db->affected_rows();
 
@@ -196,7 +199,7 @@ class ApiV1 extends REST_Controller {
             ->select("*")
             ->from('orders')
             ->where('created_by', $user_id)
-            ->where('date(created_at) = CURDATE()', NULL, FALSE)
+            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
             ->get();
 
         $dashboard['today_orders'] = $this->db->affected_rows();
@@ -205,7 +208,7 @@ class ApiV1 extends REST_Controller {
             ->select("*")
             ->from('leads')
             ->where('created_by', $user_id)
-            ->where('date(created_at) = CURDATE()', NULL, FALSE)
+            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
             ->get();
 
         $dashboard['today_leads'] = $this->db->affected_rows();
@@ -680,7 +683,7 @@ class ApiV1 extends REST_Controller {
         }
     }
 
-    public function client_invoice_summary_get(){
+    public function client_invoice_summary_get($user_id = NULL){
         $client = array();
         $client = $this->db->query("SELECT 
                                         `clients`.*,
@@ -711,17 +714,27 @@ class ApiV1 extends REST_Controller {
                                         LEFT JOIN `orders` ON `orders`.`id` = `payment_details`.`order_id`
                                         WHERE (`payment_details`.`status` = 'PENDING' OR `payment_details`.`status` IS NULL)
                                     ) AS `pending_inv` ON `pending_inv`.`order_id` = `orders`.`id`
+                                    WHERE `clients`.`created_by` = $user_id
                                     GROUP BY `orders`.`client_id`
                                 ")->result_array();
 
         if($client){
             $this->response(
                 array(
-                    'status' => FALSE,
+                    'status' => TRUE,
                     'message' => "Pending invoice found.",
                     'data' => $client
                 ),
                 REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "No client found.",
+                    'data' => $client
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
             );
         }
     }

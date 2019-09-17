@@ -1,9 +1,17 @@
+var connectionOptions = {
+    "force new connection"	:	true,
+    "reconnectionAttemps"	:	"Infinity",
+    "timeout"	            :	1000,
+    "transports"	        :	["websocket"]
+};
+
 function tracking_map() {
 
 	var mapDiv = document.getElementById('map');
 	var server_url = mapDiv.getAttribute('node_url');	//URL of the NPM Server
 
-	var socket = io(server_url);
+	var socket = io(server_url)
+	
 	var initial_load = false;
 	var markers = [];
 
@@ -459,4 +467,3 @@ function client_location(){
 
 
 }
-
