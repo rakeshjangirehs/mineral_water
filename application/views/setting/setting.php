@@ -125,7 +125,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row" style="display:none;">
                                             <div class="col-sm-12">
                                                 <label for="userName-2" class="block">Node Server URL</label>
                                             </div>
