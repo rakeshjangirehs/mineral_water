@@ -17,7 +17,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/
 /adminty-master/
 config.xml
-Node App/node_modules/
+/node_modules/
 # IDE Files
 #-------------------------
 /nbproject/

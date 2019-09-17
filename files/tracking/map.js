@@ -1,20 +1,27 @@
+const mapDiv = document.getElementById('map');
+const server_url = mapDiv.getAttribute('node_url');	//URL of the NPM Server
+
+var socket = null;
+const node_url = "http://zoopapps.com";
+const connect_options = {
+	path: '/neervana/neervana_node/socket.io'
+};
+
+const letsEnkindle = {lat: 23.047325, lng: 72.570479};	// The location of letsEnkindle
+
 function tracking_map() {
 
-	var mapDiv = document.getElementById('map');
-	var server_url = mapDiv.getAttribute('node_url');	//URL of the NPM Server
+	socket = io.connect(node_url,connect_options);
 
-	var socket = io(server_url);
 	var initial_load = false;
 	var markers = [];
-
-	var letsEnkindle = {lat: 23.047325, lng: 72.570479};	// The location of letsEnkindle
 
 	var markerGetUrl = mapDiv.getAttribute('markerGetUrl');
 	var users = JSON.parse(mapDiv.getAttribute('users'));
 
 	var mapOptions = {
-			zoom: 12,
-			center: letsEnkindle
+		zoom: 12,
+		center: letsEnkindle
 	};
 
 	var map = new google.maps.Map(mapDiv,mapOptions);
@@ -24,15 +31,15 @@ function tracking_map() {
 	});
 
 	var jqxhr = $.get( markerGetUrl, function(response) {
-					for(var key in response){
-						addMarker(response[key],true);
-					}
-				},'json')
-				.done(function() {})
-				.fail(function() {})
-				.always(function() {
-					initial_load = true;
-				});
+		for(var key in response){
+			addMarker(response[key],true);
+		}
+	},'json')
+		.done(function() {})
+		.fail(function() {})
+		.always(function() {
+			initial_load = true;
+		});
 
 	function addMarker(obj,fit=false){
 
@@ -41,7 +48,7 @@ function tracking_map() {
 		var found_user = users.find(function(o){
 			return o.id == obj.user_id
 		});
-console.log(found_user);
+
 		var found_marker = markers.find(function(o){
 			return o.user_id == obj.user_id
 		});
@@ -104,15 +111,12 @@ console.log(found_user);
 
 function add_marker() {
 
-	var mapDiv = document.getElementById('map');
-	var server_url = mapDiv.getAttribute('node_url');	//URL of the NPM Server
+	socket = io.connect(node_url,connect_options);
 
-	var socket = io(server_url);
-
-	var letsEnkindle = {lat: 23.047325, lng: 72.570479};	// The location of letsEnkindle
 	var markerSaveUrl = mapDiv.getAttribute('markerSaveUrl');
 	var users = JSON.parse(mapDiv.getAttribute('users'));
 	var userSelect = document.getElementById('user_id');
+
 	var mapOptions = {
 		zoom: 12,
 		center: letsEnkindle
@@ -180,8 +184,6 @@ function tracking_path() {
 
 	var markers = [];
 
-	var letsEnkindle = {lat: 23.047325, lng: 72.570479};	// The location of letsEnkindle
-	var mapDiv = document.getElementById('map');
 	var pathGetUrl = mapDiv.getAttribute('pathGetUrl');
 	var users = JSON.parse(mapDiv.getAttribute('users'));
 	var paths = [];
@@ -296,16 +298,13 @@ function tracking_path() {
 
 function set_route() {
 
-	var mapDiv = document.getElementById('map');
-	var server_url = mapDiv.getAttribute('node_url');	//URL of the NPM Server
+	socket = io.connect(node_url,connect_options);
+	var markers = [];
 
-	var socket = io(server_url);
-    var markers = [];
-
-	var letsEnkindle = {lat: 23.047325, lng: 72.570479};	// The location of letsEnkindle
 	var markerSaveUrl = mapDiv.getAttribute('markerSaveUrl');
 	var users = JSON.parse(mapDiv.getAttribute('users'));
 	var userSelect = document.getElementById('user_id');
+
 	var mapOptions = {
 		zoom: 12,
 		center: letsEnkindle
@@ -313,10 +312,10 @@ function set_route() {
 
 	var map = new google.maps.Map(mapDiv,mapOptions);
 
-    var directionsRenderer = new google.maps.DirectionsRenderer;
-    directionsRenderer.setMap(map);
-    var directionsService = new google.maps.DirectionsService;
-    var service = new google.maps.places.PlacesService(map);
+	var directionsRenderer = new google.maps.DirectionsRenderer;
+	directionsRenderer.setMap(map);
+	var directionsService = new google.maps.DirectionsService;
+	var service = new google.maps.places.PlacesService(map);
 
 	google.maps.event.addListener(map, 'click', function(event) {
 
@@ -326,11 +325,13 @@ function set_route() {
 		drawMarker(currentLat,currentLng);
 	});
 
-    var menuDisplayed = false;
-    var menuBox = document.getElementById("menu");
-    document.oncontextmenu = function(){
-        return false;
-    }
+	var menuDisplayed = false;
+	var menuBox = document.getElementById("menu");
+
+	document.oncontextmenu = function(){
+		return false;
+	}
+
 	function drawMarker(currentLat,currentLng){
 
 		var user_id = userSelect.options[userSelect.selectedIndex].value;
@@ -355,7 +356,7 @@ function set_route() {
 					var markerOptions = {
 						map: map,
 						position: latLng,
-                        draggable:true,
+						draggable:true,
 						title:found_user.first_name,
 						// animation:google.maps.Animation.Lm,	//Lm/Nm,/DROP/BOUNCE (Lm is default)
 						label:found_user.first_name.substring(0,1).toUpperCase()
@@ -367,38 +368,38 @@ function set_route() {
 					});
 
 					map.addListener('click',function(e){
-                        if (menuDisplayed == true) {
-                            menuBox.style.display = "none";
-                        }
-                    });
+						if (menuDisplayed == true) {
+							menuBox.style.display = "none";
+						}
+					});
 					marker.addListener('click', function(event) {
-                        if (menuDisplayed == true) {
-                            menuBox.style.display = "none";
-                        }
+						if (menuDisplayed == true) {
+							menuBox.style.display = "none";
+						}
 						infoWindow.open(map,marker);
-                        console.log(this.getPosition().lat(),this.getPosition().lng());
+						console.log(this.getPosition().lat(),this.getPosition().lng());
 					});
 
-                    marker.addListener('rightclick', function(e) {
-                        for (prop in e) {
-                            if (e[prop] instanceof MouseEvent) {
-                                mouseEvt = e[prop];
-                                var left = mouseEvt.clientX;
-                                var top = mouseEvt.clientY;
-                                menuBox.style.left = left + "px";
-                                menuBox.style.top = top + "px";
-                                menuBox.style.display = "block";
+					marker.addListener('rightclick', function(e) {
+						for (prop in e) {
+							if (e[prop] instanceof MouseEvent) {
+								mouseEvt = e[prop];
+								var left = mouseEvt.clientX;
+								var top = mouseEvt.clientY;
+								menuBox.style.left = left + "px";
+								menuBox.style.top = top + "px";
+								menuBox.style.display = "block";
 
-                                mouseEvt.preventDefault();
+								mouseEvt.preventDefault();
 
-                                menuDisplayed = true;
-                                infoWindow.close();
-                            }
-                        }
+								menuDisplayed = true;
+								infoWindow.close();
+							}
+						}
 
-                    });
-                    markers.push(marker);
-                    draw_route();
+					});
+					markers.push(marker);
+					draw_route();
 				}
 			});
 		}else{
@@ -408,45 +409,46 @@ function set_route() {
 
 	function draw_route(){
 
-        if(markers.length>=2){
+		if(markers.length>=2){
 
-            var routeOptions = {
-                travelMode: google.maps.TravelMode.DRIVING,
-                optimizeWaypoints: true,
-            };
-            var waypoints = [];
+			var routeOptions = {
+				travelMode: google.maps.TravelMode.DRIVING,
+				optimizeWaypoints: true,
+			};
+			var waypoints = [];
 
-            markers.forEach(function(item,index,all){
-                if(index==0){
-                    routeOptions.origin = item.getPosition();
-                }else if(index==(all.length-1)){
-                    routeOptions.destination = item.getPosition();
-                }else{
-                    waypoints.push({
-                        location: item.getPosition(),
-                        stopover: true
-                    });
-                }
-                console.log(item.getPosition().lat(),item.getPosition().lng());
-            });
+			markers.forEach(function(item,index,all){
+				if(index==0){
+					routeOptions.origin = item.getPosition();
+				}else if(index==(all.length-1)){
+					routeOptions.destination = item.getPosition();
+				}else{
+					waypoints.push({
+						location: item.getPosition(),
+						stopover: true
+					});
+				}
+				console.log(item.getPosition().lat(),item.getPosition().lng());
+			});
 
-            if(waypoints.length>0){
-                routeOptions.waypoints = waypoints;
-            }
-console.log(routeOptions);
-            directionsService.route(routeOptions, function(response, status) {
-                if (status == 'OK') {
-                    directionsRenderer.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
-        }
-    }
+			if(waypoints.length>0){
+				routeOptions.waypoints = waypoints;
+			}
+
+			directionsService.route(routeOptions, function(response, status) {
+				if (status == 'OK') {
+					directionsRenderer.setDirections(response);
+				} else {
+					window.alert('Directions request failed due to ' + status);
+				}
+			});
+		}
+	}
 
 }
 
 function client_location(){
+
 	var mapDiv = document.getElementById('map');
 	var letsEnkindle = {lat: 23.047325, lng: 72.570479};	// The location of letsEnkindle
 	var mapOptions = {
@@ -459,4 +461,18 @@ function client_location(){
 
 
 }
+
+//For testing
+/*
+window.myFunction = function(){
+    socket.emit('test_save', {date:new Date().toUTCString()},function(response){
+        console.log("client callback : ",response);
+    });
+}
+setTimeout(function(){
+		socket.on('test_emit', function(obj){
+		console.log(obj);
+	});
+},1000);
+*/
 

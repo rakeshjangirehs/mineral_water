@@ -1,0 +1,29 @@
+
+	<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Neervana - Add Marker</title>
+</head>
+
+<body>
+    test
+<script src='./socket.io.js'></script>
+<script>
+    var socket = io.connect("http://zoopapps.com",{
+        path: '/neervana/neervana_node'
+    });
+    console.log(socket);
+    socket.on('test_emit', function(obj){
+		console.log(obj);
+	});
+	
+	window.myFunction = function(){
+	    socket.emit('test_save', {date:new Date().toUTCString()},function(response){
+	        console.log("client callback : ",response);
+	    });
+	}
+	
+</script>
+</body>
+</html>
