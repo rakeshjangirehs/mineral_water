@@ -103,12 +103,12 @@ app.post('/neervana/neervana_node/api/save_user_coordinates', function(req, res)
 				data.id = results.insertId;
 				io.emit('push_coordinates', data);
 				db.end();
-				res.json({status:false,message:'Coordinates saved successfully'}).end();
+				res.json({status:true,message:'Coordinates saved successfully'}).end();
 			}
 		});
 
 	}else{
-		res.json({status:false,message:'lat, lng and user_id are required params.'}).end();
+		res.status(400).json({status:false,message:'lat, lng and user_id are required params.'}).end();
 	}
 });
 
