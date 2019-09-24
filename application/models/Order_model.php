@@ -20,7 +20,11 @@ class Order_model extends CI_Model {
 		}
 		$this->db->insert_batch('order_items', $order_items);
 		$this->db->trans_complete();
-		return $this->db->trans_status();
+		if($this->db->trans_status()){
+            return $order_id;
+        }else{
+            return false;
+        }
     }
 
     public function get_invoice($client_id){

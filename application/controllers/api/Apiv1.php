@@ -81,6 +81,7 @@ class ApiV1 extends REST_Controller {
         $thumbImgUrl = base_url()."files/assets/uploads/products/thumbnails";
         $products = array();
         $products = $this->db->query("SELECT 
+                    `products`.`id` AS `product_id`,
                     `products`.`product_name`,
                     `products`.`product_code`,
                     `products`.`description`,
@@ -134,24 +135,24 @@ class ApiV1 extends REST_Controller {
                 'status' => 1
             );
             $user = $this->user->getRows($con);
-
-            $this->db->insert("user_devices", array("user_id"=>$user['user_id'], "device_id"=>$device_id));
+            
+            if($user){
+                $this->db->insert("user_devices", array("user_id"=>$user['user_id'], "device_id"=>$device_id));
 
             // remove first created device ids if more than two
             $sqlDeviceIds = $this->db->query("
-                DELETE FROM `user_devices`
-                WHERE id NOT IN (
-                  SELECT id
-                  FROM (
-                    SELECT id
-                    FROM `user_devices`
-                    ORDER BY id DESC
-                    LIMIT 2
-                  ) foo
-                )
-                ");
-            
-            if($user){
+                                            DELETE FROM `user_devices`
+                                            WHERE id NOT IN (
+                                              SELECT id
+                                              FROM (
+                                                SELECT id
+                                                FROM `user_devices`
+                                                ORDER BY id DESC
+                                                LIMIT 2
+                                              ) foo
+                                            )
+                                            ");
+
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,
@@ -164,7 +165,7 @@ class ApiV1 extends REST_Controller {
                 $this->response([
                     'status' => FALSE,
                     'message' => 'Wrong email or password.',
-                    'data' => array()
+                    'data' => new stdClass()
                 ], REST_Controller::HTTP_OK);
             }
         }else{
@@ -186,6 +187,20 @@ class ApiV1 extends REST_Controller {
             'today_visits'=>0,
             'today_orders'=>0,
             'today_leads'=>0,
+            'images'=>array(
+                array(
+                    "name"=>'product-edit1.jpg',
+                    "url"=>base_url()."files/assets/images/product-edit/product-edit1.jpg"
+                ),
+                array(
+                    "name"=>'product-edit2.jpg',
+                    "url"=>base_url()."files/assets/images/product-edit/product-edit2.jpg"
+                ),
+                array(
+                    "name"=>'product-edit3.jpg',
+                    "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
+                )
+            )
         );
         $this->db
             ->select("*")
@@ -227,7 +242,7 @@ class ApiV1 extends REST_Controller {
     public function clients_by_salesman_get($user_id){
 
         $query = "SELECT 
-                        id,first_name,last_name,credit_limit,email,address, phone
+                        id,first_name,last_name,credit_limit,email,address, phone, lat, lng
                     FROM clients
                     WHERE `clients`.`is_deleted` = 0 
                     AND (zip_code_id IN (
@@ -455,6 +470,8 @@ class ApiV1 extends REST_Controller {
         $user_id = $this->post('user_id');
         $contact_id = $this->post('contact_id');
         $phone = $this->input->post('phone');
+        $lat = ($this->post('lat')) ? $this->post('lat') : NULL;
+        $lng = ($this->post('lng')) ? $this->post('lng') : NULL;
 
         if($phone){
             $existPhone = $this->client->check_contact_exist("phone", $phone, $contact_id);
@@ -477,6 +494,8 @@ class ApiV1 extends REST_Controller {
             'client_id'     =>  $client_id,
             'person_name'   =>  $this->input->post('person_name'),
             'phone'         =>  $phone,
+            'lat'           =>  $lat,
+            'lng'           =>  $lng,
             'is_primary'    =>  ($this->input->post('is_primary')=='Yes') ? 'Yes' : 'No',
         );
 
@@ -550,13 +569,13 @@ class ApiV1 extends REST_Controller {
                         "product_id": 1,
                         "quantity":10,
                         "actual_price": 10,
-                        "effective_price": 12
+                        "sale_price": 12
                     },
                     {
                         "product_id": 2,
                         "quantity":10,
                         "actual_price": 12,
-                        "effective_price": 15
+                        "sale_price": 15
                     }
                 ]
             }
@@ -565,14 +584,50 @@ class ApiV1 extends REST_Controller {
         if(!empty($entityBody)){
             $orders = json_decode($entityBody,true);
             if(!empty($orders)){
-                // echo "<pre>"; print_r($orders);die;
-                if(!empty($orders['client_id']) && !empty($orders['user_id']) && !empty($orders['order_details'])){
+                if(isset($orders['client_id']) && isset($orders['user_id']) && isset($orders['order_details'])){
+
+                    $clientId = $orders['client_id'];
+                    $availableCreditLimit = $this->db->query("SELECT 
+                                                        `clients`.`id`,
+                                                        CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
+                                                        `clients`.`credit_limit`,
+                                                        `clients`.`credit_balance`,
+                                                        IFNULL(`ord`.`outstanding`,0) AS `outstanding`,
+                                                        IFNULL(`pay`.`paid`,0) AS `paid`,
+                                                        ((`clients`.`credit_limit`+`clients`.`credit_balance`) - (IFNULL(`ord`.`outstanding`,0)-IFNULL(`pay`.`paid`,0))) AS `available_credit_limit`
+                                                    FROM `clients`
+                                                    LEFT JOIN (
+                                                        SELECT
+                                                            `client_id`,
+                                                            SUM(`payable_amount`) AS `outstanding`
+                                                        FROM `orders`
+                                                        GROUP BY `client_id`
+                                                    ) AS `ord` ON `ord`.`client_id` = `clients`.`id`
+                                                    LEFT JOIN (
+                                                        SELECT 
+                                                            `client_id`,
+                                                            SUM(`paid_amount`) AS `paid`
+                                                        FROM `payments`
+                                                        GROUP BY `client_id`
+                                                    ) AS `pay` ON `pay`.`client_id` = `clients`.`id`
+                                                    WHERE `clients`.`id` = $clientId
+                                                    GROUP BY `clients`.`id`")
+                                                ->row_array()['available_credit_limit'];
+
+                    $subtotal = array_sum(array_column($orders['order_details'], 'subtotal'));
+                    if($subtotal > $availableCreditLimit){
+                        $this->response([
+                            'status' => FALSE,
+                            'message' => 'Available credit limit exceeded. Please pay your outstanding.',
+                        ], REST_Controller::HTTP_OK);
+                    }
                     foreach($orders['order_details'] as $detail){
-                        if(!empty($detail['product_id']) && !empty($detail['quantity']) && !empty($detail['effective_price'])){
+                        if(!empty($detail['product_id']) && !empty($detail['quantity']) && !empty($detail['sale_price'])){
 
                             // order table array data
                             $arrOrder = array(
                                 'client_id'=>$orders['client_id'],
+                                'payable_amount'=>$subtotal,
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'created_by'=>$orders['user_id']
                             );
@@ -582,16 +637,17 @@ class ApiV1 extends REST_Controller {
                                 'product_id'=>$detail['product_id'],
                                 'quantity'=>$detail['quantity'],
                                 'actual_price'=>$detail['actual_price'],
-                                'effective_price'=>$detail['effective_price']
+                                'effective_price'=>$detail['sale_price'],
+                                'subtotal'=>$detail['subtotal']
                             );
                         }else{
                             $this->response([
                                 'status' => FALSE,
-                                'message' => 'Provide product_id, quantity and effective price.',
+                                'message' => 'Provide product_id, quantity and sale_price.',
                             ], REST_Controller::HTTP_OK);
                         }
                     }
-                    if($this->order->insert_order($arrOrder, $arrOrderItems)){
+                    if($orderId = $this->order->insert_order($arrOrder, $arrOrderItems)){
                         $this->response([
                             'status' => TRUE,
                             'message' => 'Order placed successfully.',
@@ -605,7 +661,7 @@ class ApiV1 extends REST_Controller {
                 }else{
                     $this->response([
                         'status' => FALSE,
-                        'message' => 'Please provide client_id, user_id and order details.',
+                        'message' => 'Please provide client_id, user_id, subtotal and order_details.',
                     ], REST_Controller::HTTP_OK);
                 }
             }else{
@@ -690,28 +746,28 @@ class ApiV1 extends REST_Controller {
                                         IFNULL(`paid_inv`.`paid`,0) AS `paid_invoice`,
                                         IFNULL(`partial_inv`.`partial`,0) AS `partial_invoice`,
                                         IFNULL(`pending_inv`.`pending`,0) AS `pending_invoice`
-                                    FROM `orders`
-                                    LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                                    FROM `clients`
+                                    LEFT JOIN `orders` ON `orders`.`client_id` = `clients`.`id`
                                     LEFT JOIN (
                                         SELECT
-                                            COUNT(*) AS `paid`,
+                                            COUNT(`payment_details`.`id`) AS `paid`,
                                             `order_id`
                                         FROM `payment_details`
                                         WHERE `payment_details`.`status` = 'PAID'
                                     ) AS `paid_inv` ON `paid_inv`.`order_id` = `orders`.`id`
                                     LEFT JOIN (
                                         SELECT
-                                            COUNT(*) AS `partial`,
+                                            COUNT(`payment_details`.`id`) AS `partial`,
                                             `order_id`
                                         FROM `payment_details`
                                         WHERE `payment_details`.`status` = 'PARTIAL'
                                     ) AS `partial_inv` ON `partial_inv`.`order_id` = `orders`.`id`
                                     LEFT JOIN (
                                         SELECT
-                                            COUNT(*) AS `pending`,
-                                            `order_id`
-                                        FROM `payment_details`
-                                        LEFT JOIN `orders` ON `orders`.`id` = `payment_details`.`order_id`
+                                            COUNT(`orders`.`id`) AS `pending`,
+                                            `orders`.`id` AS `order_id`
+                                        FROM `orders`
+                                        LEFT JOIN `payment_details` ON `payment_details`.`order_id` = `orders`.`id`
                                         WHERE (`payment_details`.`status` = 'PENDING' OR `payment_details`.`status` IS NULL)
                                     ) AS `pending_inv` ON `pending_inv`.`order_id` = `orders`.`id`
                                     WHERE `clients`.`created_by` = $user_id
@@ -731,10 +787,10 @@ class ApiV1 extends REST_Controller {
             $this->response(
                 array(
                     'status' => FALSE,
-                    'message' => "No client found.",
+                    'message' => "No pending invoice found.",
                     'data' => $client
                 ),
-                REST_Controller::HTTP_BAD_REQUEST
+                REST_Controller::HTTP_OK
             );
         }
     }

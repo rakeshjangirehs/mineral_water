@@ -114,13 +114,13 @@
 
     public function print_invoice($id){
 
-         $order = $this->get_order($id);
-         $this->data['order'] = $order;
-         $invoice = $this->load->view('order/order_print', $this->data,true);
+        $order = $this->get_order($id);
+        $this->data['order'] = $order;
+        $invoice = $this->load->view('order/order_print', $this->data,true);
 
-         $date = date('d-m-Y',strtotime($order['created_at']));
-         $file_name = "Invoice #{$order['id']} {$order['client_name']} {$date}.pdf";
-         $this->generate_pdf($invoice,$file_name);
+        $date = date('d-m-Y',strtotime($order['created_at']));
+        $file_name = "Invoice #{$order['id']} {$order['client_name']} {$date}.pdf";
+        $this->generate_pdf($invoice,$file_name);
      }
 
     public function email_order($order_id){
@@ -130,7 +130,7 @@
             'message'    => 'Please try again'
         );
 
-         if($order = $this->get_order($order_id)){
+        if($order = $this->get_order($order_id)){
 
             $client = $this->client->get_client_by_id($order['client_id']);
 
@@ -173,13 +173,13 @@
                 );
             }
 
-         }else{
-             $response = array(
-                 'success'    => false,
-                 'message'    => 'Order not found'
-             );
-         }
+        }else{
+            $response = array(
+                'success'    => false,
+                'message'    => 'Order not found'
+            );
+        }
 
-         echo json_encode($response);
-     }
+        echo json_encode($response);
+    }
 }
