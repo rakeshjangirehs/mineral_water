@@ -10,7 +10,11 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-
+                    <div class="card-header-right" style="padding:0px 0px;">
+                        <ul class="list-unstyled card-option">
+                            <li><i class="feather icon-maximize full-card"></i></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="card-block">
                     <div

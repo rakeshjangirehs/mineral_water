@@ -14,7 +14,9 @@
 						Choose User: <select id="user_id">
 							<option value="">Choose User</option>
 							<?php foreach($users as $user){
-								echo "<option value='{$user['id']}'>{$user['first_name']}</option>";
+                                if($user['role_id']==3) {
+                                    echo "<option value='{$user['id']}'>{$user['first_name']}</option>";
+                                }
 							}?>
 						</select>						
                     </div>

@@ -57,4 +57,5 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\css\jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\style.css">
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\datedropper\css\datedropper.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
 <!--    <link rel="stylesheet" href="--><?php //echo $this->assetsUrl; ?><!--files\assets\scss\partials\menu\_pcmenu.htm">-->

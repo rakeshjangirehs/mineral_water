@@ -37,6 +37,7 @@
 <!-- Select 2 js -->
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\select2\js\select2.full.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\datedropper\js\datedropper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <!-- Multiselect js -->
 <!--<script type="text/javascript" src="--><?php //echo $this->assetsUrl; ?><!--files\bower_components\bootstrap-multiselect\js\bootstrap-multiselect.js"></script>-->
 <!--<script type="text/javascript" src="--><?php //echo $this->assetsUrl; ?><!--files\bower_components\multiselect\js\jquery.multi-select.js"></script>-->
