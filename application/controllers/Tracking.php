@@ -5,9 +5,11 @@ class Tracking extends MY_Controller {
 
     public function __construct(){
         parent::__construct();
+
         $this->data['users'] = $this->db
             ->select("users.*,roles.role_name")
             ->join("roles","roles.id = users.role_id","left")
+            //->where("roles.id=3")
             ->get("users")->result_array();
     }
 
@@ -23,19 +25,37 @@ class Tracking extends MY_Controller {
 
     public function tracking_path($provide_data=false){
 
-        if($provide_data){
-            $users =  $this->db->select("users.*,roles.role_name")->join("roles","roles.id = users.role_id","left")->get("users")->result_array();
+        //Get Delivery Boys
+        $this->data['users'] = $this->db
+            ->select("users.*,roles.role_name")
+            ->join("roles","roles.id = users.role_id","left")
+            ->where("roles.id=3")
+            ->get("users")->result_array();
+
+        if($this->input->server('REQUEST_METHOD')=='POST'){
+
+            $date = ($this->input->post('date')) ? $this->input->post('date') : date('Y-m-d');
+            $user_id = $this->input->post('user_id');
+
+            if($user_id){
+                $users = $this->db
+                    ->select("users.*,roles.role_name")
+                    ->join("roles","roles.id = users.role_id","left")
+                    ->where("users.id={$user_id}")
+                    ->get("users")->result_array();
+            }else{
+                $users =  $this->data['users'];
+            }
 
             foreach($users as $key=>$user){
                 $users[$key]['coordinates'] = array();
-                if($coordinate = $this->db->where("user_id = {$user['id']}")->order_by("id","ASC")->select("lat,lng")->get("coordinates")->result_array()){
+                if($coordinate = $this->db->where(array('user_id' => $user['id'],'date(created_at)' => $date))->order_by("id","ASC")->select("lat,lng")->get("coordinates")->result_array()){
                     $users[$key]['coordinates'][] = $coordinate;
                 }
             }
             echo json_encode($users);
         }else{
             $this->data['page_title'] = 'Tracking Path';
-            $this->data['users'] = $this->db->select("users.*,roles.role_name")->join("roles","roles.id = users.role_id","left")->get("users")->result_array();
             $this->data['no_breadcrumb'] = true;
             $this->load_content('tracking/tracking_path', $this->data);
         }
