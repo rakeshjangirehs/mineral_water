@@ -818,20 +818,96 @@ class ApiV1 extends REST_Controller {
                     `orders`.*,
                     CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
                     `clients`.`email`,
-                    IFNULL(`clients`.`phone`, '-') AS phone
+                    IFNULL(`clients`.`phone`, '-') AS phone,
+                    `details`.`order_details`
                 FROM `orders`
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                LEFT JOIN (
+                    SELECT 
+                        CONCAT(
+                            '[',
+                                GROUP_CONCAT(
+                                    CONCAT(
+                                        '{',
+                                        '\"product_id\": \"', product_id, '\", ',
+                                        '\"product_name\": \"', product_name, '\", ',
+                                        '\"quantity\": \"', quantity, '\", ',
+                                        '\"sale_price\": \"', effective_price, '\", ',
+                                        '\"subtotal\": \"', (effective_price*quantity), '\" ',
+                                        '}'
+                                    )
+                                ),
+                            ']'
+                        ) AS `order_details`,
+                        `order_id`
+                    FROM `order_items`
+                    LEFT JOIN `products` ON `products`.`id` = `order_items`.`product_id`
+                    GROUP BY `order_items`.`order_id`
+                ) AS `details` ON `details`.`order_id` = `orders`.`id`
                 WHERE delivery_boy_id = $user_id
                 AND expected_delivery_date = CURDATE()
                 AND actual_delivery_date IS NULL
+                GROUP BY `orders`.`id`
         ");
+
+        $main_data = ($sql->result_array()) ? $sql->result_array() : array();
+        if(!empty($main_data)){
+            foreach ($main_data as &$tmpdata) {
+                $tmpdata['order_details'] = json_decode($tmpdata['order_details'],true);
+            }
+        }
 
         $this->response(
             array(
                 'status' => FALSE,
                 'message' => "Delivery found.",
                 'today_delivery'=>$this->db->affected_rows(),
-                'today_delivery_data'=>$sql->result_array(),
+                'today_delivery_data'=>$main_data,
+                'images'=>array(
+                    array(
+                        "name"=>'product-edit1.jpg',
+                        "url"=>base_url()."files/assets/images/product-edit/product-edit1.jpg"
+                    ),
+                    array(
+                        "name"=>'product-edit2.jpg',
+                        "url"=>base_url()."files/assets/images/product-edit/product-edit2.jpg"
+                    ),
+                    array(
+                        "name"=>'product-edit3.jpg',
+                        "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
+                    )
+                )
+            ),
+            REST_Controller::HTTP_OK
+        );
+    }
+
+    public function delivery_dashboard_get($user_id = NULL){
+        if(!$user_id){
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery'=>0
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+
+        $sql = $this->db->query("SELECT
+                    `orders`.*
+                FROM `orders`
+                WHERE delivery_boy_id = $user_id
+                AND expected_delivery_date = CURDATE()
+                AND actual_delivery_date IS NULL
+                GROUP BY `orders`.`id`
+            ");
+
+        $this->response(
+            array(
+                'status' => FALSE,
+                'message' => "Delivery found.",
+                'today_delivery'=>$this->db->affected_rows(),
                 'images'=>array(
                     array(
                         "name"=>'product-edit1.jpg',
