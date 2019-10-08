@@ -569,13 +569,15 @@ class ApiV1 extends REST_Controller {
                         "product_id": 1,
                         "quantity":10,
                         "actual_price": 10,
-                        "sale_price": 12
+                        "sale_price": 12,
+                        "subtotal": 120
                     },
                     {
                         "product_id": 2,
                         "quantity":10,
                         "actual_price": 12,
-                        "sale_price": 15
+                        "sale_price": 15,
+                        "subtotal": 150
                     }
                 ]
             }
@@ -743,35 +745,40 @@ class ApiV1 extends REST_Controller {
         $client = array();
         $client = $this->db->query("SELECT 
                                         `clients`.*,
-                                        IFNULL(`paid_inv`.`paid`,0) AS `paid_invoice`,
-                                        IFNULL(`partial_inv`.`partial`,0) AS `partial_invoice`,
-                                        IFNULL(`pending_inv`.`pending`,0) AS `pending_invoice`
+                                        COUNT(`paid`.`paid_ids`) AS `paid_invoice`,
+                                        COUNT(`partial_inv`.`partial_ids`) AS `partial_invoice`,
+                                        COUNT(`pending_inv`.`pending`) AS `pending_invoice`
                                     FROM `clients`
-                                    LEFT JOIN `orders` ON `orders`.`client_id` = `clients`.`id`
-                                    LEFT JOIN (
+                                    LEFT JOIN(
                                         SELECT
-                                            COUNT(`payment_details`.`id`) AS `paid`,
-                                            `order_id`
-                                        FROM `payment_details`
+                                            `orders`.`id`,
+                                            `orders`.`client_id`,
+                                            `payment_details`.`id` AS `paid_ids`
+                                        FROM `orders`
+                                        INNER JOIN `payment_details` ON `payment_details`.`order_id` = `orders`.`id`
                                         WHERE `payment_details`.`status` = 'PAID'
-                                    ) AS `paid_inv` ON `paid_inv`.`order_id` = `orders`.`id`
+                                    ) AS `paid` ON `paid`.`client_id` = `clients`.`id`
                                     LEFT JOIN (
                                         SELECT
-                                            COUNT(`payment_details`.`id`) AS `partial`,
-                                            `order_id`
-                                        FROM `payment_details`
+                                            `orders`.`id`,
+                                            `orders`.`client_id`,
+                                            `payment_details`.`id` AS `partial_ids`
+                                        FROM `orders`
+                                        INNER JOIN `payment_details` ON `payment_details`.`order_id` = `orders`.`id`
                                         WHERE `payment_details`.`status` = 'PARTIAL'
-                                    ) AS `partial_inv` ON `partial_inv`.`order_id` = `orders`.`id`
+                                    ) AS `partial_inv` ON `partial_inv`.`client_id` = `clients`.`id`
                                     LEFT JOIN (
                                         SELECT
-                                            COUNT(`orders`.`id`) AS `pending`,
-                                            `orders`.`id` AS `order_id`
+                                            `orders`.`id`,
+                                            `orders`.`client_id`,
+                                            `payment_details`.`id` AS `pending`,
+                                            `payment_details`.`status`
                                         FROM `orders`
                                         LEFT JOIN `payment_details` ON `payment_details`.`order_id` = `orders`.`id`
-                                        WHERE (`payment_details`.`status` = 'PENDING' OR `payment_details`.`status` IS NULL)
-                                    ) AS `pending_inv` ON `pending_inv`.`order_id` = `orders`.`id`
-                                    WHERE `clients`.`created_by` = $user_id
-                                    GROUP BY `orders`.`client_id`
+                                        WHERE `payment_details`.`status` IS NULL
+                                    ) AS `pending_inv` ON `pending_inv`.`client_id` = `clients`.`id`
+                                    WHERE `created_by` = $user_id
+                                    GROUP BY `clients`.`id`
                                 ")->result_array();
 
         if($client){
@@ -793,5 +800,48 @@ class ApiV1 extends REST_Controller {
                 REST_Controller::HTTP_OK
             );
         }
+    }
+
+    public function today_delivery_get($user_id = NULL){
+        if(!$user_id){
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery'=>0
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+
+        $sql = $this->db->query("SELECT
+                    *
+                FROM `orders`
+                WHERE delivery_boy_id = $user_id
+        ");
+
+        $this->response(
+            array(
+                'status' => FALSE,
+                'message' => "Delivery found.",
+                'today_delivery'=>$this->db->affected_rows(),
+                'today_delivery_data'=>$sql->result_array(),
+                'images'=>array(
+                    array(
+                        "name"=>'product-edit1.jpg',
+                        "url"=>base_url()."files/assets/images/product-edit/product-edit1.jpg"
+                    ),
+                    array(
+                        "name"=>'product-edit2.jpg',
+                        "url"=>base_url()."files/assets/images/product-edit/product-edit2.jpg"
+                    ),
+                    array(
+                        "name"=>'product-edit3.jpg',
+                        "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
+                    )
+                )
+            ),
+            REST_Controller::HTTP_OK
+        );
     }
 }
