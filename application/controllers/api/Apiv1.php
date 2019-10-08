@@ -815,9 +815,15 @@ class ApiV1 extends REST_Controller {
         }
 
         $sql = $this->db->query("SELECT
-                    *
+                    `orders`.*,
+                    CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
+                    `clients`.`email`,
+                    IFNULL(`clients`.`phone`, '-') AS phone
                 FROM `orders`
+                LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
                 WHERE delivery_boy_id = $user_id
+                AND expected_delivery_date = CURDATE()
+                AND actual_delivery_date IS NULL
         ");
 
         $this->response(
