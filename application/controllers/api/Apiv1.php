@@ -806,7 +806,7 @@ class ApiV1 extends REST_Controller {
         if(!$user_id){
             $this->response(
                 array(
-                    'status' => TRUE,
+                    'status' => FALSE,
                     'message' => "Please provide user_id.",
                     'today_delivery'=>0
                 ),
@@ -819,6 +819,7 @@ class ApiV1 extends REST_Controller {
                     CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
                     `clients`.`email`,
                     IFNULL(`clients`.`phone`, '-') AS phone,
+                    `clients`.`address`,
                     `details`.`order_details`
                 FROM `orders`
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
@@ -859,10 +860,41 @@ class ApiV1 extends REST_Controller {
 
         $this->response(
             array(
-                'status' => FALSE,
+                'status' => TRUE,
                 'message' => "Delivery found.",
                 'today_delivery'=>$this->db->affected_rows(),
-                'today_delivery_data'=>$main_data,
+                'today_delivery_data'=>$main_data
+            ),
+            REST_Controller::HTTP_OK
+        );
+    }
+
+    public function delivery_dashboard_get($user_id = NULL){
+        if(!$user_id){
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery'=>0
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+
+        $sql = $this->db->query("SELECT
+                    `orders`.*
+                FROM `orders`
+                WHERE delivery_boy_id = $user_id
+                AND expected_delivery_date = CURDATE()
+                AND actual_delivery_date IS NULL
+                GROUP BY `orders`.`id`
+            ");
+
+        $this->response(
+            array(
+                'status' => TRUE,
+                'message' => "Delivery found.",
+                'today_delivery'=>$this->db->affected_rows(),
                 'images'=>array(
                     array(
                         "name"=>'product-edit1.jpg',
@@ -882,11 +914,11 @@ class ApiV1 extends REST_Controller {
         );
     }
 
-    public function delivery_dashboard_get($user_id = NULL){
+    public function ideal_route_plan_get($user_id = NULL){
         if(!$user_id){
             $this->response(
                 array(
-                    'status' => TRUE,
+                    'status' => FALSE,
                     'message' => "Please provide user_id.",
                     'today_delivery'=>0
                 ),
@@ -895,35 +927,29 @@ class ApiV1 extends REST_Controller {
         }
 
         $sql = $this->db->query("SELECT
-                    `orders`.*
+                    CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
+                    `clients`.`email`,
+                    IFNULL(`clients`.`phone`, '-') AS phone,
+                    `clients`.`lat`,
+                    `clients`.`lng`
                 FROM `orders`
+                LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
                 WHERE delivery_boy_id = $user_id
                 AND expected_delivery_date = CURDATE()
                 AND actual_delivery_date IS NULL
                 GROUP BY `orders`.`id`
-            ");
+        ");
+        $main_data = (!empty($sql->result_array())) ? $sql->result_array() : array();
+        // echo "<pre>".$this->db->last_query();die;
 
         $this->response(
             array(
-                'status' => FALSE,
-                'message' => "Delivery found.",
-                'today_delivery'=>$this->db->affected_rows(),
-                'images'=>array(
-                    array(
-                        "name"=>'product-edit1.jpg',
-                        "url"=>base_url()."files/assets/images/product-edit/product-edit1.jpg"
-                    ),
-                    array(
-                        "name"=>'product-edit2.jpg',
-                        "url"=>base_url()."files/assets/images/product-edit/product-edit2.jpg"
-                    ),
-                    array(
-                        "name"=>'product-edit3.jpg',
-                        "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
-                    )
-                )
+                'status' => TRUE,
+                'message' => "Ideal Route plan found.",
+                'ideal_route'=>$main_data
             ),
             REST_Controller::HTTP_OK
         );
+
     }
 }
