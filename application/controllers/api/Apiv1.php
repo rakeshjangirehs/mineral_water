@@ -962,7 +962,7 @@ class ApiV1 extends REST_Controller {
         }
     }
 
-    public function lead_by_user_post($user_id = NULL){
+    public function lead_by_user_get($user_id = NULL){
 
         $where = ' WHERE 1 = 1';
         if(!empty($user_id)){
