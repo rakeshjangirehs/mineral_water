@@ -961,4 +961,40 @@ class ApiV1 extends REST_Controller {
             );
         }
     }
+
+    public function lead_by_user_post($user_id = NULL){
+
+        $where = ' WHERE 1 = 1';
+        if(!empty($user_id)){
+            $where .= ' AND `leads`.`created_by` = "'.$user_id.'"';
+        }
+
+        $query = "SELECT 
+                    `leads`.*
+                FROM `leads`
+                $where
+                ";
+        $clients = $this->db->query($query)->result_array();
+
+        if(!empty($clients)){
+
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "Leads",
+                    'data' => $clients
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Leads not found.",
+                    'data' => $clients
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+    }
 }
