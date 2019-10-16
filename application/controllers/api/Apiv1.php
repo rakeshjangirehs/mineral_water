@@ -846,7 +846,7 @@ class ApiV1 extends REST_Controller {
                     GROUP BY `order_items`.`order_id`
                 ) AS `details` ON `details`.`order_id` = `orders`.`id`
                 WHERE delivery_boy_id = $user_id
-                AND expected_delivery_date = CURDATE()
+                AND (expected_delivery_date = CURDATE() OR actual_delivery_date IS NULL)
                 AND actual_delivery_date IS NULL
                 GROUP BY `orders`.`id`
         ");
@@ -941,15 +941,24 @@ class ApiV1 extends REST_Controller {
         ");
         $main_data = (!empty($sql->result_array())) ? $sql->result_array() : array();
         // echo "<pre>".$this->db->last_query();die;
-
-        $this->response(
-            array(
-                'status' => TRUE,
-                'message' => "Ideal Route plan found.",
-                'ideal_route'=>$main_data
-            ),
-            REST_Controller::HTTP_OK
-        );
-
+        if(!empty($main_data)){
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "Ideal Route plan found.",
+                    'ideal_route'=>$main_data
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Ideal Route plan not found.",
+                    'ideal_route'=>$main_data
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
     }
 }
