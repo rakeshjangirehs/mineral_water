@@ -18,6 +18,8 @@
                                     <thead>
                                     <tr>
                                         <th>Zipcode</th>
+                                        <th>City</th>
+                                        <th>State</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -124,6 +126,8 @@
             },
             "columns": [
                 { "data": "zip_code" },
+                { "data": "city_name" },
+                { "data": "state_name" },
                 {
                 	"data": null,
                 	"sortable": false,

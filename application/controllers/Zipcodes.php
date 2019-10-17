@@ -15,10 +15,16 @@
  	 	if($this->input->is_ajax_request()){
 			$colsArr = array(
 				'zip_code',
+				'cities.name',
+				'states.name',
                 'link'
 			);
 
-			$query = $this->model->common_select('zip_codes.*')->common_get('zip_codes');
+			$query = $this->model
+							->common_select('zip_codes.*,cities.name as city_name,states.name as state_name')
+							->common_join('`cities`','`cities`.`id` = `zip_codes`.`city_id`','LEFT')
+							->common_join('`states`','`states`.`id` = `zip_codes`.`state_id`','LEFT')
+							->common_get('zip_codes');
 			echo $this->model->common_datatable($colsArr, $query);die;
 		}
 		$this->data['page_title'] = 'Zipcodes';
