@@ -30,7 +30,7 @@
 }
 
 .breadcrumb-item.active {
-    /*color: #fff;*/
+    color: #fff !important;
 }
 
 td a .feather{

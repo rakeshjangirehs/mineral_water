@@ -19,6 +19,7 @@
                                 <th>Image</th>
                                 <th>Code</th>
                                 <th>Name</th>
+                                <th>Brand</th>
                                 <th>Weight</th>
                                 <th>Dimension</th>
                                 <th>Cost</th>
@@ -68,6 +69,7 @@
                 },
                 { "data": "product_code" },
                 { "data": "product_name" },
+                { "data": "brand_name" },
                 { "data": "weight" },
                 { "data": "dimension" },
                 { "data": "cost_price" },

@@ -51,17 +51,19 @@ class Product_model extends MY_Model {
 
     public function getAllProducts(){
         $colsArr = array(
-            '',
-            'product_code',
-            'product_name',
-            'weight',
-            'dimension',
-            'cost_price',
-            'sale_price',
+            '',            
+            'products.product_code',
+            'products.product_name',
+            'brands.brand_name',
+            'products.weight',
+            'products.dimension',
+            'products.cost_price',
+            'products.sale_price',
         );
 
         $query = $this->model
-                    ->common_select('products.*,product_images.thumb')
+                    ->common_select('products.*,brands.brand_name,product_images.thumb')
+                    ->common_join("brands","brands.id = products.brand_id","left")
                     ->common_join("product_images","product_images.product_id = products.id","left")
                     ->common_get('products');
         echo $this->model->common_datatable($colsArr, $query,"products.is_deleted = 0","products.id",false,array(

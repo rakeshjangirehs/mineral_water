@@ -41,6 +41,20 @@
                             <div class="col-xs-12 col-md-6">
 
                                 <div class="form-group">
+                                    <label class="control-label" for="dimension">Brand</label>
+                                    <select class="form-control select2" name="brand_id" id="brand_id" data-placeholder="Choose Brand" required>
+                                        <option value=""></option>
+                                        <?php
+                                            foreach($brands as $brand){
+                                                $check = (isset($_POST['brand_id']))? set_value('brand_id') : $products['brand_id'];
+                                                $selected = ($brand['id'] == $check) ? 'selected' : '';
+                                                echo "<option value='{$brand['id']}' {$selected}>{$brand['brand_name']}</option>";
+                                            }
+                                        ?>
+                                    </select>
+                                    <span class="messages"><?php echo form_error('brand_id');?></span>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label" for="dimension">Dimension</label>
                                     <input type="text" name="dimension" id="dimension" class="form-control" value="<?php echo (isset($_POST['dimension'])) ? $_POST['dimension'] : $products['dimension']; ?>" />
                                     <span class="messages"><?php echo form_error('dimension');?></span>

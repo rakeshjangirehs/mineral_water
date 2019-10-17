@@ -29,6 +29,7 @@ class Products extends MY_Controller {
  			'dimension'				=> 	'',
  			'cost_price'			=>	'',
  			'sale_price'			=>	'',
+ 			'brand_id'			=>	'',
  		);
  		$this->data['page_title'] = 'Add Product';
  		if($id){
@@ -55,7 +56,8 @@ class Products extends MY_Controller {
         		'weight'			=> $this->input->post('weight'),
         		'dimension'			=> $this->input->post('dimension'),
         		'cost_price'		=> $this->input->post('cost_price'),
-        		'sale_price'		=> $this->input->post('sale_price')
+        		'sale_price'		=> $this->input->post('sale_price'),
+        		'brand_id'			=> $this->input->post('brand_id')
         	);
 
         	// upload product image if selected
@@ -93,6 +95,7 @@ class Products extends MY_Controller {
 	    }
 
  		$this->data['products'] = $productsArr;
+		$this->data['brands'] = $this->db->get_where("brands","is_deleted = 0")->result_array();
  		$this->data['id'] = $id;
  		$this->load_content('product/add_update', $this->data);
  	}

@@ -38,6 +38,11 @@
                             <span class="pcoded-mtext">Vehicles</span>
                         </a>
                     </li>
+                    <li class="brands_li">
+                        <a href="<?php echo $this->baseUrl; ?>brands">
+                            <span class="pcoded-mtext">Brands</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
