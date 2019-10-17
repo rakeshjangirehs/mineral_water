@@ -106,6 +106,7 @@
 
     var $state_id = $("#state_id");
     var $city_id = $("#city_id");
+    var $area = $("#area");
     var temp_city_id = '';
 
     // for integer validation
@@ -127,7 +128,7 @@
                 	"data": null,
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='green zip_edit' href='#' data-id='"+data.id+"' data-name='"+data.zip_code+"' data-state_id='"+data.state_id+"' data-city_id='"+data.city_id+"' title='Edit ZIP Code'><i class='feather icon-edit'></i></a>";
+				      return "<a class='green zip_edit' href='#' data-id='"+data.id+"' data-name='"+data.zip_code+"' data-state_id='"+data.state_id+"' data-city_id='"+data.city_id+"' data-area='"+data.area+"' title='Edit ZIP Code'><i class='feather icon-edit'></i></a>";
 				    }
             	}
             ],
@@ -144,7 +145,7 @@
 
 			zipcode.val($this.data('name'));
 			zip_id.val($this.data('id'));
-
+            $area.val($this.data('area'));
 
             var state_id = $this.data('state_id') || '';
             temp_city_id = $this.data('city_id') || '';
