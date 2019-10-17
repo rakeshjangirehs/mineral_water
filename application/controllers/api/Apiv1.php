@@ -333,6 +333,7 @@ class ApiV1 extends REST_Controller {
     }
 
     //Add/Update Visit - Client
+    /*
     public function add_update_visit_post(){
 
         $id = $this->post('client_id');
@@ -381,6 +382,57 @@ class ApiV1 extends REST_Controller {
                 array(
                     'status' => TRUE,
                     'message' => $msg,
+                    'data' => []
+                ),
+                REST_Controller::HTTP_OK
+            );
+
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please try again",
+                    'data' => []
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+    }
+    */
+
+    public function add_update_visit_post(){
+
+        $type = $this->post('type');  //client or lead
+        $id = $this->post('id');
+        $user_id = $this->post('user_id');
+
+        $visit_notes = ($this->input->post('visit_notes')) ? $this->input->post('visit_notes') : NULL;
+
+        $visit_data = array(
+            'visit_date'=> ($this->input->post('visit_date')) ? $this->input->post('visit_date') : NULL,
+            'visit_time'=> ($this->input->post('visit_time')) ? $this->input->post('visit_time') : NULL,
+            'visit_type'=> ($this->input->post('visit_type')) ? $this->input->post('visit_type') : NULL,
+            'opportunity'=> ($this->input->post('opportunity')) ? $this->input->post('opportunity') : NULL,
+            'other_notes'=> ($this->input->post('other_notes')) ? $this->input->post('other_notes') : NULL,
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => $user_id,
+        );
+
+        $insert_status = false;
+        if($type == 'client'){
+            $visit_data['client_id'] = ($this->input->post('id')) ? $this->input->post('id') : NULL;
+            $insert_status = $this->db->insert("client_visits",$visit_data);
+        }else{
+            $visit_data['lead_id'] = ($this->input->post('id')) ? $this->input->post('id') : NULL;
+            $insert_status = $this->db->insert("lead_visits",$visit_data);
+        }
+
+        if($insert_status){
+           
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => 'Visit created successfully.',
                     'data' => []
                 ),
                 REST_Controller::HTTP_OK

@@ -47,6 +47,33 @@
                                             <input type="number" name="zipcode" id="zipcode" class="form-control" min="1111" max="999999" required/>
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="area" class="control-label">Area:</label>
+                                            <input type="text" name="area" id="area" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="state_id" class="control-label">State:</label>
+                                            <select class="form-control select2" name="state_id" id="state_id" data-placeholder="Choose State" required>
+                                                <option value=""></option>
+                                                <?php
+                                                    foreach($states as $state){
+                                                        echo "<option value='{$state['id']}'>{$state['name']}</option>";
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="city_id" class="control-label">City:</label>
+                                            <select class="form-control select2" name="city_id" id="city_id" data-placeholder="Choose City" required>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -76,6 +103,11 @@
 	var table = $("#dynamic-table");
 	var zipcode = $("#zipcode");
 	var zip_id = $("#zip_id");
+
+    var $state_id = $("#state_id");
+    var $city_id = $("#city_id");
+    var temp_city_id = '';
+
     // for integer validation
     zipcode.forceInt();
 	var oTable = table
@@ -95,7 +127,7 @@
                 	"data": null,
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='green zip_edit' href='#' data-id='"+data.id+"' data-name='"+data.zip_code+"' title='Edit ZIP Code'><i class='feather icon-edit'></i></a>";
+				      return "<a class='green zip_edit' href='#' data-id='"+data.id+"' data-name='"+data.zip_code+"' data-state_id='"+data.state_id+"' data-city_id='"+data.city_id+"' title='Edit ZIP Code'><i class='feather icon-edit'></i></a>";
 				    }
             	}
             ],
@@ -112,6 +144,13 @@
 
 			zipcode.val($this.data('name'));
 			zip_id.val($this.data('id'));
+
+
+            var state_id = $this.data('state_id') || '';
+            temp_city_id = $this.data('city_id') || '';
+            console.log('temp_city_id : ',temp_city_id);
+            $state_id.val(state_id).trigger('change');
+
 		});
 
 	// submit form event
@@ -135,8 +174,45 @@
 		zip_id.val("");
         $form_title.text("Add ZIP Code");
         $submit_button.text("Add");
-
+        temp_city_id = '';
+        
         table.find('tbody').find('tr').removeClass('active_row');
+        $city_id.children().not(':first').remove();
+        $state_id.val(null).trigger('change');
 	}
+    
+    $state_id.on('change',function(e){
+        var state_id = this.value;
+
+        $city_id.children().not(':first').remove();
+
+        if(state_id){
+            fetch("<?php echo $this->baseUrl;?>zipcodes/get_cities",{
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                method: "POST",
+                body: "state_id="+state_id
+            })
+            .then(response=>{
+                return response.json();
+            })
+            .then(data=>{
+                var str = "";
+                console.log(data);
+                $.each(data,function(i,v){
+                    let selected = (temp_city_id == v.id) ? 'selected' : '';
+                    console.log('temp_city_id : ',temp_city_id);
+                    str += "<option value='"+v.id+"' "+selected+">"+v.name+"</option>";
+                })
+                $city_id.append(str);
+            })
+            .catch(err=>{
+                console.log(err);
+            });
+        }
+    });
+
 </script>
 @endscript

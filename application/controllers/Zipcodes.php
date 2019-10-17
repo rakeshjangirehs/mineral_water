@@ -22,10 +22,12 @@
 			echo $this->model->common_datatable($colsArr, $query);die;
 		}
 		$this->data['page_title'] = 'Zipcodes';
+		$this->data['states'] = $this->model->get('states',"0","is_deleted",true);		
 		$this->load_content('zipcode/zipcode_list', $this->data);
  	 }
 
  	public function save(){
+		 
 		$response = array(
 			'error' =>true
 		);
@@ -33,7 +35,10 @@
 			if($this->input->server("REQUEST_METHOD") == "POST"){
 				$id = $this->input->post('zipcode_id');
 				$data = array(
-					'zip_code'			=> $this->input->post('zipcode')
+					'zip_code'			=> ($this->input->post('zipcode')) ? $this->input->post('zipcode') : null,
+					'area'			=> ($this->input->post('area')) ? $this->input->post('area') : null,
+					'state_id'			=> ($this->input->post('state_id')) ? $this->input->post('state_id') : null,
+					'city_id'			=> ($this->input->post('city_id')) ? $this->input->post('city_id') : null,
 				);
 				if($this->model->insert_update($data, 'zip_codes', $id, 'id')){
 					$response['error'] = false;
@@ -70,4 +75,13 @@
 		$sheetTitle = 'Zipcode List';
 		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
 	}
+
+	public function get_cities(){
+        // sleep(5);
+        $state_id = $this->input->post('state_id');
+
+        $data = $this->db->get_where("cities",['state_id'=>$state_id,'is_deleted'=>0,'status'=>'Active'])->result_array();
+
+        echo json_encode($data);
+    }
  }

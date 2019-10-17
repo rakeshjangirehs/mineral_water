@@ -12,7 +12,7 @@
 
             <li class="tracking_li">
                 <a href="<?php echo $this->baseUrl; ?>tracking/live_location">
-                    <span class="pcoded-micon"><i class="feather icon-map"></i></span>
+                    <span class="pcoded-micon"><i class="fa fa-truck"></i></span>
                     <span class="pcoded-mtext">Delivery Tracking</span>
                 </a>
             </li>

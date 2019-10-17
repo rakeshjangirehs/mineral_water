@@ -17,7 +17,7 @@
                                     <span class="messages"><?php echo form_error('last_name');?></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone" class="control-label">phone:</label>
+                                    <label for="phone" class="control-label">Phone:</label>
                                     <input type="text" name="phone" id="phone" class="form-control" value="<?php echo (isset($_POST['phone']))? set_value('phone') : $user_data['phone']; ?>" />
                                     <span class="messages"><?php echo form_error('phone');?></span>
                                 </div>
