@@ -20,13 +20,29 @@ class Zipcodegroups extends MY_Controller {
 
 	    $this->data['zipcode_group_id'] = $zipcode_group_id;
 
+        $this->data['cities'] = [];
+        $all_zip_code_where = [];
+        
 	    if($zipcode_group_id){
             $this->data['form_title'] = "Update ZIP Code Group";
-            $this->data['group_details'] = $this->model->get("zip_code_groups",$zipcode_group_id,"id");
+            $group_details = $this->model->get("zip_code_groups",$zipcode_group_id,"id");
+            
+            $this->data['group_details'] = $group_details;
             $this->data['group_zip_codes'] = array_column($this->model->get("group_to_zip_code",$zipcode_group_id,"zip_code_group_id",true),'zip_code_id');
+            
+            
+            if($state_id = $group_details['state_id']){
+                $this->data['cities'] = $this->db->get_where('cities',["is_deleted"=>0,'state_id'=>$state_id])->result_array();
+                $all_zip_code_where["state_id"] = $state_id;
+            }
+
+            if($city_id = $group_details['city_id']){
+                $all_zip_code_where["city_id"] = $city_id;
+            }
+
         }else{
             $this->data['form_title'] = "Add ZIP Code Group";
-            $this->data['group_details'] = array('id'=>null,'group_name'=>null);
+            $this->data['group_details'] = array('id'=>null,'group_name'=>null,'state_id'=>null,'city_id'=>null);
             $this->data['group_zip_codes'] = [];
         }
 
@@ -51,13 +67,20 @@ class Zipcodegroups extends MY_Controller {
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
 
+            // echo "<pre>";print_r($_POST);die;
+
             $this->form_validation->set_rules($this->zipcodegroup_validation_config);
 
             if ($this->form_validation->run() == TRUE){
                 $zip_code = $this->input->post('zip_code');
-                $group_name = $this->input->post('group_name');
+                
+                $data = array(
+                    'group_name'  =>  ($this->input->post('group_name')) ? $this->input->post('group_name') : null,
+                    'state_id'  =>  ($this->input->post('state_id')) ? $this->input->post('state_id') : null,
+                    'city_id'  =>  ($this->input->post('city_id')) ? $this->input->post('city_id') : null,
+                );
 
-                if($this->zipcodegroup->insert_update($group_name, $zip_code,$zipcode_group_id)){
+                if($this->zipcodegroup->insert_update($data, $zip_code,$zipcode_group_id)){
                     $msg = 'ZIP Code Group created successfully.';
                     $type = 'success';
                     if($zipcode_group_id){
@@ -70,14 +93,21 @@ class Zipcodegroups extends MY_Controller {
                     $this->flash('error', 'Some error ocurred. Please try again later.');
                 }
                 redirect("zipcodegroups/index/{$zipcode_group_id}",'location');
+            }else{
+                if($state_id = $this->input->post('state_id')){
+                    $this->data['cities'] = $this->db->get_where('cities',["is_deleted"=>0,'state_id'=>$state_id])->result_array();
+                    $all_zip_code_where["state_id"] = $state_id;
+                }
+
+                if($city_id = $this->input->post('city_id')){
+                    $all_zip_code_where["city_id"] = $city_id;
+                }
             }
         }
 
-        $this->data['all_zipcodes'] = array_column($this->model->get("zip_codes"),"zip_code","id");
-//        echo "<pre>";print_r($this->data['all_zipcodes']);echo "</pre>";
-
-
-		$this->data['page_title'] = 'ZipCode Groups';
+        $this->data['page_title'] = 'ZipCode Groups';
+        $this->data['states'] = $this->model->get('states',"0","is_deleted",true);
+        $this->data['all_zipcodes'] = array_column($this->db->get_where("zip_codes",$all_zip_code_where)->result_array(),"zip_code","id");
 		$this->load_content('zipcodegroup/zipcodegroup_list', $this->data);
 	}
 

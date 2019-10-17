@@ -15,13 +15,12 @@ class Zipcodegroup extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($group_name, $new_zip_code = [],$zipcode_group_id = NULL){
+    public function insert_update($data, $new_zip_code = [],$zipcode_group_id = NULL){
 
         $old_zip_codes = ($zipcode_group_id) ? array_column($this->model->get("group_to_zip_code",$zipcode_group_id,"zip_code_group_id",true),'zip_code_id') : [];
         $removable_zip_codes = array_diff($old_zip_codes,$new_zip_code);
         $insertable_zip_codes = array_diff($new_zip_code,$old_zip_codes);
-        $data = array('group_name' => $group_name);
-
+        
         $this->db->trans_start();
 
         if($zipcode_group_id){

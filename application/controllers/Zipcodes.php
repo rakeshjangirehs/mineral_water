@@ -83,5 +83,23 @@
         $data = $this->db->get_where("cities",['state_id'=>$state_id,'is_deleted'=>0,'status'=>'Active'])->result_array();
 
         echo json_encode($data);
+	}
+	
+	public function get_zip_codes(){
+        // sleep(5);
+        
+		$where  = [];
+
+		if($state_id = $this->input->post('state_id')){
+			$where["state_id"] = $state_id;
+		}
+
+		if($city_id = $this->input->post('city_id')){
+			$where["city_id"] = $city_id;
+		}
+
+        $data = array_column($this->db->get_where("zip_codes",$where)->result_array(),"zip_code","id");
+
+        echo json_encode($data);
     }
  }

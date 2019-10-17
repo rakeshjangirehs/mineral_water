@@ -42,6 +42,36 @@
                                             <span class="messages"><?php echo form_error('group_name');?></span>
                                         </div>
                                         <div class="form-group">
+                                            <label for="state_id" class="control-label">State:
+                                                <span class="messages"><?php echo form_error('state_id');?></span>
+                                            </label>
+                                            <select class="form-control select2" name="state_id" id="state_id" data-placeholder="Choose State">
+                                                <option value=""></option>
+                                                <?php
+                                                    foreach($states as $state){
+                                                        $check = (isset($_POST['state_id']))? set_value('state_id') : $group_details['state_id'];
+                                                        $selected = ($state['id'] == $check) ? 'selected' : '';
+                                                        echo "<option value='{$state['id']}' {$selected}>{$state['name']}</option>";
+                                                    }
+                                                ?>
+                                            </select>                                    
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="city_id" class="control-label">City:
+                                                <span class="messages"><?php echo form_error('city_id');?></span>
+                                            </label>
+                                            <select class="form-control select2" name="city_id" id="city_id" data-placeholder="Choose City">
+                                                <option value=""></option>
+                                                <?php
+                                                    foreach($cities as $city){
+                                                        $check = (isset($_POST['city_id']))? set_value('city_id') : $group_details['city_id'];
+                                                        $selected = ($city['id'] == $check) ? 'selected' : '';
+                                                        echo "<option value='{$city['id']}' {$selected}>{$city['name']}</option>";
+                                                    }
+                                                ?>
+                                            </select>                                    
+                                        </div>
+                                        <div class="form-group">
                                             <label for="zip_code" class="control-label">Zip Codes:</label>
                                             <select class="form-control select2 multiple" name="zip_code[]" id="zip_code" multiple="multiple" data-placeholder="Choose ZIP Codes">
                                                 <option value=""></option>
@@ -82,6 +112,90 @@
 
     var zipcodegroup_id = <?php echo ($zipcode_group_id) ? $zipcode_group_id : "null";?>;
     var table = $("#dynamic-table");
+    
+    var $state_id = $("#state_id");
+    var $city_id = $("#city_id");
+    var $zip_code = $("#zip_code");
+
+    $state_id.on('change',function(e){
+        var state_id = this.value;
+        get_zipcodes(state_id);
+
+        $city_id.children().not(':first').remove();
+
+        if(state_id){
+            fetch("<?php echo $this->baseUrl;?>zipcodes/get_cities",{
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                method: "POST",
+                body: "state_id="+state_id
+            })
+            .then(response=>{
+                return response.json();
+            })
+            .then(data=>{
+                var str = "";
+                console.log(data);
+                $.each(data,function(i,v){
+                    str += "<option value='"+v.id+"'>"+v.name+"</option>";
+                })
+                $city_id.append(str);
+            })
+            .catch(err=>{
+                console.log(err);
+            });
+        }
+
+    });
+
+    $city_id.on('change',function(e){
+        var state_id = $state_id.val();
+        var city_id = this.value;
+        get_zipcodes(state_id,city_id);
+    });
+
+    function get_zipcodes(state_id,city_id){
+
+        var formData = new FormData();
+
+        if(state_id){
+            formData.append('state_id', state_id);
+        }
+
+        if(city_id){
+            formData.append('city_id', city_id);
+        }
+
+        $zip_code.children().not(':first').remove();
+
+        fetch("<?php echo $this->baseUrl;?>zipcodes/get_zip_codes",{
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            method: "POST",
+            body: new URLSearchParams(formData)
+        })
+        .then(response=>{
+            // console.log("resp : ",response);
+            return response.json();
+        })
+        .then(data=>{
+            var str = "";
+            // console.log(data);
+            $.each(data,function(i,v){
+                str += "<option value='"+i+"'>"+v+"</option>";
+            })
+            $zip_code.append(str);
+        })
+        .catch(err=>{
+            console.log(err);
+        });
+    }
+
+
     var imgUrl = table.attr('data-imageUrl');
     var oTable = table
         .DataTable({
