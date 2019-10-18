@@ -31,7 +31,7 @@
 
 @script
 <script type="text/javascript">
-    $(".tracking_li").active();
+    $(".live_location_li").active();
 </script>
 
 <script src="<?php echo $this->assetsUrl; ?>files/tracking/socket.io.js"></script>
