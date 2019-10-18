@@ -16,10 +16,9 @@
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>clients/index" style="width:100%;">
                             <thead>
                             <tr>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
+                                <th>Name</th>
+                                <th>GST No.</th>
                                 <th>Credit Limit</th>
-                                <th>Email</th>
                                 <th>Address</th>
                                 <th>ZIP Code</th>
                                 <th>Action</th>
@@ -54,18 +53,17 @@
                 "type": "POST",
             },
             "columns": [
-                { "data": "first_name" },
-                { "data": "last_name" },
+                { "data": "client_name" },
+                { "data": "gst_no" },
                 { "data": "credit_limit" },
-                { "data": "email" },
                 { "data": "address" },
                 { "data": "zip_code" },
                 {
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +
-                          "<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
+                        // "<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
+				      return "<a class='' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +                          
                           "<a class=' ' href='<?php echo $this->baseUrl; ?>payments/payment_post/"+data.id+"' title='Post Payment'><i class='feather icon-credit-card'></i></a>" +
                           "<a class='text-danger' id='delete_client' href='<?php echo $this->baseUrl; ?>clients/delete/"+data.id+"' title='Delete Client'><i class='feather icon-trash-2'></i></a>";
 				    }

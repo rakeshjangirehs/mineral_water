@@ -10,29 +10,14 @@ class Clients extends MY_Controller {
         //validation config
         $this->client_validation_config = array(
             array(
-                'field' => 'first_name',
-                'label' => 'First Name',
+                'field' => 'client_name',
+                'label' => 'Client Name',
                 'rules' => 'required|max_length[200]'
-            ),
-            array(
-                'field' => 'last_name',
-                'label' => 'Last Name',
-                'rules' => 'max_length[200]'
             ),
             array(
                 'field' => 'credit_limit',
                 'label' => 'Credit Limit',
                 'rules' => 'numeric|max_length[20]'
-            ),
-            array(
-                'field' => 'email',
-                'label' => 'Email',
-                'rules' => 'valid_email|max_length[300]|callback_check_duplicate_email'
-            ),
-            array(
-                'field' => 'phone',
-                'label' => 'Phone',
-                'rules' => 'integer'
             ),
             array(
                 'field' => 'address',
@@ -46,10 +31,9 @@ class Clients extends MY_Controller {
 	public function index(){
 		if($this->input->is_ajax_request()){
 			$colsArr = array(
-				'`clients`.`first_name`',
-				'`clients`.`last_name`',
+				'`clients`.`client_name`',
+				'`clients`.`gst_no`',
 				'`clients`.`credit_limit`',
-				'`clients`.`email`',
 				'`clients`.`address`',
 				'`zip_codes`.`zip_code`',
 				'action'
@@ -70,42 +54,74 @@ class Clients extends MY_Controller {
 	public function add_update( $id = NULL ){
 
 		$userArr = array(
-			'first_name'	=> '',
-			'last_name'		=> '',
+			'client_name'	=> '',
+			'gst_no'		=> '',
 			'address'		=> '',
 			'credit_limit'  => '',
-			'email'			=> '',
-			'zip_code'	    => '',
-			'phone'	    => '',
-		);
+			'zip_code_id'   => '',
+			'state_id'	    => '',
+            'city_id'	    => '',
+            
+			'contact_person_name_1'	        => '',
+			'contact_person_1_phone_1'	    => '',
+			'contact_person_1_phone_2'	    => '',
+            'contact_person_1_email'	    => '',
+            
+            'contact_person_name_2'	        => '',
+			'contact_person_2_phone_1'	    => '',
+			'contact_person_2_phone_2'	    => '',
+            'contact_person_2_email'	    => '',
+        );
+        
+        $this->data['cities'] = [];
+        $all_zip_code_where = [];
 
 		if($id){
 			$this->data['page_title'] = 'Update Client';
-			$userArr = $this->client->get_client_by_id($id);
+            $userArr = $this->client->get_client_by_id($id);
+            
+            if($state_id = $userArr['state_id']){
+                $this->data['cities'] = $this->db->get_where('cities',["is_deleted"=>0,'state_id'=>$state_id])->result_array();
+                $all_zip_code_where["state_id"] = $state_id;
+            }
+
+            if($city_id = $userArr['city_id']){
+                $all_zip_code_where["city_id"] = $city_id;
+            }
+
 		}else{
 			$this->data['page_title'] = 'Add Client';
 		}
 
 		if($this->input->server("REQUEST_METHOD") == "POST"){
-
+            // echo "<pre>";print_r($_POST);die;
             $this->form_validation->set_rules($this->client_validation_config);
 
             if ($this->form_validation->run() == TRUE) {
 
-                $salesmen_ids = ($this->input->post('salesmen_ids')) ? $this->input->post('salesmen_ids') : array();
-
                 $userData = array(
-                    'first_name' => ($this->input->post('first_name')) ? $this->input->post('first_name') : NULL,
-                    'last_name' => ($this->input->post('last_name')) ? $this->input->post('last_name') : NULL,
+                    'client_name' => ($this->input->post('client_name')) ? $this->input->post('client_name') : NULL,
+                    'gst_no' => ($this->input->post('gst_no')) ? $this->input->post('gst_no') : NULL,
                     'address' => ($this->input->post('address')) ? $this->input->post('address') : NULL,
                     'credit_limit' => ($this->input->post('credit_limit')) ? $this->input->post('credit_limit') : NULL,
                     'zip_code_id' => ($this->input->post('zip_code_id')) ? $this->input->post('zip_code_id') : NULL,
-                    'email' => ($this->input->post('email')) ? $this->input->post('email') : NULL,
-                    'phone' => ($this->input->post('phone')) ? $this->input->post('phone') : NULL,
+                    'state_id' => ($this->input->post('state_id')) ? $this->input->post('state_id') : NULL,
+                    'city_id' => ($this->input->post('city_id')) ? $this->input->post('city_id') : NULL,
+
+                    'contact_person_name_1' => ($this->input->post('contact_person_name_1')) ? $this->input->post('contact_person_name_1') : NULL,
+                    'contact_person_1_phone_1' => ($this->input->post('contact_person_1_phone_1')) ? $this->input->post('contact_person_1_phone_1') : NULL,
+                    'contact_person_1_phone_2' => ($this->input->post('contact_person_1_phone_2')) ? $this->input->post('contact_person_1_phone_2') : NULL,
+                    'contact_person_1_email' => ($this->input->post('contact_person_1_email')) ? $this->input->post('contact_person_1_email') : NULL,
+
+                    'contact_person_name_2' => ($this->input->post('contact_person_name_2')) ? $this->input->post('contact_person_name_2') : NULL,
+                    'contact_person_2_phone_1' => ($this->input->post('contact_person_2_phone_1')) ? $this->input->post('contact_person_2_phone_1') : NULL,
+                    'contact_person_2_phone_2' => ($this->input->post('contact_person_2_phone_2')) ? $this->input->post('contact_person_2_phone_2') : NULL,
+                    'contact_person_2_email' => ($this->input->post('contact_person_2_email')) ? $this->input->post('contact_person_2_email') : NULL,
+
                 );
 
                 // add or update records
-                if ($this->client->insert_update($userData, $id,$salesmen_ids)) {
+                if ($this->client->insert_update($userData, $id)) {
                     $msg = 'Client created successfully.';
                     $type = 'success';
                     if ($id) {
@@ -118,10 +134,20 @@ class Clients extends MY_Controller {
                     $this->flash('error', 'Some error ocurred. Please try again later.');
                 }
                 redirect('clients', 'location');
+            }else{
+                if($state_id = $this->input->post('state_id')){
+                    $this->data['cities'] = $this->db->get_where('cities',["is_deleted"=>0,'state_id'=>$state_id])->result_array();
+                    $all_zip_code_where["state_id"] = $state_id;
+                }
+
+                if($city_id = $this->input->post('city_id')){
+                    $all_zip_code_where["city_id"] = $city_id;
+                }
             }
 		}
 
-        $this->data['zip_codes'] = $this->model->get("zip_codes");
+        $this->data['states'] = $this->model->get('states',"0","is_deleted",true);
+        $this->data['all_zipcodes'] = array_column($this->db->get_where("zip_codes",$all_zip_code_where)->result_array(),"zip_code","id");
         $this->data['salesmen'] = $this->user->get_user_by_role(2);
 		$this->data['id'] = $id;
 		$this->data['user_data'] = $userArr;

@@ -15,7 +15,7 @@ class Client extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data,$client_id = NULL,$salesmen_ids=NULL,$create_by=NULL,$visit_note=NULL){
+    public function insert_update($data,$client_id = NULL,$create_by=NULL,$visit_note=NULL){
         
         $this->db->trans_start();
         if($client_id){
@@ -32,34 +32,8 @@ class Client extends CI_Model {
             $client_id = $this->db->insert_id();
         }
 
-        if($salesmen_ids !== NULL){
-            $this->db->delete("client_selesmans",array("client_id"=> $client_id));
-            $insert_array = array();
-            foreach($salesmen_ids as $salesman_id){
-                $insert_array[] = array(
-                    'client_id'     =>  $client_id,
-                    'salesman_id'   =>  $salesman_id,
-                    'created_at'    =>  date('Y-m-d H:i:s'),
-                    'created_by'    =>  ($create_by) ? $create_by : USER_ID,
-                );
-            }
-            if($insert_array){
-                $this->db->insert_batch("client_selesmans",$insert_array);
-            }
-        }
-
-        if(!empty($visit_note)){
-            $visit_data = array(
-                'visit_notes'=> $visit_note,
-                'client_id' => $client_id,
-                'created_at' => date('Y-m-d H:i:s'),
-                'created_by' => ($create_by) ? $create_by : USER_ID,
-            );
-
-            $this->db->insert("client_visits",$visit_data);
-        }
-
         $this->db->trans_complete();
+        
         if($this->db->trans_status()){
             return $client_id;
         }else{
