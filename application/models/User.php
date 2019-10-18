@@ -186,6 +186,7 @@ class User extends CI_Model {
                         GROUP BY `users`.`id`
                     ) AS `t2` ON `t2`.`id` = `users`.`id`
                     $where";
+                    
         return $this->db->query($query)->result_array();
     }
 

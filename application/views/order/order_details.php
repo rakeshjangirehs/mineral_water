@@ -38,10 +38,10 @@
                     <div class="row invoive-info">
                         <div class="col-md-4 col-xs-12 invoice-client-info">
                             <h6>Client Information :</h6>
-                            <h6 class="m-0"><?php echo $order['order_client']['first_name'] .' '. $order['order_client']['last_name'];?></h6>
-                            <p class="m-0 m-t-10"><?php echo $order['order_client']['address'];?></p>
-                            <p class="m-0"><?php echo $order['order_client']['phone'];?></p>
-                            <p><?php echo $order['order_client']['email'];?></p>
+                            <h6 class="m-0"><?php echo $order['order_client']['client_name'];?></h6>
+                            <p class="m-0 m-t-10">GST No. : <?php echo $order['order_client']['gst_no'];?></p>
+                            <p class="m-0 m-t-10"><?php echo $order['order_client']['contact_person_name_1'];?></p>
+                            <p class="m-0 m-t-10"><?php echo $order['order_client']['contact_person_1_phone_1'];?></p>
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <h6>Order Information :</h6>
@@ -62,7 +62,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Id :</th>
+                                    <th>Order Id :</th>
                                     <td>
                                         <?php echo $order['id'];?>
                                     </td>

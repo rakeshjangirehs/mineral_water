@@ -12,26 +12,90 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    <div class="dt-responsive table-responsive">
-                        <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index" style="width: 100%;">
-                            <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Client</th>
-                                <th>Order Amount</th>
-                                <th>Expected Delivery Date</th>
-                                <th>Actual Delivery Date</th>
-                                <th>Salesman</th>
-                                <th>DeliveryBoy</th>
-                                <th>Client Email</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                <div class="row m-b-30">
+                    <div class="col-sm-12">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs md-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#pending_orders_tab" role="tab">Pending Orders</a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#ontheway_orders_tab" role="tab">Out For Delivery</a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#completed_orders_tab" role="tab">Completed</a>
+                                <div class="slide"></div>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content card-block" id="table_patent">
+                            <div class="tab-pane active" id="pending_orders_tab" role="tabpanel">
+                                <div class="dt-responsive table-responsive">
+                                    <table id="pending_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/pending" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Client</th>
+                                            <th>Order Amount</th>
+                                            <th>Expected Delivery Date</th>
+                                            <th>Actual Delivery Date</th>
+                                            <th>Salesman</th>
+                                            <th>DeliveryBoy</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-                            </tbody>
-                        </table>
-                    </div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="ontheway_orders_tab" role="tabpanel">
+                                <div class="dt-responsive table-responsive">
+                                    <table id="ontheway_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/ontheway" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Client</th>
+                                            <th>Order Amount</th>
+                                            <th>Expected Delivery Date</th>
+                                            <th>Actual Delivery Date</th>
+                                            <th>Salesman</th>
+                                            <th>DeliveryBoy</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="completed_orders_tab" role="tabpanel">
+                                <div class="dt-responsive table-responsive">
+                                    <table id="completed_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/completed" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Client</th>
+                                            <th>Order Amount</th>
+                                            <th>Expected Delivery Date</th>
+                                            <th>Actual Delivery Date</th>
+                                            <th>Salesman</th>
+                                            <th>DeliveryBoy</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
                 </div>
             </div>
         </div>
@@ -57,6 +121,11 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="expected_delivery_date" name="expected_delivery_date">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary waves-effect waves-light ">Save</button>
@@ -74,15 +143,28 @@
     $delivery_boy_modal = $("#delivery_boy_modal");
     $delivery_boy = $("#delivery_boy");
     $order_id = $("#order_id");
+
     $delivery_boy.select2({
         allowClear:true,
         dropdownParent:$delivery_boy_modal
     });
 
-	var table = $("#dynamic-table");
-	var imgUrl = table.attr('data-imageUrl');
-	var oTable = table
-		.DataTable({
+    $("#expected_delivery_date").datepicker({
+        format		:	"yyyy-mm-dd",
+        autoclose	:	true,
+        todayBtn	:	"linked",
+        // clearBtn	:	true,
+        // endDate		: 	moment().format("YYYY-MM-DD"),
+        // maxViewMode : 	2
+        //orientation: "bottom left"
+    })
+
+
+    $(".table").each((i,el)=>{
+        
+        var table = $(el);
+        
+        table.DataTable({
 			"processing": true,
 			"serverSide": true,
 			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -102,21 +184,22 @@
                 { "data": "actual_delivery_date" },
                 { "data": "salesman_name" },
                 { "data": "deliveryboy_name" },
-                { "data": "client_email" },
                 {
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
                           "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>"+
-                          "<a class='allocate_delivery_boy' href='<?php echo $this->baseUrl; ?>orders/update_delivery_boy' data-order_id='"+data.id+"' data-delivery_boy_id='"+data.delivery_boy_id+"'title='Allocat/Change Delivery Boy'><i class='feather icon-airplay'></i></a>";
+                          "<a class='allocate_delivery_boy' href='<?php echo $this->baseUrl; ?>orders/update_delivery_boy' data-order_id='"+data.id+"' data-expected_delivery_date='"+data.expected_delivery_date+"' data-delivery_boy_id='"+data.delivery_boy_id+"'title='Allocat/Change Delivery Boy'><i class='feather icon-airplay'></i></a>";
 				    }
             	}
             ],
             "createdRow": function ( row, data, index ) {}
 		});
+    });
 
-	oTable.on('click','.order_email',function(e){
+	$("#table_patent").on('click','.order_email',function(e){
+
 	    e.preventDefault();
 
         $("#flash_parent").children().not("#inactivity_logout").remove();
@@ -162,13 +245,17 @@
             }
         });
     }).on('click','.allocate_delivery_boy',function(e) {
+
         e.preventDefault();
         var $this = $(this);
         var order_id = $this.data('order_id');
         var delivery_boy_id = $this.data('delivery_boy_id');
+        var expected_delivery_date = $this.data('expected_delivery_date');
 
+        $("#expected_delivery_date").val(expected_delivery_date);
         $delivery_boy.children().not(":first").remove();
-        console.log(order_id,delivery_boy_id);
+        // console.log(order_id,delivery_boy_id);
+        console.log(expected_delivery_date);
 
         $.ajax({
             url: '<?php echo $this->baseUrl; ?>orders/get_deliveryboy_by_order_id',
@@ -178,7 +265,7 @@
             success: function(data){
                 var optStr = "";
 
-                console.log(data);
+                // console.log(data);
                 $.each(data,function(i,delivery_boy){
                     var selected = (delivery_boy_id == delivery_boy.id) ? "selected" : "";
                     optStr += "<option value='"+delivery_boy.id+"' "+selected+">"+delivery_boy.first_name+" "+delivery_boy.last_name+"</option>";

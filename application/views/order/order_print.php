@@ -89,10 +89,11 @@
                 <div class="primary muted">CLIENT INFORMATION :</div>
                 <div class="seprator">&nbsp;</div>
                 <div class="secondary">
-                    <?php echo "{$order['order_client']['first_name']} {$order['order_client']['last_name']} <div class='mini-seprator'>&nbsp;</div>";?>
+                    <?php echo "{$order['order_client']['client_name']} <div class='mini-seprator'>&nbsp;</div>";?>
+                    <p class="m-0 m-t-10">GST No. : <?php echo $order['order_client']['gst_no'];?><div class='mini-seprator'>&nbsp;</div></p>
                     <?php echo ($order['order_client']['address']) ? "{$order['order_client']['address']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
-                    <?php echo ($order['order_client']['phone']) ? "{$order['order_client']['phone']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
-                    <?php echo ($order['order_client']['email']) ? "{$order['order_client']['email']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['order_client']['contact_person_name_1']) ? "{$order['order_client']['contact_person_name_1']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['order_client']['contact_person_1_phone_1']) ? "{$order['order_client']['contact_person_1_phone_1']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
                 </div>
             </td>
             <td class="vt" style="width:30%;">
@@ -105,7 +106,7 @@
                     <?php else:?>
                         <?php echo "Status : Delivered <div class='mini-seprator'>&nbsp;</div>";?>
                     <?php endif;?>
-                    <?php echo ($order['order_client']['id']) ? "Order ID: {$order['order_client']['id']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['order_client']['id']) ? "Order ID: {$order['id']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
                 </div>
             </td>
             <td class="vt" style="width:30%;">

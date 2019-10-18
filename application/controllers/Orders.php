@@ -16,30 +16,43 @@
         $this->load->model('user');
  	}
 
- 	public function index(){
+ 	public function index($type=''){    //pending,ontheway,completed
+
+        $where = "orders.status = 'Active'";
+
+        switch($type){
+            case 'pending':
+            $where .= " AND orders.expected_delivery_date <> CURDATE()";
+                break;
+            case 'ontheway':
+                $where .= " AND orders.expected_delivery_date = CURDATE()";
+                break;
+            case 'completed':
+                $where .= " AND orders.actual_delivery_date IS NOT NULL";
+                break;
+        }
 
         if($this->input->is_ajax_request()){
             $colsArr = array(
                 '`orders`.`id`',
-                'CONCAT(`clients`.`first_name`," ",IFNULL(`clients`.`last_name`, ""))',
+                '`clients`.`client_name`',
                 '`orders`.`payable_amount`',
                 '`orders`.`expected_delivery_date`',
                 '`orders`.`actual_delivery_date`',
                 'CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, ""))',
                 'CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, ""))',
-                '`clients`.`email`',
                 'action'
             );
 
             $query = $this
                 ->model
-                ->common_select('orders.*,`clients`.`id` AS `client_id`,CONCAT(`clients`.`first_name`," ",IFNULL(`clients`.`last_name`, "")) as `client_name`,`salesman`.`id` AS `salesman_id`, CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, "")) as `salesman_name`,`deliveryboy`.`id` AS `deliveryboy_id`, CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, "")) as `deliveryboy_name`,`clients`.`email` AS `client_email`')
+                ->common_select('orders.*,`clients`.`id` AS `client_id`,`clients`.`client_name`,`salesman`.`id` AS `salesman_id`, CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, "")) as `salesman_name`,`deliveryboy`.`id` AS `deliveryboy_id`, CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, "")) as `deliveryboy_name`')
                 ->common_join('clients','clients.id = orders.client_id','LEFT')
                 ->common_join('users as salesman','salesman.id = orders.created_by','LEFT')
                 ->common_join('users as deliveryboy','deliveryboy.id = orders.delivery_boy_id','LEFT')
                 ->common_get('orders');
 
-            echo $this->model->common_datatable($colsArr, $query, "orders.status = 'Active'");die;
+            echo $this->model->common_datatable($colsArr, $query, $where);die;
         }
 
         $this->data['delivery_boys'] = $this->user->get_user_by_role(3);
@@ -52,7 +65,8 @@
  	    $order_id = $this->input->post('order_id');
         $order = $this->get_order($order_id);
         $zip_code_id = $order['order_client']['zip_code_id'];
- 	    $users = $this->user->get_user_by_role_and_zip_code(3,null,$zip_code_id);   //3-salesman
+        $users = $this->user->get_user_by_role_and_zip_code(3,null,$zip_code_id);   //3-salesman
+         
         echo json_encode($users);
     }
 
@@ -73,6 +87,7 @@
         );
         $data = array(
             'delivery_boy_id' => ($this->input->post('delivery_boy')) ? $this->input->post('delivery_boy') : NULL,
+            'expected_delivery_date' => ($this->input->post('expected_delivery_date')) ? $this->input->post('expected_delivery_date') : NULL,
         );
 
         if($this->db->update("orders",$data,$where)){
@@ -85,7 +100,7 @@
 
     private function get_order($id){
         $order = $this->db
-            ->select("orders.*,CONCAT(`clients`.`first_name`,' ',IFNULL(`clients`.`last_name`, '')) as `client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
+            ->select("orders.*,`clients`.`client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
             ->where("orders.id = {$id}")
             ->from("orders")
             ->join("clients","clients.id = orders.client_id","left")
@@ -109,12 +124,14 @@
                 ->get()
                 ->row_array();
         }
+        
         return $order;
     }
 
     public function print_invoice($id){
 
         $order = $this->get_order($id);
+        
         $this->data['order'] = $order;
         $invoice = $this->load->view('order/order_print', $this->data,true);
 
@@ -134,7 +151,9 @@
 
             $client = $this->client->get_client_by_id($order['client_id']);
 
-            if($client['email']){
+            $email = ($client['contact_person_1_email']) ? $client['contact_person_1_email'] : $client['contact_person_2_email'];
+
+            if($email){
 
                 $this->data['order'] = $order;
                 $invoice = $this->load->view('order/order_print', $this->data,true);
@@ -147,11 +166,11 @@
                 if(file_exists($file_name)){
                     $this->load->library('mymailer');
                     $attachment = array($file_name);
-                    $email_response = $this->mymailer->send_email("Invoice","Please Find Attached Invoice",$client['email'],null,null,$attachment);
+                    $email_response = $this->mymailer->send_email("Invoice","Please Find Attached Invoice",$email,null,null,$attachment);
                     if($email_response['status']){
                         $response = array(
                             'success'    => true,
-                            'message'    => "Email sent successfully to {$client['email']}"
+                            'message'    => "Email sent successfully to {$email}"
                         );
                     }else{
                         $response = array(
