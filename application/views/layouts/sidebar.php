@@ -39,6 +39,13 @@
                 </ul>
             </li>
 
+            <li class="leads_li">
+                <a href="<?php echo $this->baseUrl; ?>leads">
+                    <span class="pcoded-micon"><i class="feather icon-zap"></i></span>
+                    <span class="pcoded-mtext">Leads</span>
+                </a>
+            </li>
+
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-layers"></i></span>

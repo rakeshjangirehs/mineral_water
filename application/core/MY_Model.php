@@ -195,7 +195,7 @@ class MY_Model extends CI_Model{
 			"recordsTotal"    => intval( $records_total ),
 			"recordsFiltered" => intval( $records_filtered ),
 			"data"            => $data,
-			"query"=>$this->db->last_query()
+			// "query"=>$this->db->last_query()
 		);
 		return json_encode($json_data);
 	}
