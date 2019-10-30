@@ -110,6 +110,11 @@
                             <span class="pcoded-mtext">Client List</span>
                         </a>
                     </li>
+                    <li class="clientcategory_li">
+                        <a href="<?php echo $this->baseUrl; ?>clientcategory">
+                            <span class="pcoded-mtext">Client Category</span>
+                        </a>
+                    </li>
                     <!--<li class="payments_list_li">
                         <a href="<?php echo $this->baseUrl; ?>payments">
                             <span class="pcoded-mtext">Post Payment</span>

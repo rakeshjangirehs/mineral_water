@@ -61,6 +61,7 @@ class Clients extends MY_Controller {
 			'zip_code_id'   => '',
 			'state_id'	    => '',
             'city_id'	    => '',
+            'category_id'   => '',
             
 			'contact_person_name_1'	        => '',
 			'contact_person_1_phone_1'	    => '',
@@ -107,6 +108,7 @@ class Clients extends MY_Controller {
                     'zip_code_id' => ($this->input->post('zip_code_id')) ? $this->input->post('zip_code_id') : NULL,
                     'state_id' => ($this->input->post('state_id')) ? $this->input->post('state_id') : NULL,
                     'city_id' => ($this->input->post('city_id')) ? $this->input->post('city_id') : NULL,
+                    'category_id' => ($this->input->post('category_id')) ? $this->input->post('category_id') : NULL,
 
                     'contact_person_name_1' => ($this->input->post('contact_person_name_1')) ? $this->input->post('contact_person_name_1') : NULL,
                     'contact_person_1_phone_1' => ($this->input->post('contact_person_1_phone_1')) ? $this->input->post('contact_person_1_phone_1') : NULL,
@@ -148,6 +150,8 @@ class Clients extends MY_Controller {
 
         $this->data['states'] = $this->model->get('states',"0","is_deleted",true);
         $this->data['all_zipcodes'] = array_column($this->db->get_where("zip_codes",$all_zip_code_where)->result_array(),"zip_code","id");
+        $this->data['client_categories'] = $this->db->get_where("client_categories")->result_array();
+        
         $this->data['salesmen'] = $this->user->get_user_by_role(2);
 		$this->data['id'] = $id;
 		$this->data['user_data'] = $userArr;

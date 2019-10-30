@@ -29,6 +29,23 @@
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
+                                    <label for="category_id" class="control-label">Category:
+                                        <span class="messages"><?php echo form_error('category_id');?></span>
+                                    </label>
+                                    <select class="form-control select2" name="category_id" id="category_id" data-placeholder="Choose Category">
+                                        <option value=""></option>
+                                        <?php
+                                            foreach($client_categories as $category){
+                                                $check = (isset($_POST['category_id']))? set_value('category_id') : $user_data['category_id'];
+                                                $selected = ($category['id'] == $check) ? 'selected' : '';
+                                                if($selected || (!$selected && $category['is_deleted']==0)){
+                                                    echo "<option value='{$category['id']}' {$selected}>{$category['name']}</option>";
+                                                }
+                                            }
+                                        ?>
+                                    </select>                                    
+                                </div>
+                                <div class="form-group">
                                     <label for="state_id" class="control-label">State:
                                         <span class="messages"><?php echo form_error('state_id');?></span>
                                     </label>
@@ -37,7 +54,7 @@
                                         <?php
                                             foreach($states as $state){
                                                 $check = (isset($_POST['state_id']))? set_value('state_id') : $user_data['state_id'];
-                                                $selected = ($state['id'] == $check) ? 'selected' : '';
+                                                $selected = ($state['id'] == $check) ? 'selected' : '';                                                
                                                 echo "<option value='{$state['id']}' {$selected}>{$state['name']}</option>";
                                             }
                                         ?>
