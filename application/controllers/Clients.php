@@ -226,6 +226,7 @@ class Clients extends MY_Controller {
     public function client_price_export($client_id){
 
         $query = "SELECT
+                products.id as product_id,
                 products.product_name,
                 products.cost_price,
                 products.sale_price,
@@ -236,12 +237,17 @@ class Clients extends MY_Controller {
         
         $client = $this->db->get_where("clients",["id"=>$client_id])->row_array();
 
-		$resultData = $this->db->query($query)->result_array();
-		$headerColumns = implode(',', array_keys($resultData[0]));
-		$filename = 'price_list-'.$client['client_name'].'-'.time().'.xlsx';
-		$title = 'Price List - '.$client['client_name'];
-		$sheetTitle = 'Price List - '.$client['client_name'];
-        $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );        
+        $resultData = $this->db->query($query)->result_array();
+        if($resultData){
+            $headerColumns = implode(',', array_keys($resultData[0]));
+            $filename = 'price_list-'.$client['client_name'].'-'.time().'.xlsx';
+            $title = 'Price List - '.$client['client_name'];
+            $sheetTitle = 'Price List - '.$client['client_name'];
+            $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );        
+        }else{
+            $this->flash("error","No data to export");
+            redirect("clients/price_list/{$client_id}");
+        }		
     }
 
 	public function add_location($id=null){
@@ -277,18 +283,26 @@ class Clients extends MY_Controller {
     public function price_list_sample($client_id){
 
         $query = "SELECT
-                products.id as product_id,
-                products.product_name,
-                products.cost_price,
-                products.sale_price,
-                client_product_price.sale_price as client_price
-            FROM products
-            LEFT JOIN client_product_price ON client_product_price.product_id = products.id
-            WHERE client_product_price.client_id={$client_id}";
+                    products.id as product_id,
+                    products.product_name,
+                    products.cost_price,
+                    products.sale_price,
+                    client_product_price.sale_price as client_price
+                FROM products
+                LEFT JOIN client_product_price ON client_product_price.product_id = products.id
+                AND client_product_price.client_id={$client_id}";
         
         $client = $this->db->get_where("clients",["id"=>$client_id])->row_array();
 
         $resultData = $this->db->query($query)->result_array();
+
+        /*
+        foreach($resultData as $k=>$dt){
+            if($existing_price = $this->db->get_where("client_product_price",['product_id'=>$dt['product_id'],'client_id'=>$client_id])->row_array()){
+                $resultData[$k]['client_price'] = $existing_price['sale_price'];
+            }
+        }
+        */
         
         // echo "<pre>";print_r($resultData);die;
 
@@ -304,25 +318,30 @@ class Clients extends MY_Controller {
         if(isset($_FILES['csv_file']) && $_FILES['csv_file']['error']==0){
 		  
             $csv_data = $this->readExcel($_FILES['csv_file']['tmp_name']);
-            // echo "<pre>";print_R($csv_data);die;
+            
             if(count($csv_data) > 2){
+              
               $data_to_import = [];
+
               foreach($csv_data as $k=>$arr){
       
                 if($k==1) continue; //Skip header row
 
                 $data_to_import[] = array(
-                    'id'            =>  $this->db->get_where("client_product_price",["product_id"=>$arr['A'],"client_id"=>$client_id])->row_array()['id'],
+                    'client_id'     =>  $client_id,
+                    'product_id'    =>  $arr['A'],
                     'sale_price'    =>  $arr['E'],
-                    'updated_at'    =>  date('Y-m-d H:i:s'),
-                    'updated_by'    =>  USER_ID
+                    'created_at'    =>  date('Y-m-d H:i:s'),
+                    'created_by'    =>  USER_ID
                 );
-              }
-//   echo "<pre>";print_R($data_to_import);die;
-              if($data_to_import){
                 
-                if($this->db->update_batch("client_product_price",$data_to_import,"id") !== FALSE){
-                    // echo "<pre>".$this->db->last_query();die;
+              }
+  
+              if($data_to_import){                
+
+                $this->db->delete("client_product_price",['client_id'=>$client_id]);
+                
+                if($this->db->insert_batch("client_product_price",$data_to_import) !== FALSE){                    
                     $this->flash('success','Prices updated successfully');
                 }else{
                   $this->flash("error","Internal Server Error. Please try again.");

@@ -3,7 +3,7 @@
 Neervana discussion : Need to fix requirements
 
 => Scheme Master : Discount : drop downlist of Skim
-=> User wise price should be changed, admin approval required, Bulk upload function
+
 => Per SKU price admin approval required
 => Admin Approval required when price going to changed
 
@@ -30,6 +30,7 @@ ii Driver can see : Address & Map
 => After delivery of order client get product delivered SMS
 
 
+User wise price should be changed, admin approval required, Bulk upload function (Admin Approval only requireed if price change while placing order)
 Product master : Product weight
 Warehouse master (Warehouse CRUD Done)
 Vehicle master : Vehicle capacity for loding (Vehicle Capacity Field Added)
