@@ -72,6 +72,11 @@
                             <span class="pcoded-mtext">Brands</span>
                         </a>
                     </li>
+                    <li class="warehouses_li">
+                        <a href="<?php echo $this->baseUrl; ?>warehouses">
+                            <span class="pcoded-mtext">Warehouse</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
