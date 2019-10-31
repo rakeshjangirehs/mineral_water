@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2019 at 11:05 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.3
+-- Generation Time: Oct 31, 2019 at 07:57 AM
+-- Server version: 10.1.29-MariaDB
+-- PHP Version: 7.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,42 +25,128 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `brands`
+--
+
+CREATE TABLE `brands` (
+  `id` int(11) NOT NULL,
+  `brand_name` varchar(200) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `brand_name`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
+(6, 'Brand 1', '2019-10-17 20:27:24', 2, '2019-10-17 20:27:47', 2, 'Active', 0),
+(7, 'Brand 2', '2019-10-17 20:27:32', 2, '2019-10-17 20:27:55', 2, 'Active', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cities`
+--
+
+CREATE TABLE `cities` (
+  `id` int(11) NOT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `code` varchar(20) DEFAULT NULL,
+  `status` enum('Active','Inactive') NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 = Deleted',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cities`
+--
+
+INSERT INTO `cities` (`id`, `state_id`, `name`, `code`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 1, 'Ahmedabad', 'AHMED', 'Active', 1, '2019-09-27 17:30:01', 2, '2019-09-30 20:27:21', 2),
+(2, 1, 'test', 'test', 'Active', 1, '2019-09-30 18:06:21', 2, '2019-09-30 20:27:24', NULL),
+(3, 5, 'Ahmedabad', '01', 'Active', 0, '2019-09-30 20:27:49', 2, NULL, NULL),
+(4, 5, 'Gandhinagar', '02', 'Active', 0, '2019-09-30 20:27:58', 2, NULL, NULL),
+(5, 4, 'Jaipur', 'JPR', 'Active', 0, '2019-09-30 20:28:07', 2, NULL, NULL),
+(6, 4, 'Sikar', 'SKR', 'Active', 0, '2019-09-30 20:28:17', 2, NULL, NULL),
+(7, 5, 'Kalol', 'KAL', 'Active', 0, '2019-10-01 15:22:12', 2, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `clients`
 --
 
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL,
-  `first_name` varchar(200) DEFAULT NULL,
-  `last_name` varchar(200) DEFAULT NULL,
+  `client_name` varchar(200) DEFAULT NULL,
   `credit_limit` decimal(14,2) DEFAULT '0.00',
   `credit_balance` float(10,2) NOT NULL DEFAULT '0.00',
-  `email` varchar(300) DEFAULT NULL,
-  `phone` varchar(50) DEFAULT NULL,
   `address` varchar(500) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
   `zip_code_id` int(11) DEFAULT NULL,
   `lead_id` int(11) DEFAULT NULL COMMENT 'leads.lead_id if client is converted from lead',
+  `lat` varchar(20) DEFAULT NULL,
+  `lng` varchar(20) DEFAULT NULL,
+  `contact_person_name_1` varchar(200) DEFAULT NULL,
+  `contact_person_1_phone_1` varchar(20) DEFAULT NULL,
+  `contact_person_1_phone_2` varchar(20) DEFAULT NULL,
+  `contact_person_1_email` varchar(200) DEFAULT NULL,
+  `contact_person_name_2` varchar(200) DEFAULT NULL,
+  `contact_person_2_phone_1` varchar(20) DEFAULT NULL,
+  `contact_person_2_phone_2` varchar(20) DEFAULT NULL,
+  `contact_person_2_email` varchar(200) DEFAULT NULL,
   `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL,
-  `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
+  `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive',
+  `gst_no` varchar(50) NOT NULL,
+  `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `first_name`, `last_name`, `credit_limit`, `credit_balance`, `email`, `phone`, `address`, `zip_code_id`, `lead_id`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 'Rakesh', NULL, '10000.00', 234.70, 'milans@letsenkindle.com', NULL, 'jaipur', NULL, NULL, 0, '2019-08-26 16:38:14', NULL, '2019-09-13 14:28:48', 2, 'Active'),
-(2, 'test', 'test', '200.00', 0.00, 'test@test.com', NULL, 'test', 1, NULL, 0, '2019-08-26 17:05:10', 2, '2019-08-28 19:40:21', 2, 'Active'),
-(3, 'Rakesh', 'Jangir', NULL, 0.00, 'rakeshpdate@test.com', '9351561626', 'Jangir', 2, NULL, 0, '2019-08-27 19:25:56', 0, '2019-09-12 18:15:28', 5, 'Active'),
-(4, 'ravi', NULL, NULL, 0.00, 'rkj@test.com', NULL, NULL, NULL, NULL, 0, '2019-08-29 14:37:25', 2, '2019-08-29 16:33:19', 2, 'Active'),
-(5, 'new client', 'Jangir', '125.00', 0.00, 'rakeshj@letsenkindle.com', '8963015122', 'Kanchan Bhoomi,\r\nAhmedabad', 3, NULL, 0, '2019-08-30 17:17:00', 0, '2019-09-11 13:13:15', 2, 'Active'),
-(6, 'My New Client Updated', 'From Api', NULL, 0.00, 'api-test@test.com', '896301215', 'API Address', 2, NULL, 0, '2019-08-30 17:24:03', 5, '2019-08-30 19:12:05', 2, 'Active'),
-(7, 'Chestha', 'Alling', '125.00', 0.00, 'testone@test.com', '9898656944', '9182 Maple Ave. \r\nMays Landing, NJ 08330\r\n', 3, NULL, 0, '2019-09-09 15:54:42', 2, '2019-09-09 15:56:06', 2, 'Active'),
-(8, 'Mehul', 'Patel', NULL, 0.00, 'mehul@cms.com', NULL, 'Patel', 2, NULL, 0, '2019-09-12 18:08:18', 5, NULL, NULL, 'Active'),
-(9, 'Milan', 'Soni', NULL, 0.00, 'sdasd@gmail.com', '5612231212', 'Soni', 2, NULL, 0, '2019-09-12 18:10:41', 5, NULL, NULL, 'Active');
+INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `address`, `city_id`, `state_id`, `zip_code_id`, `lead_id`, `lat`, `lng`, `contact_person_name_1`, `contact_person_1_phone_1`, `contact_person_1_phone_2`, `contact_person_1_email`, `contact_person_name_2`, `contact_person_2_phone_1`, `contact_person_2_phone_2`, `contact_person_2_email`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `gst_no`, `category_id`) VALUES
+(1, 'XYZ Company', '456.00', 0.00, 'Shop No 5,\r\nMain Market', 6, 4, 5, NULL, NULL, NULL, 'Rakehs Jnagir', '9166650505', '8963015122', 'rakeshj@letsenkindle.com', 'Milan Soni', '1234567899', '9876543211', 'milan@gmail.com', 0, '2019-10-18 10:23:52', 2, '2019-10-30 20:19:33', 2, 'Active', '123', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_categories`
+--
+
+CREATE TABLE `client_categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_categories`
+--
+
+INSERT INTO `client_categories` (`id`, `name`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
+(1, 'test 1', '2019-10-30 19:44:36', NULL, '2019-10-30 20:19:46', 2, 'Active', 0),
+(2, 'test 2', '2019-10-30 19:44:48', NULL, '2019-10-30 20:19:53', NULL, 'Active', 1),
+(3, 'test 5', '2019-10-30 20:14:38', 2, '2019-10-30 20:19:40', NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -80,25 +166,6 @@ CREATE TABLE `client_contacts` (
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `client_contacts`
---
-
-INSERT INTO `client_contacts` (`id`, `client_id`, `phone`, `person_name`, `is_primary`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 1, '8963015122', 'test person', 'No', '2019-08-26 17:44:48', NULL, '2019-08-30 16:08:07', 2, 'Active'),
-(2, 1, '9166650505', 'test person two', 'No', '2019-08-26 17:44:48', NULL, '2019-08-30 16:08:11', 2, 'Active'),
-(4, 1, '1234567891', 'test', 'No', '2019-08-26 18:44:53', 2, '2019-08-27 20:08:24', 2, 'Active'),
-(5, 1, '123456', 'new', 'No', '2019-08-26 18:45:40', 2, '2019-08-29 13:09:21', 2, 'Active'),
-(6, 1, '3333', 'test', 'No', '2019-08-26 18:48:51', 2, NULL, NULL, 'Active'),
-(7, 2, '12345678', 'Rakesh', 'No', '2019-08-26 19:02:55', 2, NULL, NULL, 'Active'),
-(8, 2, '89630', 'Milan', 'Yes', '2019-08-26 19:03:00', 2, '2019-08-26 19:03:04', 2, 'Active'),
-(9, 1, '1231231231', 'api customer updated', 'No', '2019-08-27 20:08:24', 0, '2019-08-29 17:29:46', 0, 'Active'),
-(10, 3, '123', 'test', 'Yes', '2019-08-28 18:29:48', 2, '2019-08-28 18:29:48', 2, 'Active'),
-(11, 6, '89899655236', 'Zahid', 'Yes', '2019-09-09 15:41:37', 2, '2019-09-09 15:41:45', 2, 'Active'),
-(12, 7, '9898656944', 'Zahid', 'No', '2019-09-09 15:56:28', 2, NULL, NULL, 'Active'),
-(13, 7, '2365896656', 'Jose', 'No', '2019-09-09 15:56:39', 2, NULL, NULL, 'Active'),
-(14, 7, '2236658745', 'Miller', 'Yes', '2019-09-09 15:56:53', 2, '2019-09-09 15:56:53', 2, 'Active');
 
 -- --------------------------------------------------------
 
@@ -142,12 +209,24 @@ CREATE TABLE `client_selesmans` (
 CREATE TABLE `client_visits` (
   `id` int(11) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
+  `visit_date` date DEFAULT NULL,
+  `visit_time` time DEFAULT NULL,
+  `visit_type` varchar(50) DEFAULT NULL COMMENT 'phone,inperson',
+  `opportunity` varchar(500) DEFAULT NULL,
+  `other_notes` varchar(500) DEFAULT NULL,
   `visit_notes` varchar(500) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_visits`
+--
+
+INSERT INTO `client_visits` (`id`, `client_id`, `visit_date`, `visit_time`, `visit_type`, `opportunity`, `other_notes`, `visit_notes`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 8, NULL, NULL, NULL, NULL, NULL, 'This is test note', '2019-09-17 13:44:46', 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -169,12 +248,21 @@ CREATE TABLE `coordinates` (
 --
 
 INSERT INTO `coordinates` (`id`, `lat`, `lng`, `user_id`, `created_at`, `created_by`) VALUES
-(1, 23.077271, 72.688545, 2, '2019-09-03 12:18:20', 2),
-(2, 23.076164, 72.688629, 2, '2019-09-03 12:18:22', 2),
-(3, 23.072769, 72.688805, 2, '2019-09-03 12:18:24', 2),
-(4, 23.064569, 72.692154, 2, '2019-09-03 12:18:26', 2),
-(5, 23.072546, 72.666924, 4, '2019-09-03 12:18:40', 4),
-(6, 23.074766, 72.637520, 5, '2019-09-03 12:18:45', 5);
+(1, 23.033058, 72.463005, 4, '2019-09-24 11:02:52', NULL),
+(2, 23.026896, 72.468155, 4, '2019-09-24 11:02:54', NULL),
+(3, 23.019314, 72.473816, 4, '2019-09-24 11:02:56', NULL),
+(4, 23.014257, 72.479485, 4, '2019-09-24 11:02:57', NULL),
+(5, 23.008570, 72.478111, 4, '2019-09-24 11:02:58', NULL),
+(6, 23.005568, 72.476562, 4, '2019-09-24 11:02:59', NULL),
+(7, 22.998772, 72.473473, 4, '2019-09-24 11:03:01', NULL),
+(8, 22.992926, 72.472275, 4, '2019-09-24 11:03:01', NULL),
+(9, 22.985579, 72.484879, 4, '2019-09-24 11:03:03', NULL),
+(10, 22.985498, 72.499565, 4, '2019-09-24 11:03:05', NULL),
+(11, 22.990871, 72.519310, 4, '2019-09-24 11:03:06', NULL),
+(12, 22.993954, 72.535339, 4, '2019-09-24 11:03:09', NULL),
+(13, 22.988028, 72.538910, 4, '2019-09-24 11:03:10', NULL),
+(14, 22.976965, 72.546806, 4, '2019-09-24 11:03:11', NULL),
+(15, 22.975384, 72.552986, 4, '2019-09-24 11:03:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -214,7 +302,9 @@ INSERT INTO `group_to_zip_code` (`id`, `zip_code_group_id`, `zip_code_id`, `crea
 (25, 6, 4, '2019-08-27 16:23:48', 2, NULL, NULL, 'Active'),
 (26, 12, 5, '2019-09-09 17:05:44', 2, NULL, NULL, 'Active'),
 (27, 12, 6, '2019-09-09 17:05:44', 2, NULL, NULL, 'Active'),
-(28, 12, 7, '2019-09-09 17:05:44', 2, NULL, NULL, 'Active');
+(28, 12, 7, '2019-09-09 17:05:44', 2, NULL, NULL, 'Active'),
+(31, 13, 3, '2019-10-17 20:03:00', 2, NULL, NULL, 'Active'),
+(32, 13, 5, '2019-10-17 20:03:38', 2, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -227,12 +317,23 @@ CREATE TABLE `leads` (
   `first_name` varchar(200) DEFAULT NULL,
   `last_name` varchar(200) DEFAULT NULL,
   `email` varchar(300) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   `is_converted` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int(11) DEFAULT NULL
+  `updated_by` int(11) DEFAULT NULL,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `leads`
+--
+
+INSERT INTO `leads` (`id`, `first_name`, `last_name`, `email`, `phone`, `is_converted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_deleted`) VALUES
+(1, 'Mehul', 'Patel', 'mehul@sdas.com', '4545112121', 0, '2019-09-13 17:41:35', 5, NULL, NULL, 0),
+(2, 'Milan', 'Sonis', 'millan@andf.com', '5456112313', 0, '2019-09-13 17:42:24', 5, '2019-10-18 13:26:35', 2, 0),
+(3, 'Snehal', 'Traspiy', 'snehal@dm.om', '5465452144', 0, '2019-09-13 17:43:57', 5, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -243,12 +344,24 @@ CREATE TABLE `leads` (
 CREATE TABLE `lead_visits` (
   `id` int(11) NOT NULL,
   `lead_id` int(11) DEFAULT NULL,
+  `visit_date` date DEFAULT NULL,
+  `visit_time` time DEFAULT NULL,
+  `visit_type` varchar(50) DEFAULT NULL COMMENT 'phone,inperson',
+  `opportunity` varchar(500) DEFAULT NULL,
+  `other_notes` varchar(500) DEFAULT NULL,
   `visit_notes` varchar(500) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `lead_visits`
+--
+
+INSERT INTO `lead_visits` (`id`, `lead_id`, `visit_date`, `visit_time`, `visit_type`, `opportunity`, `other_notes`, `visit_notes`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 3, '2019-10-18', '10:15:18', 'Phone', NULL, 'Test', 'lamsdas', '2019-09-13 17:43:57', 5, '2019-10-18 15:15:51', NULL);
 
 -- --------------------------------------------------------
 
@@ -294,9 +407,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `client_id`, `delivery_boy_id`, `expected_delivery_date`, `actual_delivery_date`, `payable_amount`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(4, 1, NULL, '2019-09-10', '2019-09-10', 2050.30, 'Active', '2019-09-09 11:47:59', 2, '2019-09-09 15:22:51', NULL),
-(5, 5, NULL, NULL, NULL, 600.50, 'Active', '2019-09-09 12:01:09', 4, '2019-09-09 15:23:00', NULL),
-(6, 1, NULL, NULL, NULL, 15.00, 'Active', '2019-09-11 18:27:41', 1, '2019-09-11 18:28:20', NULL);
+(4, 1, 4, '2019-10-09', NULL, 2050.30, 'Active', '2019-09-09 11:47:59', 2, '2019-10-18 12:44:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -327,6 +438,7 @@ CREATE TABLE `order_items` (
   `quantity` float DEFAULT NULL,
   `actual_price` float NOT NULL,
   `effective_price` float DEFAULT NULL,
+  `subtotal` decimal(14,2) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -337,12 +449,8 @@ CREATE TABLE `order_items` (
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `actual_price`, `effective_price`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(3, 4, 1, 10, 10, 12, '2019-09-09 11:47:59', 1, '2019-09-09 13:39:44', NULL),
-(4, 4, 2, 10, 12, 15, '2019-09-09 11:47:59', 1, '2019-09-09 13:39:47', NULL),
-(5, 5, 1, 10, 10, 12, '2019-09-09 12:01:09', 1, NULL, NULL),
-(6, 5, 2, 10, 12, 15, '2019-09-09 12:01:09', 1, NULL, NULL),
-(7, 6, 2, 10, 12, 15, '2019-09-11 18:27:41', 1, NULL, NULL);
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `actual_price`, `effective_price`, `subtotal`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(4, 4, 2, 10, 12, 15, NULL, '2019-09-09 11:47:59', 1, '2019-09-09 13:39:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -370,9 +478,10 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`id`, `client_id`, `payment_mode`, `check_no`, `check_date`, `transection_no`, `paid_amount`, `credit_balance_used`, `previous_credit_balance`, `new_credit_balance`, `created_at`, `created_by`) VALUES
-(25, 1, 'Cash', NULL, NULL, NULL, '200.00', '0.00', '0.00', '0.00', '2019-09-13 14:02:56', NULL),
-(26, 1, 'Cash', NULL, NULL, NULL, '200.00', '0.00', '0.00', '0.00', '2019-09-13 14:02:56', NULL),
-(27, 1, 'Cash', NULL, NULL, NULL, '1000.00', '0.00', '0.00', '34.70', '2019-09-13 14:04:44', NULL);
+(35, 1, 'Cash', NULL, NULL, NULL, '500.00', '150.00', '150.00', '0.00', '2019-09-16 13:49:00', NULL),
+(36, 1, 'Cash', NULL, NULL, NULL, '300.00', '0.00', '0.00', '0.00', '2019-09-16 13:49:11', NULL),
+(37, 1, 'Cheque', '123', '2019-09-16', NULL, '100.00', '0.00', '0.00', '0.00', '2019-09-16 13:57:19', NULL),
+(39, 1, 'Cheque', '123', '2019-09-16', NULL, '100.00', '984.70', '984.70', '69.40', '2019-09-16 14:03:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -395,10 +504,11 @@ CREATE TABLE `payment_details` (
 --
 
 INSERT INTO `payment_details` (`id`, `order_id`, `payment_id`, `amount_used`, `credit_used`, `total_payment`, `status`) VALUES
-(23, 4, 25, '200.00', '0.00', '200.00', 'PARTIAL'),
-(24, 4, 26, '200.00', '0.00', '200.00', 'PARTIAL'),
-(25, 4, 27, '950.30', '0.00', '950.30', 'PARTIAL'),
-(26, 6, 27, '15.00', '0.00', '15.00', 'PAID');
+(40, 4, 35, '500.00', '150.00', '650.00', 'PARTIAL'),
+(41, 4, 36, '300.00', '0.00', '300.00', 'PARTIAL'),
+(42, 4, 37, '100.00', '0.00', '100.00', 'PARTIAL'),
+(45, 4, 39, '15.60', '984.70', '1000.30', 'PENDING'),
+(46, 6, 39, '15.00', '0.00', '15.00', 'PAID');
 
 -- --------------------------------------------------------
 
@@ -408,6 +518,7 @@ INSERT INTO `payment_details` (`id`, `order_id`, `payment_id`, `amount_used`, `c
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
+  `brand_id` int(11) DEFAULT NULL,
   `product_name` varchar(300) DEFAULT NULL,
   `product_code` varchar(50) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
@@ -427,10 +538,10 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `product_name`, `product_code`, `description`, `weight`, `dimension`, `cost_price`, `sale_price`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 'Bislery', 'BSLY-001', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-09-13 12:59:04', 2),
-(2, 'Kinley', 'KINLY-002', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-09-13 12:59:37', 2),
-(3, '500 ML Kinley', 'KNLY-001', 'Test', 50, '65x65', 40, 50, 'Active', 0, '2019-09-13 12:56:49', 2, NULL, NULL);
+INSERT INTO `products` (`id`, `brand_id`, `product_name`, `product_code`, `description`, `weight`, `dimension`, `cost_price`, `sale_price`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, NULL, 'Bislery', 'BSLY-001', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-09-13 12:59:04', 2),
+(2, 7, 'Kinley', 'KINLY-002', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-10-17 20:41:58', 2),
+(3, NULL, '500 ML Kinley', 'KNLY-001', 'Test', 50, '65x65', 40, 50, 'Active', 0, '2019-09-13 12:56:49', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -508,7 +619,36 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `system_name`, `email_host`, `username`, `password`, `from_name`, `reply_to`, `reply_to_name`, `maps_api_key`, `node_server_url`) VALUES
-(1, 'Neervana', 'smtp.gmail.com', 'ehs.mehul@gmail.com', 'androiddev123', 'Mehul Patel', 'ehs.mehul@gmail.com', 'Mehul Patel', 'AIzaSyAORZjG4KZf9oLcCo4XbKFDExSCvpIHaDQ', 'http://172.16.3.123:3000');
+(1, 'Neervana', 'smtp.gmail.com', 'ehs.mehul@gmail.com', 'androiddev123', 'Mehul Patel', 'ehs.mehul@gmail.com', 'Mehul Patel', 'AIzaSyAMD5zzVlDuZih7zU3Y8yn2crJEcFtrt5M', 'http://172.16.3.123/rakesh/milan:3000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `code` varchar(20) DEFAULT NULL,
+  `status` enum('Active','Inactive') NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 = Deleted',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `states`
+--
+
+INSERT INTO `states` (`id`, `name`, `code`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 'guj', 'gg', 'Active', 1, '2019-09-27 17:57:40', 2, '2019-09-27 18:55:51', 2),
+(2, 'raj', 'rr', 'Inactive', 1, '2019-09-27 17:57:47', 2, '2019-09-27 18:56:13', 2),
+(3, 'xxx', 'dd', 'Active', 1, '2019-09-27 17:58:15', 2, '2019-09-30 20:27:01', NULL),
+(4, 'Rajasthan', 'Rj', 'Active', 0, '2019-09-30 20:27:09', 2, NULL, NULL),
+(5, 'Gujarat', 'GUJ', 'Active', 0, '2019-09-30 20:27:15', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -538,8 +678,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `role_id`, `username`, `password`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(2, 'Admin', 'iStrator', 'admin@gmail.com', '1111111111', 1, 'admin', 'admin', 'Active', 0, '2019-08-26 14:13:06', NULL, '2019-08-29 19:18:46', 2),
-(4, 'Snehal', 'Trapsya', 'snehalt@letsenkindle.com', '9166650505', 3, NULL, 'snehal', 'Active', 0, '2019-08-26 15:14:04', 2, '2019-09-09 15:38:18', 2),
+(2, 'Admin', 'iStrator', 'admin@gmail.com', '1111111111', 1, 'admin', 'admin', 'Active', 0, '2019-08-26 14:13:06', NULL, '2019-10-18 11:52:18', 2),
+(4, 'Snehal', 'Trapsya', 'snehalt@letsenkindle.com', '9166650505', 3, NULL, 'snehal', 'Active', 0, '2019-08-26 15:14:04', 2, '2019-10-18 11:57:04', 2),
 (5, 'Mehul', 'Patel', 'mehulp@letsenkindle.com', '8401015275', 2, 'mehulp', 'mehul', 'Active', 0, '2019-08-27 13:02:44', 2, '2019-09-09 15:34:01', 2),
 (6, 'Zahid', 'Mansuri', 'zahidm@letsenkindle.com', '2365589945', 2, 'zahidm', 'superman', 'Active', 0, '2019-09-09 18:00:00', 2, NULL, NULL);
 
@@ -561,8 +701,8 @@ CREATE TABLE `user_devices` (
 --
 
 INSERT INTO `user_devices` (`id`, `user_id`, `device_id`, `created_at`) VALUES
-(5, 5, 'cXt_bzvfRz0:APA91bGwXB29yBmI3QRhi2IMtN5m8_5o7TT28fx3y_IBcGZR8veF3ggTlDQOLy5EU5qrUSKXCYyOS5uEJSB1MmP3n34KS2W1ns0YtWAOfYK82ITVmvyCYLvu4QxGsWW4R5GTWeM_CVav', '2019-09-12 18:02:05'),
-(6, 5, 'czxrD4Ybwn8:APA91bEy3MzhcjsPnQi4ZKLixR6LB4ut-YSRGEb9R1Q4DpJdqgOusC5wuqZNIeoujkK1lMMtDLUycBOZ44-95QWGZSLxNvnG0O-DGjwiqRcddazewgRkWrAOgcLpZT5j6VXu9-bgHtBn', '2019-09-13 10:21:22');
+(14, 5, 'ezAOGuWk348:APA91bG4RXqhKdNH_UcUIzf8EJM48brcPd2A9_mW_KY52qJPurGTO_e89IlZKQLkxFgv5h6kGsI5ZnRLVJJH4QC_bd_5DZk0gCWcAaYA4clYfcsqcNw6RJk9FiRb3hQYk1ynQP1Yw5_k', '2019-09-20 18:46:58'),
+(15, 5, '534245646546564', '2019-10-03 13:37:21');
 
 -- --------------------------------------------------------
 
@@ -603,15 +743,13 @@ CREATE TABLE `user_zip_codes` (
 --
 
 INSERT INTO `user_zip_codes` (`id`, `user_id`, `zip_code_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(16, 2, 2, '2019-08-27 18:39:07', 2, NULL, NULL, 'Active'),
 (17, 5, 2, '2019-08-27 19:11:05', 2, NULL, NULL, 'Active'),
-(18, 2, 4, '2019-08-29 17:23:44', 2, NULL, NULL, 'Active'),
-(19, 2, 1, '2019-08-29 19:18:46', 2, NULL, NULL, 'Active'),
-(20, 2, 3, '2019-08-29 19:18:46', 2, NULL, NULL, 'Active'),
 (21, 5, 3, '2019-09-09 15:34:00', 2, NULL, NULL, 'Active'),
 (22, 6, 4, '2019-09-09 18:00:00', 2, NULL, NULL, 'Active'),
 (23, 6, 5, '2019-09-09 18:00:00', 2, NULL, NULL, 'Active'),
-(24, 6, 6, '2019-09-09 18:00:00', 2, NULL, NULL, 'Active');
+(24, 6, 6, '2019-09-09 18:00:00', 2, NULL, NULL, 'Active'),
+(25, 2, 5, '2019-10-18 11:52:18', 2, NULL, NULL, 'Active'),
+(26, 4, 5, '2019-10-18 11:57:04', 2, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -678,6 +816,9 @@ INSERT INTO `vehicle` (`id`, `name`, `number`, `capacity_in_ton`, `created_at`, 
 CREATE TABLE `zip_codes` (
   `id` int(11) NOT NULL,
   `zip_code` varchar(20) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `area` varchar(300) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -689,17 +830,18 @@ CREATE TABLE `zip_codes` (
 -- Dumping data for table `zip_codes`
 --
 
-INSERT INTO `zip_codes` (`id`, `zip_code`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, '380009', '2019-08-26 16:45:14', 2, '2019-08-26 18:15:32', 2, 'Active'),
-(2, '3824301', '2019-08-26 18:15:25', 2, '2019-08-29 15:16:58', 2, 'Active'),
-(3, '302012', '2019-08-27 12:15:37', NULL, '2019-08-29 15:21:06', 2, 'Active'),
-(4, '332025', '2019-08-27 12:15:37', NULL, '2019-08-29 15:16:54', 2, 'Active'),
-(5, '380001', '2019-09-09 16:38:04', 2, NULL, NULL, 'Active'),
-(6, '380054', '2019-09-09 16:38:13', 2, NULL, NULL, 'Active'),
-(7, '380002', '2019-09-09 16:38:20', 2, '2019-09-09 19:02:44', 2, 'Active'),
-(8, '380003, 380004, 3800', '2019-09-09 19:03:08', 2, NULL, NULL, 'Active'),
-(9, '380003, 380004, 3800', '2019-09-09 19:03:08', 2, NULL, NULL, 'Active'),
-(10, '380021, 380022, 3800', '2019-09-09 19:03:42', 2, NULL, NULL, 'Active');
+INSERT INTO `zip_codes` (`id`, `zip_code`, `city_id`, `state_id`, `area`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
+(1, '380009', NULL, NULL, NULL, '2019-08-26 16:45:14', 2, '2019-08-26 18:15:32', 2, 'Active'),
+(2, '3824301', NULL, NULL, NULL, '2019-08-26 18:15:25', 2, '2019-08-29 15:16:58', 2, 'Active'),
+(3, '302012', 5, 4, 'test 2', '2019-08-27 12:15:37', NULL, '2019-10-17 19:01:08', 2, 'Active'),
+(4, '332025', 7, 5, 'test', '2019-08-27 12:15:37', NULL, '2019-10-17 20:10:34', 2, 'Active'),
+(5, '380001', 6, 4, NULL, '2019-09-09 16:38:04', 2, '2019-10-17 18:09:35', 2, 'Active'),
+(6, '380054', NULL, NULL, NULL, '2019-09-09 16:38:13', 2, NULL, NULL, 'Active'),
+(7, '380002', NULL, NULL, NULL, '2019-09-09 16:38:20', 2, '2019-09-09 19:02:44', 2, 'Active'),
+(8, '380003, 380004, 3800', NULL, NULL, NULL, '2019-09-09 19:03:08', 2, NULL, NULL, 'Active'),
+(9, '380003, 380004, 3800', NULL, NULL, NULL, '2019-09-09 19:03:08', 2, NULL, NULL, 'Active'),
+(10, '380021, 380022, 3800', NULL, NULL, NULL, '2019-09-09 19:03:42', 2, NULL, NULL, 'Active'),
+(12, '12345', 7, 5, 'test', '2019-10-17 18:10:00', 2, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -710,6 +852,8 @@ INSERT INTO `zip_codes` (`id`, `zip_code`, `created_at`, `created_by`, `updated_
 CREATE TABLE `zip_code_groups` (
   `id` int(11) NOT NULL,
   `group_name` varchar(200) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -721,23 +865,36 @@ CREATE TABLE `zip_code_groups` (
 -- Dumping data for table `zip_code_groups`
 --
 
-INSERT INTO `zip_code_groups` (`id`, `group_name`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 'test 1', '2019-08-27 14:50:29', 2, '2019-08-27 16:04:18', 2, 'Active'),
-(2, 'test 2', '2019-08-27 14:50:33', 2, '2019-08-29 14:47:01', 2, 'Active'),
-(3, 'test 3', '2019-08-27 14:50:37', 2, '2019-08-28 20:15:06', 2, 'Active'),
-(4, 'sdasd', '2019-08-27 16:22:22', 2, NULL, NULL, 'Active'),
-(5, 'testsdsdsd', '2019-08-27 16:22:32', 2, '2019-08-27 16:22:44', 2, 'Active'),
-(6, 'milan', '2019-08-27 16:23:48', 2, NULL, NULL, 'Active'),
-(7, 'sdfsdff', '2019-08-29 13:30:30', 2, NULL, NULL, 'Active'),
-(8, 'test abcd', '2019-08-29 13:30:58', 2, NULL, NULL, 'Active'),
-(9, 'ddd', '2019-08-29 13:41:18', 2, NULL, NULL, 'Active'),
-(10, 'test', '2019-08-29 13:41:21', 2, NULL, NULL, 'Active'),
-(11, 'aaaaaaaaaaaaaa', '2019-08-29 13:45:30', 2, '2019-08-29 14:46:23', 2, 'Active'),
-(12, 'ahmedabad', '2019-09-09 17:05:43', 2, NULL, NULL, 'Active');
+INSERT INTO `zip_code_groups` (`id`, `group_name`, `state_id`, `city_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
+(1, 'test 1', NULL, NULL, '2019-08-27 14:50:29', 2, '2019-08-27 16:04:18', 2, 'Active'),
+(2, 'test 2', NULL, NULL, '2019-08-27 14:50:33', 2, '2019-08-29 14:47:01', 2, 'Active'),
+(3, 'test 3', NULL, NULL, '2019-08-27 14:50:37', 2, '2019-08-28 20:15:06', 2, 'Active'),
+(4, 'sdasd', NULL, NULL, '2019-08-27 16:22:22', 2, NULL, NULL, 'Active'),
+(5, 'testsdsdsd', NULL, NULL, '2019-08-27 16:22:32', 2, '2019-08-27 16:22:44', 2, 'Active'),
+(6, 'milan', NULL, NULL, '2019-08-27 16:23:48', 2, NULL, NULL, 'Active'),
+(7, 'sdfsdff', NULL, NULL, '2019-08-29 13:30:30', 2, NULL, NULL, 'Active'),
+(8, 'test abcd', NULL, NULL, '2019-08-29 13:30:58', 2, NULL, NULL, 'Active'),
+(9, 'ddd', NULL, NULL, '2019-08-29 13:41:18', 2, NULL, NULL, 'Active'),
+(10, 'test', NULL, NULL, '2019-08-29 13:41:21', 2, NULL, NULL, 'Active'),
+(11, 'aaaaaaaaaaaaaa', 4, 5, '2019-08-29 13:45:30', 2, '2019-10-17 19:13:41', 2, 'Active'),
+(12, 'ahmedabad', NULL, NULL, '2019-09-09 17:05:43', 2, NULL, NULL, 'Active'),
+(13, 'final test', 4, NULL, '2019-10-17 20:03:00', 2, '2019-10-17 20:03:38', 2, 'Active');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `brands`
+--
+ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cities`
+--
+ALTER TABLE `cities`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `clients`
@@ -745,6 +902,12 @@ INSERT INTO `zip_code_groups` (`id`, `group_name`, `created_at`, `created_by`, `
 ALTER TABLE `clients`
   ADD PRIMARY KEY (`id`),
   ADD KEY `lead_id` (`lead_id`);
+
+--
+-- Indexes for table `client_categories`
+--
+ALTER TABLE `client_categories`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `client_contacts`
@@ -866,6 +1029,12 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -925,16 +1094,34 @@ ALTER TABLE `zip_code_groups`
 --
 
 --
+-- AUTO_INCREMENT for table `brands`
+--
+ALTER TABLE `brands`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `cities`
+--
+ALTER TABLE `cities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `client_categories`
+--
+ALTER TABLE `client_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `client_contacts`
 --
 ALTER TABLE `client_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `client_location_images`
@@ -952,31 +1139,31 @@ ALTER TABLE `client_selesmans`
 -- AUTO_INCREMENT for table `client_visits`
 --
 ALTER TABLE `client_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `coordinates`
 --
 ALTER TABLE `coordinates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `group_to_zip_code`
 --
 ALTER TABLE `group_to_zip_code`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `leads`
 --
 ALTER TABLE `leads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `lead_visits`
 --
 ALTER TABLE `lead_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mail_template`
@@ -988,7 +1175,7 @@ ALTER TABLE `mail_template`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order_delivery_images`
@@ -1000,19 +1187,19 @@ ALTER TABLE `order_delivery_images`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `payment_details`
 --
 ALTER TABLE `payment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1039,6 +1226,12 @@ ALTER TABLE `settings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `states`
+--
+ALTER TABLE `states`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -1048,7 +1241,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `user_vehicle`
@@ -1060,7 +1253,7 @@ ALTER TABLE `user_vehicle`
 -- AUTO_INCREMENT for table `user_zip_codes`
 --
 ALTER TABLE `user_zip_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `user_zip_code_groups`
@@ -1078,13 +1271,13 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `zip_codes`
 --
 ALTER TABLE `zip_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `zip_code_groups`
 --
 ALTER TABLE `zip_code_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
