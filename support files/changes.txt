@@ -1,0 +1,25 @@
+Neervana discussion : Need to fix requirements
+=> Scheme Master : Discount : drop downlist of Skim
+=> User wise price should be changed, admin approval required, Bulk upload function
+=> Per SKU price admin approval required
+=> Admin Approval required when price going to changed
+=> Client category required
+=> Channel Management
+=> Add order : Price not shown by sales person
+=> Dashboard : Product not deliverd list
+=> Check out : Payment mode
+=> Admin can change payment mode
+=> Remove Zip code group from salesman & delivary master
+=> Delivery boy with vehicle mapping
+=> Product master : Product weight
+=> Vehicle master : Vehicle capacity for loding
+=> Schedule delivery & it's date
+=> Assigned delivery boy : then it's come in Out for delivery tab
+=> Warehouse master
+=> Loader(Delivery Boy) and driver have same login
+i Loader can see : Payments, Ivoices, Orders
+ii Driver can see : Address & Map
+=> Multiple Delivery boys assigned for one order.
+=> Order List : Set Priority : Urgent order tag
+=> Delivery boy : Today's delivery list : Contact person no, Call action on number, Company name
+=> After delivery of order client get product delivered SMS
