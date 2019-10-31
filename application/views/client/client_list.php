@@ -64,6 +64,7 @@
                 	"render": function ( data, type, row, meta ) {
                         // "<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +                          
+                          "<a class=' ' href='<?php echo $this->baseUrl; ?>clients/price_list/"+data.id+"' title='Price List'><i class='feather icon-percent'></i></a>" +
                           "<a class=' ' href='<?php echo $this->baseUrl; ?>payments/payment_post/"+data.id+"' title='Post Payment'><i class='feather icon-credit-card'></i></a>" +
                           "<a class='text-danger' id='delete_client' href='<?php echo $this->baseUrl; ?>clients/delete/"+data.id+"' title='Delete Client'><i class='feather icon-trash-2'></i></a>";
 				    }

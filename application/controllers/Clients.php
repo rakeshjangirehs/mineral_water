@@ -167,6 +167,54 @@ class Clients extends MY_Controller {
         redirect("clients/index");
     }
 
+    public function price_list($client_id){
+        
+        $query = "SELECT
+                    products.*,
+                    client_product_price.sale_price as client_price,
+                    client_product_price.id as client_product_price_id
+                FROM products
+                LEFT JOIN client_product_price ON client_product_price.product_id = products.id
+                WHERE client_product_price.client_id={$client_id}";
+        $data = $this->db->query($query)->result_array();
+        
+        $client = $this->db->get_where("clients",["id"=>$client_id])->row_array();
+        
+        // echo "<pre>";print_r($data);echo "</pre>";die;
+
+        $this->data['page_title'] = "{$client['client_name']} <small>Price List</small>";
+        $this->data['client'] = $client;
+        $this->data['id'] = $client_id;
+        $this->data['product_list'] = $data;
+		$this->load_content('client/price_list', $this->data);
+
+    }
+
+    public function update_price($client_id){
+        
+        $price_list = $this->input->post('product');
+        
+        // echo "<pre>";print_r($price_list);echo "</pre>";
+
+        $data = array_map(function($arr){
+            unset($arr['old_price']);
+            return $arr;
+        },
+            array_filter($price_list,function($arr){
+                return ($arr['old_price'] != $arr['sale_price']);
+            })
+        );
+        
+        // echo "<pre>";print_r($data);
+
+        if($data){
+            // $this->db->where('client_id',$client_id);
+            $this->db->update_batch("client_product_price",$data,"id");
+            // echo "<pre>".$this->db->last_query();
+        }
+        redirect("clients/price_list/{$client_id}");        
+    }
+
 	public function add_location($id=null){
         echo "Feedback Required";
         $client = $this->client->get_client_by_id($id);

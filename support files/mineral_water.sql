@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2019 at 07:57 AM
+-- Generation Time: Oct 31, 2019 at 11:59 AM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -120,7 +120,8 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `address`, `city_id`, `state_id`, `zip_code_id`, `lead_id`, `lat`, `lng`, `contact_person_name_1`, `contact_person_1_phone_1`, `contact_person_1_phone_2`, `contact_person_1_email`, `contact_person_name_2`, `contact_person_2_phone_1`, `contact_person_2_phone_2`, `contact_person_2_email`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `gst_no`, `category_id`) VALUES
-(1, 'XYZ Company', '456.00', 0.00, 'Shop No 5,\r\nMain Market', 6, 4, 5, NULL, NULL, NULL, 'Rakehs Jnagir', '9166650505', '8963015122', 'rakeshj@letsenkindle.com', 'Milan Soni', '1234567899', '9876543211', 'milan@gmail.com', 0, '2019-10-18 10:23:52', 2, '2019-10-30 20:19:33', 2, 'Active', '123', 2);
+(1, 'XYZ Company', '456.00', 0.00, 'Shop No 5,\r\nMain Market', 6, 4, 5, NULL, NULL, NULL, 'Rakehs Jnagir', '9166650505', '8963015122', 'rakeshj@letsenkindle.com', 'Milan Soni', '1234567899', '9876543211', 'milan@gmail.com', 0, '2019-10-18 10:23:52', 2, '2019-10-31 14:04:52', 2, 'Active', '123', 2),
+(6, 'Test & Company', '2.00', 0.00, '3', 6, 4, 5, NULL, NULL, NULL, 'Rakesh', '11', '22', 'rk@gmail.com', 'Milan', '33', '44', 'ms@gmail.com', 0, '2019-10-31 14:04:26', 2, NULL, NULL, 'Active', '1', 1);
 
 -- --------------------------------------------------------
 
@@ -146,7 +147,7 @@ CREATE TABLE `client_categories` (
 INSERT INTO `client_categories` (`id`, `name`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
 (1, 'test 1', '2019-10-30 19:44:36', NULL, '2019-10-30 20:19:46', 2, 'Active', 0),
 (2, 'test 2', '2019-10-30 19:44:48', NULL, '2019-10-30 20:19:53', NULL, 'Active', 1),
-(3, 'test 5', '2019-10-30 20:14:38', 2, '2019-10-30 20:19:40', NULL, 'Active', 0);
+(3, 'test 55', '2019-10-30 20:14:38', 2, '2019-10-31 12:51:10', 2, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -182,6 +183,35 @@ CREATE TABLE `client_location_images` (
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_product_price`
+--
+
+CREATE TABLE `client_product_price` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `sale_price` float NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_product_price`
+--
+
+INSERT INTO `client_product_price` (`id`, `client_id`, `product_id`, `sale_price`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
+(13, 6, 1, 12, '2019-10-31 14:04:26', 2, '2019-10-31 16:27:16', NULL, 'Active'),
+(14, 6, 2, 110, '2019-10-31 14:04:26', 2, '2019-10-31 16:26:07', NULL, 'Active'),
+(15, 6, 3, 500, '2019-10-31 14:04:26', 2, '2019-10-31 15:10:19', NULL, 'Active'),
+(18, 1, 5, 1200, '2019-10-31 14:13:31', 2, '2019-10-31 16:27:46', NULL, 'Active'),
+(19, 6, 5, 1121, '2019-10-31 14:13:31', 2, '2019-10-31 16:28:21', NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -540,8 +570,9 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `brand_id`, `product_name`, `product_code`, `description`, `weight`, `dimension`, `cost_price`, `sale_price`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
 (1, NULL, 'Bislery', 'BSLY-001', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-09-13 12:59:04', 2),
-(2, 7, 'Kinley', 'KINLY-002', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-10-17 20:41:58', 2),
-(3, NULL, '500 ML Kinley', 'KNLY-001', 'Test', 50, '65x65', 40, 50, 'Active', 0, '2019-09-13 12:56:49', 2, NULL, NULL);
+(2, 7, 'Kinley', 'KINLY-002', 'This is test', 20, '65x65', 10, 12, 'Active', 0, '2019-08-27 15:11:47', 2, '2019-10-31 13:55:22', 2),
+(3, NULL, '500 ML Kinley', 'KNLY-001', 'Test', 50, '65x65', 40, 50, 'Active', 0, '2019-09-13 12:56:49', 2, NULL, NULL),
+(5, 6, 'Test Product', 'TP1', 'test by rakesh', 100, '5*3*10', 10, 12, 'Active', 0, '2019-10-31 14:13:31', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -568,7 +599,9 @@ CREATE TABLE `product_images` (
 INSERT INTO `product_images` (`id`, `product_id`, `original_image_name`, `thumb`, `is_primary`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
 (2, 3, 'bg.jpg', 'bg_thumb.jpg', 1, '2019-09-13 12:56:49', 2, NULL, NULL),
 (3, 1, 'Egreeting_logo.png', 'Egreeting_logo_thumb.png', 1, '2019-09-13 12:59:04', NULL, '2019-09-13 12:59:04', 2),
-(4, 2, 'Flowchart.png', 'Flowchart_thumb.png', 1, '2019-09-13 12:59:37', NULL, '2019-09-13 12:59:37', 2);
+(4, 2, 'Flowchart.png', 'Flowchart_thumb.png', 1, '2019-09-13 12:59:37', NULL, '2019-09-13 12:59:37', 2),
+(5, 4, 'download.jpg', 'download_thumb.jpg', 1, '2019-10-31 14:12:26', 2, NULL, NULL),
+(6, 5, 'download1.jpg', 'download1_thumb.jpg', 1, '2019-10-31 14:13:31', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -593,7 +626,8 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `role_name`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
 (1, 'Admin', '2019-08-26 14:12:22', NULL, NULL, NULL, 'Active'),
 (2, 'Sales', '2019-08-26 14:12:22', NULL, NULL, NULL, 'Active'),
-(3, 'Delivery Boy', '2019-08-26 14:12:22', NULL, NULL, NULL, 'Active');
+(3, 'Delivery Boy', '2019-08-26 14:12:22', NULL, NULL, NULL, 'Active'),
+(4, 'Loader/Driver', '2019-10-31 13:11:06', NULL, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -810,6 +844,32 @@ INSERT INTO `vehicle` (`id`, `name`, `number`, `capacity_in_ton`, `created_at`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `warehouses`
+--
+
+CREATE TABLE `warehouses` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `warehouses`
+--
+
+INSERT INTO `warehouses` (`id`, `name`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
+(1, 'test 1', '2019-10-30 19:44:36', NULL, '2019-10-30 20:19:46', 2, 'Active', 0),
+(2, 'test 2', '2019-10-30 19:44:48', NULL, '2019-10-30 20:19:53', NULL, 'Active', 1),
+(3, 'test 553', '2019-10-30 20:14:38', 2, '2019-10-31 13:10:23', 2, 'Active', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `zip_codes`
 --
 
@@ -922,6 +982,12 @@ ALTER TABLE `client_contacts`
 ALTER TABLE `client_location_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client_id` (`client_id`);
+
+--
+-- Indexes for table `client_product_price`
+--
+ALTER TABLE `client_product_price`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `client_selesmans`
@@ -1078,6 +1144,12 @@ ALTER TABLE `vehicle`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `warehouses`
+--
+ALTER TABLE `warehouses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `zip_codes`
 --
 ALTER TABLE `zip_codes`
@@ -1109,7 +1181,7 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `client_categories`
@@ -1128,6 +1200,12 @@ ALTER TABLE `client_contacts`
 --
 ALTER TABLE `client_location_images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `client_product_price`
+--
+ALTER TABLE `client_product_price`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `client_selesmans`
@@ -1205,19 +1283,19 @@ ALTER TABLE `payment_details`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1266,6 +1344,12 @@ ALTER TABLE `user_zip_code_groups`
 --
 ALTER TABLE `vehicle`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `warehouses`
+--
+ALTER TABLE `warehouses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `zip_codes`
