@@ -17,6 +17,8 @@
                                 <thead>
                                 <tr>
                                     <th>Product Name</th>
+                                    <th>Cost Price</th>
+                                    <th>Sale Price</th>
                                     <th>Client Price</th>
                                 </tr>
                                 </thead>
@@ -24,10 +26,12 @@
                                     <?php foreach($product_list as $k=>$product){
                                         echo "<tr>
                                             <td>{$product['product_name']}</td>
+                                            <td>{$product['cost_price']}</td>
+                                            <td>{$product['sale_price']}</td>
                                             <td>
                                                 <input type='hidden' name='product[{$k}][id]' value='{$product['client_product_price_id']}'/>
                                                 <input type='hidden' name='product[{$k}][old_price]' value='{$product['client_price']}'/>
-                                                <input type='text' name='product[{$k}][sale_price]' value='{$product['client_price']}'/></td>
+                                                <input type='text' class='form-control' style='width:50%;' name='product[{$k}][sale_price]' value='{$product['client_price']}'/></td>
                                         </tr>";
                                     }?>
                                 </tbody>
@@ -52,6 +56,6 @@
     // $('.nav .nav-list').activeSidebar('.cilent_list_li');
     $(".cilent_list_li").active();
 	var table = $("#dynamic-table");
-	// var oTable = table.DataTable();
+	var oTable = table.DataTable();
 </script>
 @endscript

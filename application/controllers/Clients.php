@@ -206,11 +206,17 @@ class Clients extends MY_Controller {
         );
         
         // echo "<pre>";print_r($data);
-
+        
         if($data){
             // $this->db->where('client_id',$client_id);
-            $this->db->update_batch("client_product_price",$data,"id");
+            if($this->db->update_batch("client_product_price",$data,"id") !== FALSE){
+                $this->flash('success','Prices updated successfully');
+            }else{
+                $this->flash('error','Prices not updated');
+            }
             // echo "<pre>".$this->db->last_query();
+        }else{
+            $this->flash('success','Nothing to update');
         }
         redirect("clients/price_list/{$client_id}");        
     }
