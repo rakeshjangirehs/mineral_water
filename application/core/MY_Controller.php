@@ -105,7 +105,8 @@ class MY_Controller extends CI_Controller {
 		// get employee list
 		$spreadsheet = new Spreadsheet();
         //name the worksheet
-		$sheet = $spreadsheet->getActiveSheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle($sheetTitle);
 
 		if( !empty( $headerColumns ) )
         {

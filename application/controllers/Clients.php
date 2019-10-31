@@ -221,6 +221,27 @@ class Clients extends MY_Controller {
         redirect("clients/price_list/{$client_id}");        
     }
 
+    public function client_price_export($client_id){
+
+        $query = "SELECT
+                products.product_name,
+                products.cost_price,
+                products.sale_price,
+                client_product_price.sale_price as client_price
+            FROM products
+            LEFT JOIN client_product_price ON client_product_price.product_id = products.id
+            WHERE client_product_price.client_id={$client_id}";
+        
+        $client = $this->db->get_where("clients",["id"=>$client_id])->row_array();
+
+		$resultData = $this->db->query($query)->result_array();
+		$headerColumns = implode(',', array_keys($resultData[0]));
+		$filename = 'price_list-'.$client['client_name'].'-'.time().'.xlsx';
+		$title = 'Price List - '.$client['client_name'];
+		$sheetTitle = 'Price List - '.$client['client_name'];
+        $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );        
+    }
+
 	public function add_location($id=null){
         echo "Feedback Required";
         $client = $this->client->get_client_by_id($id);
@@ -238,7 +259,7 @@ class Clients extends MY_Controller {
 	public function client_export(){
 		$query = $this
                     ->model
-                    ->common_select('`clients`.`first_name`,`clients`.`last_name`,`clients`.`credit_limit`,`clients`.`email`,`clients`.`address`,`zip_codes`.`zip_code`')
+                    ->common_select('`clients`.`client_name`,`clients`.`credit_limit`,`clients`.`address`,`zip_codes`.`zip_code`')
                     ->common_join('zip_codes','zip_codes.id = clients.zip_code_id','LEFT')
                     ->common_where('clients.is_deleted = 0')
                     ->common_get('clients');
