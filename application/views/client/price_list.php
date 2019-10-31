@@ -8,6 +8,7 @@
                         <div class="card-header-right" style="padding:0px 0px;">
                             <ul class="list-unstyled card-option">
                                 <li><i class="feather icon-maximize full-card"></i></li>
+                                <li title="Bulk Price Import"><a href="#" data-toggle="modal" data-target="#import_zipcodes"><i class="feather icon-upload"></i></a></li>
                                 <li title="Export Excel"><a href="<?php echo $this->baseUrl."clients/client_price_export/".$id; ?>"><i class="fa fa-file-excel-o"></i></a></li>
                             </ul>
                         </div>
@@ -45,6 +46,38 @@
                             <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>clients/">Cancel</a>
                         </div>
                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="import_zipcodes" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="<?php echo $this->baseUrl."clients/price_list_import/".$id; ?>" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title">Import Price List</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">                    
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Choose File</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="form-control" name="csv_file" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label">Download Sample File
+                            <a href="<?php echo $this->baseUrl."clients/price_list_sample/".$id; ?>" class="text-primary">Here</a>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light ">Import</button>
                 </div>
             </form>
         </div>

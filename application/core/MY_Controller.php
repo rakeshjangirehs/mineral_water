@@ -93,7 +93,7 @@ class MY_Controller extends CI_Controller {
             $headerColumns = explode(',', $headerColumns);
         }
         $length = count($headerColumns);
-        $rowCount = 2;
+        $rowCount = ($title == "NO") ? 1 : 2;
         $index = 1;
         // set Header
         $start = $abc[0];
@@ -116,21 +116,23 @@ class MY_Controller extends CI_Controller {
             }
         }
 
-        // set bold header
-        $spreadsheet->getActiveSheet()->getStyle($start.$index.":".$end.$index)->getFont()->setBold(true);
-        $spreadsheet->getActiveSheet()->getStyle($start.$index.":".$end.$index)->getFont()->setSize(16);
+        if($title != "NO"){
+            // set bold header
+            $spreadsheet->getActiveSheet()->getStyle($start.$index.":".$end.$index)->getFont()->setBold(true);
+            $spreadsheet->getActiveSheet()->getStyle($start.$index.":".$end.$index)->getFont()->setSize(16);
 
-		// set bold header
-		$spreadsheet->getActiveSheet()->getStyle($start . $rowCount . ':'.$end . $rowCount)->getFont()->setBold(true);
-		$spreadsheet->getActiveSheet()->getStyle($start . $rowCount . ':'.$end . $rowCount)->getFont()->setSize(12);
-		// merge
-		$spreadsheet->getActiveSheet()->mergeCells($start.$index.":".$end.$index);
+            // set bold header
+            $spreadsheet->getActiveSheet()->getStyle($start . $rowCount . ':'.$end . $rowCount)->getFont()->setBold(true);
+            $spreadsheet->getActiveSheet()->getStyle($start . $rowCount . ':'.$end . $rowCount)->getFont()->setSize(12);
+            // merge
+            $spreadsheet->getActiveSheet()->mergeCells($start.$index.":".$end.$index);
 
-		$spreadsheet->getActiveSheet()->setCellValue($start.$index, $title);
+            $spreadsheet->getActiveSheet()->setCellValue($start.$index, $title);
 
-		$spreadsheet->getActiveSheet()->getStyle($start.$index.":".$end.$index)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)->setWrapText(true);
+            $spreadsheet->getActiveSheet()->getStyle($start.$index.":".$end.$index)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)->setWrapText(true);
 
-		$spreadsheet->getActiveSheet()->getRowDimension(1)->setRowHeight(-1);
+            $spreadsheet->getActiveSheet()->getRowDimension(1)->setRowHeight(-1);
+        }
 
 		// read data to active sheet
         if (!empty($data)) {
