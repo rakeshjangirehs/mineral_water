@@ -8,13 +8,16 @@ class Product_model extends MY_Model {
     }
 
     public function add_update($product = array(), $product_image = array(), $id = NULL){
-    	$this->db->trans_start();
+
+        $this->db->trans_start();
+        
     	if($id){
     		// update
             $product['updated_by'] = USER_ID;
             $product['updated_at'] = date('Y-m-d H:i:s');
             $this->db->where('id', $id);
             $this->db->update('products', $product);
+
             if(!empty($product_image)){
                 // delete product images
                 $this->db->where('product_id', $id);
@@ -39,7 +42,23 @@ class Product_model extends MY_Model {
     			$product_image['created_by'] = USER_ID;
 
     			$this->db->insert('product_images', $product_image);
-    		}
+            }
+            
+            //Insert product price for this product in client_product_price table for all clients.
+            if($clients=$this->db->get("clients")->result_array()){
+                $clients = array_map(function($client) use($id,$product){
+                    return array(
+                        'product_id'    =>  $id,
+                        'sale_price'    =>  $product['sale_price'],
+                        'client_id'     =>  $client['id'],
+                        'created_at'    =>  date('Y-m-d H:i:s'),
+                        'created_by'    =>  USER_ID,
+                        'status'        =>  'Active'
+                    );
+                },$clients);
+
+                $this->db->insert_batch("client_product_price",$clients);
+            }
     	}
     	$this->db->trans_complete();
 		if ($this->db->trans_status() === FALSE)

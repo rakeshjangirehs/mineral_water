@@ -52,7 +52,7 @@ class Clients extends MY_Controller {
 	}
 
 	public function add_update( $id = NULL ){
-
+        
 		$userArr = array(
 			'client_name'	=> '',
 			'gst_no'		=> '',

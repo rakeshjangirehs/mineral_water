@@ -30,6 +30,22 @@ class Client extends CI_Model {
             $data['created_by'] = ($create_by) ? $create_by : USER_ID;
             $this->db->insert("clients", $data);
             $client_id = $this->db->insert_id();
+
+            //Insert product price for each product in client_product_price table for newly created client.
+            if($products=$this->db->get("products")->result_array()){
+                $products = array_map(function($product) use($client_id,$create_by){
+                    return array(
+                        'product_id'    =>  $product['id'],
+                        'sale_price'    =>  $product['sale_price'],
+                        'client_id'     =>  $client_id,
+                        'created_at'    =>  date('Y-m-d H:i:s'),
+                        'created_by'    =>  ($create_by) ? $create_by : USER_ID,
+                        'status'        =>  'Active'
+                    );
+                },$products);
+
+                $this->db->insert_batch("client_product_price",$products);
+            }
         }
 
         $this->db->trans_complete();
