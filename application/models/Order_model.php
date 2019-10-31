@@ -54,5 +54,28 @@ class Order_model extends CI_Model {
                 ORDER BY `orders`.`created_at` ASC";
 
 	    return $this->db->query($sql)->result_array();
-    }
+	}
+	
+	public function get_orders_by_zip_code_group($zip_code_group_ids){
+
+		$zip_code_group_ids_str = implode(",",$zip_code_group_ids);
+		
+		$query = "SELECT
+						orders.*,
+						clients.client_name,
+						zip_codes.zip_code
+					FROM orders
+					LEFT JOIN clients on clients.id = orders.client_id
+					LEFT JOIN zip_codes on clients.zip_code_id = zip_codes.id
+					WHERE clients.zip_code_id IN (
+						SELECT
+							DISTINCT(group_to_zip_code.zip_code_id) as zip_code_id
+						FROM zip_code_groups
+						LEFT JOIN group_to_zip_code ON group_to_zip_code.zip_code_group_id = zip_code_groups.id
+						WHERE zip_code_groups.id IN ({$zip_code_group_ids_str})
+					)";
+						
+		$data = $this->db->query($query)->result_array();
+		return $data;
+	}
 }

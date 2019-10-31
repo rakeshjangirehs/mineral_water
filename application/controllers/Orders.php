@@ -56,7 +56,7 @@
         }
 
         $this->data['delivery_boys'] = $this->user->get_user_by_role(3);
-//        echo "<pre>";print_r($this->data['delivery_boys']);die;
+
         $this->data['page_title'] = 'Order List';
         $this->load_content('order/order_list', $this->data);
  	}
@@ -138,7 +138,7 @@
         $date = date('d-m-Y',strtotime($order['created_at']));
         $file_name = "Invoice #{$order['id']} {$order['client_name']} {$date}.pdf";
         $this->generate_pdf($invoice,$file_name);
-     }
+    }
 
     public function email_order($order_id){
 
@@ -200,5 +200,16 @@
         }
 
         echo json_encode($response);
+    }
+
+    public function get_orders_by_zip_code_group(){   //comma seprated zip_code_group_ids
+
+        $data = [];
+
+        if($zip_code_group_ids = $this->input->post('zip_code_group_ids')){
+            $data = $this->order_model->get_orders_by_zip_code_group($zip_code_group_ids);
+        }
+        
+        echo json_encode($data);
     }
 }
