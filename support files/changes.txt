@@ -14,7 +14,6 @@ Neervana discussion : Need to fix requirements
 => Admin can change payment mode
 => Remove Zip code group from salesman & delivary master
 => Delivery boy with vehicle mapping
-=> Product master : Product weight
 
 => Schedule delivery & it's date
 => Assigned delivery boy : then it's come in Out for delivery tab
@@ -22,12 +21,20 @@ Neervana discussion : Need to fix requirements
 => Loader(Delivery Boy) and driver have same login
 i Loader can see : Payments, Ivoices, Orders
 ii Driver can see : Address & Map
+
 => Multiple Delivery boys assigned for one order.
 => Order List : Set Priority : Urgent order tag
+
 => Delivery boy : Today's delivery list : Contact person no, Call action on number, Company name
+
 => After delivery of order client get product delivered SMS
 
 
+Product master : Product weight
 Warehouse master (Warehouse CRUD Done)
 Vehicle master : Vehicle capacity for loding (Vehicle Capacity Field Added)
 Client category required (Client Master CRUD done, Client Id in Client CU)
+New Role Created for Loader/Driver
+Insert client vise product price when client created. (web/api)
+Insert product price for all clients when product created. (web/api)
+At the time of order placement if product price changes, send it for approval & update price in client_product_price table if approved and update flag accordingly in order table.

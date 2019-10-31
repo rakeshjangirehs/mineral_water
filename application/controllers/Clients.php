@@ -198,6 +198,8 @@ class Clients extends MY_Controller {
 
         $data = array_map(function($arr){
             unset($arr['old_price']);
+            $arr['updated_at']    =  date('Y-m-d H:i:s');
+            $arr['updated_by']    =  USER_ID;
             return $arr;
         },
             array_filter($price_list,function($arr){
