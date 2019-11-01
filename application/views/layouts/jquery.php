@@ -27,6 +27,15 @@
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\i18next-browser-languagedetector\js\i18nextBrowserLanguageDetector.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery-i18next\js\jquery-i18next.min.js"></script>
 
+<!--Forms - Wizard js-->
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery.cookie\js\jquery.cookie.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery.steps\js\jquery.steps.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery-validation\js\jquery.validate.js"></script>
+<!-- Validation js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\assets\pages\form-validation\validate.js"></script>
+
 <script src="<?php echo $this->assetsUrl; ?>files\assets\js\pcoded.min.js"></script>
 <script src="<?php echo $this->assetsUrl; ?>files\assets\js\vartical-layout.min.js"></script>
 <script src="<?php echo $this->assetsUrl; ?>files\assets\js\jquery.mCustomScrollbar.concat.min.js"></script>

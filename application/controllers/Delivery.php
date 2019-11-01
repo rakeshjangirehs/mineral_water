@@ -68,6 +68,11 @@ class Delivery extends MY_Controller {
         }
 
         $this->data['zip_code_groups'] = array_column($this->model->get('zip_code_groups'),"group_name","id");
+        $this->data['drivers'] = $this->db->get_where('users',["is_deleted"=>0,"role_id"=>4])->result_array();    //4 is role id of driver
+        $this->data['delivery_boys'] = $this->db->get_where('users',["is_deleted"=>0,"role_id"=>3])->result_array();    //3 is role id of delivery boy
+        $this->data['vehicles'] = $this->db->get_where('vehicle',["is_deleted"=>0])->result_array();    //3 is role id of delivery boy
+
+        // echo "<pre>";print_r($this->data['driver']);die;
         
 		$this->load_content('delivery/add_update', $this->data);
 	}
