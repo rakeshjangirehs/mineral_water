@@ -56,7 +56,12 @@
         color: #8a1f11;
     }
 
+    #config_parent{
+        padding: 0px 20px 0px 0px;
+    }
+
 </style>
+
 <div class="page-body">
     <div class="row">
         <div class="col-sm-12">
@@ -87,7 +92,7 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-md-4 col-lg-3">
-                                                    <label for="zip_code_group" class="block">ZIP Code Groups <span class="text-danger">*</span></label>
+                                                    <label for="zip_code_group" class="block">Route <span class="text-danger">*</span></label>
                                                 </div>
                                                 <div class="col-md-8 col-lg-9">
                                                     <select class="form-control multiple" name="zip_code_group[]" id="zip_code_group" data-placeholder="Choose ZIP Code Groups" data-url="<?php echo $this->baseUrl; ?>orders/get_orders_by_zip_code_group" multiple>
@@ -102,38 +107,164 @@
                                                         ?>
                                                     </select>
                                                 </div>
-                                            </div>                                            
-                                        </fieldset>
-                                        <h3> Order Selection </h3>
-                                        <fieldset>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="dt-responsive table-responsive">
-                                                        <table id="dynamic-table" class="table table-striped table-bordered table-hover" style="width:100%;">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Order No.</th>
-                                                                    <th>Client Name</th>
-                                                                    <th>Expected Delivery Date</th>
-                                                                    <th>ZIP Code</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="order_body"></tbody>
-                                                        </table>
-                                                    </div>
+                                            </div>  
+                                            <div class="form-group row">
+                                                <div class="col-md-4 col-lg-3">
+                                                    <label for="zip_code_group" class="block">&nbsp;</label>
                                                 </div>
-                                            </div>
-                                        </fieldset>
-                                        <h3> Transport Details </h3>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <span class="pull-right" id="order_found_count"></span>
+                                                </div>
+                                            </div>                                          
+                                        </fieldset>                                        
+                                        <h3> Transport & Order Details </h3>
                                         <fieldset>
-                                            <div class="row" id="config_parent">
-                                                
+                                            <div id="config_parent">
+                                                <?php foreach($delivery_config as $k=>$config):?>
+                                                    <div class="well well-lg config_col">
+                                                        <div class="pull-right">                                        
+                                                            <a class="add_config" title="Add New" href="#">
+                                                                <i class="feather icon-plus"></i>
+                                                            </a>|
+                                                            <a class="remove_config" title="Remove" href="#">
+                                                                <i class="feather icon-x"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="row m-t-25">
+                                                            <div class="col-sm-12 col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="vehicles" class="control-label">Vehicle:</label>
+                                                                    <select class="form-control vehicles" name="deliveries[<?php echo $k;?>][vehicles]" id="<?php echo mt_rand(0,20).strtotime(date('Y-m-d'));?>" data-placeholder="Vehicle" data-index="<?php echo $k;?>">
+                                                                        <option value=""></option>
+                                                                        <?php
+                                                                            foreach($vehicles as $key=>$vehicle){
+                                                                                $selected = ($vehicle['id'] == $config['vehicle_id']) ? "selected" : "";
+                                                                                echo "<option value='{$vehicle['id']}' data-capacity='{$vehicle['capacity_in_ton']}' {$selected}>{$vehicle['name']} ({$vehicle['number']}) Cap:{$vehicle['capacity_in_ton']} KG</option>";
+                                                                            }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="drivers" class="control-label">Driver:</label>
+                                                                    <select class="form-control drivers" name="deliveries[<?php echo $k;?>][drivers]" id="<?php echo mt_rand(0,20).strtotime(date('Y-m-d'));?>" data-placeholder="Choose Driver" data-index="<?php echo $k;?>">
+                                                                        <option value=""></option>
+                                                                        <?php
+                                                                            foreach($drivers as $key=>$driver){
+                                                                                $selected = ($driver['id'] == $config['driver_id']) ? "selected" : "";
+                                                                                echo "<option value='{$driver['id']}' {$selected}>{$driver['first_name']} {$driver['last_name']}</option>";
+                                                                            }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="delivery_boys" class="control-label">Delivery Boy:</label>
+                                                                    <select class="form-control delivery_boys" name="deliveries[<?php echo $k;?>][delivery_boys]" id="<?php echo mt_rand(0,20).strtotime(date('Y-m-d'));?>" data-placeholder="Delivery Boy" data-index="<?php echo $k;?>">
+                                                                        <option value=""></option>
+                                                                        <?php
+                                                                            foreach($delivery_boys as $key=>$delivery_boy){
+                                                                                $selected = ($delivery_boy['id'] == $config['delivery_boy_id']) ? "selected" : "";
+                                                                                echo "<option value='{$delivery_boy['id']}' {$selected}>{$delivery_boy['first_name']} {$delivery_boy['last_name']}</option>";
+                                                                            }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>                                                         
+                                                            </div>
+                                                        </div>
+                                                        <!--rakesh-->
+                                                        <h3 class="m-t-10"> Order Selection 
+                                                        <span class="pull-right f-14">
+                                                            (Total Order Weight / Vehicle Capacity) ::
+                                                            <span class="">
+                                                                <span class="order_weight"></span>/
+                                                                <span class="vehicle_capacity"></span>        
+                                                            </span>
+                                                        </span>
+                                                        </h3>
+                                                        <hr/>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="dt-responsive table-responsive">
+                                                                    <table class="table table-striped table-bordered table-hover" style="width:100%;">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Order No.</th>
+                                                                                <th>Client Name</th>
+                                                                                <th>Expected Delivery Date</th>
+                                                                                <th>ZIP Code</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody class="order_body">
+                                                                            <?php foreach($config_orders as $ko=>$order){
+                                                                                $checked = (in_array($order['id'],$config['selected_orders'])) ? "checked": "";
+                                                                                echo "<tr>
+                                                                                        <td>
+                                                                                            <div class='checkbox-fade fade-in-primary'>
+                                                                                                <label>
+                                                                                                    <input type='checkbox' name='deliveries[{$k}][orders][]' class='order_id_chk' value='{$order['id']}' data-order_weight='123' {$checked}>
+                                                                                                    <span class='cr'>
+                                                                                                        <i class='cr-icon icofont icofont-ui-check txt-primary'></i>
+                                                                                                    </span>
+                                                                                                </label>
+                                                                                            </div>    
+                                                                                        </td>
+                                                                                        <td>{$order['id']}</td>
+                                                                                        <td>{$order['client_name']}</td>
+                                                                                        <td>{$order['expected_delivery_date']}</td>
+                                                                                        <td>{$order['zip_code']}</td>
+                                                                                    </tr>";
+                                                                            }?>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach;?>
                                             </div>
                                         </fieldset>
                                         <h3> Pickup Location </h3>
                                         <fieldset>
-                                                                                     
+                                            <div class="form-group row">
+                                                <div class="col-md-4 col-lg-3">
+                                                    <label for="pickup_location" class="block">Pickup Location</label>
+                                                </div>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <div class="form-radio">
+                                                        <div class="radio radio-inline">
+                                                            <label>
+                                                                <input type="radio" name="pickup_location" id="pickup_location_1" value="office">
+                                                                <i class="helper"></i>Office
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio radio-inline">
+                                                            <label>
+                                                                <input type="radio" name="pickup_location" id="pickup_location_2" value="warehouse">
+                                                                <i class="helper"></i>Warehouse
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-4 col-lg-3">
+                                                    <label for="warehouse" class="block">Warehouse</label>
+                                                </div>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <select class="form-control" name="warehouse" data-placeholder="Warehouse">
+                                                        <option value=""></option>
+                                                        <?php
+                                                            foreach($warehouses as $key=>$warehouse){
+                                                                echo "<option value='{$warehouse['id']}'>{$warehouse['name']}</option>";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </fieldset>                               
                                     </form>
                                 </section>
@@ -178,6 +309,7 @@
         $(".add_update_delivery_li").active();
         
         config_template = $("#config_template").html();
+        orders = "";
         var form = $("#example-advanced-form");//.show();
 
         form.steps({
@@ -192,12 +324,14 @@
 
                 // console.log("onInit",event,currentIndex);                
                 initialization();
+                console.log("Init");
 
             },
 
                        
             onStepChanging: function(event, currentIndex, newIndex) {
-
+                
+                console.log("onStepChanging");
                 // console.log(currentIndex, newIndex);
 
                 // Allways allow previous action even if the current form is not valid!
@@ -220,10 +354,18 @@
                 // form.validate().settings.ignore = ":disabled,:hidden";      
                 
                 //Validate if order is selected
-                if(currentIndex == 1){
-                    
-                    if($("#order_body").find(".order_id_chk:checked").length == 0){
-                        swal("Can't Process", "Atleaset one order must be selected.", "info");
+                if(form.valid() && currentIndex == 1){
+                    var all_ok = true;
+                    $(".order_body").each(function(i,v){
+                        var $this = $(this);
+                        console.log($(this));
+                        if($this.find(".order_id_chk:checked").length == 0){
+                            all_ok = false;
+                        }
+                    });
+
+                    if(!all_ok){
+                        swal("Can't Process", "Atleaset one order must be selected in each block.", "info");
                         return false;
                     }
                 }
@@ -241,24 +383,35 @@
                 if (currentIndex === 2 && priorIndex === 3) {
                     form.steps("previous");
                 }
-            },
+            },*/
             onFinishing: function(event, currentIndex) {
 
-                form.validate().settings.ignore = ":disabled";
+                console.log("onFinishing");
+                // form.validate().settings.ignore = ":disabled";
                 return form.valid();
-            },*/
+            },
             onFinished: function(event, currentIndex) {
-                alert("Submitted!");
+                console.log("onFinished");
+                // alert("Submitted!");
                 form.submit();
             }
         }).validate({
-            debug:true,
+            // debug:true,
+            errorClass:"text-danger error",
+
             errorPlacement: function errorPlacement(error, element) {
-                console.log(element);
-                element.before(error);
+                // console.log(element);
+                // element.before(error);
+                // $(element).closest("[class|='col']").append(error);
+                if($(element).hasClass('select2-hidden-accessible')){
+                    $(element).next().after(error);
+                }else{
+                    $(element).after(error);
+                }
             },
             highlight: function(element, errorClass) {
                 // console.log(element,errorClass)
+                console.log($(element).hasClass('select2-hidden-accessible'));
                 if($(element).hasClass('select2-hidden-accessible')){
                     $(element).next().find('.select2-selection').addClass(errorClass);
                 }else{
@@ -273,20 +426,35 @@
                 }
             },
             rules: {
-                expected_delivey_datetime: {
+                "expected_delivey_datetime": {
                     required: true
                 },
                 "zip_code_group[]": {
                     required: true
                 },
-                "vehicles[]": {
-                    required: true
-                },
-                "delivery_boys[]": {
-                    required: true
-                },
-                "drivers[]": {
-                    required: true
+                // "vehicles[]": {
+                //     required: true
+                // },
+                // "delivery_boys[]": {
+                //     required: true
+                // },
+                // "drivers[]": {
+                //     required: true
+                // },
+                // "pickup_location[]": {
+                //     required: true
+                // },
+                "warehouse": {
+                    required: {
+                        depends : function(element){
+                            console.log("depends el : ",element);
+                            if($("[name='pickup_location']:checked").length!=0){
+                                return ($("[name='pickup_location']:checked").val() == "warehouse");
+                            }else{
+                                return false;
+                            }
+                        }
+                    }
                 },
             }
             
@@ -294,9 +462,9 @@
         
 
         function initialization(){
-            
-            var $order_body = $("#order_body");
-            $config_parent = $("#config_parent");
+                        
+            var $config_parent = $("#config_parent");
+            var index = 0;
    
             // Make Scrollable
             // http://rocha.la/jQuery-slimScroll
@@ -319,14 +487,55 @@
             $("#zip_code_group").select2({
                 dropdownParent: $('#zip_code_group').parent()
             });
+            $("[name=warehouse]").select2({
+                // allowClear:true,
+                dropdownParent: $('[name=warehouse]').parent()
+            });
 
+            $("[name='pickup_location']").on('change',function(e){
+                console.log(this.value == 'warehouse');
+                if(this.value == 'warehouse'){
+                    // $("[name=warehouse]").next(".select2-container").show();
+                }else{
+                    // $("[name=warehouse]").next(".select2-container").hide();
+                }
+            });  
+
+            // console.log($("#config_parent"));
+            $("#config_parent").on('change',"[name='vehicles[]']",function(e){
+                var $this = $(this);
+                var vehicle_cap = $this.find("option:selected").data('capacity') || 0;
+                $this.closest(".config_col").find(".vehicle_capacity").text(vehicle_cap);
+            }).on('change',".order_id_chk",function(e){
+                var $this = $(this);
+                
+                var weight_sum = $this.closest('.order_body').find('.order_id_chk:checked').map(function(i,v){
+                    var return_val =  $(v).data('order_weight') || 0;
+                    return return_val;
+                })
+                .toArray()
+                .reduce(function(carry,val){
+                    return carry+val;
+                },0);
+                // console.log(weight_sum);
+                $this.closest(".config_col").find(".order_weight").text(weight_sum);
+            });            
+            
             //Get Orders When zip_code_group changes
             $("#zip_code_group").on('change',function(e){
+
                 var $this = $(this);
                 var url = $this.data('url');        
                 var zip_code_group_ids = $this.val();
+                var $order_found_count = $("#order_found_count");
                 
-                $order_body.empty();
+                var $order_body = $(".order_body");
+                console.log("orders : ",$order_body);                
+                $order_body.each(function(i,v){
+                    $(v).empty();
+                });
+
+                $order_found_count.removeClass('text-success text-warning');
 
                 if(zip_code_group_ids.length != 0){
                     $.ajax({
@@ -340,7 +549,7 @@
                             // console.log(data);
                             var trs = [];
                             
-                            if(data){
+                            if(data && data.length>0){
                                 $.each(data,function(i,arr){
                                     
                                     var checked = '';//($.inArray(arr.id,selected_orders) != -1) ? 'checked' : '';
@@ -349,7 +558,7 @@
                                                     <td>
                                                         <div class='checkbox-fade fade-in-primary'>
                                                             <label>
-                                                                <input type='checkbox' name='orders[]' class='order_id_chk' value='${arr.id}' ${checked}>
+                                                                <input type='checkbox' name='orders[]' class='order_id_chk' value='${arr.id}' data-order_weight='${arr.order_weight}' ${checked}>
                                                                 <span class='cr'>
                                                                     <i class='cr-icon icofont icofont-ui-check txt-primary'></i>
                                                                 </span>
@@ -362,16 +571,39 @@
                                                     <td>${arr.zip_code}</td>
                                                 </tr>`;
                                     trs.push(str);
+                                    $order_found_count.text(data.length + " orders found.");
+                                    $order_found_count.addClass("text-success");
                                     // selected_orders = [];
                                 });
                                 
-                                $order_body.append(trs);
+                                orders = trs.join("");
+                                $order_body.each(function(i,v){
+                                    console.log("order body : ",$order_body, " index : ",$(v).closest(".config_col").find(".vehicles").data('index'));
+                                    
+                                    $(v).append(orders).find('.order_id_chk').each(function(i,el){
+                                        var $el = $(el);
+                                        console.log("ELS : ",$el);
+                                        // console.log("order id changed : ",$el.closest(".config_col").find(".vehicles").data('index'));
+                                        var parent_index = $el.closest(".config_col").find(".vehicles").data('index');
+                                        console.log("parent_index : ",parent_index);
+                                        $el.attr('name',"deliveries["+parent_index+"][orders][]");
+                                    });
+                                });
+                                
+                            }else{
+                                $order_found_count.text("No Orders found.");
+                                $order_found_count.addClass("text-warning");
+                                orders = "";
                             }
                         }
                     });
+                }else{
+                    $order_found_count.text("");
+                    orders = "";
+                    // $order_found_count.addClass("text-warning");
                 }
 
-            }).trigger('change');
+            });
 
             $config_parent.on('click','.add_config',function(e){
 
@@ -412,76 +644,149 @@
             }
 
             function append_config(){
+                
                 $config_parent.append(config_template);
                 
                 $config_parent.children().last().find('.select2').each(function(i,element){
                 
                     var $element = $(element);
+
+                    $element.attr('name',"deliveries["+index+"]["+$element.attr('name')+"]");                    
+                    $element.data('index',index);                    
+
                     $element.attr('id',Math.floor(Math.random()*1000) + (new Date).getTime());
-                    // setTimeout(()=>{
-                    //     // https://jqueryvalidation.org/rules/
-                    //     $element.rules("add",{
-                    //         required: true
-                    //     });
-                    //     console.log($element,$element.rules())
-                    // },0);
+
+                    if($element.hasClass("vehicles") || $element.hasClass("drivers")){
+                        setTimeout(()=>{
+                            // https://jqueryvalidation.org/rules/
+                            $element.rules("add",{
+                                required: true
+                            });
+                            // console.log($element,$element.rules())
+                        },0);
+                    }
 
                     $element.select2({
                         allowClear:true,
                         dropdownParent: $element.parent()
                     });
+
+                }).end().find('.order_body').append(orders).end().find('.order_id_chk').each(function(i,el){
+                    var $el = $(el);
+                    // console.log("order id changed : ",$el.closest(".config_col").find(".vehicles").data('index'));
+                    // var parent_index = $el.closest(".config_col").find(".vehicles").data('index');
+                    $el.attr('name',"deliveries["+index+"][orders][]");
                 });
+                index++;
             }
+
+            $config_parent.children().find('.vehicles,.drivers,.delivery_boys').each(function(i,element){
+                
+                var $element = $(element);
+console.log("IN : ",$element);
+                // $element.attr('name',"deliveries["+index+"]["+$element.attr('name')+"]");                    
+                // $element.data('index',index);                    
+
+                // $element.attr('id',Math.floor(Math.random()*1000) + (new Date).getTime());
+
+                if($element.hasClass("vehicles") || $element.hasClass("drivers")){
+                    setTimeout(()=>{
+                        // https://jqueryvalidation.org/rules/
+                        $element.rules("add",{
+                            required: true
+                        });
+                        // console.log($element,$element.rules())
+                    },0);
+                }
+
+                $element.select2({
+                    allowClear:true,
+                    dropdownParent: $element.parent()
+                });
+
+            })
         }
     });
 </script>
 
 <script type="text/template" id="config_template">
-    <div class="col-sm-12 col-md-4 config_col">
-        <div class="well well-sm">
-            <div class="remove_config_parent">
-                <div class="pull-right">                                        
-                    <a class="add_config" title="Add New" href="#">
-                        <i class="feather icon-plus"></i>
-                    </a>|
-                    <a class="remove_config" title="Remove" href="#">
-                        <i class="feather icon-x"></i>
-                    </a>
+    <div class="well well-lg config_col">
+        <div class="pull-right">                                        
+            <a class="add_config" title="Add New" href="#">
+                <i class="feather icon-plus"></i>
+            </a>|
+            <a class="remove_config" title="Remove" href="#">
+                <i class="feather icon-x"></i>
+            </a>
+        </div>
+        <div class="row m-t-25">
+            <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                    <label for="vehicles" class="control-label">Vehicle:</label>
+                    <select class="form-control select2 vehicles" name="vehicles" data-placeholder="Vehicle">
+                        <option value=""></option>
+                        <?php
+                            foreach($vehicles as $key=>$vehicle){
+                                echo "<option value='{$vehicle['id']}' data-capacity='{$vehicle['capacity_in_ton']}'>{$vehicle['name']} ({$vehicle['number']}) Cap:{$vehicle['capacity_in_ton']} KG</option>";
+                            }
+                        ?>
+                    </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="vehicles" class="control-label">Vehicle:</label>
-                <select class="form-control select2" name="vehicles[]" data-placeholder="Vehicle">
-                    <option value=""></option>
-                    <?php
-                        foreach($vehicles as $key=>$vehicle){
-                            echo "<option value='{$vehicle['id']}'>{$vehicle['name']} ({$vehicle['number']}) Cap:{$vehicle['capacity_in_ton']} Tons</option>";
-                        }
-                    ?>
-                </select>
+            <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                    <label for="drivers" class="control-label">Driver:</label>
+                    <select class="form-control select2 drivers" name="drivers" data-placeholder="Choose Driver">
+                        <option value=""></option>
+                        <?php
+                            foreach($drivers as $key=>$driver){
+                                echo "<option value='{$driver['id']}'>{$driver['first_name']} {$driver['last_name']}</option>";
+                            }
+                        ?>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="delivery_boys" class="control-label">Delivery Boy:</label>
-                <select class="form-control select2" name="delivery_boys[]" data-placeholder="Delivery Boy">
-                    <option value=""></option>
-                    <?php
-                        foreach($delivery_boys as $key=>$delivery_boy){
-                            echo "<option value='{$delivery_boy['id']}'>{$delivery_boy['first_name']} {$delivery_boy['last_name']}</option>";
-                        }
-                    ?>
-                </select>
-            </div> 
-            <div class="form-group">
-                <label for="drivers" class="control-label">Driver:</label>
-                <select class="form-control select2" name="drivers[]" data-placeholder="Choose Driver">
-                    <option value=""></option>
-                    <?php
-                        foreach($drivers as $key=>$driver){
-                            echo "<option value='{$driver['id']}'>{$driver['first_name']} {$driver['last_name']}</option>";
-                        }
-                    ?>
-                </select>
-            </div>                                
+            <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                    <label for="delivery_boys" class="control-label">Delivery Boy:</label>
+                    <select class="form-control select2 delivery_boys" name="delivery_boys" data-placeholder="Delivery Boy">
+                        <option value=""></option>
+                        <?php
+                            foreach($delivery_boys as $key=>$delivery_boy){
+                                echo "<option value='{$delivery_boy['id']}'>{$delivery_boy['first_name']} {$delivery_boy['last_name']}</option>";
+                            }
+                        ?>
+                    </select>
+                </div>                                                         
+            </div>
+        </div>
+        <h3 class="m-t-10"> Order Selection 
+        <span class="pull-right f-14">
+            (Total Order Weight / Vehicle Capacity) ::
+            <span class="">
+                <span class="order_weight"></span>/
+                <span class="vehicle_capacity"></span>        
+            </span>
+        </span>
+        </h3>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="dt-responsive table-responsive">
+                    <table class="table table-striped table-bordered table-hover" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Order No.</th>
+                                <th>Client Name</th>
+                                <th>Expected Delivery Date</th>
+                                <th>ZIP Code</th>
+                            </tr>
+                        </thead>
+                        <tbody class="order_body"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </script>
