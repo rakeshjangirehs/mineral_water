@@ -237,13 +237,13 @@
                                                     <div class="form-radio">
                                                         <div class="radio radio-inline">
                                                             <label>
-                                                                <input type="radio" name="pickup_location" id="pickup_location_1" value="office">
+                                                                <input type="radio" name="pickup_location" id="pickup_location_1" value="office" <?php echo ($delivery_data['pickup_location']=='office') ? "checked" : "";?>>
                                                                 <i class="helper"></i>Office
                                                             </label>
                                                         </div>
                                                         <div class="radio radio-inline">
                                                             <label>
-                                                                <input type="radio" name="pickup_location" id="pickup_location_2" value="warehouse">
+                                                                <input type="radio" name="pickup_location" id="pickup_location_2" value="warehouse" <?php echo ($delivery_data['pickup_location']=='warehouse') ? "checked" : "";?>>
                                                                 <i class="helper"></i>Warehouse
                                                             </label>
                                                         </div>
@@ -259,7 +259,8 @@
                                                         <option value=""></option>
                                                         <?php
                                                             foreach($warehouses as $key=>$warehouse){
-                                                                echo "<option value='{$warehouse['id']}'>{$warehouse['name']}</option>";
+                                                                $selected = ($warehouse['id']==$delivery_data['warehouse']) ? "selected" : "";
+                                                                echo "<option value='{$warehouse['id']}' {$selected}>{$warehouse['name']}</option>";
                                                             }
                                                         ?>
                                                     </select>
@@ -308,8 +309,33 @@
         // to active the sidebar
         $(".add_update_delivery_li").active();
         
-        config_template = $("#config_template").html();
-        orders = "";
+        var config_template = $("#config_template").html();
+                
+        <?php 
+        $str = "";
+        foreach($config_orders as $ko=>$order){
+            
+            $str .= "<tr>
+                    <td>
+                        <div class='checkbox-fade fade-in-primary'>
+                            <label>
+                                <input type='checkbox' name='deliveries[{$k}][orders][]' class='order_id_chk' value='{$order['id']}' data-order_weight='123'>
+                                <span class='cr'>
+                                    <i class='cr-icon icofont icofont-ui-check txt-primary'></i>
+                                </span>
+                            </label>
+                        </div>    
+                    </td>
+                    <td>{$order['id']}</td>
+                    <td>{$order['client_name']}</td>
+                    <td>{$order['expected_delivery_date']}</td>
+                    <td>{$order['zip_code']}</td>
+                </tr>";
+        }
+
+        echo 'var orders = `'.$str.'`;';
+        ?>
+
         var form = $("#example-advanced-form");//.show();
 
         form.steps({
@@ -488,18 +514,23 @@
                 dropdownParent: $('#zip_code_group').parent()
             });
             $("[name=warehouse]").select2({
-                // allowClear:true,
+                allowClear:true,
                 dropdownParent: $('[name=warehouse]').parent()
             });
 
             $("[name='pickup_location']").on('change',function(e){
-                console.log(this.value == 'warehouse');
+                console.log("check pickup_location : ",this.value == 'warehouse');
                 if(this.value == 'warehouse'){
-                    // $("[name=warehouse]").next(".select2-container").show();
+                    $("[name=warehouse]").next(".select2-container").show();                    
                 }else{
-                    // $("[name=warehouse]").next(".select2-container").hide();
+                    $("[name=warehouse]").next(".select2-container").hide();    
+                    if($("[name=warehouse]").val()){
+                        $("[name=warehouse]").val(null).trigger('change');
+                    }                
                 }
-            });  
+            });
+
+            $("[name='pickup_location']:checked").trigger('change');
 
             // console.log($("#config_parent"));
             $("#config_parent").on('change',"[name='vehicles[]']",function(e){

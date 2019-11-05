@@ -56,6 +56,9 @@ class Delivery_model extends CI_Model {
 		
 		$new_orders = [];
 		
+		$this->db->delete("delivery_config",['delivery_id'=>$delivery_id]);
+		$this->db->delete("delivery_config_orders",['delivery_id'=>$delivery_id]);
+		
 		foreach($deliveries as $k=>$delivery){
 			
 			if(isset($delivery['orders']) && count($delivery['orders']) > 0){

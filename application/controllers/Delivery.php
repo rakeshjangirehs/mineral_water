@@ -44,7 +44,7 @@ class Delivery extends MY_Controller {
             $whr = "orders.created_at <= '{$this->data['delivery_data']['created_at']}'"; 
             $this->data['config_orders'] = $this->order_model->get_orders_by_zip_code_group($this->data['delivery_routes'],$whr,true);
 
-            // echo "<pre>";print_r($this->data['config_orders']);die;
+            // echo "<pre>";print_r($this->data['delivery_data']);die;
             // echo "<pre>".$this->db->last_query()."</pre>";
             // echo "<pre>";print_r($delivery_config);die;
 
