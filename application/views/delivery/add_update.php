@@ -185,7 +185,7 @@
                                                         </div>
                                                         <!--rakesh-->
                                                         <h3 class="m-t-10"> Order Selection 
-                                                        <span class="pull-right f-14">
+                                                        <span class="pull-right f-14 m-t-10">
                                                             (Total Order Weight / Vehicle Capacity) ::
                                                             <span class="order_weight_parent">
                                                                 <span class="order_weight"></span>/
@@ -861,7 +861,7 @@
             </div>
         </div>
         <h3 class="m-t-10"> Order Selection 
-        <span class="pull-right f-14">
+        <span class="pull-right f-14 m-t-10">
             (Total Order Weight / Vehicle Capacity) ::
             <span class="order_weight_parent">
                 <span class="order_weight"></span>/
