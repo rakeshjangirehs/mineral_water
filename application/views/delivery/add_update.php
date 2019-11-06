@@ -60,6 +60,15 @@
         padding: 0px 20px 0px 0px;
     }
 
+    .wizard > .actions{
+        padding: 0px 6px 0px 0px;
+    }
+    .wizard>.actions a[href='#cancel']{
+        /* background-color: rgba(0, 0, 0, 0);
+        border-color: rgba(0, 0, 0, 0);
+        color:rgb(64, 78, 103); */
+    }
+
 </style>
 
 <div class="page-body">
@@ -342,8 +351,11 @@
             headerTag: "h3",
             bodyTag: "fieldset",
             transitionEffect: "slideLeft",
+            enableAllSteps:true,
+            enableCancelButton:true,
+            // stepsOrientation:1,  //vertical
             // enableContentCache:false,
-            // autoFocus:true,
+            autoFocus:true,
             // titleTemplate: "<span class='number'>#index#.</span> #title#",
 
             onInit:function(event, currentIndex) {
@@ -352,6 +364,10 @@
                 initialization();
                 console.log("Init");
 
+            },
+
+            onCanceled : function (event) {
+                window.location.href = "<?php echo $this->baseUrl;?>/delivery";
             },
 
                        
