@@ -52,7 +52,7 @@
             <div class="navbar-wrapper">
 
                 <div class="navbar-logo">
-                    <a class="mobile-menu" id="mobile-collapse" href="#!" style="display:none;">
+                    <a class="mobile-menu" id="mobile-collapse" href="#!" style="">
                         <i class="feather icon-menu"></i>
                     </a>
                     <a href="<?php echo $this->baseUrl; ?>">

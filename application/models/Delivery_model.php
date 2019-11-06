@@ -108,4 +108,33 @@ class Delivery_model extends CI_Model {
         }
 	}
 	
+	public function get_orders_by_zip_code_group($zip_code_group_ids,$where=null){
+
+		$zip_code_group_ids_str = implode(",",$zip_code_group_ids);
+		$whr = ($where) ? " AND ".$where : '';
+		
+		$query = "SELECT
+						orders.*,
+						clients.client_name,
+						zip_codes.zip_code,
+						SUM(products.weight) as `order_weight`
+					FROM orders
+					LEFT JOIN clients on clients.id = orders.client_id
+					LEFT JOIN zip_codes on clients.zip_code_id = zip_codes.id
+					LEFT JOIN order_items on order_items.order_id = orders.id
+					LEFT JOIN products on products.id = order_items.product_id
+					WHERE clients.zip_code_id IN (
+						SELECT
+							DISTINCT(group_to_zip_code.zip_code_id) as zip_code_id
+						FROM zip_code_groups
+						LEFT JOIN group_to_zip_code ON group_to_zip_code.zip_code_group_id = zip_code_groups.id
+						WHERE zip_code_groups.id IN ({$zip_code_group_ids_str})
+					)
+					$whr
+					GROUP BY orders.id";
+						
+		$data = $this->db->query($query)->result_array();
+		// echo "<pre>".$this->db->last_query();die;
+		return $data;
+	}
 }

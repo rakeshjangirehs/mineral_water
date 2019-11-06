@@ -201,15 +201,4 @@
 
         echo json_encode($response);
     }
-
-    public function get_orders_by_zip_code_group(){   //comma seprated zip_code_group_ids
-
-        $data = [];
-
-        if($zip_code_group_ids = $this->input->post('zip_code_group_ids')){
-            $data = $this->order_model->get_orders_by_zip_code_group($zip_code_group_ids);
-        }
-        
-        echo json_encode($data);
-    }
 }

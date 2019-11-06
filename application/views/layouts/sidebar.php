@@ -186,6 +186,11 @@
                             <span class="pcoded-mtext">Create Delivery</span>
                         </a>
                     </li>
+                    <li class="delivery_list_li">
+                        <a href="<?php echo $this->baseUrl; ?>delivery">
+                            <span class="pcoded-mtext">Delivery List</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

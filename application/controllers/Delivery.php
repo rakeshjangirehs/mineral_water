@@ -9,7 +9,6 @@ class Delivery extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('delivery_model');
-		$this->load->model('order_model');
 
         //validation config
         $this->delivery_validation_config = array(
@@ -22,7 +21,26 @@ class Delivery extends MY_Controller {
     }
     
     public function index(){
-        echo "Listing goes here";
+        if($this->input->is_ajax_request()){
+
+			$colsArr = array(
+				'expected_delivey_datetime',
+				'actual_delivey_datetime',
+				'pickup_location',
+				'warehouse',
+				'action'
+			);
+
+			$query = $this
+						->model
+                        ->common_select('delivery.*,
+                                        DATE_FORMAT(expected_delivey_datetime,"%Y-%m-%d") as expected_delivey_datetime_f')
+						->common_get('delivery');
+
+            echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0",NULL,true);die;
+		}
+		$this->data['page_title'] = 'Delivery List';
+		$this->load_content('delivery/delivery_list', $this->data);
     }
 
 	public function add_update($delivery_id=null){
@@ -35,18 +53,26 @@ class Delivery extends MY_Controller {
             $this->data['delivery_routes'] = array_column($this->db->get_where("delivery_routes",["delivery_id"=>$delivery_id])->result_array(),'zip_code_group_id');
             
             $delivery_config = $this->db->get_where("delivery_config",["delivery_id"=>$delivery_id])->result_array();
-
+            $selected_orders = [];
             foreach($delivery_config as $k=>$conf){
                 $delivery_config[$k]['selected_orders'] = array_column($this->db->get_where("delivery_config_orders",['delivery_config_id'=>$conf['id']])->result_array(),'order_id');                
+                $selected_orders =  array_merge($delivery_config[$k]['selected_orders'],$selected_orders);
             }
             $this->data['delivery_config'] = $delivery_config;
 
-            $whr = "orders.created_at <= '{$this->data['delivery_data']['created_at']}'"; 
-            $this->data['config_orders'] = $this->order_model->get_orders_by_zip_code_group($this->data['delivery_routes'],$whr,true);
+            $whr = "orders.created_at <= '{$this->data['delivery_data']['created_at']}'";
 
-            // echo "<pre>";print_r($this->data['delivery_data']);die;
+            if($selected_orders){
+                $selected_orders = array_unique($selected_orders);
+                $whr .= " AND (orders.id in(" . implode(",",$selected_orders) . ") OR orders.delivery_id IS NULL)";
+            }
+            $this->data['selected_orders'] = $selected_orders;
+            
+            $this->data['config_orders'] = $this->delivery_model->get_orders_by_zip_code_group($this->data['delivery_routes'],$whr);
+
+            // echo "<pre>";print_r($this->data['delivery_config']);die;
             // echo "<pre>".$this->db->last_query()."</pre>";
-            // echo "<pre>";print_r($delivery_config);die;
+            // echo "<pre>";print_r($selected_orders);die;
 
         }else{
             
@@ -54,13 +80,14 @@ class Delivery extends MY_Controller {
 
             $this->data['delivery_data'] = array(
                 'expected_delivey_datetime' =>  null,
-                'pickup_location'           =>  "office",
+                'pickup_location'           =>  "Office",
                 'warehouse'                 =>  null,
             );
 
             $this->data['delivery_routes'] = [];
             $this->data['config_orders'] = [];
             $this->data['delivery_config'] = [];
+            $this->data['selected_orders'] = [];
         }
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
@@ -75,7 +102,7 @@ class Delivery extends MY_Controller {
                 $delivery_data  =   array(
                     'expected_delivey_datetime' =>  ($this->input->post('expected_delivey_datetime')) ? $this->input->post('expected_delivey_datetime') : null,
                     'pickup_location'           =>  ($this->input->post('pickup_location')) ? $this->input->post('pickup_location') : null,
-                    'warehouse'                 =>  ($this->input->post('warehouse') && $this->input->post('pickup_location') =='warehouse') ? $this->input->post('warehouse') : null,
+                    'warehouse'                 =>  ($this->input->post('warehouse') && $this->input->post('pickup_location') =='Warehouse') ? $this->input->post('warehouse') : null,
                     'status'			        =>	'Active'
                 );
 
@@ -94,8 +121,8 @@ class Delivery extends MY_Controller {
                 } else {
                     $this->flash('error', 'Some error ocurred. Please try again later.');
                 }
-                echo 'done';die;
-                redirect('deliver/add_update', 'location');
+                
+                redirect('delivery/index', 'location');
                 
             }else{
                 echo "Validation Failed"; die;
@@ -111,6 +138,49 @@ class Delivery extends MY_Controller {
         // echo "<pre>";print_r($this->data['driver']);die;
         
 		$this->load_content('delivery/add_update', $this->data);
-	}
+    }
+    
+    public function get_orders_by_zip_code_group(){   //comma seprated zip_code_group_ids
+
+        $data = [];
+
+        // if($selected_orders){
+        //     $whr .= " AND (orders.id in(" . implode(",",$selected_orders) . ") OR orders.delivery_id IS NULL)";
+        // }
+
+        
+        if($selected_orders = $this->input->post('selected_orders')){
+            $whr = "( orders.delivery_id IS NULL OR orders.id IN (". implode(",",$selected_orders) ."))";
+        }else{
+            $whr = "orders.delivery_id IS NULL";
+        }
+
+        if($zip_code_group_ids = $this->input->post('zip_code_group_ids')){
+            $data = $this->delivery_model->get_orders_by_zip_code_group($zip_code_group_ids,$whr);
+        }
+        
+        echo json_encode($data);
+    }
+
+    public function delete($delivery_id){
+        
+        $this->db->trans_start();
+
+        $this->db->delete("delivery_routes",['delivery_id'=>$delivery_id]);
+        $this->db->delete("delivery_config_orders",['delivery_id'=>$delivery_id]);
+        $this->db->delete("delivery_config",['delivery_id'=>$delivery_id]);
+        $this->db->delete("delivery",['id'=>$delivery_id]);
+
+        $this->db->update("orders",["delivery_id"=> null],["delivery_id"=>$delivery_id]);
+
+        $this->db->trans_complete();
+		
+		if($this->db->trans_status()){
+            $this->flash("success","Delivery deleted.");
+        }else{
+            $this->flash("error","Delivery not deleted.");
+        }
+        redirect("delivery");
+    }
 
 }

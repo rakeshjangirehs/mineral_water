@@ -87,7 +87,7 @@
                                                     <label for="expected_delivey_datetime" class="block">Expected Delivery Date <span class="text-danger">*</span></label>
                                                 </div>
                                                 <div class="col-md-8 col-lg-9">
-                                                <input type="text" name="expected_delivey_datetime" id="expected_delivey_datetime" class="form-control" value="<?php echo $delivery_data['expected_delivey_datetime']; ?>"/>
+                                                <input type="text" name="expected_delivey_datetime" id="expected_delivey_datetime" class="form-control" value="<?php echo ($delivery_data['expected_delivey_datetime']) ? date('Y-m-d',strtotime($delivery_data['expected_delivey_datetime'])) : ''; ?>"/>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -95,7 +95,7 @@
                                                     <label for="zip_code_group" class="block">Route <span class="text-danger">*</span></label>
                                                 </div>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <select class="form-control multiple" name="zip_code_group[]" id="zip_code_group" data-placeholder="Choose ZIP Code Groups" data-url="<?php echo $this->baseUrl; ?>orders/get_orders_by_zip_code_group" multiple>
+                                                    <select class="form-control multiple" name="zip_code_group[]" id="zip_code_group" data-placeholder="Choose ZIP Code Groups" data-url="<?php echo $this->baseUrl; ?>delivery/get_orders_by_zip_code_group" multiple>
                                                         <option value=""></option>
                                                         <?php                                            
                                                             if(!empty($zip_code_groups)){
@@ -178,7 +178,7 @@
                                                         <h3 class="m-t-10"> Order Selection 
                                                         <span class="pull-right f-14">
                                                             (Total Order Weight / Vehicle Capacity) ::
-                                                            <span class="">
+                                                            <span class="order_weight_parent">
                                                                 <span class="order_weight"></span>/
                                                                 <span class="vehicle_capacity"></span>        
                                                             </span>
@@ -205,7 +205,7 @@
                                                                                         <td>
                                                                                             <div class='checkbox-fade fade-in-primary'>
                                                                                                 <label>
-                                                                                                    <input type='checkbox' name='deliveries[{$k}][orders][]' class='order_id_chk' value='{$order['id']}' data-order_weight='123' {$checked}>
+                                                                                                    <input type='checkbox' name='deliveries[{$k}][orders][]' class='order_id_chk' value='{$order['id']}' data-order_weight='{$order['order_weight']}' {$checked}>
                                                                                                     <span class='cr'>
                                                                                                         <i class='cr-icon icofont icofont-ui-check txt-primary'></i>
                                                                                                     </span>
@@ -237,13 +237,13 @@
                                                     <div class="form-radio">
                                                         <div class="radio radio-inline">
                                                             <label>
-                                                                <input type="radio" name="pickup_location" id="pickup_location_1" value="office" <?php echo ($delivery_data['pickup_location']=='office') ? "checked" : "";?>>
+                                                                <input type="radio" name="pickup_location" id="pickup_location_1" value="Office" <?php echo ($delivery_data['pickup_location']=='Office') ? "checked" : "";?>>
                                                                 <i class="helper"></i>Office
                                                             </label>
                                                         </div>
                                                         <div class="radio radio-inline">
                                                             <label>
-                                                                <input type="radio" name="pickup_location" id="pickup_location_2" value="warehouse" <?php echo ($delivery_data['pickup_location']=='warehouse') ? "checked" : "";?>>
+                                                                <input type="radio" name="pickup_location" id="pickup_location_2" value="Warehouse" <?php echo ($delivery_data['pickup_location']=='Warehouse') ? "checked" : "";?>>
                                                                 <i class="helper"></i>Warehouse
                                                             </label>
                                                         </div>
@@ -319,7 +319,7 @@
                     <td>
                         <div class='checkbox-fade fade-in-primary'>
                             <label>
-                                <input type='checkbox' name='deliveries[{$k}][orders][]' class='order_id_chk' value='{$order['id']}' data-order_weight='123'>
+                                <input type='checkbox' name='deliveries[{$k}][orders][]' class='order_id_chk' value='{$order['id']}' data-order_weight='{$order['order_weight']}'>
                                 <span class='cr'>
                                     <i class='cr-icon icofont icofont-ui-check txt-primary'></i>
                                 </span>
@@ -333,8 +333,8 @@
                 </tr>";
         }
 
-        echo 'var orders = `'.$str.'`;';
         ?>
+        var orders = `<?php echo $str;?>`;
 
         var form = $("#example-advanced-form");//.show();
 
@@ -358,7 +358,7 @@
             onStepChanging: function(event, currentIndex, newIndex) {
                 
                 console.log("onStepChanging");
-                // console.log(currentIndex, newIndex);
+                console.log(currentIndex, newIndex);
 
                 // Allways allow previous action even if the current form is not valid!
                 if (currentIndex > newIndex) {
@@ -381,10 +381,12 @@
                 
                 //Validate if order is selected
                 if(form.valid() && currentIndex == 1){
+
                     var all_ok = true;
+
                     $(".order_body").each(function(i,v){
                         var $this = $(this);
-                        console.log($(this));
+                        // console.log($(this));
                         if($this.find(".order_id_chk:checked").length == 0){
                             all_ok = false;
                         }
@@ -394,7 +396,22 @@
                         swal("Can't Process", "Atleaset one order must be selected in each block.", "info");
                         return false;
                     }
+
+                    $("#config_parent").find('.order_weight_parent').each(function(i,v){
+                        var order_weight = parseInt($(v).find('.order_weight').text()) || 0;
+                        var vehicle_capacity = parseInt($(v).find('.vehicle_capacity').text()) || 0;
+                        if(order_weight>vehicle_capacity){
+                            all_ok = false;
+                        }
+                    });
+
+                    if(!all_ok){
+                        swal("Can't Process", "Order Weight can't exceed Vehicle capacity.", "info");
+                        return false;
+                    }
                 }
+
+                
 
                 return form.valid();
             },
@@ -437,7 +454,7 @@
             },
             highlight: function(element, errorClass) {
                 // console.log(element,errorClass)
-                console.log($(element).hasClass('select2-hidden-accessible'));
+                // console.log($(element).hasClass('select2-hidden-accessible'));
                 if($(element).hasClass('select2-hidden-accessible')){
                     $(element).next().find('.select2-selection').addClass(errorClass);
                 }else{
@@ -473,9 +490,9 @@
                 "warehouse": {
                     required: {
                         depends : function(element){
-                            console.log("depends el : ",element);
+                            // console.log("depends el : ",element);
                             if($("[name='pickup_location']:checked").length!=0){
-                                return ($("[name='pickup_location']:checked").val() == "warehouse");
+                                return ($("[name='pickup_location']:checked").val() == "Warehouse");
                             }else{
                                 return false;
                             }
@@ -490,7 +507,7 @@
         function initialization(){
                         
             var $config_parent = $("#config_parent");
-            var index = 0;
+            var index = $config_parent.children().length;
    
             // Make Scrollable
             // http://rocha.la/jQuery-slimScroll
@@ -519,11 +536,14 @@
             });
 
             $("[name='pickup_location']").on('change',function(e){
-                console.log("check pickup_location : ",this.value == 'warehouse');
-                if(this.value == 'warehouse'){
-                    $("[name=warehouse]").next(".select2-container").show();                    
+                // console.log("check pickup_location : ",this.value == 'warehouse');
+                var $this = $(this);
+                if(this.value == 'Warehouse'){
+                    $this.closest('.form-group').next().show();
+                    // $("[name=warehouse]").next(".select2-container").show();                    
                 }else{
-                    $("[name=warehouse]").next(".select2-container").hide();    
+                    // $("[name=warehouse]").next(".select2-container").hide();    
+                    $this.closest('.form-group').next().hide();
                     if($("[name=warehouse]").val()){
                         $("[name=warehouse]").val(null).trigger('change');
                     }                
@@ -533,14 +553,32 @@
             $("[name='pickup_location']:checked").trigger('change');
 
             // console.log($("#config_parent"));
-            $("#config_parent").on('change',"[name='vehicles[]']",function(e){
+            $("#config_parent").on('change',".vehicles",function(e){
+                
                 var $this = $(this);
                 var vehicle_cap = $this.find("option:selected").data('capacity') || 0;
                 $this.closest(".config_col").find(".vehicle_capacity").text(vehicle_cap);
+
+                var weight_sum = $this.closest('.config_col').find('.order_id_chk:checked').map(function(i,v){
+                    var return_val =  $(v).data('order_weight') || 0;
+                    return return_val;
+                })
+                .toArray()
+                .reduce(function(carry,val){
+                    return carry+val;
+                },0);
+
+                // console.log("vehicles change : ",weight_sum,vehicle_cap,weight_sum > vehicle_cap);
+                var parentClass = (weight_sum > vehicle_cap) ? 'text-danger' : 'text-success';
+                $this.closest(".config_col").find(".order_weight").parent().removeClass('text-danger text-success').addClass(parentClass);
+                
+
             }).on('change',".order_id_chk",function(e){
+
                 var $this = $(this);
                 
                 var weight_sum = $this.closest('.order_body').find('.order_id_chk:checked').map(function(i,v){
+                    // console.log($(v),$(v).data('order_weight'));
                     var return_val =  $(v).data('order_weight') || 0;
                     return return_val;
                 })
@@ -549,9 +587,23 @@
                     return carry+val;
                 },0);
                 // console.log(weight_sum);
-                $this.closest(".config_col").find(".order_weight").text(weight_sum);
+                var vehicle_cap = $this.closest(".config_col").find(".vehicles").find("option:selected");
+                vehicle_cap = vehicle_cap.data('capacity') || 0;
+                var parentClass = (weight_sum > vehicle_cap) ? 'text-danger' : 'text-success';
+                // console.log("order_id_chk change : ",weight_sum,vehicle_cap,weight_sum > vehicle_cap);
+                $this.closest(".config_col").find(".order_weight").parent().removeClass('text-danger text-success').addClass(parentClass).end().text(weight_sum);
+
             });            
             
+            $('.config_col').each(function(i,config_col){
+                $(config_col).find('.order_id_chk').first().trigger('change');
+                setTimeout(() => {
+                    $(config_col).find('.vehicles').trigger('change');
+                });
+            });
+
+            var selected_orders = JSON.parse('<?php echo json_encode($selected_orders);?>');
+            // console.log(selected_orders);
             //Get Orders When zip_code_group changes
             $("#zip_code_group").on('change',function(e){
 
@@ -561,7 +613,7 @@
                 var $order_found_count = $("#order_found_count");
                 
                 var $order_body = $(".order_body");
-                console.log("orders : ",$order_body);                
+                // console.log("orders : ",$order_body);                
                 $order_body.each(function(i,v){
                     $(v).empty();
                 });
@@ -574,7 +626,8 @@
                         "method":   "post",
                         "dataType": "json",
                         "data"  :   {
-                            "zip_code_group_ids"    :   zip_code_group_ids
+                            "zip_code_group_ids"    :   zip_code_group_ids,
+                            "selected_orders"       :   selected_orders
                         },
                         "success":  function(data){
                             // console.log(data);
@@ -609,14 +662,14 @@
                                 
                                 orders = trs.join("");
                                 $order_body.each(function(i,v){
-                                    console.log("order body : ",$order_body, " index : ",$(v).closest(".config_col").find(".vehicles").data('index'));
+                                    // console.log("order body : ",$order_body, " index : ",$(v).closest(".config_col").find(".vehicles").data('index'));
                                     
                                     $(v).append(orders).find('.order_id_chk').each(function(i,el){
                                         var $el = $(el);
-                                        console.log("ELS : ",$el);
+                                        // console.log("ELS : ",$el);
                                         // console.log("order id changed : ",$el.closest(".config_col").find(".vehicles").data('index'));
                                         var parent_index = $el.closest(".config_col").find(".vehicles").data('index');
-                                        console.log("parent_index : ",parent_index);
+                                        // console.log("parent_index : ",parent_index);
                                         $el.attr('name',"deliveries["+parent_index+"][orders][]");
                                     });
                                 });
@@ -714,7 +767,7 @@
             $config_parent.children().find('.vehicles,.drivers,.delivery_boys').each(function(i,element){
                 
                 var $element = $(element);
-console.log("IN : ",$element);
+                // console.log("IN : ",$element);
                 // $element.attr('name',"deliveries["+index+"]["+$element.attr('name')+"]");                    
                 // $element.data('index',index);                    
 
@@ -794,7 +847,7 @@ console.log("IN : ",$element);
         <h3 class="m-t-10"> Order Selection 
         <span class="pull-right f-14">
             (Total Order Weight / Vehicle Capacity) ::
-            <span class="">
+            <span class="order_weight_parent">
                 <span class="order_weight"></span>/
                 <span class="vehicle_capacity"></span>        
             </span>

@@ -19,7 +19,7 @@
                                     <tr>
                                         <th>Vehicle Name</th>
                                         <th>Vehicle No</th>
-                                        <th>Capacity (In Tons)</th>
+                                        <th>Capacity (In KG)</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -56,7 +56,7 @@
                                             <span class="messages"><?php echo form_error('number');?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="capacity_in_ton" class="control-label">Capactiy (In Tons):</label>
+                                            <label for="capacity_in_ton" class="control-label">Capactiy (In KG):</label>
                                             <input type="text" name="capacity_in_ton" id="capacity_in_ton" class="form-control" value="<?php echo (isset($_POST['capacity_in_ton']))? set_value('capacity_in_ton') : $vehicle_details['capacity_in_ton']; ?>" />
                                             <span class="messages"><?php echo form_error('capacity_in_ton');?></span>
                                         </div>
