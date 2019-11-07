@@ -38,6 +38,7 @@
                                         <tr>
                                             <th>Order ID</th>
                                             <th>Client</th>
+                                            <th>C Delivery Dt</th>
                                             <th>Order Amount</th>
                                             <th>Salesman</th>
                                         </tr>
@@ -55,6 +56,7 @@
                                         <tr>
                                             <th>Order ID</th>
                                             <th>Client</th>
+                                            <th>C Delivery Dt</th>
                                             <th>Order Amount</th>
                                             <th>Expected Delivery Date</th>
                                         </tr>
@@ -72,6 +74,7 @@
                                         <tr>
                                             <th>Order ID</th>
                                             <th>Client</th>
+                                            <th>C Delivery Dt</th>
                                             <th>Order Amount</th>
                                             <th>Expected Delivery Date</th>
                                             <th>Actual Delivery Date</th>
@@ -166,6 +169,7 @@
             "columns": [
                 { "data": "id" },
                 { "data": "client_name" },
+                { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "salesman_name" }
             ],
@@ -187,6 +191,7 @@
             "columns": [
                 { "data": "id" },
                 { "data": "client_name" },
+                { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "expected_delivey_datetime" }
             ],
@@ -208,6 +213,7 @@
             "columns": [
                 { "data": "id" },
                 { "data": "client_name" },
+                { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "expected_delivey_datetime" },
                 { "data": "actual_delivey_datetime" },
@@ -224,11 +230,15 @@
         });
 
 
-        $(".table").each((i,el)=>{            
+        $(".table").each((i,el)=>{
             var table = $(el);
         });
 
-        
+        //jugad
+        $('a[data-toggle="tab"]').on( 'click', function (e) {            
+            $(".tab-pane","#table_patent").not($(this).attr('href')).removeClass('active');
+        } );
+
         $("#table_patent").on('click','.order_email',function(e){
 
             e.preventDefault();

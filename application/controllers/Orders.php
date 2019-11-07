@@ -28,6 +28,7 @@
                 $colsArr = array(
                     'id',
                     'client_name',
+                    'expected_delivery_date',
                     'payable_amount',
                     'salesman_name'
                 );
@@ -37,6 +38,7 @@
                     $colsArr = array(
                         'id',
                         'client_name',
+                        'expected_delivery_date',
                         'payable_amount',
                         'expected_delivey_datetime'
                     );
@@ -46,6 +48,7 @@
                     $colsArr = array(
                         'id',
                         'client_name',
+                        'expected_delivery_date',
                         'payable_amount',
                         'expected_delivey_datetime',
                         'actual_delivey_datetime',

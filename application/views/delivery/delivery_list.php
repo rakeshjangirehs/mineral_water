@@ -53,7 +53,7 @@
             },
             "columns": [
                 { "data": "expected_delivey_datetime_f" },
-                { "data": "actual_delivey_datetime" },
+                { "data": "actual_delivey_datetime_f" },
                 { "data": "pickup_location" },
                 { "data": "warehouse" },
                 {

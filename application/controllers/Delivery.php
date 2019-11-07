@@ -34,7 +34,9 @@ class Delivery extends MY_Controller {
 			$query = $this
 						->model
                         ->common_select('delivery.*,
-                                        DATE_FORMAT(expected_delivey_datetime,"%Y-%m-%d") as expected_delivey_datetime_f')
+                                        DATE_FORMAT(expected_delivey_datetime,"%Y-%m-%d") as expected_delivey_datetime_f,
+                                        DATE_FORMAT(actual_delivey_datetime,"%Y-%m-%d") as actual_delivey_datetime_f
+                                        ')
 						->common_get('delivery');
 
             echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0",NULL,true);die;
