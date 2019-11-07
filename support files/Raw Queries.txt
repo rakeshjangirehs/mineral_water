@@ -1,0 +1,46 @@
+#Pending/Out For Deliver/ Completed Orders
+
+SELECT 
+	orders.*,
+	#`clients`.`id` AS `client_id`,
+	`clients`.`client_name`,
+	`salesman`.`id` AS `salesman_id`, 
+	CONCAT(`salesman`.`first_name`," ",IFNULL(`salesman`.`last_name`, "")) as `salesman_name`,
+	`deliveryboy`.`id` AS `deliveryboy_id`, 
+	CONCAT(`deliveryboy`.`first_name`," ",IFNULL(`deliveryboy`.`last_name`, "")) as `deliveryboy_name`,
+	#GROUP_CONCAT(tbl.id),
+	GROUP_CONCAT(tbl.vehicle_details) as vehicle,
+	GROUP_CONCAT(tbl.driver_details) as driver,
+	GROUP_CONCAT(tbl.delivery_boy_details) as delivery_boy,
+	#tbl.delivery_id,
+	DATE_FORMAT(tbl.expected_delivey_datetime,"%Y-%m-%d") as expected_delivey_datetime,
+	DATE_FORMAT(tbl.actual_delivey_datetime,"%Y-%m-%d") as actual_delivey_datetime,
+	tbl.pickup_location,
+	tbl.warehouse
+FROM orders				
+LEFT JOIN clients ON clients.id = orders.client_id 
+LEFT JOIN users as salesman ON salesman.id = orders.created_by 
+LEFT JOIN users as deliveryboy ON deliveryboy.id = orders.delivery_boy_id
+LEFT JOIN (
+	SELECT
+		delivery_config.id,		
+		delivery.id as delivery_id,
+		delivery.expected_delivey_datetime,
+		delivery.actual_delivey_datetime,
+		delivery.pickup_location,
+		delivery.warehouse,
+		CONCAT_WS('##',vehicle.id,vehicle.name,vehicle.number,vehicle.capacity_in_ton) as vehicle_details,
+		CONCAT_WS('##',driver.id,driver.first_name,driver.phone) as driver_details,
+		CONCAT_WS('##',delivery_boy.id,delivery_boy.first_name,delivery_boy.phone) as delivery_boy_details,
+		GROUP_CONCAT(delivery_config_orders.order_id) as orders
+	FROM `delivery_config_orders`
+	LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
+	LEFT JOIN `delivery` ON `delivery`.`id` = `delivery_config`.`delivery_id`
+	LEFT JOIN `vehicle` ON `vehicle`.`id` = `delivery_config`.`vehicle_id`
+	LEFT JOIN `users` as `driver` on `driver`.`id` = `delivery_config`.`driver_id`
+	LEFT JOIN `users` as `delivery_boy` on `delivery_boy`.`id` = `delivery_config`.`delivery_boy_id`
+	GROUP BY delivery_config.id
+) as tbl ON FIND_IN_SET(orders.id,tbl.orders)
+WHERE 1=1 
+GROUP BY `orders`.`id`
+ORDER BY `orders`.`id`

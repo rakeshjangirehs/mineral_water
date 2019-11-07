@@ -42,7 +42,6 @@
                                             <th>Expected Delivery Date</th>
                                             <th>Actual Delivery Date</th>
                                             <th>Salesman</th>
-                                            <th>DeliveryBoy</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -63,7 +62,6 @@
                                             <th>Expected Delivery Date</th>
                                             <th>Actual Delivery Date</th>
                                             <th>Salesman</th>
-                                            <th>DeliveryBoy</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -84,7 +82,6 @@
                                             <th>Expected Delivery Date</th>
                                             <th>Actual Delivery Date</th>
                                             <th>Salesman</th>
-                                            <th>DeliveryBoy</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -180,17 +177,15 @@
                 { "data": "id" },
                 { "data": "client_name" },
                 { "data": "payable_amount" },
-                { "data": "expected_delivery_date" },
-                { "data": "actual_delivery_date" },
+                { "data": "expected_delivey_datetime" },
+                { "data": "actual_delivey_datetime" },
                 { "data": "salesman_name" },
-                { "data": "deliveryboy_name" },
                 {
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
-                          "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>"+
-                          "<a class='allocate_delivery_boy' href='<?php echo $this->baseUrl; ?>orders/update_delivery_boy' data-order_id='"+data.id+"' data-expected_delivery_date='"+data.expected_delivery_date+"' data-delivery_boy_id='"+data.delivery_boy_id+"'title='Allocat/Change Delivery Boy'><i class='feather icon-airplay'></i></a>";
+                          "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>";
 				    }
             	}
             ],
