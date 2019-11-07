@@ -18,31 +18,41 @@
 
  	public function index($type=''){    //pending,ontheway,completed
 
-        $where = "status = 'Active'";
-
-        switch($type){
-            case 'pending':
-            $where .= " AND delivery_id IS NULL";
-                break;
-            case 'ontheway':
-                $where .= " AND delivery_id IS NOT NULL AND actual_delivey_datetime IS NULL";
-                break;
-            case 'completed':
-                $where .= " AND actual_delivey_datetime IS NOT NULL";
-                break;
-        }        
-
         if($this->input->is_ajax_request()){
 
-            $colsArr = array(
-                'id',
-                'client_name',
-                'payable_amount',
-                'expected_delivey_datetime',
-                'actual_delivey_datetime',
-                'salesman_name',
-                'action'
-            );
+            $where = "status = 'Active'";
+
+            switch($type){
+                case 'pending':
+                $where .= " AND delivery_id IS NULL";
+                $colsArr = array(
+                    'id',
+                    'client_name',
+                    'payable_amount',
+                    'salesman_name'
+                );
+                    break;
+                case 'ontheway':
+                    $where .= " AND delivery_id IS NOT NULL AND actual_delivey_datetime IS NULL";
+                    $colsArr = array(
+                        'id',
+                        'client_name',
+                        'payable_amount',
+                        'expected_delivey_datetime'
+                    );
+                    break;
+                case 'completed':
+                    $where .= " AND actual_delivey_datetime IS NOT NULL";
+                    $colsArr = array(
+                        'id',
+                        'client_name',
+                        'payable_amount',
+                        'expected_delivey_datetime',
+                        'actual_delivey_datetime',
+                        'action'
+                    );
+                    break;
+            }
 
             $query = "SELECT 
                     orders.*,

@@ -39,10 +39,7 @@
                                             <th>Order ID</th>
                                             <th>Client</th>
                                             <th>Order Amount</th>
-                                            <th>Expected Delivery Date</th>
-                                            <th>Actual Delivery Date</th>
                                             <th>Salesman</th>
-                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -60,9 +57,6 @@
                                             <th>Client</th>
                                             <th>Order Amount</th>
                                             <th>Expected Delivery Date</th>
-                                            <th>Actual Delivery Date</th>
-                                            <th>Salesman</th>
-                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -81,7 +75,6 @@
                                             <th>Order Amount</th>
                                             <th>Expected Delivery Date</th>
                                             <th>Actual Delivery Date</th>
-                                            <th>Salesman</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -134,39 +127,78 @@
 
 @script
 <script type="text/javascript">
-	// to active the sidebar
-    // $('.nav .nav-list').activeSidebar('.product_li');
-    $(".order_list_li").active();
-    $delivery_boy_modal = $("#delivery_boy_modal");
-    $delivery_boy = $("#delivery_boy");
-    $order_id = $("#order_id");
+	
+    $(function(){
+        // to active the sidebar
+        $(".order_list_li").active();
 
-    $delivery_boy.select2({
-        allowClear:true,
-        dropdownParent:$delivery_boy_modal
-    });
+        $delivery_boy_modal = $("#delivery_boy_modal");
+        $delivery_boy = $("#delivery_boy");
+        $order_id = $("#order_id");
 
-    $("#expected_delivery_date").datepicker({
-        format		:	"yyyy-mm-dd",
-        autoclose	:	true,
-        todayBtn	:	"linked",
-        // clearBtn	:	true,
-        // endDate		: 	moment().format("YYYY-MM-DD"),
-        // maxViewMode : 	2
-        //orientation: "bottom left"
-    })
+        $delivery_boy.select2({
+            allowClear:true,
+            dropdownParent:$delivery_boy_modal
+        });
 
+        $("#expected_delivery_date").datepicker({
+            format		:	"yyyy-mm-dd",
+            autoclose	:	true,
+            todayBtn	:	"linked",
+            // clearBtn	:	true,
+            // endDate		: 	moment().format("YYYY-MM-DD"),
+            // maxViewMode : 	2
+            //orientation: "bottom left"
+        })
 
-    $(".table").each((i,el)=>{
+        $("#pending_orders").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax":{
+                "url": $("#pending_orders").data('url'),
+                "dataType": "json",
+                "type": "POST",
+            },
+            "order": [
+                [ 0, "desc" ]
+            ],
+            "columns": [
+                { "data": "id" },
+                { "data": "client_name" },
+                { "data": "payable_amount" },
+                { "data": "salesman_name" }
+            ],
+            "createdRow": function ( row, data, index ) {}
+        });
         
-        var table = $(el);
+        $("#ontheway_orders").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax":{
+                "url": $("#ontheway_orders").data('url'),
+                "dataType": "json",
+                "type": "POST",
+            },
+            "order": [
+                [ 0, "desc" ]
+            ],
+            "columns": [
+                { "data": "id" },
+                { "data": "client_name" },
+                { "data": "payable_amount" },
+                { "data": "expected_delivey_datetime" }
+            ],
+            "createdRow": function ( row, data, index ) {}
+        });
         
-        table.DataTable({
-			"processing": true,
-			"serverSide": true,
-			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-			"ajax":{
-                "url": table.data('url'),
+        $("#completed_orders").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax":{
+                "url": $("#completed_orders").data('url'),
                 "dataType": "json",
                 "type": "POST",
             },
@@ -179,121 +211,126 @@
                 { "data": "payable_amount" },
                 { "data": "expected_delivey_datetime" },
                 { "data": "actual_delivey_datetime" },
-                { "data": "salesman_name" },
                 {
-                	"data": 'link',
-                	"sortable": false,
-                	"render": function ( data, type, row, meta ) {
-				      return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
-                          "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>";
-				    }
-            	}
+                    "data": 'link',
+                    "sortable": false,
+                    "render": function ( data, type, row, meta ) {
+                    return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
+                        "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>";
+                    }
+                }
             ],
             "createdRow": function ( row, data, index ) {}
-		});
-    });
+        });
 
-	$("#table_patent").on('click','.order_email',function(e){
 
-	    e.preventDefault();
+        $(".table").each((i,el)=>{            
+            var table = $(el);
+        });
 
-        $("#flash_parent").children().not("#inactivity_logout").remove();
+        
+        $("#table_patent").on('click','.order_email',function(e){
 
-        $('.theme-loader').fadeIn();
+            e.preventDefault();
 
-        $.ajax({
-            url: this.getAttribute('href'),
-            method: 'GET',
-            dataType: 'json',
-            // data: {},
-            success: function(data){
+            $("#flash_parent").children().not("#inactivity_logout").remove();
 
-                if(data.success){
-                    $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
-                        "        <div class='col-sm-12'>\n" +
-                        "            <div class='alert alert-success background-success' style='margin-bottom:5px;'>\n" +
-                        "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
-                        "                    <i class='feather icon-x text-white'></i>\n" +
-                        "                </button>\n" +
-                        data.message +
-                        "            </div>\n" +
-                        "        </div>\n" +
-                        "    </div>");
-                }else{
+            $('.theme-loader').fadeIn();
+
+            $.ajax({
+                url: this.getAttribute('href'),
+                method: 'GET',
+                dataType: 'json',
+                // data: {},
+                success: function(data){
+
+                    if(data.success){
+                        $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
+                            "        <div class='col-sm-12'>\n" +
+                            "            <div class='alert alert-success background-success' style='margin-bottom:5px;'>\n" +
+                            "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
+                            "                    <i class='feather icon-x text-white'></i>\n" +
+                            "                </button>\n" +
+                            data.message +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>");
+                    }else{
+                        $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
+                            "        <div class='col-sm-12'>\n" +
+                            "            <div class='alert alert-warning background-warning' style='margin-bottom:5px;'>\n" +
+                            "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
+                            "                    <i class='feather icon-x text-white'></i>\n" +
+                            "                </button>\n" +
+                            data.message +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>");
+                    }
+                },
+                error	: function(xmlhttprequest,textStatus,error){
+                    // console.log(xmlhttprequest.responseText);
+                },
+                complete: function(xmlhttprequest,textStatus ){
+                    $('.theme-loader').fadeOut();
+                }
+            });
+        }).on('click','.allocate_delivery_boy',function(e) {
+
+            e.preventDefault();
+            var $this = $(this);
+            var order_id = $this.data('order_id');
+            var delivery_boy_id = $this.data('delivery_boy_id');
+            var expected_delivery_date = $this.data('expected_delivery_date');
+
+            $("#expected_delivery_date").val(expected_delivery_date);
+            $delivery_boy.children().not(":first").remove();
+            // console.log(order_id,delivery_boy_id);
+            console.log(expected_delivery_date);
+
+            $.ajax({
+                url: '<?php echo $this->baseUrl; ?>orders/get_deliveryboy_by_order_id',
+                method: 'POST',
+                dataType: 'json',
+                data: {'order_id':order_id},
+                success: function(data){
+                    var optStr = "";
+
+                    // console.log(data);
+                    $.each(data,function(i,delivery_boy){
+                        var selected = (delivery_boy_id == delivery_boy.id) ? "selected" : "";
+                        optStr += "<option value='"+delivery_boy.id+"' "+selected+">"+delivery_boy.first_name+" "+delivery_boy.last_name+"</option>";
+                    });
+                    $delivery_boy.append(optStr);
+                    $order_id.val(order_id);
+                    $delivery_boy_modal.modal('show');
+                },
+                error	: function(xmlhttprequest,textStatus,error){
+                    // console.log(xmlhttprequest.responseText);
                     $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
                         "        <div class='col-sm-12'>\n" +
                         "            <div class='alert alert-warning background-warning' style='margin-bottom:5px;'>\n" +
                         "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
                         "                    <i class='feather icon-x text-white'></i>\n" +
                         "                </button>\n" +
-                        data.message +
+                        "Unable to fetch data" +
                         "            </div>\n" +
                         "        </div>\n" +
                         "    </div>");
+
+                },
+                complete: function(xmlhttprequest,textStatus ){
+                    // $('.theme-loader').fadeOut();
                 }
-            },
-            error	: function(xmlhttprequest,textStatus,error){
-                // console.log(xmlhttprequest.responseText);
-            },
-            complete: function(xmlhttprequest,textStatus ){
-                $('.theme-loader').fadeOut();
-            }
-        });
-    }).on('click','.allocate_delivery_boy',function(e) {
+            });
 
-        e.preventDefault();
-        var $this = $(this);
-        var order_id = $this.data('order_id');
-        var delivery_boy_id = $this.data('delivery_boy_id');
-        var expected_delivery_date = $this.data('expected_delivery_date');
-
-        $("#expected_delivery_date").val(expected_delivery_date);
-        $delivery_boy.children().not(":first").remove();
-        // console.log(order_id,delivery_boy_id);
-        console.log(expected_delivery_date);
-
-        $.ajax({
-            url: '<?php echo $this->baseUrl; ?>orders/get_deliveryboy_by_order_id',
-            method: 'POST',
-            dataType: 'json',
-            data: {'order_id':order_id},
-            success: function(data){
-                var optStr = "";
-
-                // console.log(data);
-                $.each(data,function(i,delivery_boy){
-                    var selected = (delivery_boy_id == delivery_boy.id) ? "selected" : "";
-                    optStr += "<option value='"+delivery_boy.id+"' "+selected+">"+delivery_boy.first_name+" "+delivery_boy.last_name+"</option>";
-                });
-                $delivery_boy.append(optStr);
-                $order_id.val(order_id);
-                $delivery_boy_modal.modal('show');
-            },
-            error	: function(xmlhttprequest,textStatus,error){
-                // console.log(xmlhttprequest.responseText);
-                $("#flash_parent").append("<div class='row align-items-end m-t-5'>\n" +
-                    "        <div class='col-sm-12'>\n" +
-                    "            <div class='alert alert-warning background-warning' style='margin-bottom:5px;'>\n" +
-                    "                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='margin-top: 2px;'>\n" +
-                    "                    <i class='feather icon-x text-white'></i>\n" +
-                    "                </button>\n" +
-                    "Unable to fetch data" +
-                    "            </div>\n" +
-                    "        </div>\n" +
-                    "    </div>");
-
-            },
-            complete: function(xmlhttprequest,textStatus ){
-                // $('.theme-loader').fadeOut();
-            }
+            // $delivery_boy.val(delivery_boy_id).trigger('change');
         });
 
-        // $delivery_boy.val(delivery_boy_id).trigger('change');
+        // $delivery_boy_modal.on('hidden.bs.modal',function(e){
+        //     $delivery_boy.val('').trigger('change');
+        //     $order_id.val('');
+        // });
     });
-
-    // $delivery_boy_modal.on('hidden.bs.modal',function(e){
-    //     $delivery_boy.val('').trigger('change');
-    //     $order_id.val('');
-    // });
 </script>
 @endscript
