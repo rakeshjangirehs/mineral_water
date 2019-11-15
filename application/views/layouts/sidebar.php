@@ -194,6 +194,25 @@
                 </ul>
             </li>
 
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="fa fa-gift"></i></span>
+                    <span class="pcoded-mtext">Schemes</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="add_update_scheme_li">
+                        <a href="<?php echo $this->baseUrl; ?>schemes/add_update">
+                            <span class="pcoded-mtext">Create Scheme</span>
+                        </a>
+                    </li>
+                    <li class="scheme_list_li">
+                        <a href="<?php echo $this->baseUrl; ?>schemes">
+                            <span class="pcoded-mtext">Scheme List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <!--
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
