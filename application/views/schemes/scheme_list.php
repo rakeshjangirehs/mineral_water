@@ -7,20 +7,17 @@
                     <div class="card-header-right" style="padding:0px 0px;">
                         <ul class="list-unstyled card-option">
                             <li><i class="feather icon-maximize full-card"></i></li>
-                            <li title="Export Excel"><a href="<?php echo $this->baseUrl; ?>clients/client_export"><i class="fa fa-file-excel-o"></i></a></li>
+                            <!-- <li title="Export Excel"><a href="<?php //echo $this->baseUrl; ?>clients/client_export"><i class="fa fa-file-excel-o"></i></a></li> -->
                         </ul>
                     </div>
                 </div>
                 <div class="card-block">
                     <div class="dt-responsive table-responsive">
-                        <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>clients/index" style="width:100%;">
+                        <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>schemes/index" style="width:100%;">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>GST No.</th>
-                                <th>Credit Limit</th>
-                                <th>Address</th>
-                                <th>ZIP Code</th>
+                                <th>Scheme Name</th>
+                                <th>Type</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -38,8 +35,8 @@
 @script
 <script type="text/javascript">
 	// to active the sidebar
-    // $('.nav .nav-list').activeSidebar('.cilent_list_li');
-    $(".cilent_list_li").active();
+    $(".scheme_list_li").active();
+
 	var table = $("#dynamic-table");
 	var imgUrl = table.attr('data-imageUrl');
 	var oTable = table
@@ -53,20 +50,14 @@
                 "type": "POST",
             },
             "columns": [
-                { "data": "client_name" },
-                { "data": "gst_no" },
-                { "data": "credit_limit" },
-                { "data": "address" },
-                { "data": "zip_code" },
+                { "data": "name" },
+                { "data": "type" },
                 {
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-                        // "<a class='' href='<?php echo $this->baseUrl; ?>clients/contacts/"+data.id+"' title='Client Contacts'><i class='feather icon-phone-call'></i></a>" +
-				      return "<a class='' href='<?php echo $this->baseUrl; ?>clients/add_update/"+data.id+"' title='Edit Client'><i class='feather icon-edit'></i></a>" +                          
-                          "<a class=' ' href='<?php echo $this->baseUrl; ?>clients/price_list/"+data.id+"' title='Price List'><i class='feather icon-percent'></i></a>" +
-                          "<a class=' ' href='<?php echo $this->baseUrl; ?>payments/payment_post/"+data.id+"' title='Post Payment'><i class='feather icon-credit-card'></i></a>" +
-                          "<a class='text-danger' id='delete_client' href='<?php echo $this->baseUrl; ?>clients/delete/"+data.id+"' title='Delete Client'><i class='feather icon-trash-2'></i></a>";
+                      return "<a class='' href='<?php echo $this->baseUrl; ?>schemes/add_update/"+data.id+"' title='Edit Scheme'><i class='feather icon-edit'></i></a>" +
+                          "<a class='text-danger' id='delete_client' href='<?php echo $this->baseUrl; ?>schemes/delete/"+data.id+"' title='Delete Scheme'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
@@ -77,8 +68,8 @@
 
             swal(
                 {
-                    title: "Delete Client ?",
-                    text: "You will not be able to recover this client!",
+                    title: "Delete Scheme ?",
+                    text: "You will not be able to recover this Scheme!",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",

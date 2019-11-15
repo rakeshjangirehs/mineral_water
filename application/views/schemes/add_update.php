@@ -108,7 +108,26 @@
                             </div>
 
                             <!-- Container for conditional products -->
-                            <div class="row" id="product_order_parent"></div>
+                            <div class="row" id="product_order_parent">
+                                <?php foreach($scheme_data['scheme_products'] as $k=>$scheme_product):?>
+                                    <div class='col-sm-12 col-md-6 offset-md-6 product_order'>
+                                        <div class='form-group'>
+                                            <div class='input-group'>
+                                                <select class='form-control products' data-placeholder='Choose Product' id="<?php echo mt_rand(0,20).strtotime(date('Y-m-d'));?>" name="products[<?php echo $k;?>][product_id]" style='width:100%;'>
+                                                    <option value=''></option>
+                                                    <?php foreach($products as $product){
+                                                        $selected = ($product['id']==$scheme_product['product_id']) ? 'selected' : '';
+                                                        echo "<option value='{$product['id']}' {$selected}>{$product['product_name']}</option>";
+                                                    }?>
+                                                </select>
+                                                <input type='text' class='form-control w-100 qty' value="<?php echo $scheme_product['quantity'];?>" placeholder='Quantity' id="<?php echo mt_rand(0,20).strtotime(date('Y-m-d'));?>" name="products[<?php echo $k;?>][qty]"/>
+                                                <span class='input-group-addon add_product' title='Add'><i class='feather icon-plus'></i></span>
+                                                <span class='input-group-addon orange-color remove_product' title='Remove'><i class='feather icon-minus'></i></span>
+                                            </div>                                        
+                                        </div>
+                                    </div>
+                                <?php endforeach;?>
+                            </div>
                             <hr/>
                         </div>
 
@@ -155,7 +174,8 @@
                                         <select name="free_product_id" id="free_product_id" class="form-control" style="width:100%;" data-placeholder="Choose Product">
                                             <option value=''></option>
                                             <?php foreach($products as $product){
-                                                echo "<option value='{$product['id']}'>{$product['product_name']}</option>";
+                                                $selected = ($scheme_data['free_product_id'] == $product['id']) ? 'selected' : '';
+                                                echo "<option value='{$product['id']}' {$selected}>{$product['product_name']}</option>";
                                             }?>
                                         </select>
                                     </div>
@@ -163,7 +183,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="discount_mode" class="control-label">Quantity : </label>
-                                        <input type="text" name="free_product_qty" id="free_product_qty" class="form-control" value="" placeholder="Free Quantity"/>
+                                        <input type="text" name="free_product_qty" id="free_product_qty" class="form-control" placeholder="Free Quantity" value="<?php echo $scheme_data['free_product_qty'];?>"/>
                                     </div>
                                 </div>
                             </div>
@@ -339,6 +359,16 @@
             index++;
         }
 
+        $product_order_parent.children().find(".products").each(function(i,element){
+            var $this = $(this);
+            
+            $this.select2({
+                allowClear:true,
+                dropdownParent: $this.parent()
+            });
+
+        });
+
     });
 </script>
 
@@ -346,7 +376,7 @@
     <div class="col-sm-12 col-md-6 offset-md-6 product_order">
         <div class="form-group">
             <div class="input-group">
-                <select name="products" class="form-control products" data-placeholder="Choose Product" style="width:100%;">
+                <select class="form-control products" data-placeholder="Choose Product" style="width:100%;">
                     <option value=''></option>
                     <?php foreach($products as $product){
                         echo "<option value='{$product['id']}'>{$product['product_name']}</option>";

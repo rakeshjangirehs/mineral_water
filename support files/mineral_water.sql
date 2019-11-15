@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2019 at 01:02 PM
--- Server version: 10.1.29-MariaDB
--- PHP Version: 7.1.12
+-- Generation Time: Nov 15, 2019 at 05:57 PM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,12 +31,12 @@ SET time_zone = "+00:00";
 CREATE TABLE `brands` (
   `id` int(11) NOT NULL,
   `brand_name` varchar(200) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -59,10 +59,10 @@ CREATE TABLE `cities` (
   `name` varchar(255) DEFAULT NULL,
   `code` varchar(20) DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 = Deleted',
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1 = Deleted',
+  `created_at` datetime DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -88,8 +88,8 @@ INSERT INTO `cities` (`id`, `state_id`, `name`, `code`, `status`, `is_deleted`, 
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL,
   `client_name` varchar(200) DEFAULT NULL,
-  `credit_limit` decimal(14,2) DEFAULT '0.00',
-  `credit_balance` float(10,2) NOT NULL DEFAULT '0.00',
+  `credit_limit` decimal(14,2) DEFAULT 0.00,
+  `credit_balance` float(10,2) NOT NULL DEFAULT 0.00,
   `address` varchar(500) DEFAULT NULL,
   `city_id` int(11) DEFAULT NULL,
   `state_id` int(11) DEFAULT NULL,
@@ -105,10 +105,10 @@ CREATE TABLE `clients` (
   `contact_person_2_phone_1` varchar(20) DEFAULT NULL,
   `contact_person_2_phone_2` varchar(20) DEFAULT NULL,
   `contact_person_2_email` varchar(200) DEFAULT NULL,
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive',
   `gst_no` varchar(50) NOT NULL,
@@ -133,12 +133,12 @@ INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `a
 CREATE TABLE `client_categories` (
   `id` int(11) NOT NULL,
   `name` varchar(200) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -162,9 +162,9 @@ CREATE TABLE `client_contacts` (
   `phone` varchar(50) DEFAULT NULL,
   `person_name` varchar(200) DEFAULT NULL,
   `is_primary` varchar(20) NOT NULL DEFAULT 'No' COMMENT 'No/Yes',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -179,9 +179,9 @@ CREATE TABLE `client_location_images` (
   `id` int(11) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
   `image_name` varchar(300) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -195,10 +195,10 @@ CREATE TABLE `client_product_price` (
   `id` int(11) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `sale_price` float NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sale_price` float NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -232,9 +232,9 @@ CREATE TABLE `client_selesmans` (
   `id` int(11) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
   `salesman_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -254,9 +254,9 @@ CREATE TABLE `client_visits` (
   `opportunity` varchar(500) DEFAULT NULL,
   `other_notes` varchar(500) DEFAULT NULL,
   `visit_notes` varchar(500) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -278,7 +278,7 @@ CREATE TABLE `coordinates` (
   `lat` float(9,6) DEFAULT NULL,
   `lng` float(9,6) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -315,12 +315,12 @@ CREATE TABLE `delivery` (
   `actual_delivey_datetime` datetime DEFAULT NULL,
   `pickup_location` varchar(50) DEFAULT NULL,
   `warehouse` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -328,7 +328,8 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`id`, `expected_delivey_datetime`, `actual_delivey_datetime`, `pickup_location`, `warehouse`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(12, '2019-11-19 00:00:00', NULL, 'Warehouse', 1, '2019-11-06 17:09:32', 2, '2019-11-06 17:31:54', 2, 'Active', 0);
+(13, '2019-11-11 00:00:00', NULL, 'Office', NULL, '2019-11-07 12:51:53', 2, '2019-11-07 12:52:23', 2, 'Active', 0),
+(14, '2019-11-12 00:00:00', '2019-11-12 00:00:00', 'Warehouse', 1, '2019-11-07 12:52:55', 2, '2019-11-07 12:53:35', NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -342,12 +343,12 @@ CREATE TABLE `delivery_config` (
   `vehicle_id` int(11) DEFAULT NULL,
   `driver_id` int(11) DEFAULT NULL,
   `delivery_boy_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -355,8 +356,8 @@ CREATE TABLE `delivery_config` (
 --
 
 INSERT INTO `delivery_config` (`id`, `delivery_id`, `vehicle_id`, `driver_id`, `delivery_boy_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(45, 12, 3, 7, 4, '2019-11-06 17:31:54', 2, NULL, NULL, 'Active', 0),
-(46, 12, 4, 7, 4, '2019-11-06 17:31:54', 2, NULL, NULL, 'Active', 0);
+(48, 13, 1, 7, 4, '2019-11-07 12:52:23', 2, NULL, NULL, 'Active', 0),
+(49, 14, 3, 8, 4, '2019-11-07 12:52:55', 2, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -369,12 +370,12 @@ CREATE TABLE `delivery_config_orders` (
   `delivery_id` int(11) DEFAULT NULL,
   `delivery_config_id` int(11) DEFAULT NULL,
   `order_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -382,10 +383,8 @@ CREATE TABLE `delivery_config_orders` (
 --
 
 INSERT INTO `delivery_config_orders` (`id`, `delivery_id`, `delivery_config_id`, `order_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(71, 12, 45, 4, '2019-11-06 17:31:54', 2, NULL, NULL, 'Active', 0),
-(72, 12, 45, 5, '2019-11-06 17:31:54', 2, NULL, NULL, 'Active', 0),
-(73, 12, 46, 5, '2019-11-06 17:31:54', 2, NULL, NULL, 'Active', 0),
-(74, 12, 46, 6, '2019-11-06 17:31:54', 2, NULL, NULL, 'Active', 0);
+(77, 13, 48, 4, '2019-11-07 12:52:23', 2, NULL, NULL, 'Active', 0),
+(78, 14, 49, 5, '2019-11-07 12:52:55', 2, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -397,12 +396,12 @@ CREATE TABLE `delivery_routes` (
   `id` int(11) NOT NULL,
   `delivery_id` int(11) DEFAULT NULL,
   `zip_code_group_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -410,7 +409,8 @@ CREATE TABLE `delivery_routes` (
 --
 
 INSERT INTO `delivery_routes` (`id`, `delivery_id`, `zip_code_group_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(31, 12, 12, '2019-11-06 17:31:54', 2, NULL, NULL, 'Active', 0);
+(33, 13, 12, '2019-11-07 12:52:23', 2, NULL, NULL, 'Active', 0),
+(34, 14, 12, '2019-11-07 12:52:55', 2, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -422,9 +422,9 @@ CREATE TABLE `group_to_zip_code` (
   `id` int(11) NOT NULL,
   `zip_code_group_id` int(11) DEFAULT NULL,
   `zip_code_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -466,12 +466,12 @@ CREATE TABLE `leads` (
   `last_name` varchar(200) DEFAULT NULL,
   `email` varchar(300) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `is_converted` tinyint(4) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_converted` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -498,9 +498,9 @@ CREATE TABLE `lead_visits` (
   `opportunity` varchar(500) DEFAULT NULL,
   `other_notes` varchar(500) DEFAULT NULL,
   `visit_notes` varchar(500) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -519,7 +519,7 @@ INSERT INTO `lead_visits` (`id`, `lead_id`, `visit_date`, `visit_time`, `visit_t
 
 CREATE TABLE `mail_template` (
   `id` int(11) NOT NULL,
-  `template_body` text CHARACTER SET utf8,
+  `template_body` text CHARACTER SET utf8 DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -542,12 +542,12 @@ CREATE TABLE `orders` (
   `delivery_boy_id` int(11) DEFAULT NULL,
   `expected_delivery_date` date DEFAULT NULL,
   `actual_delivery_date` date DEFAULT NULL,
-  `payable_amount` float(10,2) DEFAULT '0.00',
+  `payable_amount` float(10,2) DEFAULT 0.00,
   `delivery_id` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -556,9 +556,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `client_id`, `delivery_boy_id`, `expected_delivery_date`, `actual_delivery_date`, `payable_amount`, `delivery_id`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(4, 1, 4, '2019-10-09', NULL, 2050.30, 12, 'Active', '2019-09-09 11:47:59', 2, '2019-11-06 17:31:54', NULL),
-(5, 7, 4, '2019-10-10', NULL, 2050.30, 12, 'Active', '2019-09-09 11:47:59', 2, '2019-11-06 17:31:54', NULL),
-(6, 6, 4, '2019-10-11', NULL, 2050.30, 12, 'Active', '2019-09-09 11:47:59', 2, '2019-11-06 17:31:54', NULL),
+(4, 1, 4, '2019-10-09', NULL, 2050.30, 13, 'Active', '2019-09-09 11:47:59', 2, '2019-11-07 12:52:23', NULL),
+(5, 7, 4, '2019-10-10', '2019-11-12', 2050.30, 14, 'Active', '2019-09-09 11:47:59', 2, '2019-11-07 13:50:11', NULL),
+(6, 6, 4, '2019-10-11', NULL, 2050.30, NULL, 'Active', '2019-09-09 11:47:59', 2, '2019-11-07 12:43:51', NULL),
 (7, 1, 4, '2019-10-11', NULL, 2050.30, NULL, 'Active', '2019-09-09 11:47:59', 2, '2019-11-06 16:53:01', NULL);
 
 -- --------------------------------------------------------
@@ -571,9 +571,9 @@ CREATE TABLE `order_delivery_images` (
   `id` int(11) NOT NULL,
   `order_id` int(11) DEFAULT NULL,
   `image_name` varchar(300) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -591,9 +591,9 @@ CREATE TABLE `order_items` (
   `actual_price` float NOT NULL,
   `effective_price` float DEFAULT NULL,
   `subtotal` decimal(14,2) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -621,10 +621,10 @@ CREATE TABLE `payments` (
   `check_date` date DEFAULT NULL,
   `transection_no` varchar(100) DEFAULT NULL,
   `paid_amount` decimal(14,2) DEFAULT NULL,
-  `credit_balance_used` decimal(14,2) NOT NULL DEFAULT '0.00',
-  `previous_credit_balance` decimal(14,2) NOT NULL DEFAULT '0.00',
-  `new_credit_balance` decimal(14,2) DEFAULT '0.00',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `credit_balance_used` decimal(14,2) NOT NULL DEFAULT 0.00,
+  `previous_credit_balance` decimal(14,2) NOT NULL DEFAULT 0.00,
+  `new_credit_balance` decimal(14,2) DEFAULT 0.00,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -650,7 +650,7 @@ CREATE TABLE `payment_details` (
   `payment_id` int(11) DEFAULT NULL,
   `amount_used` decimal(14,2) DEFAULT NULL,
   `credit_used` decimal(14,2) DEFAULT NULL,
-  `total_payment` decimal(14,2) NOT NULL DEFAULT '0.00',
+  `total_payment` decimal(14,2) NOT NULL DEFAULT 0.00,
   `status` varchar(10) DEFAULT NULL COMMENT 'PARTIAL | PENDING | PAID'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -679,13 +679,13 @@ CREATE TABLE `products` (
   `description` varchar(500) DEFAULT NULL,
   `weight` float DEFAULT NULL,
   `dimension` varchar(100) DEFAULT NULL,
-  `cost_price` float DEFAULT '0',
-  `sale_price` float DEFAULT '0',
+  `cost_price` float DEFAULT 0,
+  `sale_price` float DEFAULT 0,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active | Deactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -710,10 +710,10 @@ CREATE TABLE `product_images` (
   `product_id` int(11) DEFAULT NULL,
   `original_image_name` varchar(300) DEFAULT NULL,
   `thumb` varchar(300) DEFAULT NULL,
-  `is_primary` tinyint(4) DEFAULT '0' COMMENT '0-not primary, 1-primary',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_primary` tinyint(4) DEFAULT 0 COMMENT '0-not primary, 1-primary',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -737,9 +737,9 @@ INSERT INTO `product_images` (`id`, `product_id`, `original_image_name`, `thumb`
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `role_name` varchar(200) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -753,6 +753,62 @@ INSERT INTO `roles` (`id`, `role_name`, `created_at`, `created_by`, `updated_at`
 (2, 'Sales', '2019-08-26 14:12:22', NULL, NULL, NULL, 'Active'),
 (3, 'Delivery Boy', '2019-08-26 14:12:22', NULL, NULL, NULL, 'Active'),
 (4, 'Loader/Driver', '2019-10-31 13:11:06', NULL, NULL, NULL, 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schemes`
+--
+
+CREATE TABLE `schemes` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `type` varchar(50) NOT NULL COMMENT 'price_scheme,product_order_scheme',
+  `order_value` float DEFAULT NULL,
+  `gift_mode` varchar(50) DEFAULT NULL COMMENT 'cash_benifit/free_product',
+  `discount_mode` varchar(50) DEFAULT NULL COMMENT 'amount/percentage',
+  `discount_value` float DEFAULT NULL,
+  `discounted_amount` float DEFAULT NULL,
+  `match_mode` varchar(50) DEFAULT NULL COMMENT 'all/any',
+  `free_product_id` int(11) DEFAULT NULL,
+  `free_product_qty` float DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `schemes`
+--
+
+INSERT INTO `schemes` (`id`, `name`, `description`, `start_date`, `end_date`, `type`, `order_value`, `gift_mode`, `discount_mode`, `discount_value`, `discounted_amount`, `match_mode`, `free_product_id`, `free_product_qty`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
+(3, 'Test 2', 'Price Scheme with cash benifit and discount in amount', '2019-11-01', '2019-11-05', 'price_scheme', 10000, 'cash_benifit', 'amount', 500, NULL, NULL, NULL, NULL, '2019-11-15 20:35:19', 2, NULL, NULL, 'Active', 0),
+(4, 'Test 3', 'Product Scheme with Free Product', '2019-11-01', '2019-11-05', 'price_scheme', NULL, 'cash_benifit', 'percentage', 5, NULL, NULL, NULL, NULL, '2019-11-15 20:36:25', 2, '2019-11-15 22:12:29', 2, 'Active', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scheme_products`
+--
+
+CREATE TABLE `scheme_products` (
+  `id` int(11) NOT NULL,
+  `scheme_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -791,10 +847,10 @@ CREATE TABLE `states` (
   `name` varchar(255) DEFAULT NULL,
   `code` varchar(20) DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 = Deleted',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1 = Deleted',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -825,10 +881,10 @@ CREATE TABLE `users` (
   `username` varchar(200) DEFAULT NULL,
   `password` varchar(200) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(11) DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(11) DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -854,7 +910,7 @@ CREATE TABLE `user_devices` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `device_id` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -876,9 +932,9 @@ CREATE TABLE `user_vehicle` (
   `user_id` int(11) DEFAULT NULL,
   `vehicle_id` int(11) DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -892,9 +948,9 @@ CREATE TABLE `user_zip_codes` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `zip_code_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -922,9 +978,9 @@ CREATE TABLE `user_zip_code_groups` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `zip_code_group_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -949,12 +1005,12 @@ CREATE TABLE `vehicle` (
   `name` varchar(200) DEFAULT NULL,
   `number` varchar(200) DEFAULT NULL,
   `capacity_in_ton` float DEFAULT NULL COMMENT 'actuelly capacity is in kg',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -977,12 +1033,12 @@ INSERT INTO `vehicle` (`id`, `name`, `number`, `capacity_in_ton`, `created_at`, 
 CREATE TABLE `warehouses` (
   `id` int(11) NOT NULL,
   `name` varchar(200) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1006,9 +1062,9 @@ CREATE TABLE `zip_codes` (
   `city_id` int(11) DEFAULT NULL,
   `state_id` int(11) DEFAULT NULL,
   `area` varchar(300) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1041,9 +1097,9 @@ CREATE TABLE `zip_code_groups` (
   `group_name` varchar(200) DEFAULT NULL,
   `state_id` int(11) DEFAULT NULL,
   `city_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1240,6 +1296,18 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `schemes`
+--
+ALTER TABLE `schemes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `scheme_products`
+--
+ALTER TABLE `scheme_products`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
@@ -1380,25 +1448,25 @@ ALTER TABLE `coordinates`
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `delivery_config`
 --
 ALTER TABLE `delivery_config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `delivery_config_orders`
 --
 ALTER TABLE `delivery_config_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `delivery_routes`
 --
 ALTER TABLE `delivery_routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `group_to_zip_code`
@@ -1471,6 +1539,18 @@ ALTER TABLE `product_images`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `schemes`
+--
+ALTER TABLE `schemes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `scheme_products`
+--
+ALTER TABLE `scheme_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1578,12 +1658,6 @@ ALTER TABLE `order_delivery_images`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
-
---
--- Constraints for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `users`
