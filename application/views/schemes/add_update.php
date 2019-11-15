@@ -6,19 +6,40 @@
         border-radius: 0px;
     }
     #free_product_qty{
-        line-height: 2.05;
+        /* line-height: 2.05; */
+        height: 32px;
     }
-    .w-100{
-        width:90px!important;
-    }
+    
     .orange-color{
         background-color:#e6973d!important;
+
+        /* For UI Glitch */
+        border-right: solid 1px #c38034 !important;
+        border-radius: 0px;
     }
 
     .inline_input{
         border: none;
         border-bottom: 1px dotted #827373;
         width: 150px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        line-height: 14px;
+    }
+
+    .select2-container--default .select2-selection--single{
+        border-radius: 0px;        
+    }
+
+    .w-100{
+        width:90px!important;
+        height: 32px;
+        border-color: #aaaaaa;   
+        border-left: none;     
+    }
+
+    .add_product, .remove_product{
+        font-size: 13px;
     }
 </style>
 <div class="page-body">
@@ -37,7 +58,7 @@
                                     <label for="end_date" class="control-label">Effective Date:</label>
                                     <div class="input-group">
                                         <input type="text" name="start_date" id="start_date" class="form-control" value="<?php echo $scheme_data['start_date']; ?>" placeholder="From..."/>                                        
-                                        <span class="input-group-addon"><i class="feather icon-repeat"></i></span>
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         <input type="text" name="end_date" id="end_date" class="form-control" value="<?php echo $scheme_data['end_date']; ?>" placeholder="To..."/>
                                     </div>
                                 </div>
@@ -63,7 +84,7 @@
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="order_value" class="control-label"><b>Rule :</b></label>
-                                    <label class="control-label">If Order Value is grater then or equal to :
+                                    <label class="control-label">If order value is grater then or equal to :
                                         <input type="text" name="order_value" id="order_value" class="inline_input" value="<?php echo $scheme_data['order_value']; ?>" placeholder="Amount"/>
                                     </label>
                                 </div>
@@ -102,7 +123,7 @@
                                             <option value='cash_benifit' <?php echo ($scheme_data['gift_mode'] == 'cash_benifit') ? 'selected' : ''; ?>>cash benifit</option>
                                             <option value='free_product' <?php echo ($scheme_data['gift_mode'] == 'free_product') ? 'selected' : ''; ?>>free product</option>
                                         </select>
-                                        will be give, as described below.
+                                        will be given, as described below.
                                     </label>                                    
                                 </div>
                             </div>
@@ -142,7 +163,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="discount_mode" class="control-label">Quantity : </label>
-                                        <input type="text" name="free_product_qty" id="free_product_qty" class="form-control" value=""/>
+                                        <input type="text" name="free_product_qty" id="free_product_qty" class="form-control" value="" placeholder="Free Quantity"/>
                                     </div>
                                 </div>
                             </div>
@@ -322,7 +343,7 @@
 </script>
 
 <script type="text/template" id="product_template">
-    <div class="col-sm-12 col-md-6 product_order">
+    <div class="col-sm-12 col-md-6 offset-md-6 product_order">
         <div class="form-group">
             <div class="input-group">
                 <select name="products" class="form-control products" data-placeholder="Choose Product" style="width:100%;">
