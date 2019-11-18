@@ -236,18 +236,73 @@
         var $free_product_id = $("#free_product_id");
         var $free_product_qty = $("#free_product_qty");
         var $gift_mode = $("#gift_mode");
+        var $order_value = $("#order_value");
+        var $match_mode = $("#match_mode");
 
         $free_product_id.select2({
             allowClear:true,
         });
 
-        $type.change(function(e){
+        $discount_mode.change(function(e,clear=true){
+
+            // console.log("discount_mode Changed: ",this.value);
+
+            if(!this.value){
+                $discount_value.attr('readonly',true).val('');
+                $discount_mode_slug.hide();
+            }else{                
+                $discount_value.removeAttr('readonly');
+                $discount_mode_slug.show();
+            }
+
+            $discount_mode_slug.text(this.value=='amount' ? '(Discount in Amount)' : (this.value=='percentage' ? '(Discount in Percentage)' : ''));
+        });
+
+        $gift_mode.on('change',function(e,clear=true){
+
+            // console.log("gift_mode Changed : ",this.value);
+
+            if(clear){
+                $free_product_id.val('').trigger('change');
+                $free_product_qty.val('');
+            }
+
+            switch(this.value){
+                case 'cash_benifit':
+                    $cash_benifit.show();
+                    $free_product.hide();                    
+                    break;
+                case 'free_product':
+                    $free_product.show();
+                    $cash_benifit.hide(); 
+                    $discount_mode.val('');                   
+                    break;
+                default:
+                    $free_product.hide();                    
+                    $cash_benifit.hide();  
+                    $discount_mode.val('');                  
+            }
+
+            $discount_mode.trigger('change',clear);            
+        });
+
+        $type.change(function(e,clear=true){
+            
+            // console.log("Scheme Type Changed : ",this.value,clear);
+
+            if(clear){
+                $order_value.val('');
+                $match_mode.val('').trigger('change');
+                //remove all child products in if block
+                $product_order_parent.children().remove();
+                $gift_mode.val('');
+            }
+
             switch(this.value){
                 case 'price_scheme':
                     $price_scheme.show();
                     $product_order_scheme.hide();
-                    $then_row.show();
-                    // $gift_mode.trigger('change');
+                    $then_row.show();                                                         
                     break;                
                 case 'product_order_scheme':
                     $product_order_scheme.show();
@@ -259,46 +314,11 @@
                     $price_scheme.hide();
                     $product_order_scheme.hide();
                     $then_row.hide();
-                    $gift_mode.val('').trigger('change');
-            }
-        }).trigger('change');
-        
-
-        $gift_mode.change(function(e){
-            
-            switch(this.value){
-                case 'cash_benifit':
-                    $cash_benifit.show();
-                    $free_product.hide();
-                    $free_product_id.val('').trigger('change');
-                    $free_product_qty.val('');                    
-                    break;
-                case 'free_product':
-                    $free_product.show();
-                    $cash_benifit.hide();
-                    $discount_mode.val('').trigger('change');
-                    break;
-                default:
-                    $free_product.hide();
-                    $free_product_id.val('').trigger('change');
-                    $free_product_qty.val('');                    
-                    $cash_benifit.hide();
-                    $discount_mode.val('').trigger('change');
-            }
-        }).trigger('change');
-
-        $discount_mode.change(function(e){
-
-            if(!this.value){
-                $discount_value.attr('readonly',true).val('');
-                $discount_mode_slug.hide();
-            }else{                
-                $discount_value.removeAttr('readonly');
-                $discount_mode_slug.show();
             }
 
-            $discount_mode_slug.text(this.value=='amount' ? '(Discount in Amount)' : (this.value=='percentage' ? '(Discount in Percentage)' : ''));
-        }).trigger('change');
+            $gift_mode.trigger('change',clear);
+
+        }).trigger('change',false);
 
         $product_order_parent.on('click','.add_product',function(e){
             
