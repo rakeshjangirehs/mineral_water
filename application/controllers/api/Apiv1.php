@@ -117,66 +117,7 @@ class ApiV1 extends REST_Controller {
     }
     // general function stop
     
-    public function login_post() {
-        // Get the post data
-        $email = $this->post('username');
-        $password = $this->post('password');
-
-        $device_id = $this->post('fcm');
-        
-        // Validate the post data
-        if(!empty($email) && !empty($password)){
-            
-            // Check if any user exists with the given credentials
-            $con['returnType'] = 'single';
-            $con['conditions'] = array(
-                'email' => $email,
-                'password' => $password,
-                'status' => 1
-            );
-            $user = $this->user->getRows($con);
-            
-            if($user){
-                $this->db->insert("user_devices", array("user_id"=>$user['user_id'], "device_id"=>$device_id));
-
-            // remove first created device ids if more than two
-            $sqlDeviceIds = $this->db->query("
-                                            DELETE FROM `user_devices`
-                                            WHERE id NOT IN (
-                                              SELECT id
-                                              FROM (
-                                                SELECT id
-                                                FROM `user_devices`
-                                                ORDER BY id DESC
-                                                LIMIT 2
-                                              ) foo
-                                            )
-                                            ");
-
-                // Set the response and exit
-                $this->response([
-                    'status' => TRUE,
-                    'message' => 'User login successful.',
-                    'data' => $user
-                ], REST_Controller::HTTP_OK);
-            }else{
-                // Set the response and exit
-                //BAD_REQUEST (400) being the HTTP response code
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'Wrong email or password.',
-                    'data' => new stdClass()
-                ], REST_Controller::HTTP_OK);
-            }
-        }else{
-            // Set the response and exit
-            $this->response([
-                    'status' => FALSE,
-                    'message' => "Provide email and password.",
-                    'data' => array()
-                ], REST_Controller::HTTP_BAD_REQUEST);
-        }
-    }
+    
 
     // dashboards
     public function sales_dashboard_get($user_id){
@@ -242,7 +183,7 @@ class ApiV1 extends REST_Controller {
     public function clients_by_salesman_get($user_id){
 
         $query = "SELECT 
-                        id,first_name,last_name,credit_limit,email,address, phone, lat, lng
+                        clients.*
                     FROM clients
                     WHERE `clients`.`is_deleted` = 0 
                     AND (zip_code_id IN (
@@ -258,17 +199,17 @@ class ApiV1 extends REST_Controller {
                             FROM `users`
                             LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
                             LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `user_zip_code_groups`.`zip_code_group_id`
-                            WHERE `users`.`id` = {$user_id}
+                            WHERE `users`.`created_by` = {$user_id}
                         )
                     )";
         $clients = $this->db->query($query)->result_array();
 
         if(!empty($clients)){
-            foreach($clients as $k=>$client){
+            // foreach($clients as $k=>$client){
 
-                $contacts = $this->db->select("id,phone,person_name,is_primary")->where("client_id = {$client['id']}")->get("client_contacts")->result_array();
-                $clients[$k]['contacts'] = $contacts;
-            }
+            //     $contacts = $this->db->select("id,phone,person_name,is_primary")->where("client_id = {$client['id']}")->get("client_contacts")->result_array();
+            //     $clients[$k]['contacts'] = $contacts;
+            // }
 
             $this->response(
                 array(
@@ -400,101 +341,9 @@ class ApiV1 extends REST_Controller {
     }
     */
 
-    public function add_update_visit_post(){
+    
 
-        $type = $this->post('type');  //client or lead
-        $id = $this->post('id');
-        $user_id = $this->post('user_id');
-
-        $visit_notes = ($this->input->post('visit_notes')) ? $this->input->post('visit_notes') : NULL;
-
-        $visit_data = array(
-            'visit_date'=> ($this->input->post('visit_date')) ? $this->input->post('visit_date') : NULL,
-            'visit_time'=> ($this->input->post('visit_time')) ? $this->input->post('visit_time') : NULL,
-            'visit_type'=> ($this->input->post('visit_type')) ? $this->input->post('visit_type') : NULL,
-            'opportunity'=> ($this->input->post('opportunity')) ? $this->input->post('opportunity') : NULL,
-            'other_notes'=> ($this->input->post('other_notes')) ? $this->input->post('other_notes') : NULL,
-            'created_at' => date('Y-m-d H:i:s'),
-            'created_by' => $user_id,
-        );
-
-        $insert_status = false;
-        if($type == 'client'){
-            $visit_data['client_id'] = ($this->input->post('id')) ? $this->input->post('id') : NULL;
-            $insert_status = $this->db->insert("client_visits",$visit_data);
-        }else{
-            $visit_data['lead_id'] = ($this->input->post('id')) ? $this->input->post('id') : NULL;
-            $insert_status = $this->db->insert("lead_visits",$visit_data);
-        }
-
-        if($insert_status){
-           
-            $this->response(
-                array(
-                    'status' => TRUE,
-                    'message' => 'Visit created successfully.',
-                    'data' => []
-                ),
-                REST_Controller::HTTP_OK
-            );
-
-        }else{
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "Please try again",
-                    'data' => []
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }
-    }
-
-    // add/update lead
-    public function add_update_lead_post($lead_id = NULL){
-        $firstName = $this->post('first_name');
-        $lastName = $this->post('last_name');
-        $email = $this->post('email');
-        $phone = $this->post('phone');
-        $user_id = $this->post('user_id');
-
-        $visit_note = ($this->post('visit_note')) ? $this->post('visit_note') : NULL;
-
-        if( !empty($firstName) && !empty($lastName) && !empty($email) && !empty($phone) ){
-            $leadArr = array(
-                'first_name'=>$firstName,
-                'last_name'=>$lastName,
-                'email'=>$email,
-                'phone'=>$phone,
-                'created_by'=>$user_id
-            );
-
-            $visitArr = ($visit_note) ? array('visit_notes'=>$visit_note, 'created_by'=>$user_id) : array();
-
-            if($lead_id){
-                $leadArr['updated_by'] = $user_id;
-            }
-            if($this->client->add_update_lead($leadArr, $visitArr,$lead_id)){
-                $this->response([
-                    'status' => TRUE,
-                    'message' => "Inquiry generated successfully.",
-                    'data' => array()
-                ], REST_Controller::HTTP_OK);
-            }else{
-                $this->response([
-                    'status' => FALSE,
-                    'message' => "Inquiry failed to generate.",
-                    'data' => array()
-                ], REST_Controller::HTTP_BAD_REQUEST);
-            }
-        }else{
-            $this->response([
-                'status' => FALSE,
-                'message' => "Provide first_name, last_name, email and phone.",
-                'data' => array()
-            ], REST_Controller::HTTP_BAD_REQUEST);
-        }
-    }
+    
 
     //Get Client Contacts
     public function contacts_get($client_id,$contact_id=NULL){
@@ -868,9 +717,9 @@ class ApiV1 extends REST_Controller {
 
         $sql = $this->db->query("SELECT
                     `orders`.*,
-                    CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
-                    `clients`.`email`,
-                    IFNULL(`clients`.`phone`, '-') AS phone,
+                   `clients`.`client_name` AS `client_name`,
+                    #`clients`.`email`,
+                    #IFNULL(`clients`.`phone`, '-') AS phone,
                     `clients`.`address`,
                     `details`.`order_details`
                 FROM `orders`
@@ -906,6 +755,7 @@ class ApiV1 extends REST_Controller {
         $main_data = ($sql->result_array()) ? $sql->result_array() : array();
         if(!empty($main_data)){
             foreach ($main_data as &$tmpdata) {
+                $tmpdata['status'] = 'delivered';
                 $tmpdata['order_details'] = json_decode($tmpdata['order_details'],true);
             }
         }
@@ -1016,7 +866,18 @@ class ApiV1 extends REST_Controller {
 
     public function lead_by_user_get($user_id = NULL){
 
-        $where = ' WHERE 1 = 1';
+        if(!$user_id){
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery'=>0
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+
+        $where = ' WHERE 1 = 1 AND `leads`.`is_converted` = 0';
         if(!empty($user_id)){
             $where .= ' AND `leads`.`created_by` = "'.$user_id.'"';
         }
@@ -1049,4 +910,307 @@ class ApiV1 extends REST_Controller {
             );
         }
     }
+
+    public function follow_up_get($user_id = NULL){
+        $result = [];
+        if(!$user_id){
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery'=>0
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+
+        $result = $this->db->query("SELECT 
+                            leads.first_name,
+                            leads.last_name,
+                            leads.email,
+                            leads.phone,
+                            lead_visits.lead_id,
+                            lead_visits.visit_date,
+                            lead_visits.visit_time,
+                            lead_visits.visit_type,
+                            lead_visits.other_notes
+                        FROM `lead_visits`
+                        LEFT JOIN `leads` ON `leads`.`id` = `lead_visits`.`lead_id`
+                        WHERE `lead_visits`.`created_by` = {$user_id}
+                        ")->result_array();
+        if(!empty($result)){
+
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "Follow up found.",
+                    'data' => $result
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Follow up not found.",
+                    'data' => $result
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+    }
+    
+    public function delivery_boy_orders_get($delivery_boy_id = NULL){
+		
+		$where = ' WHERE 1 = 1';
+		$today = date('Y-m-d');
+		if(!empty($delivery_boy_id)){
+            $where .= ' AND `orders`.`delivery_boy_id` = "'.$delivery_boy_id.'" 
+						AND `orders`.`expected_delivery_date` < "'.$today.'"
+						AND `orders`.`delivery_id` IS NULL';
+        }
+
+        $query = "SELECT 
+                    `clients`.`client_name`,
+					`orders`.`expected_delivery_date`,
+					`orders`.`payable_amount`,
+					`orders`.`created_at`
+                FROM `orders`
+				LEFT JOIN clients ON clients.id = orders.client_id 
+                $where
+                ";
+        $orders = $this->db->query($query)->result_array();
+
+        if(!empty($orders)){
+
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "Orders",
+                    'data' => $orders
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Orders not found.",
+                    'data' => $orders
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+    }
+    
+
+                                                    /*-------------------------- Updated API ------------------------------*/
+
+                                                    // Local URL    - http://172.16.3.107/mineral_water/index.php/api/apiv1/
+                                                    // Live URL     - http://zoopapps.com/neervana/index.php/api/apiv1/
+
+    /*
+        Test API Endpoint Path
+        @author Rakesh Jangir
+    */
+    public function test_get(){
+        $this->response("It Works");
+    }
+
+                                                                    /*------------- Login -------------*/
+
+    /*
+        Login User
+        Afffected Table - user_devices
+        Used Table -- users, user_devices
+    */
+    public function login_post() {
+        
+        // Get the post data
+        $email = $this->post('username');
+        $password = $this->post('password');
+        $device_id = $this->post('fcm');
+        
+        // Validate the post data
+        if(!empty($email) && !empty($password)){
+            
+            // Check if any user exists with the given credentials
+            $con['returnType'] = 'single';
+            $con['conditions'] = array(
+                'email' => $email,
+                'password' => $password,
+                'status' => 1
+            );
+            $user = $this->user->getRows($con);
+            
+            if($user){
+                $this->db->insert("user_devices", array("user_id"=>$user['user_id'], "device_id"=>$device_id));
+
+                // remove first created device ids if more than two
+                $sqlDeviceIds = $this->db->query("DELETE from user_devices 
+                                                    WHERE id NOT IN(
+                                                        SELECT id FROM (
+                                                            SELECT 
+                                                                id
+                                                            FROM user_devices
+                                                            WHERE user_id = {$user['user_id']}
+                                                            ORDER BY id DESC LIMIT 2
+                                                        ) foo
+                                                ) AND user_id = {$user['user_id']}");
+
+                // Set the response and exit
+                $this->response([
+                    'status' => TRUE,
+                    'message' => 'User login successful.',
+                    'data' => $user
+                ], REST_Controller::HTTP_OK);
+
+            }else{
+                // Set the response and exit
+                //BAD_REQUEST (400) being the HTTP response code
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Wrong email or password.',
+                    'data' => new stdClass()
+                ], REST_Controller::HTTP_OK);
+            }
+        }else{
+            // Set the response and exit
+            $this->response([
+                    'status' => FALSE,
+                    'message' => "Provide email and password.",
+                    'data' => array()
+                ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+
+                                                                    /*---------- Lead / Visit -----------*/
+    /*
+        Add or Update Lead
+        @author Rakesh Jangir
+        Optionally Visit can also be added by providing Visit Note.
+        Affected Tables - leads, lead_visits
+    */
+    public function add_update_lead_post($lead_id = NULL){
+
+        $company_name = $this->post('company_name');
+        $contact_person_name = $this->post('contact_person_name');
+        $email = ($this->post('email')) ? $this->post('email') : null;
+        $phone_1 = $this->post('phone_1');
+        $phone_2 = ($this->post('phone_2')) ? $this->post('phone_2') : null;
+        $user_id = $this->post('user_id');
+
+        $visit_note = ($this->post('visit_note')) ? $this->post('visit_note') : NULL;
+
+        if( !empty($company_name) && !empty($contact_person_name) && !empty($phone_1) ){
+
+            $leadArr = array(
+                'company_name'=>$company_name,
+                'contact_person_name'=>$contact_person_name,
+                'email'=>$email,
+                'phone_1'=>$phone_1,
+                'phone_2'=>$phone_2,
+                'created_by'=>$user_id
+            );
+
+            $visitArr = ($visit_note) ? array(
+                'visit_date'    =>  date('Y-m-d'),
+                'visit_time'    =>  date('H:i:s'),
+                'visit_type'    =>  'InPerson',
+                'visit_notes'   => $visit_note,
+                'created_at'    =>  date('Y-m-d'),
+                'created_by'    =>  $user_id
+            ) : array();
+
+            if($lead_id){
+                $leadArr['updated_by'] = $user_id;
+            }
+
+            if($this->client->add_update_lead($leadArr, $visitArr,$lead_id)){
+                $this->response([
+                    'status' => TRUE,
+                    'message' => "Inquiry generated successfully.",
+                    'data' => array()
+                ], REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Failed to generate Inquiry.",
+                    'data' => array()
+                ], REST_Controller::HTTP_OK);
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => "Company Name, Contact Person Name and Phone are required.",
+                'data' => array()
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /*
+        Add Visit for Client or Lead
+        @author Rakesh Jangir
+    */
+    public function add_update_visit_post(){
+
+        $type = $this->post('type');  //client or lead
+        $id = $this->post('id');      //client or lead id
+        $user_id = $this->post('user_id');
+
+        if( !empty($type) && !empty($id) && !empty($user_id) ){
+
+            $visit_notes = ($this->input->post('visit_notes')) ? $this->input->post('visit_notes') : NULL;
+
+            $visit_data = array(
+                'visit_date'=> ($this->input->post('visit_date')) ? $this->input->post('visit_date') : NULL,
+                'visit_time'=> ($this->input->post('visit_time')) ? $this->input->post('visit_time') : NULL,
+                'visit_type'=> ($this->input->post('visit_type')) ? $this->input->post('visit_type') : NULL,
+                'opportunity'=> ($this->input->post('opportunity')) ? $this->input->post('opportunity') : NULL,
+                'other_notes'=> ($this->input->post('other_notes')) ? $this->input->post('other_notes') : NULL,
+                'created_at' => date('Y-m-d H:i:s'),
+                'created_by' => $user_id,
+            );
+
+            $insert_status = false;
+            if($type == 'client'){
+                $visit_data['client_id'] = $id;
+                $insert_status = $this->db->insert("client_visits",$visit_data);
+            }else{
+                $visit_data['lead_id'] = $id;
+                $insert_status = $this->db->insert("lead_visits",$visit_data);
+            }
+
+            if($insert_status){
+            
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => 'Visit created successfully.',
+                        'data' => []
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Please try again",
+                        'data' => []
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => "Type and Id are required.",
+                'data' => array()
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+
 }

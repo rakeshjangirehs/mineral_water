@@ -178,26 +178,35 @@ class Client extends CI_Model {
     }
 
     public function add_update_lead($data = array(), $visitArr = array(), $lead_id = NULL){
+
         $this->db->trans_start();
+
         if($lead_id){
+
             $data['updated_at'] = date('Y-m-d H:i:s');
             $data['updated_by'] = (isset($data['updated_by'])) ? $data['updated_by'] : USER_ID;
             $this->db->where('id', $lead_id);
             $this->db->update('leads', $data);
+
         }else{
+
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['created_by'] = (isset($data['created_by'])) ? $data['created_by'] : USER_ID;
             
             $this->db->insert('leads', $data);
             $lead_id = $this->db->insert_id();
+
         }
 
         if(!empty($visitArr)){
+
             $visitArr['lead_id'] = $lead_id;
             $this->db->insert('lead_visits', $visitArr);
+
         }
 
         $this->db->trans_complete();
+        
         if($this->db->trans_status()){
             return $lead_id;
         }else{
