@@ -458,129 +458,6 @@ class ApiV1 extends REST_Controller {
         }
     }
 
-    public function make_order_post(){
-        $entityBody = file_get_contents('php://input');
-        // var_dump($entityBody);die;
-        /*
-            {
-                "client_id": 1,
-                "user_id":1,
-                "order_details":[
-                    {
-                        "product_id": 1,
-                        "quantity":10,
-                        "actual_price": 10,
-                        "sale_price": 12,
-                        "subtotal": 120
-                    },
-                    {
-                        "product_id": 2,
-                        "quantity":10,
-                        "actual_price": 12,
-                        "sale_price": 15,
-                        "subtotal": 150
-                    }
-                ]
-            }
-        */
-
-        if(!empty($entityBody)){
-            $orders = json_decode($entityBody,true);
-            if(!empty($orders)){
-                if(isset($orders['client_id']) && isset($orders['user_id']) && isset($orders['order_details'])){
-
-                    $clientId = $orders['client_id'];
-                    $availableCreditLimit = $this->db->query("SELECT 
-                                                        `clients`.`id`,
-                                                        CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
-                                                        `clients`.`credit_limit`,
-                                                        `clients`.`credit_balance`,
-                                                        IFNULL(`ord`.`outstanding`,0) AS `outstanding`,
-                                                        IFNULL(`pay`.`paid`,0) AS `paid`,
-                                                        ((`clients`.`credit_limit`+`clients`.`credit_balance`) - (IFNULL(`ord`.`outstanding`,0)-IFNULL(`pay`.`paid`,0))) AS `available_credit_limit`
-                                                    FROM `clients`
-                                                    LEFT JOIN (
-                                                        SELECT
-                                                            `client_id`,
-                                                            SUM(`payable_amount`) AS `outstanding`
-                                                        FROM `orders`
-                                                        GROUP BY `client_id`
-                                                    ) AS `ord` ON `ord`.`client_id` = `clients`.`id`
-                                                    LEFT JOIN (
-                                                        SELECT 
-                                                            `client_id`,
-                                                            SUM(`paid_amount`) AS `paid`
-                                                        FROM `payments`
-                                                        GROUP BY `client_id`
-                                                    ) AS `pay` ON `pay`.`client_id` = `clients`.`id`
-                                                    WHERE `clients`.`id` = $clientId
-                                                    GROUP BY `clients`.`id`")
-                                                ->row_array()['available_credit_limit'];
-
-                    $subtotal = array_sum(array_column($orders['order_details'], 'subtotal'));
-                    if($subtotal > $availableCreditLimit){
-                        $this->response([
-                            'status' => FALSE,
-                            'message' => 'Available credit limit exceeded. Please pay your outstanding.',
-                        ], REST_Controller::HTTP_OK);
-                    }
-                    foreach($orders['order_details'] as $detail){
-                        if(!empty($detail['product_id']) && !empty($detail['quantity']) && !empty($detail['sale_price'])){
-
-                            // order table array data
-                            $arrOrder = array(
-                                'client_id'=>$orders['client_id'],
-                                'payable_amount'=>$subtotal,
-                                'created_at'=>date('Y-m-d H:i:s'),
-                                'created_by'=>$orders['user_id']
-                            );
-
-                            // order items array data
-                            $arrOrderItems[] = array(
-                                'product_id'=>$detail['product_id'],
-                                'quantity'=>$detail['quantity'],
-                                'actual_price'=>$detail['actual_price'],
-                                'effective_price'=>$detail['sale_price'],
-                                'subtotal'=>$detail['subtotal']
-                            );
-                        }else{
-                            $this->response([
-                                'status' => FALSE,
-                                'message' => 'Provide product_id, quantity and sale_price.',
-                            ], REST_Controller::HTTP_OK);
-                        }
-                    }
-                    if($orderId = $this->order->insert_order($arrOrder, $arrOrderItems)){
-                        $this->response([
-                            'status' => TRUE,
-                            'message' => 'Order placed successfully.',
-                        ], REST_Controller::HTTP_OK);
-                    }else{
-                        $this->response([
-                            'status' => FALSE,
-                            'message' => 'Failed to place order.',
-                        ], REST_Controller::HTTP_OK);
-                    }
-                }else{
-                    $this->response([
-                        'status' => FALSE,
-                        'message' => 'Please provide client_id, user_id, subtotal and order_details.',
-                    ], REST_Controller::HTTP_OK);
-                }
-            }else{
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'Invalid json request.',
-                ], REST_Controller::HTTP_OK);
-            }
-        }else{
-            $this->response([
-                'status' => FALSE,
-                'message' => 'Please provide json body.',
-            ], REST_Controller::HTTP_OK);
-        }
-    }
-
     // delivery boy
     public function order_delivery_post(){
         $user_id = $this->post('user_id');
@@ -1213,11 +1090,11 @@ class ApiV1 extends REST_Controller {
     }
 
 
+                                                                    /*---------- Order /  Scheme -----------*/
     /*
         Get List of applicable Schemes based on order_details
         @author Rakesh Jangir
     */
-
     public function scheme_by_evaluation_post(){
 
         /*
@@ -1346,6 +1223,145 @@ class ApiV1 extends REST_Controller {
                     $this->response([
                         'status' => FALSE,
                         'message' => 'Please provide client_id, user_id, order_details.',
+                    ], REST_Controller::HTTP_BAD_REQUEST);
+                }
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Invalid json request.',
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Please provide json body.',
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /*
+        Get List of applicable Schemes based on order_details
+        @author Milan Soni
+        @update by Rakesh Jangir - 21-11-2019
+    */
+    public function make_order_post(){
+
+        $entityBody = file_get_contents('php://input');
+        // var_dump($entityBody);die;
+        /*
+            {
+                "client_id": 1,
+                "user_id":1,
+                "order_details":[
+                    {
+                        "product_id": 1,
+                        "quantity":10,
+                        "actual_price": 10,
+                        "sale_price": 12,
+                        "subtotal": 120
+                    },
+                    {
+                        "product_id": 2,
+                        "quantity":10,
+                        "actual_price": 12,
+                        "sale_price": 15,
+                        "subtotal": 150
+                    }
+                ]
+            }
+        */
+
+        if(!empty($entityBody)){
+
+            $orders = json_decode($entityBody,true);
+
+            if(!empty($orders)){
+
+                if(isset($orders['client_id']) && isset($orders['user_id']) && isset($orders['order_details'])){
+
+                    $clientId = $orders['client_id'];
+
+                    $availableCreditLimit = $this->db->query("SELECT 
+                                                        `clients`.`id`,
+                                                        CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
+                                                        `clients`.`credit_limit`,
+                                                        `clients`.`credit_balance`,
+                                                        IFNULL(`ord`.`outstanding`,0) AS `outstanding`,
+                                                        IFNULL(`pay`.`paid`,0) AS `paid`,
+                                                        ((`clients`.`credit_limit`+`clients`.`credit_balance`) - (IFNULL(`ord`.`outstanding`,0)-IFNULL(`pay`.`paid`,0))) AS `available_credit_limit`
+                                                    FROM `clients`
+                                                    LEFT JOIN (
+                                                        SELECT
+                                                            `client_id`,
+                                                            SUM(`payable_amount`) AS `outstanding`
+                                                        FROM `orders`
+                                                        GROUP BY `client_id`
+                                                    ) AS `ord` ON `ord`.`client_id` = `clients`.`id`
+                                                    LEFT JOIN (
+                                                        SELECT 
+                                                            `client_id`,
+                                                            SUM(`paid_amount`) AS `paid`
+                                                        FROM `payments`
+                                                        GROUP BY `client_id`
+                                                    ) AS `pay` ON `pay`.`client_id` = `clients`.`id`
+                                                    WHERE `clients`.`id` = $clientId
+                                                    GROUP BY `clients`.`id`")
+                                                ->row_array()['available_credit_limit'];
+
+                    $subtotal = array_sum(array_column($orders['order_details'], 'subtotal'));
+
+                    if($subtotal > $availableCreditLimit){
+                        $this->response([
+                            'status' => FALSE,
+                            'message' => 'Available credit limit exceeded. Please pay your outstanding.',
+                        ], REST_Controller::HTTP_OK);
+                    }
+
+                    // order table array data
+                    $arrOrder = array(
+                        'client_id'=>$orders['client_id'],
+                        'scheme_id'=>(isset($orders['scheme_id'])) ? $orders['scheme_id'] : null,
+                        'payable_amount'=>$subtotal,
+                        'created_at'=>date('Y-m-d H:i:s'),
+                        'created_by'=>$orders['user_id']
+                    );
+
+                    foreach($orders['order_details'] as $detail){
+
+                        if(!empty($detail['product_id']) && !empty($detail['quantity']) && !empty($detail['sale_price'])){
+                            
+                            // order items array data
+                            $arrOrderItems[] = array(
+                                'product_id'=>$detail['product_id'],
+                                'quantity'=>$detail['quantity'],
+                                'actual_price'=>$detail['actual_price'],
+                                'effective_price'=>$detail['sale_price'],
+                                'subtotal'=>$detail['subtotal']
+                            );
+                        }else{
+                            $this->response([
+                                'status' => FALSE,
+                                'message' => 'Provide product_id, quantity and sale_price.',
+                            ], REST_Controller::HTTP_OK);
+                            die;
+                        }
+                    }
+
+                    if($orderId = $this->order->insert_order($arrOrder, $arrOrderItems)){
+                        $this->response([
+                            'status' => TRUE,
+                            'message' => 'Order placed successfully.',
+                        ], REST_Controller::HTTP_OK);
+                    }else{
+                        $this->response([
+                            'status' => FALSE,
+                            'message' => 'Failed to place order.',
+                        ], REST_Controller::HTTP_OK);
+                    }
+                }else{
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Please provide client_id, user_id and order_details.',
                     ], REST_Controller::HTTP_BAD_REQUEST);
                 }
             }else{

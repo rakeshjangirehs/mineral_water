@@ -7,6 +7,7 @@ class Order_model extends CI_Model {
     }
 
     public function insert_order($orders = array(), $order_items = array()){
+
     	$this->db->trans_start();
 		$this->db->insert('orders', $orders);
 		$order_id = $this->db->insert_id();
@@ -18,7 +19,9 @@ class Order_model extends CI_Model {
 				$item['created_by'] = $orders['client_id'];
 			}
 		}
+
 		$this->db->insert_batch('order_items', $order_items);
+		
 		$this->db->trans_complete();
 		if($this->db->trans_status()){
             return $order_id;
