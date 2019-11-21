@@ -1213,4 +1213,163 @@ class ApiV1 extends REST_Controller {
     }
 
 
+    /*
+        Get List of applicable Schemes based on order_details
+        @author Rakesh Jangir
+    */
+
+    public function scheme_by_evaluation_post(){
+
+        /*
+            {
+                "client_id": 1,
+                "user_id":1,
+                "order_details":[
+                    {
+                        "product_id": 1,
+                        "quantity":10,
+                        "actual_price": 10,
+                        "sale_price": 12,
+                        "subtotal": 120
+                    },
+                    {
+                        "product_id": 2,
+                        "quantity":10,
+                        "actual_price": 12,
+                        "sale_price": 15,
+                        "subtotal": 150
+                    }
+                ]
+            }
+        */
+
+        $entityBody = file_get_contents('php://input');
+
+        if(!empty($entityBody)){
+
+            $orders = json_decode($entityBody,true);
+
+            if(!empty($orders)){
+
+                if(isset($orders['client_id']) && isset($orders['user_id']) && isset($orders['order_details'])){
+
+                    $client_id = $orders['client_id'];
+                    $user_id = $orders['user_id'];
+                    $order_details = $orders['order_details'];
+                    $order_products = array_column($order_details,'quantity','product_id');
+
+                    $subtotal = array_sum(array_column($order_details, 'subtotal'));
+
+                    $today = date('Y-m-d');
+                    $applicable_scheme = [];
+                    $all_schemes = $this->db->where("'{$today}' BETWEEN `start_date` AND `end_date`")->get("schemes")->result_array();
+                    foreach($all_schemes as $scheme){
+
+                        if( true ){    //$this->check_in_range($scheme['start_date'],$scheme['end_date'],$today
+
+                            if($scheme['type']=='price_scheme'){
+
+                                if($subtotal >= $applicable_scheme['order_value']){
+                                    $applicable_scheme[] = array(
+                                        'id'             =>  $scheme['id'],
+                                        'name'           =>  $scheme['name'],
+                                        'description'    =>  $scheme['description'],
+                                    );
+                                }
+                            }else{
+
+                                $scheme_products = $this->db->select("product_id,quantity")->where("scheme_id = {$scheme['id']}")->get("scheme_products")->result_array();
+
+                                if($scheme['match_mode']=='all'){
+
+                                    $applicable = true;
+                                    foreach($scheme_products as $sp){
+                                        
+                                        if(!(array_key_exists($sp['product_id'],$order_products) && $order_products[$sp['product_id']] >= $sp['quantity']) ){
+                                            $applicable = false;
+                                        }
+                                    }
+
+                                    if($applicable){
+                                        $applicable_scheme[] = array(
+                                            'id'             =>  $scheme['id'],
+                                            'name'           =>  $scheme['name'],
+                                            'description'    =>  $scheme['description'],
+                                        );
+                                    }
+
+                                }else{
+
+                                    $applicable = false;
+                                    foreach($scheme_products as $sp){
+                                        
+                                        if(array_key_exists($sp['product_id'],$order_products) && $order_products[$sp['product_id']] >= $sp['quantity']){
+                                            $applicable = true;
+                                        }
+                                    }
+
+                                    if($applicable){
+                                        $applicable_scheme[] = array(
+                                            'id'             =>  $scheme['id'],
+                                            'name'           =>  $scheme['name'],
+                                            'description'    =>  $scheme['description'],
+                                        );
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                    
+                    if($applicable_scheme){
+                        $scheme_count = count($applicable_scheme);
+                        $msg = "{$scheme_count} scheme is applicable.";
+                        if($scheme_count > 1){
+                            $msg = "{$scheme_count} schemes are applicable.";
+                        }
+
+                        $this->response([
+                            'status' => TRUE,
+                            'message' => $msg,
+                            'data'    => $applicable_scheme,
+                        ], REST_Controller::HTTP_OK);
+                    }else{
+                        $this->response([
+                            'status' => FALSE,
+                            'message' => 'No scheme is applicable.',
+                            'data'    => [],
+                        ], REST_Controller::HTTP_OK);
+                    }
+
+                }else{
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Please provide client_id, user_id, order_details.',
+                    ], REST_Controller::HTTP_BAD_REQUEST);
+                }
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Invalid json request.',
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Please provide json body.',
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    // Helper Function
+    private function check_in_range($start_date, $end_date, $date_from_user){
+    // Convert to timestamp
+    $start_ts = strtotime($start_date);
+    $end_ts = strtotime($end_date);
+    $user_ts = strtotime($date_from_user);
+
+    // Check that user date is between start & end
+    return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+    }
 }
