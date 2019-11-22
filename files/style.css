@@ -7,6 +7,15 @@
     color: #fff;
 }
 
+.approval_row{
+    background: #ff9c85!important;
+    color: #fff!important;
+}
+
+.approval_row a, .approval_row a:focus, .approval_row a:hover {
+    color: #fff;
+}
+
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     background-color: #fff;
     color: black;

@@ -30,7 +30,8 @@
                     'client_name',
                     'expected_delivery_date',
                     'payable_amount',
-                    'salesman_name'
+                    'salesman_name',
+                    'action'
                 );
                     break;
                 case 'ontheway':
@@ -124,6 +125,7 @@
  	public function order_details($id){
 
         $order = $this->get_order($id);
+        
         $this->data['id'] = $id;
         $this->data['order'] = $order;
         $this->data['page_title'] = 'Order Details';
@@ -251,5 +253,55 @@
         }
 
         echo json_encode($response);
+    }
+
+    public function order_prodcuts($id){    //$order_id
+        
+        if($this->input->server("REQUEST_METHOD") == "POST"){
+
+            $client_id = $this->input->post('client_id');
+            $product_to_remove = ($this->input->post('product_to_remove')) ? explode(",",$this->input->post('product_to_remove')) : null;
+            
+            $action = $this->input->post('action');
+            $order_item = $this->input->post('order_item');
+
+            $quantity_update_product = [];
+            foreach($order_item  as $k=>$product){
+                if($product['effective_price_old'] != $product['effective_price']){
+                    $quantity_update_product[] = array(
+                        'order_id'  =>  $id,
+                        'client_id' =>  $client_id,
+                        'product_id'=>  $product['product_id'],
+                        'sale_price'=>  $product['effective_price'],
+                    );
+                }
+            }
+
+            echo "<pre>";print_r($product_to_remove);echo "</pre>";
+            echo "<pre>";print_r($quantity_update_product);echo "</pre>";
+            die;
+
+            if ($this->order_model->order_approve($id,$action,$quantity_update_product,$product_to_remove)) {
+                
+                $msg = ($action=='accept') ? 'Order accepted.' : 'Order rejected.';
+
+                if ($id) {
+                    $this->flash('success', $msg);
+                } else {
+                    $this->flash('success', $msg);
+                }
+            } else {
+                $this->flash('error', 'Some error ocurred. Please try again later.');
+            }
+            die;
+            redirect('orders', 'location');
+            
+        }
+        $order = $this->get_order($id);
+        // echo "<pre>";print_r($order);die;
+        $this->data['id'] = $id;
+        $this->data['order'] = $order;
+        $this->data['page_title'] = 'Order - Admin Approval';
+        $this->load_content('order/order_approval', $this->data);
     }
 }

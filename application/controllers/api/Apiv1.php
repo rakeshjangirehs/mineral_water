@@ -701,53 +701,6 @@ class ApiV1 extends REST_Controller {
         }
     }
 
-    public function lead_by_user_get($user_id = NULL){
-
-        if(!$user_id){
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "Please provide user_id.",
-                    'today_delivery'=>0
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }
-
-        $where = ' WHERE 1 = 1 AND `leads`.`is_converted` = 0';
-        if(!empty($user_id)){
-            $where .= ' AND `leads`.`created_by` = "'.$user_id.'"';
-        }
-
-        $query = "SELECT 
-                    `leads`.*
-                FROM `leads`
-                $where
-                ";
-        $clients = $this->db->query($query)->result_array();
-
-        if(!empty($clients)){
-
-            $this->response(
-                array(
-                    'status' => TRUE,
-                    'message' => "Leads",
-                    'data' => $clients
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }else{
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "Leads not found.",
-                    'data' => $clients
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }
-    }
-
     public function follow_up_get($user_id = NULL){
         $result = [];
         if(!$user_id){
@@ -923,6 +876,50 @@ class ApiV1 extends REST_Controller {
 
 
                                                                     /*---------- Lead / Visit -----------*/
+    
+    /*
+        Get Leads added by User (Only leads which are not converted to client)
+        @author Milan Soin
+        @update by Rakesh Jangir
+    */
+    public function lead_by_user_get($user_id = NULL){
+
+        if($user_id){
+
+            $where = "1=1 AND is_converted = 0 AND created_by = {$user_id}";            
+
+            if($leads = $this->db->where($where)->get("leads")->result_array()){
+
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "Leads",
+                        'data' => $leads
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Leads not found.",
+                        'data' => []
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery'=>0
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
+            );
+        }
+    }
+
     /*
         Add or Update Lead
         @author Rakesh Jangir
@@ -1387,6 +1384,7 @@ class ApiV1 extends REST_Controller {
                         'payment_schedule_date' =>  $orders['payment_schedule_date'],
                         'payment_schedule_time' =>  $orders['payment_schedule_time'],
                         'need_admin_approval'   =>  $need_admin_approval,
+                        'order_status'          =>  ($need_admin_approval) ? 'Approval Required' : null,
                         'created_at'    =>  date('Y-m-d H:i:s'),
                         'created_by'    =>  $user_id,
                     );

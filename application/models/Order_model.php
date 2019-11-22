@@ -65,4 +65,52 @@ class Order_model extends CI_Model {
 
 	    return $this->db->query($sql)->result_array();
 	}
+
+	public function order_approve($order_id,$action,$quantity_update_product=[],$product_to_remove=null){
+
+		$this->db->trans_start();
+
+		//remove products
+		if($product_to_remove){
+			$this->db->where("order_id",$order_id)->where_in("product_id",$product_to_remove)->delete("order_items");
+		}
+
+		//update sale price in client_product_list
+		if($quantity_update_product){
+
+			foreach($quantity_update_product as $prod){
+				$order_items_whr = array(
+					'order_id'	=>	$order_id,
+				);
+				$order_items_dt = array(
+					'effective_price'	=>	$prod['sale_price'],
+				);
+				$this->db->where($order_items_whr)->update("order_items",$order_items_dt);
+
+				$cpp_whr = array(
+					'client_id'	=>	$prod['client_id'],
+					'product_id'=>	$prod['product_id'],
+				);
+				$cpp_dt = array(
+					'sale_price'	=>	$prod['sale_price'],
+				);
+				$this->db->where($cpp_whr)->update("client_product_price",$cpp_dt);
+			}
+		}
+
+		//change order status
+		$data = array(
+			'order_status'	=>	($action=='accept') ? "Approved" : "Rejected"
+		);
+
+		//change order payable amount too.
+		$this->db->where("id",$order_id)->update("orders",$data);
+
+		$this->db->trans_complete();
+		if($this->db->trans_status()){
+            return $order_id;
+        }else{
+            return false;
+        }
+	}
 }

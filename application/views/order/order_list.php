@@ -41,6 +41,7 @@
                                             <th>C Delivery Dt</th>
                                             <th>Order Amount</th>
                                             <th>Salesman</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -171,7 +172,18 @@
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
-                { "data": "salesman_name" }
+                { "data": "salesman_name" },
+                {
+                    "data": 'link',
+                    "sortable": false,
+                    "render": function ( data, type, row, meta ) {
+                        if(row.need_admin_approval==1){
+                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
+                        }else{
+                            return "";
+                        }
+                    }
+                }
             ],
             "createdRow": function ( row, data, index ) {}
         });
