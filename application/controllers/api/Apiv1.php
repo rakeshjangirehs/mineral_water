@@ -1346,19 +1346,8 @@ class ApiV1 extends REST_Controller {
                         );
                     }
 
-                    $arrOrder = array(
-                        'client_id'     =>  $id,
-                        'scheme_id'     =>  (isset($orders['scheme_id'])) ? $orders['scheme_id'] : null,
-                        'payable_amount'=>  $subtotal,
-                        'delivery_address_id'   =>  $orders['delivery_address_id'],
-                        'expected_delivery_date'=>  $orders['expected_delivery_date'],
-                        'priority'      =>  $orders['priority'],
-                        'payment_mode'  =>  $orders['payment_mode'],
-                        'payment_schedule_date' =>  $orders['payment_schedule_date'],
-                        'payment_schedule_time' =>  $orders['payment_schedule_time'],
-                        'created_at'    =>  date('Y-m-d H:i:s'),
-                        'created_by'    =>  $user_id,
-                    );
+                    $need_admin_approval = false;
+
                     foreach($order_details as $detail){
 
                         if(!empty($detail['product_id']) && !empty($detail['quantity']) && !empty($detail['sale_price'])){
@@ -1373,6 +1362,11 @@ class ApiV1 extends REST_Controller {
                                 'created_at'    =>  date('Y-m-d H:i:s'),
                                 'created_by'    =>  $user_id,
                             );
+
+                            if($detail['actual_price'] != $detail['sale_price']){
+                                $need_admin_approval = true;
+                            }
+
                         }else{
                             $this->response([
                                 'status' => FALSE,
@@ -1381,6 +1375,21 @@ class ApiV1 extends REST_Controller {
                             die;
                         }
                     }
+
+                    $arrOrder = array(
+                        'client_id'     =>  $id,
+                        'scheme_id'     =>  (isset($orders['scheme_id'])) ? $orders['scheme_id'] : null,
+                        'payable_amount'=>  $subtotal,
+                        'delivery_address_id'   =>  $orders['delivery_address_id'],
+                        'expected_delivery_date'=>  $orders['expected_delivery_date'],
+                        'priority'      =>  $orders['priority'],
+                        'payment_mode'  =>  $orders['payment_mode'],
+                        'payment_schedule_date' =>  $orders['payment_schedule_date'],
+                        'payment_schedule_time' =>  $orders['payment_schedule_time'],
+                        'need_admin_approval'   =>  $need_admin_approval,
+                        'created_at'    =>  date('Y-m-d H:i:s'),
+                        'created_by'    =>  $user_id,
+                    );
 
                     if($orderId = $this->order->insert_order($arrOrder, $arrOrderItems,$arrClient)){
                         $this->response([
@@ -1541,6 +1550,7 @@ class ApiV1 extends REST_Controller {
             );
         }
     }
+
 
     // Helper Function
     private function check_in_range($start_date, $end_date, $date_from_user){
