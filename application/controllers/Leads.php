@@ -10,8 +10,18 @@ class Leads extends MY_Controller {
 		//validation config
 		$this->lead_validation_config = array(
             array(
-                'field' => 'first_name',
-                'label' => 'Name',
+                'field' => 'company_name',
+                'label' => 'Company Name',
+                'rules' => 'required'
+            ),
+            array(
+                'field' => 'contact_person_name',
+                'label' => 'Contact Person Name',
+                'rules' => 'required'
+            ),
+            array(
+                'field' => 'phone_1',
+                'label' => 'Contact No.',
                 'rules' => 'required'
             ),
         );
@@ -33,20 +43,23 @@ class Leads extends MY_Controller {
             $this->data['form_title'] = "Add Lead";
             $this->data['group_details'] = array(
                 'id'=>null,
-                'first_name'=>null,
-                'last_name'=>null,
+                'company_name'=>null,
+                'contact_person_name'=>null,
                 'email'=>null,
-                'phone'=>null,
+                'phone_1'=>null,
+                'phone_2'=>null,
+                'is_converted'=>0,
             );
         }
 
 
 		if($this->input->is_ajax_request()){
 			$colsArr = array(
-				'first_name',
-                'last_name',
+				'company_name',
+                'contact_person_name',
                 'email',
-                'phone',
+                'phone_1',
+                'phone_2',
 				'action'
 			);
 
@@ -66,10 +79,11 @@ class Leads extends MY_Controller {
             if ($this->form_validation->run() == TRUE){
                 
                 $data = array(
-                    'first_name'  =>  ($this->input->post('first_name')) ? $this->input->post('first_name') : null,
-                    'last_name'  =>  ($this->input->post('last_name')) ? $this->input->post('last_name') : null,
+                    'company_name'  =>  ($this->input->post('company_name')) ? $this->input->post('company_name') : null,
+                    'contact_person_name'  =>  ($this->input->post('contact_person_name')) ? $this->input->post('contact_person_name') : null,
                     'email'  =>  ($this->input->post('email')) ? $this->input->post('email') : null,
-                    'phone'  =>  ($this->input->post('phone')) ? $this->input->post('phone') : null,
+                    'phone_1'  =>  ($this->input->post('phone_1')) ? $this->input->post('phone_1') : null,
+                    'phone_2'  =>  ($this->input->post('phone_2')) ? $this->input->post('phone_2') : null,
                 );
 
                 if($this->lead->insert_update($data,$zipcode_group_id)){
@@ -98,6 +112,6 @@ class Leads extends MY_Controller {
         }else{
             $this->flash("error","Lead not Deleted");
         }
-        redirect("vehicles/index");
+        redirect("leads/index");
     }
 }

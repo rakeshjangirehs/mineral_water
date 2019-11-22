@@ -231,47 +231,7 @@ class ApiV1 extends REST_Controller {
         }
     }
 
-    //Get ZIP Code List
-    public function zip_codes_get($user_id){
-        $zip_codes = $this->db->query("SELECT 
-                   `zip_code_id`,
-                   `zip_code`
-                FROM `user_zip_codes`
-                LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `user_zip_codes`.`zip_code_id`
-                LEFT JOIN `users` ON `users`.`id` = `user_zip_codes`.`user_id`
-                WHERE `users`.`id` = $user_id
-                AND `zip_codes`.`status` = 'Active'
-                ")->result_array();
-        
-        $sql1 = $this->db->query("SELECT
-                        `group_to_zip_code`.`zip_code_id`,
-                        `zip_codes`.`zip_code`
-                    FROM `users`
-                    LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
-                    LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `user_zip_code_groups`.`zip_code_group_id`
-                    LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `group_to_zip_code`.`zip_code_id`
-                    WHERE `users`.`id` = {$user_id}")->result_array();
-        
-        if(!empty($zip_codes)){
-            $this->response(
-                array(
-                    'status' => TRUE,
-                    'message' => "ZIP Codes found.",
-                    'data' => $zip_codes
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }else{
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "ZIP Codes not found.",
-                    'data' => $zip_codes
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }
-    }
+    
 
     //Add/Update Visit - Client
     /*
@@ -1539,6 +1499,48 @@ class ApiV1 extends REST_Controller {
         
     }
 
+
+    /*
+        Get ZIP Code List
+        @author Milan Soni
+        @changed by Rakesh Jangir 22-11-2019
+    */
+    public function zip_codes_get($user_id=null){
+
+        if($user_id){
+            $zip_codes = $this->db->query("SELECT 
+                    `zip_code_id`,
+                    `zip_code`
+                    FROM `user_zip_codes`
+                    LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `user_zip_codes`.`zip_code_id`
+                    LEFT JOIN `users` ON `users`.`id` = `user_zip_codes`.`user_id`
+                    WHERE `users`.`id` = $user_id
+                    AND `zip_codes`.`status` = 'Active'
+                    ")->result_array();
+        }else{
+            $zip_codes = $this->db->select("id as zip_code_id,zip_code")->get("zip_codes")->result_array();
+        }
+        
+        if(!empty($zip_codes)){
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "ZIP Codes found.",
+                    'data' => $zip_codes
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "ZIP Codes not found.",
+                    'data' => $zip_codes
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+    }
 
     // Helper Function
     private function check_in_range($start_date, $end_date, $date_from_user){

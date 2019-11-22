@@ -9,10 +9,11 @@
                                 <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>leads/index" style="width:100%;">
                                     <thead>
                                     <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                        <th>Company</th>
+                                        <th>Contact Person</th>
                                         <th>Email</th>
-                                        <th>Phone</th>
+                                        <th>Phone 1</th>
+                                        <th>Phone 2</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -39,14 +40,14 @@
                                 <div class="row">
                                     <div class="col-sm-12 ">
                                         <div class="form-group">
-                                            <label for="first_name" class="control-label">First Name:</label>
-                                            <input type="text" name="first_name" id="first_name" class="form-control" value="<?php echo (isset($_POST['first_name']))? set_value('first_name') : $group_details['first_name']; ?>"  />
-                                            <span class="messages"><?php echo form_error('first_name');?></span>
+                                            <label for="company_name" class="control-label">Company Name:</label>
+                                            <input type="text" name="company_name" id="company_name" class="form-control" value="<?php echo (isset($_POST['company_name']))? set_value('company_name') : $group_details['company_name']; ?>"  />
+                                            <span class="messages"><?php echo form_error('company_name');?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="last_name" class="control-label">Last Name:</label>
-                                            <input type="text" name="last_name" id="last_name" class="form-control" value="<?php echo (isset($_POST['last_name']))? set_value('last_name') : $group_details['last_name']; ?>"  />
-                                            <span class="messages"><?php echo form_error('last_name');?></span>
+                                            <label for="contact_person_name" class="control-label">Contact Person Name:</label>
+                                            <input type="text" name="contact_person_name" id="contact_person_name" class="form-control" value="<?php echo (isset($_POST['contact_person_name']))? set_value('contact_person_name') : $group_details['contact_person_name']; ?>"  />
+                                            <span class="messages"><?php echo form_error('contact_person_name');?></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="email" class="control-label">Email:</label>
@@ -54,10 +55,22 @@
                                             <span class="messages"><?php echo form_error('email');?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="phone" class="control-label">Phone:</label>
-                                            <input type="text" name="phone" id="phone" class="form-control" value="<?php echo (isset($_POST['phone']))? set_value('phone') : $group_details['phone']; ?>" />
-                                            <span class="messages"><?php echo form_error('phone');?></span>
+                                            <label for="phone_1" class="control-label">Phone 1:</label>
+                                            <input type="text" name="phone_1" id="phone_1" class="form-control" value="<?php echo (isset($_POST['phone_1']))? set_value('phone_1') : $group_details['phone_1']; ?>" />
+                                            <span class="messages"><?php echo form_error('phone_1');?></span>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="phone_2" class="control-label">Phone 2:</label>
+                                            <input type="text" name="phone_2" id="phone_2" class="form-control" value="<?php echo (isset($_POST['phone_2']))? set_value('phone_2') : $group_details['phone_2']; ?>" />
+                                            <span class="messages"><?php echo form_error('phone_2');?></span>
+                                        </div>
+                                        <?php if($zipcode_group_id):?>
+                                            <div class="form-group">
+                                                <label for="phone_2" class="control-label">Converted to Client:
+                                                <?php echo ($group_details['is_converted']) ? "<span class='pcoded-badge label label-success'>Yes</span>" : "<span class='pcoded-badge label label-warning'>No</span>";?>
+                                                </label>
+                                            </div>
+                                        <?php endif;?>
                                     </div>
                                 </div>
                             </div>
@@ -95,10 +108,11 @@
                 "type": "POST",
             },
             "columns": [
-                { "data": "first_name" },
-                { "data": "last_name" },
+                { "data": "company_name" },
+                { "data": "contact_person_name" },
                 { "data": "email" },
-                { "data": "phone" },
+                { "data": "phone_1" },
+                { "data": "phone_2" },
                 {
                     "data": 'action',
                     "orderable" : false,
