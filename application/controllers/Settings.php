@@ -68,7 +68,8 @@
 
  					if($this->form_validation->run() == TRUE){
  						$dataSystemSetting = array(
- 							'system_name'=>$this->input->post('system_name')
+ 							'system_name'	=>	$this->input->post('system_name'),
+ 							'default_credit_limit'=>	$this->input->post('default_credit_limit'),
  						);
  						if($this->settings_model->add_update($dataSystemSetting)){
 			    			$this->flash('success', 'System setting updated successfully.');

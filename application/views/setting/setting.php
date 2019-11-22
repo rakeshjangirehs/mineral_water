@@ -51,6 +51,16 @@
                                         </div>
 
                                         <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="default_credit_limit" class="block">Default Credit Limit for Client</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="default_credit_limit" name="default_credit_limit" type="text" class="form-control" value="<?php echo $settings['default_credit_limit']; ?>">
+                                                <span class="messages"><?php echo form_error('default_credit_limit');?></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
                                             <div class="col-sm-12 text-right">
                                                 <button type="submit" class="btn btn-sm btn-primary">Save</button>
                                             </div>

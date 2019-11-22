@@ -6,9 +6,17 @@ class Order_model extends CI_Model {
         parent::__construct();
     }
 
-    public function insert_order($orders = array(), $order_items = array()){
+    public function insert_order($orders = array(), $order_items = array(),$client = null){	//
 
-    	$this->db->trans_start();
+		$this->db->trans_start();
+		
+		if($client){
+			if($this->db->insert("clients",$client)){
+				$orders['client_id'] = $this->db->insert_id();
+				$this->db->where("id = {$client['lead_id']}")->update("leads",["is_converted"=>1]);				
+			}
+		}
+
 		$this->db->insert('orders', $orders);
 		$order_id = $this->db->insert_id();
 
@@ -16,7 +24,6 @@ class Order_model extends CI_Model {
 		if(!empty($order_items)){
 			foreach($order_items as &$item){
 				$item['order_id'] = $order_id;
-				$item['created_by'] = $orders['client_id'];
 			}
 		}
 

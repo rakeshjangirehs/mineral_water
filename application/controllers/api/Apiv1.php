@@ -1099,22 +1099,19 @@ class ApiV1 extends REST_Controller {
 
         /*
             {
-                "client_id": 1,
-                "user_id":1,
+                "subtotal":5000,
                 "order_details":[
                     {
                         "product_id": 1,
                         "quantity":10,
                         "actual_price": 10,
-                        "sale_price": 12,
-                        "subtotal": 120
+                        "sale_price": 12
                     },
                     {
                         "product_id": 2,
                         "quantity":10,
                         "actual_price": 12,
-                        "sale_price": 15,
-                        "subtotal": 150
+                        "sale_price": 15
                     }
                 ]
             }
@@ -1125,32 +1122,55 @@ class ApiV1 extends REST_Controller {
         if(!empty($entityBody)){
 
             $orders = json_decode($entityBody,true);
+            
 
             if(!empty($orders)){
 
-                if(isset($orders['client_id']) && isset($orders['user_id']) && isset($orders['order_details'])){
-
-                    $client_id = $orders['client_id'];
-                    $user_id = $orders['user_id'];
+                if(
+                    isset($orders['order_details']) 
+                    && isset($orders['subtotal']) && $orders['subtotal']!=''
+                ){
+                    
                     $order_details = $orders['order_details'];
+                    $subtotal = $orders['subtotal'];
                     $order_products = array_column($order_details,'quantity','product_id');
-
-                    $subtotal = array_sum(array_column($order_details, 'subtotal'));
 
                     $today = date('Y-m-d');
                     $applicable_scheme = [];
                     $all_schemes = $this->db->where("'{$today}' BETWEEN `start_date` AND `end_date`")->get("schemes")->result_array();
+                    
                     foreach($all_schemes as $scheme){
+
+                        $description = "";
+                        $new_subtotal = $subtotal;
+
+                        if($scheme['gift_mode'] == 'cash_benifit'){
+                            if($scheme['discount_mode'] == 'amount'){
+                                $description = "Get discount of Rs. {$scheme['discount_value']}";
+                                $new_subtotal = $subtotal-$scheme['discount_value'];
+                            }else{
+                                $description = "Get {$scheme['discount_value']} % discount on order value.";
+                                $new_subtotal = $subtotal- ($subtotal*$scheme['discount_value']/100);
+                            }
+                        }else{
+                            if($free_product = $this->db->where("id = {$scheme['free_product_id']}")->get("products")->row_array()){
+                                $description = "Get {$scheme['free_product_qty']} {$free_product['product_name']} absolutely free.";
+                            }                                        
+                        }
+
+                        $new_subtotal = ($new_subtotal < 0) ? 0 : $new_subtotal;
 
                         if( true ){    //$this->check_in_range($scheme['start_date'],$scheme['end_date'],$today
 
                             if($scheme['type']=='price_scheme'){
 
-                                if($subtotal >= $applicable_scheme['order_value']){
+                                if($subtotal >= $scheme['order_value']){
+
                                     $applicable_scheme[] = array(
                                         'id'             =>  $scheme['id'],
                                         'name'           =>  $scheme['name'],
-                                        'description'    =>  $scheme['description'],
+                                        'description'    =>  $description,
+                                        'new_subtotal'   =>  $new_subtotal,
                                     );
                                 }
                             }else{
@@ -1171,7 +1191,8 @@ class ApiV1 extends REST_Controller {
                                         $applicable_scheme[] = array(
                                             'id'             =>  $scheme['id'],
                                             'name'           =>  $scheme['name'],
-                                            'description'    =>  $scheme['description'],
+                                            'description'    =>  $description,
+                                            'new_subtotal'   =>  $new_subtotal,
                                         );
                                     }
 
@@ -1189,7 +1210,8 @@ class ApiV1 extends REST_Controller {
                                         $applicable_scheme[] = array(
                                             'id'             =>  $scheme['id'],
                                             'name'           =>  $scheme['name'],
-                                            'description'    =>  $scheme['description'],
+                                            'description'    =>  $description,
+                                            'new_subtotal'   =>  $new_subtotal,
                                         );
                                     }
 
@@ -1200,8 +1222,10 @@ class ApiV1 extends REST_Controller {
                     }
                     
                     if($applicable_scheme){
+
                         $scheme_count = count($applicable_scheme);
                         $msg = "{$scheme_count} scheme is applicable.";
+                        
                         if($scheme_count > 1){
                             $msg = "{$scheme_count} schemes are applicable.";
                         }
@@ -1222,7 +1246,7 @@ class ApiV1 extends REST_Controller {
                 }else{
                     $this->response([
                         'status' => FALSE,
-                        'message' => 'Please provide client_id, user_id, order_details.',
+                        'message' => 'Please provide subtotal and order_details.',
                     ], REST_Controller::HTTP_BAD_REQUEST);
                 }
             }else{
@@ -1249,23 +1273,30 @@ class ApiV1 extends REST_Controller {
         $entityBody = file_get_contents('php://input');
         // var_dump($entityBody);die;
         /*
-            {
-                "client_id": 1,
+            {                
                 "user_id":1,
+                "type":"client",
+                "id":1,
+                "scheme_id":1,
+                "subtotal":300,
+                "delivery_address_id":1,
+                "expected_delivery_date":"2019-12-01",
+                "priority":"High",
+                "payment_mode":"Cash",
+                "payment_schedule_date":"2019-12-15",
+                "payment_schedule_time":"18:00:00",
                 "order_details":[
                     {
                         "product_id": 1,
                         "quantity":10,
                         "actual_price": 10,
-                        "sale_price": 12,
-                        "subtotal": 120
+                        "sale_price": 12
                     },
                     {
                         "product_id": 2,
                         "quantity":10,
                         "actual_price": 12,
-                        "sale_price": 15,
-                        "subtotal": 150
+                        "sale_price": 15
                     }
                 ]
             }
@@ -1277,13 +1308,30 @@ class ApiV1 extends REST_Controller {
 
             if(!empty($orders)){
 
-                if(isset($orders['client_id']) && isset($orders['user_id']) && isset($orders['order_details'])){
+                if(
+                    isset($orders['id']) && $orders['id']!=''
+                    && isset($orders['type']) && $orders['type']!=''
+                    && isset($orders['user_id']) && $orders['user_id']!=''
+                    && isset($orders['order_details'])
+                    && isset($orders['subtotal']) && $orders['subtotal']!=''
+                ){
 
-                    $clientId = $orders['client_id'];
+                    $user_id    =  $orders['user_id'];                    
+                    $id         =   $orders['id'];    //lead or client id
+                    $type       =   $orders['type'];    // type - lead/client
+                    $subtotal   =   $orders['subtotal'];
+                    $order_details  =   $orders['order_details'];
+                    
+                    $arrOrder   =   []; // order table array data
+                    $arrClient  =   []; // clients table array data
+                    $arrOrderItems=   []; // order products
 
-                    $availableCreditLimit = $this->db->query("SELECT 
+                    if($type=='client'){
+
+                        //Get Credit Limit for this client.
+                        $availableCreditLimit = $this->db->query("SELECT 
                                                         `clients`.`id`,
-                                                        CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
+                                                        `clients`.`client_name`,
                                                         `clients`.`credit_limit`,
                                                         `clients`.`credit_balance`,
                                                         IFNULL(`ord`.`outstanding`,0) AS `outstanding`,
@@ -1304,50 +1352,77 @@ class ApiV1 extends REST_Controller {
                                                         FROM `payments`
                                                         GROUP BY `client_id`
                                                     ) AS `pay` ON `pay`.`client_id` = `clients`.`id`
-                                                    WHERE `clients`.`id` = $clientId
+                                                    WHERE `clients`.`id` = {$id}
                                                     GROUP BY `clients`.`id`")
                                                 ->row_array()['available_credit_limit'];
 
-                    $subtotal = array_sum(array_column($orders['order_details'], 'subtotal'));
 
-                    if($subtotal > $availableCreditLimit){
-                        $this->response([
-                            'status' => FALSE,
-                            'message' => 'Available credit limit exceeded. Please pay your outstanding.',
-                        ], REST_Controller::HTTP_OK);
+                        // echo $availableCreditLimit."<br/>".$subtotal;die;
+                        // Available credit limit logic verify - TODO
+                        $availableCreditLimit = 50000;
+
+                        if($subtotal > $availableCreditLimit){
+                            $this->response([
+                                'status' => FALSE,
+                                'message' => 'Available credit limit exceeded. Please pay your outstanding.',
+                            ], REST_Controller::HTTP_OK);
+                            die;
+                        }
+
+                    }else{
+
+                        $lead = $this->db->get_where("leads",["id"=>$id])->row_array();
+                        $settings = $this->db->get("settings")->row_array();
+
+                        $arrClient = array(
+                            'client_name'       =>  $lead['company_name'],
+                            'credit_limit'      =>  $settings['default_credit_limit'],
+                            'lead_id'           =>  $id,
+                            'contact_person_name_1'     =>  $lead['contact_person_name'],
+                            'contact_person_1_phone_1'  =>  $lead['phone_1'],
+                            'contact_person_1_email'    =>  $lead['email'],
+                            'created_at'                =>  date('Y-m-d H:i:s'),
+                            'created_by'                =>  $user_id,
+                        );
                     }
 
-                    // order table array data
                     $arrOrder = array(
-                        'client_id'=>$orders['client_id'],
-                        'scheme_id'=>(isset($orders['scheme_id'])) ? $orders['scheme_id'] : null,
-                        'payable_amount'=>$subtotal,
-                        'created_at'=>date('Y-m-d H:i:s'),
-                        'created_by'=>$orders['user_id']
+                        'client_id'     =>  $id,
+                        'scheme_id'     =>  (isset($orders['scheme_id'])) ? $orders['scheme_id'] : null,
+                        'payable_amount'=>  $subtotal,
+                        'delivery_address_id'   =>  $orders['delivery_address_id'],
+                        'expected_delivery_date'=>  $orders['expected_delivery_date'],
+                        'priority'      =>  $orders['priority'],
+                        'payment_mode'  =>  $orders['payment_mode'],
+                        'payment_schedule_date' =>  $orders['payment_schedule_date'],
+                        'payment_schedule_time' =>  $orders['payment_schedule_time'],
+                        'created_at'    =>  date('Y-m-d H:i:s'),
+                        'created_by'    =>  $user_id,
                     );
-
-                    foreach($orders['order_details'] as $detail){
+                    foreach($order_details as $detail){
 
                         if(!empty($detail['product_id']) && !empty($detail['quantity']) && !empty($detail['sale_price'])){
                             
                             // order items array data
                             $arrOrderItems[] = array(
-                                'product_id'=>$detail['product_id'],
-                                'quantity'=>$detail['quantity'],
-                                'actual_price'=>$detail['actual_price'],
-                                'effective_price'=>$detail['sale_price'],
-                                'subtotal'=>$detail['subtotal']
+                                'product_id'    =>  $detail['product_id'],
+                                'quantity'      =>  $detail['quantity'],
+                                'actual_price'  =>  $detail['actual_price'],
+                                'effective_price'=> $detail['sale_price'],
+                                'subtotal'      =>  ($detail['sale_price'] * $detail['quantity']),
+                                'created_at'    =>  date('Y-m-d H:i:s'),
+                                'created_by'    =>  $user_id,
                             );
                         }else{
                             $this->response([
                                 'status' => FALSE,
                                 'message' => 'Provide product_id, quantity and sale_price.',
-                            ], REST_Controller::HTTP_OK);
+                            ], REST_Controller::HTTP_BAD_REQUEST);
                             die;
                         }
                     }
 
-                    if($orderId = $this->order->insert_order($arrOrder, $arrOrderItems)){
+                    if($orderId = $this->order->insert_order($arrOrder, $arrOrderItems,$arrClient)){
                         $this->response([
                             'status' => TRUE,
                             'message' => 'Order placed successfully.',
@@ -1361,7 +1436,7 @@ class ApiV1 extends REST_Controller {
                 }else{
                     $this->response([
                         'status' => FALSE,
-                        'message' => 'Please provide client_id, user_id and order_details.',
+                        'message' => 'Please provide type, client/lead id, user_id, subtotal and order_details.',
                     ], REST_Controller::HTTP_BAD_REQUEST);
                 }
             }else{
@@ -1377,6 +1452,93 @@ class ApiV1 extends REST_Controller {
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+                                                                    /*---------- Order /  Scheme -----------*/
+    /*
+        Get List of delivery addresses based on client_id
+        @author Rakesh Jangir
+    */
+    public function delivery_addresses_get($client_id=null){
+
+        if($client_id){
+
+            $delivery_addresses = $this->db
+                                        ->select("client_delivery_addresses.id,CONCAT(client_delivery_addresses.title,',\n',client_delivery_addresses.address,',\n',zip_codes.zip_code) as `address`")
+                                        ->join("zip_codes","zip_codes.id = client_delivery_addresses.zip_code_id")
+                                        ->where("client_id = {$client_id}")->get("client_delivery_addresses")->result_array();
+            if($delivery_addresses){
+                $this->response([
+                    'status' => TRUE,
+                    'message' => "Delivery Addresses Found",
+                    'data' => $delivery_addresses,
+                ], REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No delivery address found',
+                    'data' => [],
+                ], REST_Controller::HTTP_OK);
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Client Id Missing',
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /*
+        Add Deliver Address to Client
+        @author Rakesh Jangir
+    */
+    public function add_delivery_address_post(){
+
+        $title      =   $this->input->post("title");
+        $address    =   $this->input->post("address");
+        $client_id  =   $this->input->post("client_id");
+        $user_id    =   $this->input->post("user_id");
+        $zip_code_id    =   $this->input->post("zip_code_id");
+
+        if(
+            $title && $title!=''
+            && $address && $address!=''
+            && $client_id && $client_id!=''
+            && $user_id && $user_id!=''
+            && $zip_code_id && $zip_code_id!=''
+        ){
+            $address_data = array(
+                'title'     =>  $this->input->post("title"),
+                'address'   =>  $this->input->post("address"),
+                'zip_code_id'=>  $this->input->post("zip_code_id"),
+                'client_id' =>  $this->input->post("client_id"),                
+                'created_at'=>  date('Y-m-d H:i:s'),
+                'created_by'=>  $this->input->post("user_id"),
+            );
+
+            if($this->db->insert("client_delivery_addresses",$address_data)){
+                $address_id = $this->db->insert_id();
+
+                $this->response([
+                    'status' => TRUE,
+                    'message' => 'Client address saved.',
+                    'data' => $address_id,
+                ], REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Client address not saved.',
+                    'data'  =>  null,
+                ], REST_Controller::HTTP_OK);
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Client Id, Tital, User Id, Zip Code and Address are required.',
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        
+    }
+
 
     // Helper Function
     private function check_in_range($start_date, $end_date, $date_from_user){
