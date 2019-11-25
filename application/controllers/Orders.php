@@ -151,7 +151,8 @@
         redirect("orders/index");
     }
 
-    private function get_order($id){
+    private function get_order($id){    //order_id
+
         $order = $this->db
             ->select("orders.*,`clients`.`client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
             ->where("orders.id = {$id}")
@@ -161,9 +162,11 @@
             ->get()
             ->row_array();
 
+        $client_id = $order['client_id'];
+        
         if($order){
             $order['order_items'] = $this->db
-                ->select("order_items.*,products.product_name,products.product_code,products.description,products.weight,products.dimension")
+                ->select("order_items.*,products.product_name,products.product_code,products.description,products.weight,products.dimension,products.sale_price as original_sale_price")
                 ->where("order_id = {$order['id']}")
                 ->from("order_items")
                 ->join("products","products.id = order_items.product_id","left")
@@ -172,7 +175,7 @@
 
             $order['order_client'] = $this->db
                 ->select("clients.*")
-                ->where("id = {$order['client_id']}")
+                ->where("id = {$client_id}")
                 ->from("clients")
                 ->get()
                 ->row_array();
@@ -259,6 +262,8 @@
         
         if($this->input->server("REQUEST_METHOD") == "POST"){
 
+            // echo "<pre>";print_r($_POST);die;
+
             $client_id = $this->input->post('client_id');
             $product_to_remove = ($this->input->post('product_to_remove')) ? explode(",",$this->input->post('product_to_remove')) : null;
             
@@ -266,8 +271,10 @@
             $order_item = $this->input->post('order_item');
 
             $quantity_update_product = [];
-            foreach($order_item  as $k=>$product){
-                if($product['effective_price_old'] != $product['effective_price']){
+            $new_order_value = 0;
+            foreach($order_item  as $k=>$product){                
+                $new_order_value += ( $product['effective_price'] * $product['quantity'] );
+                if($product['actual_price'] != $product['effective_price']){
                     $quantity_update_product[] = array(
                         'order_id'  =>  $id,
                         'client_id' =>  $client_id,
@@ -277,11 +284,11 @@
                 }
             }
 
-            echo "<pre>";print_r($product_to_remove);echo "</pre>";
-            echo "<pre>";print_r($quantity_update_product);echo "</pre>";
-            die;
+            // echo "<pre>";print_r($product_to_remove);echo "</pre>";
+            // echo "<pre>";print_r($quantity_update_product);echo "</pre>";
+            // die;
 
-            if ($this->order_model->order_approve($id,$action,$quantity_update_product,$product_to_remove)) {
+            if ($this->order_model->order_approve($id,$action,$new_order_value,$quantity_update_product,$product_to_remove)) {
                 
                 $msg = ($action=='accept') ? 'Order accepted.' : 'Order rejected.';
 
@@ -293,7 +300,6 @@
             } else {
                 $this->flash('error', 'Some error ocurred. Please try again later.');
             }
-            die;
             redirect('orders', 'location');
             
         }

@@ -91,8 +91,8 @@
                 <div class="secondary">
                     <?php echo "{$order['client_name']} <div class='mini-seprator'>&nbsp;</div>";?>
                     <?php echo ($order['address']) ? "{$order['address']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
-                    <?php echo ($order['phone']) ? "{$order['phone']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
-                    <?php echo ($order['email']) ? "{$order['email']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['contact_person_1_phone_1']) ? "{$order['contact_person_1_phone_1']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
+                    <?php echo ($order['contact_person_1_email']) ? "{$order['contact_person_1_email']} <div class='mini-seprator'>&nbsp;</div>" : '';?>
                 </div>
             </td>
             <td class="vt" style="width:30%;">
@@ -127,8 +127,9 @@
         <thead>
             <tr>
                 <th>Order Id</th>
-                <th>Billable Amount</th>
-                <th>Amount Used</th>
+                <th>Order Amount</th>
+                <th>Outstanding Amount</th>
+                <th>Paid Amount</th>
                 <th>Credit Balance Used</th>
             </tr>
         </thead>
@@ -141,9 +142,14 @@
                 $sr = ++$k;
                 $total_amount_used += floatval($invoices['amount_used']);
                 $total_credit_used += floatval($invoices['credit_used']);
+
+                $payable_amount = number_format($invoices['payable_amount'],2);
+                $pending_amount = $invoices['payable_amount'] - $invoices['previously_paid'];
+
                 echo "<tr>
                             <td class='bb'>{$invoices['order_id']}</td>                                                    
                             <td class='tc bb'>{$invoices['payable_amount']}</td>
+                            <td class='tc bb'>{$pending_amount}</td>
                             <td class='tc bb'>{$invoices['amount_used']}</td>
                             <td class='tc bb'>{$invoices['credit_used']}</td>
                         </tr>";
@@ -153,7 +159,7 @@
             $total_credit_used = number_format($total_credit_used,2);
             echo "<tr><td colspan='4'>&nbsp;</td></tr>
                     <tr>
-                        <td colspan='2'></td>
+                        <td colspan='3'></td>
                         <td class='tc bb amount_td'>{$total_amount_used}</td>
                         <td class='tc bb amount_td'>{$total_credit_used}</td>
                     </tr>";

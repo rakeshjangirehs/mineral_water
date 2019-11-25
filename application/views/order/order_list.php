@@ -37,6 +37,7 @@
                                         <thead>
                                         <tr>
                                             <th>Order ID</th>
+                                            <th>Status</th>
                                             <th>Client</th>
                                             <th>C Delivery Dt</th>
                                             <th>Order Amount</th>
@@ -169,6 +170,7 @@
             ],
             "columns": [
                 { "data": "id" },
+                { "data": "order_status" },
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
@@ -177,7 +179,7 @@
                     "data": 'link',
                     "sortable": false,
                     "render": function ( data, type, row, meta ) {
-                        if(row.need_admin_approval==1){
+                        if(row.need_admin_approval==1 && row.order_status=='Approval Required'){
                             return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
                         }else{
                             return "";

@@ -52,7 +52,9 @@ class Order_model extends CI_Model {
 	    */
 	    $sql = "SELECT
                     `orders`.*,
-                    #CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
+					`clients`.`client_name`,
+					`clients`.`contact_person_name_1`,
+					`clients`.`contact_person_1_phone_1`,
                     `clients`.`credit_balance`,
                     SUM(`payment_details`.`total_payment`) AS `paid_amount`
                 FROM `orders`
@@ -66,7 +68,7 @@ class Order_model extends CI_Model {
 	    return $this->db->query($sql)->result_array();
 	}
 
-	public function order_approve($order_id,$action,$quantity_update_product=[],$product_to_remove=null){
+	public function order_approve($order_id,$action,$new_order_value,$quantity_update_product=[],$product_to_remove=null){
 
 		$this->db->trans_start();
 
@@ -81,9 +83,11 @@ class Order_model extends CI_Model {
 			foreach($quantity_update_product as $prod){
 				$order_items_whr = array(
 					'order_id'	=>	$order_id,
+					'product_id'=>	$prod['product_id'],
 				);
 				$order_items_dt = array(
 					'effective_price'	=>	$prod['sale_price'],
+					'actual_price'		=>	$prod['sale_price'],
 				);
 				$this->db->where($order_items_whr)->update("order_items",$order_items_dt);
 
@@ -100,6 +104,7 @@ class Order_model extends CI_Model {
 
 		//change order status
 		$data = array(
+			'payable_amount'=>	$new_order_value,
 			'order_status'	=>	($action=='accept') ? "Approved" : "Rejected"
 		);
 

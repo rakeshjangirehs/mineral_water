@@ -76,45 +76,7 @@ class ApiV1 extends REST_Controller {
         // echo $result . "\n\n";
     }
 
-    public function products_get(){
-        $originalImgUrl = base_url()."files/assets/uploads/products/originals";
-        $thumbImgUrl = base_url()."files/assets/uploads/products/thumbnails";
-        $products = array();
-        $products = $this->db->query("SELECT 
-                    `products`.`id` AS `product_id`,
-                    `products`.`product_name`,
-                    `products`.`product_code`,
-                    `products`.`description`,
-                    `products`.`weight`,
-                    `products`.`sale_price`,
-                    `products`.`status`,
-                    `original_image_name`,
-                    `thumb`
-                FROM `products`
-                LEFT JOIN `product_images` ON `product_images`.`product_id` = `products`.`id`
-                WHERE `products`.`is_deleted` = 0
-                ")->result_array();
-
-        if(!empty($products)){
-            foreach($products as &$pr){
-                $pr['original_image_name'] = $originalImgUrl.'/'.$pr['original_image_name'];
-                $pr['thumb'] = $thumbImgUrl.'/'.$pr['thumb'];
-            }
-        }
-        if(!empty($products)){
-            $this->response([
-                'status' => TRUE,
-                'message' => 'Data found.',
-                'data' => $products
-            ], REST_Controller::HTTP_OK);
-        }else{
-            $this->response([
-                'status' => FALSE,
-                'message' => 'Data not found.',
-                'data' => $products
-            ], REST_Controller::HTTP_OK);
-        }
-    }
+    
     // general function stop
     
     
@@ -1384,7 +1346,7 @@ class ApiV1 extends REST_Controller {
                         'payment_schedule_date' =>  $orders['payment_schedule_date'],
                         'payment_schedule_time' =>  $orders['payment_schedule_time'],
                         'need_admin_approval'   =>  $need_admin_approval,
-                        'order_status'          =>  ($need_admin_approval) ? 'Approval Required' : null,
+                        'order_status'          =>  ($need_admin_approval) ? 'Approval Required' : 'Pending',
                         'created_at'    =>  date('Y-m-d H:i:s'),
                         'created_by'    =>  $user_id,
                     );
@@ -1506,7 +1468,7 @@ class ApiV1 extends REST_Controller {
         
     }
 
-
+                                                                    /*---------- Stae/City/Zip -----------*/
     /*
         Get ZIP Code List
         @author Milan Soni
@@ -1546,6 +1508,75 @@ class ApiV1 extends REST_Controller {
                 ),
                 REST_Controller::HTTP_OK
             );
+        }
+    }
+
+                                                                    /*---------- Stae/City/Zip -----------*/
+
+    /*
+        Get Product List
+        (To get prise based on client, pass client_id)
+        @author Milan Soni
+        @changed by Rakesh Jangir 25-11-2019
+    */
+    public function products_get($client_id=null){
+
+        $originalImgUrl = base_url()."files/assets/uploads/products/originals";
+        $thumbImgUrl = base_url()."files/assets/uploads/products/thumbnails";
+        $products = array();
+
+        if($client_id){
+            $query = "SELECT 
+                        `products`.`id` AS `product_id`,
+                        `products`.`product_name`,
+                        `products`.`product_code`,
+                        `products`.`description`,
+                        `products`.`weight`,
+                        `client_product_price`.`sale_price`,
+                        `products`.`status`,
+                        `original_image_name`,
+                        `thumb`
+                    FROM `client_product_price`
+                    LEFT JOIN `products` ON `products`.`id` = `client_product_price`.`product_id`
+                    LEFT JOIN `product_images` ON `product_images`.`product_id` = `products`.`id`
+                    WHERE `products`.`is_deleted` = 0
+        AND `client_product_price`.`client_id`={$client_id}";
+        }else{
+            $query = "SELECT 
+                        `products`.`id` AS `product_id`,
+                        `products`.`product_name`,
+                        `products`.`product_code`,
+                        `products`.`description`,
+                        `products`.`weight`,
+                        `products`.`sale_price`,
+                        `products`.`status`,
+                        `original_image_name`,
+                        `thumb`
+                    FROM `products`
+                    LEFT JOIN `product_images` ON `product_images`.`product_id` = `products`.`id`
+                    WHERE `products`.`is_deleted` = 0";
+        }
+
+        $products = $this->db->query($query)->result_array();
+
+        if(!empty($products)){
+            foreach($products as &$pr){
+                $pr['original_image_name'] = $originalImgUrl.'/'.$pr['original_image_name'];
+                $pr['thumb'] = $thumbImgUrl.'/'.$pr['thumb'];
+            }
+        }
+        if(!empty($products)){
+            $this->response([
+                'status' => TRUE,
+                'message' => 'Data found.',
+                'data' => $products
+            ], REST_Controller::HTTP_OK);
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Data not found.',
+                'data' => $products
+            ], REST_Controller::HTTP_OK);
         }
     }
 

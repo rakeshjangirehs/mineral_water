@@ -52,6 +52,8 @@
                                         <thead>
                                         <tr class="thead-default">
                                             <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Default Price</th>
                                             <th>Client Price</th>
                                             <th>Revised Price</th>
                                             <th>Action</th>
@@ -65,10 +67,13 @@
                                                 
                                                 echo "<tr class='{$class}'>
                                                         <td>{$order_item['product_name']}</td>
+                                                        <td>{$order_item['quantity']}</td>
+                                                        <td>{$order_item['original_sale_price']}</td>
                                                         <td>{$order_item['actual_price']}</td>
                                                         <td>
                                                             <input type='hidden'name='order_item[{$k}][product_id]' value='{$order_item['product_id']}'/>
                                                             <input type='hidden'name='order_item[{$k}][actual_price]' value='{$order_item['actual_price']}'/>
+                                                            <input type='hidden'name='order_item[{$k}][quantity]' value='{$order_item['quantity']}'/>
                                                             <input type='hidden'name='order_item[{$k}][effective_price_old]' value='{$order_item['effective_price']}'/>
                                                             <input type='text' class='' name='order_item[{$k}][effective_price]' value='{$order_item['effective_price']}'/>
                                                         </td>

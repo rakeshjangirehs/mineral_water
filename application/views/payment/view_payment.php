@@ -63,7 +63,7 @@
                                                 <i class="icofont icofont-double-right text-success"></i> Name : <span class="details f-w-900"><?php echo $payment_data['client_name']; ?></span>
                                             </li>
                                             <li class="p-t-10">
-                                                <i class="icofont icofont-double-right text-success"></i> Contact No. : <span class="details"><?php echo $payment_data['phone']; ?></span>
+                                                <i class="icofont icofont-double-right text-success"></i> Contact No. : <span class="details"><?php echo "{$payment_data['contact_person_name_1']} ({$payment_data['contact_person_1_phone_1']})"; ?></span>
                                             </li>
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Credit Limit : <span class="details"><?php echo $payment_data['credit_limit']; ?></span>
@@ -83,8 +83,9 @@
                                         <thead>
                                             <tr>
                                                 <th>Order ID</th>
-                                                <th>Bill Amount</th>
-                                                <th>Amount Used</th>
+                                                <th>Order Amount</th>
+                                                <th>Outstanding Amount</th>
+                                                <th>Paid Amount</th>
                                                 <th>Credit Balance Used</th>
                                             </tr>
                                         </thead>
@@ -93,9 +94,11 @@
                                             if(!empty($payment_data['invoices'])){
                                                 foreach($payment_data['invoices'] as $k=>$invoice){
                                                     $payable_amount = number_format($invoice['payable_amount'],2);
+                                                    $pending_amount = $invoice['payable_amount'] - $invoice['previously_paid'];
                                                     echo "<tr>
                                                                 <th><a title='View Order' href='{$this->baseUrl}orders/order_details/{$invoice['order_id']}' target='_blank'>{$invoice['order_id']}</a></th>
                                                                 <td>{$invoice['payable_amount']}</td>
+                                                                <td>{$pending_amount}</td>
                                                                 <td>{$invoice['amount_used']}</td>
                                                                 <td>{$invoice['credit_used']}</td>
                                                             </tr>";

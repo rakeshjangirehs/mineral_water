@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="page-body">
-            <form data-action="<?php echo $this->baseUrl; ?>users/add_update/<?php //echo $id; ?>" id="post_payment_form" method="post">
+            <form id="post_payment_form" method="post">
                 <input type="hidden" name="client_id" value="<?php echo $client_detail['id']; ?>"/>
                 <div class="card">
                     <div class="card-header">
@@ -80,10 +80,10 @@
                                     <div class="m-r-10">
                                         <ul>
                                             <li class="p-t-10">
-                                                <i class="icofont icofont-double-right text-success"></i> Name : <span class="details f-w-900"><?php echo $client_detail['first_name'].' '.$client_detail['last_name']; ?></span>
+                                                <i class="icofont icofont-double-right text-success"></i> Name : <span class="details f-w-900"><?php echo $client_detail['client_name']; ?></span>
                                             </li>
                                             <li class="p-t-10">
-                                                <i class="icofont icofont-double-right text-success"></i> Contact No. : <span class="details"><?php echo $client_detail['phone']; ?></span>
+                                                <i class="icofont icofont-double-right text-success"></i> Contact No. : <span class="details"><?php echo "{$client_detail['contact_person_name_1']} ({$client_detail['contact_person_1_phone_1']})"; ?></span>
                                             </li>
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Credit Limit : <span class="details"><?php echo $client_detail['credit_limit']; ?></span>
@@ -122,7 +122,7 @@
                                                                 <th>
                                                                     <a title='View Order' href='{$this->baseUrl}orders/order_details/{$invoice['id']}' target='_blank'>{$invoice['id']}</a>
                                                                     <input type='hidden' name='payments[{$invoice['id']}][order_id]' value='{$invoice['id']}'/>
-                                                                    <input type='hidden' name='payments[{$invoice['id']}][payable_amount]' value='{$invoice['payable_amount']}'/>
+                                                                    <input type='hidden' name='payments[{$invoice['id']}][outstanding_amount]' value='{$pending_amount}'/>
                                                                 </th>
                                                                 <td>{$invoice['payable_amount']}</td>
                                                                 <td class='to_be_paid_amound'>{$pending_amount}</td>

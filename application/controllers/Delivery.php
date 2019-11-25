@@ -27,7 +27,7 @@ class Delivery extends MY_Controller {
 				'expected_delivey_datetime',
 				'actual_delivey_datetime',
 				'pickup_location',
-				'warehouse',
+				'warehouse_name',
 				'action'
 			);
 
@@ -35,8 +35,10 @@ class Delivery extends MY_Controller {
 						->model
                         ->common_select('delivery.*,
                                         DATE_FORMAT(expected_delivey_datetime,"%Y-%m-%d") as expected_delivey_datetime_f,
-                                        DATE_FORMAT(actual_delivey_datetime,"%Y-%m-%d") as actual_delivey_datetime_f
+                                        DATE_FORMAT(actual_delivey_datetime,"%Y-%m-%d") as actual_delivey_datetime_f,
+                                        warehouses.name as warehouse_name
                                         ')
+                        ->common_join("warehouses","warehouses.id=delivery.warehouse","left")
 						->common_get('delivery');
 
             echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0",NULL,true);die;

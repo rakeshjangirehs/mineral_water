@@ -101,6 +101,9 @@ class Products extends MY_Controller {
  	}
 
   public function delete($product_id){
+	
+	//remove client product price
+	
     if($this->db->update("products",array('is_deleted'=>1),array('id'=>$product_id))){
         $this->flash("success","Product Deleted Successfully");
     }else{

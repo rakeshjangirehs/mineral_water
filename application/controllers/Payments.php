@@ -18,13 +18,14 @@ class Payments extends MY_Controller {
  	}
 
  	public function payment_post($client_id = NULL ){
+         
  		if(!$client_id){ 
  			redirect('clients','location'); 
  		}
 
         if($this->input->server("REQUEST_METHOD") == "POST"){
-//            echo "<pre>";print_r($_POST);
-//            die;
+
+            // echo "<pre>";print_r($_POST);die;
 
             $client_id = $this->input->post('client_id');
             $original_credit_balance  =  ($this->input->post('original_credit_balance')) ? $this->input->post('original_credit_balance') : 0.00;
@@ -57,15 +58,15 @@ class Payments extends MY_Controller {
 
                     $total_credit_used += $credit_used;
 
-                    $payable_amount = floatval($payment['payable_amount']);
-                    unset($payments[$k]['payable_amount']);
+                    $outstanding_amount = floatval($payment['outstanding_amount']);
+                    unset($payments[$k]['outstanding_amount']);
 
                     $payments[$k]['payment_id'] = $payment_id;
                     $payments[$k]['total_payment'] = $total_payment;
 
                     if($total_payment == 0){
                         unset($payments[$k]);
-                    }elseif($total_payment < $payable_amount){
+                    }elseif($total_payment < $outstanding_amount){
                         $payments[$k]['status'] = 'PARTIAL';
                     }else{
                         $payments[$k]['status'] = 'PAID';
@@ -96,7 +97,7 @@ class Payments extends MY_Controller {
         $this->data['client_detail'] = $this->client->get_client_by_id($client_id);
 //        echo "<pre>";print_r($this->data['client_detail']);die;
         $this->data['invoice_list'] = $this->order_model->get_invoice($client_id);
-//        echo "<pre>";print_r($this->data['invoice_list']);die;
+    //    echo "<pre>";print_r($this->data);die;
 //        echo "<pre>".$this->db->last_query();die;
         $this->data['page_title'] = 'Post Payment';
         $this->load_content('payment/post_payment', $this->data);
@@ -106,16 +107,16 @@ class Payments extends MY_Controller {
 
         if($this->input->is_ajax_request()){
             $colsArr = array(
-                'CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`)',
+                '`clients`.`client_name`',
                 '`payments`.`payment_mode`',
                 '`payments`.`paid_amount`',
                 '`payments`.`created_at`',
-                '`clients`.`email`',
+                '`clients`.`contact_person_1_email`',
                 'links'
             );
 
             $query = $this->model
-                        ->common_select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`clients`.`email` AS `client_email`')
+                        ->common_select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`,`clients`.`id` AS `client_id`,`clients`.`client_name`,`clients`.`contact_person_1_email` AS `client_email`')
                         ->common_join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
                         ->common_get('payments');
             echo $this->model->common_datatable($colsArr, $query);die;
@@ -158,7 +159,9 @@ class Payments extends MY_Controller {
         if($payment = $this->get_payments($payment_id)){
             $client = $this->client->get_client_by_id($payment['client_id']);
 
-            if($client['email']){
+            $email = $client['contact_person_1_email'];
+            
+            if($email){
 
                 $this->data['order'] = $payment;
                 $invoice = $this->load->view('payment/payment_print', $this->data,true);
@@ -171,11 +174,11 @@ class Payments extends MY_Controller {
                 if(file_exists($file_name)){
                     $this->load->library('mymailer');
                     $attachment = array($file_name);
-                    $email_response = $this->mymailer->send_email("Reciept","Please Find Attached Payment Reciept",$client['email'],null,null,$attachment);
+                    $email_response = $this->mymailer->send_email("Reciept","Please Find Attached Payment Reciept",$email,null,null,$attachment);
                     if($email_response['status']){
                         $response = array(
                             'success'    => true,
-                            'message'    => "Email sent successfully to {$client['email']}"
+                            'message'    => "Email sent successfully to {$email}"
                         );
                     }else{
                         $response = array(
@@ -208,23 +211,43 @@ class Payments extends MY_Controller {
     }
 
     private function get_payments($payment_id){
-        $payment_data = $this->db
-            ->select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y") AS `payment_date`,`clients`.`id` AS `client_id`,CONCAT_WS(" ", `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,`clients`.`phone`,`clients`.`credit_limit`,`clients`.`address`,`clients`.`email`')
-            ->join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
-            ->where("`payments`.`id` = {$payment_id}")
-            ->get('payments')
-            ->row_array();
+
+        $query = "SELECT
+                    `payments`.*,
+                    DATE_FORMAT(`payments`.`created_at`, '%d-%m-%Y') AS `payment_date`,
+                    `clients`.`id` AS `client_id`,
+                    `clients`.`client_name`,
+                    `clients`.`contact_person_1_phone_1`,
+                    `clients`.`credit_limit`,
+                    `clients`.`address`,
+                    `clients`.`contact_person_1_email`,
+                    `clients`.`contact_person_name_1`
+                FROM `payments`
+                LEFT JOIN `clients` ON `clients`.`id` = `payments`.`client_id`
+                WHERE `payments`.`id` = {$payment_id}";
+
+        $payment_data = $this->db->query($query)->row_array();
 
         if($payment_data){
-            $payment_data['invoices'] = $this->db
-                ->select("payment_details.*,orders.payable_amount")
-                ->from("payment_details")
-                ->join("orders","orders.id = payment_details.order_id","left")
-                ->where("payment_details.payment_id = {$payment_data['id']}")
-                ->get()
-                ->result_array();
+            $invoice_query = "SELECT
+                                `payment_details`.*,
+                                `orders`.`payable_amount`,
+                                (
+                                    SELECT
+                                        #GROUP_CONCAT(`pd_sub`.`id`)
+                                        IFNULL(SUM(`pd_sub`.`total_payment`),0) AS `paid_amount`
+                                    FROM `payment_details` AS `pd_sub`
+                                    WHERE `pd_sub`.`order_id` = `payment_details`.`order_id`
+                                    AND `pd_sub`.`id` < `payment_details`.`id`
+                                ) AS `previously_paid`
+                            FROM `payment_details`
+                            LEFT JOIN `orders` ON `orders`.`id` = `payment_details`.`order_id`
+                            WHERE `payment_details`.`payment_id` = {$payment_data['id']}";
+
+            $payment_data['invoices'] = $this->db->query($invoice_query)->result_array();
 
         }
+        // echo "<pre>";print_r($payment_data);die;
         return $payment_data;
     }
 
@@ -233,7 +256,7 @@ class Payments extends MY_Controller {
         if($payment = $this->db->get_where("payments",array('id'=> $payment_id))->row_array()){
 
             $credit_balance_used = floatval($payment['credit_balance_used']);
-
+echo $credit_balance_used;die;
             $this->db->trans_start();
 
             if($credit_balance_used){
