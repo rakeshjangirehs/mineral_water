@@ -11,7 +11,7 @@ class Zipcodegroups extends MY_Controller {
             array(
                 'field' => 'group_name',
                 'label' => 'ZIP Code Group Name',
-                'rules' => 'required'
+                'rules' => 'required|max_length[200]'
             ),
             array(
                 'field' => 'zip_code[]',

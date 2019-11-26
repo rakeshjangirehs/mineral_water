@@ -122,6 +122,7 @@
         rules   : 	{
                         "group_name"		:	{
                             required:true,
+                            maxlength: 200
                         },
                         "zip_code[]"		:	{
                             required:true

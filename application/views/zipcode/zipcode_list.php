@@ -123,13 +123,16 @@
                                 maxlength:8
                             },
                             "area"		:	{
-                                required:true
+                                required:true,
+                                maxlength: 300
                             },
                             "state_id"		:	{
-                                required:true
+                                required:true,
+                                digits:true
                             },
                             "city_id"		:	{
-                                required:true
+                                required:true,
+                                digits:true
                             },
                         },
 
