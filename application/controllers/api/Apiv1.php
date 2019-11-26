@@ -1468,50 +1468,7 @@ class ApiV1 extends REST_Controller {
         
     }
 
-                                                                    /*---------- Stae/City/Zip -----------*/
-    /*
-        Get ZIP Code List
-        @author Milan Soni
-        @changed by Rakesh Jangir 22-11-2019
-    */
-    public function zip_codes_get($user_id=null){
-
-        if($user_id){
-            $zip_codes = $this->db->query("SELECT 
-                    `zip_code_id`,
-                    `zip_code`
-                    FROM `user_zip_codes`
-                    LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `user_zip_codes`.`zip_code_id`
-                    LEFT JOIN `users` ON `users`.`id` = `user_zip_codes`.`user_id`
-                    WHERE `users`.`id` = $user_id
-                    AND `zip_codes`.`status` = 'Active'
-                    ")->result_array();
-        }else{
-            $zip_codes = $this->db->select("id as zip_code_id,zip_code")->get("zip_codes")->result_array();
-        }
-        
-        if(!empty($zip_codes)){
-            $this->response(
-                array(
-                    'status' => TRUE,
-                    'message' => "ZIP Codes found.",
-                    'data' => $zip_codes
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }else{
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "ZIP Codes not found.",
-                    'data' => $zip_codes
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }
-    }
-
-                                                                    /*---------- Stae/City/Zip -----------*/
+                                                                    /*---------- Product -----------*/
 
     /*
         Get Product List
@@ -1577,6 +1534,138 @@ class ApiV1 extends REST_Controller {
                 'message' => 'Data not found.',
                 'data' => $products
             ], REST_Controller::HTTP_OK);
+        }
+    }
+
+
+                                                                    /*---------- Stae/City/Zip -----------*/
+    /*
+        Get ZIP Code List
+        @author Milan Soni
+        @changed by Rakesh Jangir 22-11-2019
+    */
+    public function zip_codes_get($user_id=null){
+
+        if($user_id){
+            $zip_codes = $this->db->query("SELECT 
+                    `zip_code_id`,
+                    `zip_code`
+                    FROM `user_zip_codes`
+                    LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `user_zip_codes`.`zip_code_id`
+                    LEFT JOIN `users` ON `users`.`id` = `user_zip_codes`.`user_id`
+                    WHERE `users`.`id` = $user_id
+                    AND `zip_codes`.`status` = 'Active'
+                    ")->result_array();
+        }else{
+            $zip_codes = $this->db->select("id as zip_code_id,zip_code")->get("zip_codes")->result_array();
+        }
+        
+        if(!empty($zip_codes)){
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "ZIP Codes found.",
+                    'data' => $zip_codes
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "ZIP Codes not found.",
+                    'data' => $zip_codes
+                ),
+                REST_Controller::HTTP_OK
+            );
+        }
+    }
+    /*
+        Get list of cities in specific state
+        @author Rakesh Jangir
+        @param $state_id
+    */
+    public function cities_by_state_post(){
+        
+        if($state_id = $this->input->post('state_id')){
+
+            $cities = $this->db->select("id,name")->get_where("cities",['state_id'=>$state_id,'is_deleted'=>0,'status'=>'Active'])->result_array();
+
+                if($cities){
+                    $this->response(
+                        array(
+                            'status' => TRUE,
+                            'message' => "Cities found.",
+                            'data' => $cities
+                        ),
+                        REST_Controller::HTTP_OK
+                    );
+                }else{
+                    $this->response(
+                        array(
+                            'status' => FALSE,
+                            'message' => "Cities not found.",
+                            'data' => []
+                        ),
+                        REST_Controller::HTTP_OK
+                    );
+                }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'State Id is required.',
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /*
+        Get List of states
+        Optionally get specific state by providing $state_id
+        @author Rakesh Jangir
+        @param $state_id Optional
+    */
+    public function states_get($state_id=NULL){
+        
+        if($state_id){
+            if($state = $this->db->select("name")->get_where("states",['id'=>$state_id,'is_deleted'=>0,'status'=>'Active'])->row_array()){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "State found.",
+                        'data' => $state
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "State not found.",
+                        'data' => NULL
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }
+        }else{
+            if($states = $this->db->select("id,name")->get_where("states",['is_deleted'=>0,'status'=>'Active'])->result_array()){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "States found.",
+                        'data' => $states
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "States not found.",
+                        'data' => []
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }
         }
     }
 

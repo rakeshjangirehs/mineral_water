@@ -85,7 +85,6 @@
 	public function get_cities(){
         // sleep(5);
         $state_id = $this->input->post('state_id');
-
         $data = $this->db->get_where("cities",['state_id'=>$state_id,'is_deleted'=>0,'status'=>'Active'])->result_array();
 
         echo json_encode($data);
