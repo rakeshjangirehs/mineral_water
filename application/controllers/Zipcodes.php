@@ -73,9 +73,18 @@
 	}
 
 	public function zip_export(){
-		$query = $this->model->common_select('zip_codes.zip_code')->common_get('zip_codes');
+		
+		$query = $this->model
+							->common_select("zip_codes.zip_code,zip_codes.area,
+											cities.name as city_name,states.name as state_name")
+							->common_join('`cities`','`cities`.`id` = `zip_codes`.`city_id`','LEFT')
+							->common_join('`states`','`states`.`id` = `zip_codes`.`state_id`','LEFT')
+							->common_get('zip_codes');
 
 		$resultData = $this->db->query($query)->result_array();
+		
+		// echo "<pre>";print_r($resultData);die;
+
 		$headerColumns = implode(',', array_keys($resultData[0]));
 		$filename = 'zipcodes-'.time().'.xlsx';
 		$title = 'Zipcode List';
