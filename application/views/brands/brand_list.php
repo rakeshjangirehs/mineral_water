@@ -71,6 +71,21 @@
     // $('.nav .nav-list').activeSidebar('.vehicle_li');
     $(".brands_li").active();
 
+
+    var validator = $("#tagFrm").validate({
+        rules   : 	{
+                        "brand_name"		:	{
+                            required:true,
+                            maxlength: 200
+                        },
+                    },
+        errorElement: "p",
+        errorClass:"text-danger error",
+        errorPlacement: function ( error, element ) {
+            $(element).closest(".form-group").append(error);
+        },
+    });
+
     var vehicle_id = <?php echo ($vehicle_id) ? $vehicle_id : "null";?>;
     var table = $("#dynamic-table");
     var imgUrl = table.attr('data-imageUrl');

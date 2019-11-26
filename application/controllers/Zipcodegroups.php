@@ -114,7 +114,29 @@ class Zipcodegroups extends MY_Controller {
         $this->data['states'] = $this->model->get('states',"0","is_deleted",true);
         $this->data['all_zipcodes'] = array_column($this->db->get_where("zip_codes",$all_zip_code_where)->result_array(),"zip_code","id");
 		$this->load_content('zipcodegroup/zipcodegroup_list', $this->data);
+    }
+    
+    public function zip_group_export(){
+		
+		$query = $this
+                ->model
+                ->common_select("`zip_code_groups`.`group_name`,GROUP_CONCAT(`zip_codes`.`zip_code`) AS `zip_codes`")
+                ->common_join('`group_to_zip_code`','`group_to_zip_code`.`zip_code_group_id` = `zip_code_groups`.`id`','LEFT')
+                ->common_join('`zip_codes`','`zip_codes`.`id` = `group_to_zip_code`.`zip_code_id`','LEFT')
+                ->common_group_by("`zip_code_groups`.`id`")
+                ->common_get('`zip_code_groups`');
+
+		$resultData = $this->db->query($query)->result_array();
+		
+		// echo "<pre>";print_r($resultData);die;
+
+		$headerColumns = implode(',', array_keys($resultData[0]));
+		$filename = 'zipcode_groups-'.time().'.xlsx';
+		$title = 'Zipcode Group List';
+		$sheetTitle = 'Zipcode Group List';
+		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
 	}
+
 
     public function sendMail(){
 //        $this->commonSendMail();

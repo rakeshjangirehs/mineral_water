@@ -102,9 +102,10 @@ class Vehicles extends MY_Controller {
     }
 
     public function vehicle_export(){
+
         $query = $this
             ->model
-            ->common_select('`vehicle`.`name` AS `vehicle_name`,`vehicle`.`number`,`vehicle`.`capacity_in_ton` AS `capacity(ton)`')
+            ->common_select('`vehicle`.`name` AS `vehicle_name`,`vehicle`.`number`,`vehicle`.`capacity_in_ton` AS `capacity(KG)`')
             ->common_where('vehicle.is_deleted = 0')
             ->common_get('vehicle');
 

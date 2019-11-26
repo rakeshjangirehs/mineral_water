@@ -15,7 +15,7 @@ class Warehouses extends MY_Controller {
             array(
                 'field' => 'name',
                 'label' => 'Warehouse Name',
-                'rules' => 'required'
+                'rules' => 'required|max_length[200]'
             ),
         );
 	}
@@ -90,6 +90,7 @@ class Warehouses extends MY_Controller {
         $query = $this
             ->model
             ->common_select('`warehouses`.`name`')
+            ->common_where('warehouses.is_deleted = 0')
             ->common_get('`warehouses`');
 
         $resultData = $this->db->query($query)->result_array();

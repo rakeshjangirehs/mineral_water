@@ -15,7 +15,7 @@ class Brands extends MY_Controller {
             array(
                 'field' => 'brand_name',
                 'label' => 'Brand Name',
-                'rules' => 'required'
+                'rules' => 'required|max_length[200]'
             ),
         );
 	}
@@ -90,6 +90,7 @@ class Brands extends MY_Controller {
         $query = $this
             ->model
             ->common_select('`brands`.`brand_name`')
+            ->common_where('brands.is_deleted = 0')
             ->common_get('`brands`');
 
         $resultData = $this->db->query($query)->result_array();
