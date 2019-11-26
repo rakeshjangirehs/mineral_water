@@ -14,17 +14,17 @@ class Vehicles extends MY_Controller {
             array(
                 'field' => 'name',
                 'label' => 'Vehicle Name',
-                'rules' => 'required'
+                'rules' => 'required|max_length[200]'
             ),
             array(
                 'field' => 'number',
                 'label' => 'Vehicle Number',
-                'rules' => 'required'
+                'rules' => 'required|alpha_numeric_spaces'
             ),
             array(
                 'field' => 'capacity_in_ton',
                 'label' => 'Vehicle Capacity',
-                'rules' => 'required'
+                'rules' => 'required|numeric'
             ),
         );
 	}

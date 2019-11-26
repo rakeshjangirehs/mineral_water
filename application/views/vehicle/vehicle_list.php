@@ -83,8 +83,31 @@
     // $('.nav .nav-list').activeSidebar('.vehicle_li');
     $(".vehicle_li").active();
 
+    var validator = $("#tagFrm").validate({
+        rules   : 	{
+                        "name"		:	{
+                            required:true,
+                            maxlength: 200
+                        },
+                        "number"		:	{
+                            required:true,
+                            maxlength: 30,
+                        },
+                        "capacity_in_ton"		:	{
+                            required:true,
+                            digits:true,
+                        }
+                    },
+        errorElement: "p",
+        errorClass:"text-danger error",
+        errorPlacement: function ( error, element ) {
+            $(element).closest(".form-group").append(error);
+        },
+    });
+
     var vehicle_id = <?php echo ($vehicle_id) ? $vehicle_id : "null";?>;
     var table = $("#dynamic-table");
+    
     var imgUrl = table.attr('data-imageUrl');
     var oTable = table
         .DataTable({
