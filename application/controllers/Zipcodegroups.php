@@ -13,6 +13,11 @@ class Zipcodegroups extends MY_Controller {
                 'label' => 'ZIP Code Group Name',
                 'rules' => 'required'
             ),
+            array(
+                'field' => 'zip_code[]',
+                'label' => 'ZIP Code',
+                'rules' => 'required'
+            ),
         );
 	}
 

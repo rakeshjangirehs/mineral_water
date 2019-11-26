@@ -72,7 +72,7 @@
                                             </select>                                    
                                         </div>
                                         <div class="form-group">
-                                            <label for="zip_code" class="control-label">Zip Codes:</label>
+                                            <label for="zip_code" class="control-label">Zip Codes:</label>                                            
                                             <select class="form-control select2 multiple" name="zip_code[]" id="zip_code" multiple="multiple" data-placeholder="Choose ZIP Codes">
                                                 <option value=""></option>
                                                 <?php
@@ -86,6 +86,7 @@
                                                 endif;
                                                 ?>
                                             </select>
+                                            <span class="messages"><?php echo form_error('zip_code[]');?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -116,6 +117,22 @@
     var $state_id = $("#state_id");
     var $city_id = $("#city_id");
     var $zip_code = $("#zip_code");
+
+    var validator = $("#tagFrm").validate({
+        rules   : 	{
+                        "group_name"		:	{
+                            required:true,
+                        },
+                        "zip_code[]"		:	{
+                            required:true
+                        },
+                    },
+        errorElement: "p",
+        errorClass:"text-danger error",
+        errorPlacement: function ( error, element ) {
+            $(element).closest(".form-group").append(error);
+        },
+    });
 
     $state_id.on('change',function(e){
         var state_id = this.value;

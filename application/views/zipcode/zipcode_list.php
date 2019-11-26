@@ -116,7 +116,6 @@
     zipcode.forceInt();
 
     var validator = deptFrm.validate({
-        // debug		:	true,
         rules		: 	{
                             "zipcode"		:	{
                                 required:true,
@@ -136,23 +135,9 @@
 
         errorElement: "p",
         errorClass:"text-danger error",
-
         errorPlacement: function ( error, element ) {
             $(element).closest(".form-group").append(error);
         },
-
-        highlight: function ( element, errorClass, validClass ) {
-            // $(element).parents(".form-group").addClass("has-error");
-            // $(element).closest("[class^=col]").addClass( "has-error" ).removeClass( "has-success" );
-
-        },
-
-        unhighlight: function (element, errorClass, validClass) {
-            // $(element).parents(".form-group").removeClass("has-error").find(".error-help").text('');
-            // $(element).closest("[class^=col]").addClass( "has-success" ).removeClass( "has-error" );
-        },
-        
-
         submitHandler: function(form) {
             
             var $form = $(form);
