@@ -15,6 +15,7 @@
  	 	if($this->input->is_ajax_request()){
 			$colsArr = array(
 				'zip_code',
+				'area',
 				'cities.name',
 				'states.name',
                 'link'

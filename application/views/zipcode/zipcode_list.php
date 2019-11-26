@@ -18,6 +18,7 @@
                                     <thead>
                                     <tr>
                                         <th>Zipcode</th>
+                                        <th>Area</th>
                                         <th>City</th>
                                         <th>State</th>
                                         <th>Action</th>
@@ -46,7 +47,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="zipcode" class="control-label">Zip Code:</label>
-                                            <input type="number" name="zipcode" id="zipcode" class="form-control" min="1111" max="999999" required/>
+                                            <input type="text" name="zipcode" id="zipcode" class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -58,7 +59,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="state_id" class="control-label">State:</label>
-                                            <select class="form-control select2" name="state_id" id="state_id" data-placeholder="Choose State" required>
+                                            <select class="form-control select2" name="state_id" id="state_id" data-placeholder="Choose State">
                                                 <option value=""></option>
                                                 <?php
                                                     foreach($states as $state){
@@ -71,7 +72,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="city_id" class="control-label">City:</label>
-                                            <select class="form-control select2" name="city_id" id="city_id" data-placeholder="Choose City" required>
+                                            <select class="form-control select2" name="city_id" id="city_id" data-placeholder="Choose City">
                                                 <option value=""></option>
                                             </select>
                                         </div>
@@ -113,6 +114,62 @@
 
     // for integer validation
     zipcode.forceInt();
+
+    var validator = deptFrm.validate({
+        // debug		:	true,
+        rules		: 	{
+                            "zipcode"		:	{
+                                required:true,
+                                digits:true,
+                                maxlength:8
+                            },
+                            "area"		:	{
+                                required:true
+                            },
+                            "state_id"		:	{
+                                required:true
+                            },
+                            "city_id"		:	{
+                                required:true
+                            },
+                        },
+
+        errorElement: "p",
+        errorClass:"text-danger error",
+
+        errorPlacement: function ( error, element ) {
+            $(element).closest(".form-group").append(error);
+        },
+
+        highlight: function ( element, errorClass, validClass ) {
+            // $(element).parents(".form-group").addClass("has-error");
+            // $(element).closest("[class^=col]").addClass( "has-error" ).removeClass( "has-success" );
+
+        },
+
+        unhighlight: function (element, errorClass, validClass) {
+            // $(element).parents(".form-group").removeClass("has-error").find(".error-help").text('');
+            // $(element).closest("[class^=col]").addClass( "has-success" ).removeClass( "has-error" );
+        },
+        
+
+        submitHandler: function(form) {
+            
+            var $form = $(form);
+            var data = $form.serialize();
+            $.ajax({
+                url: $form.data('action'),
+                method: 'post',
+                dataType: 'json',
+                data: data,
+                success: function(data){
+                    reset_form();
+                    window.location.reload();
+                }
+            });
+        }
+    });
+
 	var oTable = table
 		.DataTable({
 			"processing": true,
@@ -126,6 +183,7 @@
             },
             "columns": [
                 { "data": "zip_code" },
+                { "data": "area" },
                 { "data": "city_name" },
                 { "data": "state_name" },
                 {
@@ -139,7 +197,8 @@
 		})
 		.on('click', '.zip_edit',function(e){
 
-			e.preventDefault();
+            e.preventDefault();
+            
 			var $this = $(this);
 			reset_form();
 
@@ -153,28 +212,13 @@
 
             var state_id = $this.data('state_id') || '';
             temp_city_id = $this.data('city_id') || '';
-            console.log('temp_city_id : ',temp_city_id);
+            // console.log('temp_city_id : ',temp_city_id);
             $state_id.val(state_id).trigger('change');
 
 		});
 
-	// submit form event
-	deptFrm.on('submit', function(e){
-		e.preventDefault();
-		var data = $(this).serialize();
-		$.ajax({
-			url: $(this).data('action'),
-			method: 'post',
-			dataType: 'json',
-			data: data,
-			success: function(data){
-				reset_form();
-				window.location.reload();
-			}
-		});
-	});
-
 	function reset_form(){
+        validator.resetForm();
 		deptFrm.trigger("reset");
 		zip_id.val("");
         $form_title.text("Add ZIP Code");
@@ -205,10 +249,10 @@
             })
             .then(data=>{
                 var str = "";
-                console.log(data);
+                // console.log(data);
                 $.each(data,function(i,v){
                     let selected = (temp_city_id == v.id) ? 'selected' : '';
-                    console.log('temp_city_id : ',temp_city_id);
+                    // console.log('temp_city_id : ',temp_city_id);
                     str += "<option value='"+v.id+"' "+selected+">"+v.name+"</option>";
                 })
                 $city_id.append(str);
