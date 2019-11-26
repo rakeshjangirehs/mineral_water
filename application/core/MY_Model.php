@@ -220,7 +220,8 @@ class MY_Model extends CI_Model{
 		$query .= ($user_id) ? " AND `id` != $user_id" : "";
 		
 		$this->db->query($query);
-
+		// echo $this->db->last_query();die;
+		// echo $this->db->affected_rows();die;
 		if( $this->db->affected_rows() ){
 			return false;
 		}else{

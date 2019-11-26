@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Client extends CI_Model {
+class Client extends MY_Model {
 
     public function __construct() {
         parent::__construct();
@@ -15,7 +15,7 @@ class Client extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data,$client_id = NULL,$create_by=NULL,$visit_note=NULL){
+    public function add_update($data,$client_id = NULL,$create_by=NULL,$visit_note=NULL){
         
         $this->db->trans_start();
         if($client_id){

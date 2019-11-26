@@ -108,6 +108,7 @@
                             required:true,
                             maxlength: 12,
                             minlength: 6,
+                            digits:true,
                             remote:	function(){
                                 return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=leads&fieldsToCompare=phone_1,phone_2&fieldName=phone_1&id=<?php echo $zipcode_group_id;?>"
                             },

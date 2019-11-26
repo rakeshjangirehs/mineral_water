@@ -21,22 +21,22 @@ class Users extends MY_Controller {
             array(
                 'field' => 'last_name',
                 'label' => 'Last Name',
-                'rules' => 'required|max_length[200]'
+                'rules' => 'max_length[200]'
             ),
             array(
                 'field' => 'email',
                 'label' => 'Email',
-                'rules' => 'required|valid_email|max_length[300]|callback_check_duplicate_email'
+                'rules' => 'valid_email|max_length[300]|callback_check_duplicate_email'
             ),
             array(
                 'field' => 'username',
                 'label' => 'username',
-                'rules' => 'max_length[200]|callback_check_duplicate_username'
+                'rules' => 'required|max_length[200]|callback_check_duplicate_username'
             ),
             array(
                 'field' => 'phone',
                 'label' => 'Phone',
-                'rules' => 'integer|max_length[50]|callback_check_duplicate_phone'
+                'rules' => 'required|integer|max_length[12]|min_length[6]|callback_check_duplicate_phone'
             ),
             array(
                 'field' => 'password',
@@ -123,7 +123,7 @@ class Users extends MY_Controller {
                 }
 
                 // add or update records
-                if ($this->user->insert_update($userData, $zip_codes, $zip_code_group, $id)) {
+                if ($this->user->add_update($userData, $zip_codes, $zip_code_group, $id)) {
                     $msg = 'User created successfully.';
                     $type = 'success';
                     if ($id) {
@@ -181,8 +181,8 @@ class Users extends MY_Controller {
 
         $user_id = $this->uri->segment(3);
 
-        if($new_email && $this->user->check_exist("email", $new_email, $user_id)){
-            $this->form_validation->set_message('check_duplicate_email',"Email id {$new_email} already exist.");
+        if($new_email && !$this->user->check_duplicate("users","email", $new_email, $user_id)){
+            $this->form_validation->set_message('check_duplicate_email',"{$new_email} already exist.");
             return false;
         }else{
             return true;
@@ -193,8 +193,8 @@ class Users extends MY_Controller {
 
         $user_id = $this->uri->segment(3);
 
-        if($new_username && $this->user->check_exist("username", $new_username, $user_id)){
-            $this->form_validation->set_message('check_duplicate_username',"username {$new_username} already exist.");
+        if($new_username && !$this->user->check_duplicate("users","username", $new_username, $user_id)){
+            $this->form_validation->set_message('check_duplicate_username',"{$new_username} already exist.");
             return false;
         }else{
             return true;
@@ -205,8 +205,8 @@ class Users extends MY_Controller {
 
         $user_id = $this->uri->segment(3);
 
-        if($new_phone && $this->user->check_exist("phone", $new_phone, $user_id)){
-            $this->form_validation->set_message('check_duplicate_phone',"Phone {$new_phone} already exist.");
+        if($new_phone && !$this->user->check_duplicate("users","phone", $new_phone, $user_id)){
+            $this->form_validation->set_message('check_duplicate_phone',"{$new_phone} already exist.");
             return false;
         }else{
             return true;

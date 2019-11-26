@@ -29,9 +29,7 @@
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="category_id" class="control-label">Category:
-                                        <span class="messages"><?php echo form_error('category_id');?></span>
-                                    </label>
+                                    <label for="category_id" class="control-label">Category:</label>
                                     <select class="form-control select2" name="category_id" id="category_id" data-placeholder="Choose Category">
                                         <option value=""></option>
                                         <?php
@@ -43,12 +41,11 @@
                                                 }
                                             }
                                         ?>
-                                    </select>                                    
+                                    </select>
+                                    <span class="messages"><?php echo form_error('category_id');?></span>                                    
                                 </div>
                                 <div class="form-group">
-                                    <label for="state_id" class="control-label">State:
-                                        <span class="messages"><?php echo form_error('state_id');?></span>
-                                    </label>
+                                    <label for="state_id" class="control-label">State:</label>
                                     <select class="form-control select2" name="state_id" id="state_id" data-placeholder="Choose State">
                                         <option value=""></option>
                                         <?php
@@ -58,12 +55,11 @@
                                                 echo "<option value='{$state['id']}' {$selected}>{$state['name']}</option>";
                                             }
                                         ?>
-                                    </select>                                    
+                                    </select>   
+                                    <span class="messages"><?php echo form_error('state_id');?></span>                                 
                                 </div>
                                 <div class="form-group">
-                                    <label for="city_id" class="control-label">City:
-                                        <span class="messages"><?php echo form_error('city_id');?></span>
-                                    </label>
+                                    <label for="city_id" class="control-label">City:</label>
                                     <select class="form-control select2" name="city_id" id="city_id" data-placeholder="Choose City">
                                         <option value=""></option>
                                         <?php
@@ -73,7 +69,8 @@
                                                 echo "<option value='{$city['id']}' {$selected}>{$city['name']}</option>";
                                             }
                                         ?>
-                                    </select>                                    
+                                    </select>    
+                                    <span class="messages"><?php echo form_error('city_id');?></span>                                
                                 </div>
                                 <div class="form-group">
                                     <label for="zip_code" class="control-label">Zip Code:</label>
@@ -102,7 +99,7 @@
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="contact_person_name_1" class="control-label">Contact Person 1:</label>
-                                    <input type="text" name="contact_person_name_1" id="contact_person_name_1" class="form-control" value="<?php echo (isset($_POST['contact_person_name_1']))? set_value('contact_person_name_1') : $user_data['contact_person_name_1']; ?>" placeholder="Contact Person Name" required/>
+                                    <input type="text" name="contact_person_name_1" id="contact_person_name_1" class="form-control" value="<?php echo (isset($_POST['contact_person_name_1']))? set_value('contact_person_name_1') : $user_data['contact_person_name_1']; ?>" placeholder="Contact Person Name"/>
                                     <span class="messages"><?php echo form_error('contact_person_name_1');?></span>
                                 </div>
                                 <div class="form-group">
@@ -112,7 +109,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="contact_person_1_phone_2" class="control-label">Phone 2:</label>
-                                    <input type="text" name="contact_person_1_phone_2" id="contact_person_1_phone_2" class="form-control" value="<?php echo (isset($_POST['contact_person_1_phone_2']))? set_value('contact_person_1_phone_2') : $user_data['contact_person_1_phone_2']; ?>" required/>
+                                    <input type="text" name="contact_person_1_phone_2" id="contact_person_1_phone_2" class="form-control" value="<?php echo (isset($_POST['contact_person_1_phone_2']))? set_value('contact_person_1_phone_2') : $user_data['contact_person_1_phone_2']; ?>"/>
                                     <span class="messages"><?php echo form_error('contact_person_1_phone_2');?></span>
                                 </div>
                                 <div class="form-group">
@@ -124,7 +121,7 @@
                             <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="contact_person_name_2" class="control-label">Contact Person 2:</label>
-                                    <input type="text" name="contact_person_name_2" id="contact_person_name_2" class="form-control" value="<?php echo (isset($_POST['contact_person_name_2']))? set_value('contact_person_name_2') : $user_data['contact_person_name_2']; ?>"  placeholder="Contact Person Name" required/>
+                                    <input type="text" name="contact_person_name_2" id="contact_person_name_2" class="form-control" value="<?php echo (isset($_POST['contact_person_name_2']))? set_value('contact_person_name_2') : $user_data['contact_person_name_2']; ?>"  placeholder="Contact Person Name"/>
                                     <span class="messages"><?php echo form_error('contact_person_name_2');?></span>
                                 </div>
                                 <div class="form-group">
@@ -134,7 +131,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="contact_person_2_phone_2" class="control-label">Phone 2:</label>
-                                    <input type="text" name="contact_person_2_phone_2" id="contact_person_2_phone_2" class="form-control" value="<?php echo (isset($_POST['contact_person_2_phone_2']))? set_value('contact_person_2_phone_2') : $user_data['contact_person_2_phone_2']; ?>" required/>
+                                    <input type="text" name="contact_person_2_phone_2" id="contact_person_2_phone_2" class="form-control" value="<?php echo (isset($_POST['contact_person_2_phone_2']))? set_value('contact_person_2_phone_2') : $user_data['contact_person_2_phone_2']; ?>"/>
                                     <span class="messages"><?php echo form_error('contact_person_2_phone_2');?></span>
                                 </div>
                                 <div class="form-group">
@@ -169,6 +166,8 @@
         var $state_id = $("#state_id");
         var $city_id = $("#city_id");
         var $zip_code = $("#zip_code_id");
+
+        //Client Side Validation
 
         $state_id.on('change',function(e){
             var state_id = this.value;

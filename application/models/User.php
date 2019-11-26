@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class User extends CI_Model {
+class User extends MY_Model {
 
     public function __construct() {
 
@@ -28,7 +28,7 @@ class User extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data,$new_zip_codes,$new_zip_code_groups,$user_id = NULL){
+    public function add_update($data,$new_zip_codes,$new_zip_code_groups,$user_id = NULL){
 
         $old_zip_codes = ($user_id) ? array_column($this->model->get("user_zip_codes",$user_id,"user_id",true),'zip_code_id') : [];
         $removable_zip_codes = array_diff($old_zip_codes,$new_zip_codes);
@@ -190,7 +190,7 @@ class User extends CI_Model {
         return $this->db->query($query)->result_array();
     }
 
-    public function check_exist( $whereKey, $whereVal, $id = NULL ){
+    /*public function check_exist( $whereKey, $whereVal, $id = NULL ){
         if($id){
             $res = $this->db->select("*")
                             ->from("users")
@@ -204,7 +204,7 @@ class User extends CI_Model {
                             ->get();
         }
         return $res->row_array();
-    }
+    }*/
 
     public function valid_username(){
         echo 'Hello';die;

@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Lead extends CI_Model {
+class Lead extends MY_Model {
 
     public function __construct() {
         parent::__construct();
@@ -15,7 +15,7 @@ class Lead extends CI_Model {
     /*
      * Insert user data
      */
-    public function insert_update($data, $zipcode_group_id = NULL){
+    public function add_update($data, $zipcode_group_id = NULL){
 
         $this->db->trans_start();
 

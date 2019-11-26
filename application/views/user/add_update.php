@@ -95,7 +95,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="text-right">
-                            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                            <button type="submit" class="btn btn-sm btn-primary"><?php echo ($id) ? 'Update' : 'Save';?></button>
                             <a class="btn btn-sm btn-default" href="<?php echo $this->baseUrl; ?>users/">Cancel</a>
                         </div>
                     </div>
@@ -110,5 +110,63 @@
 	// to active the sidebar
     // $('.nav .nav-list').activeSidebar('.add_user_li');
     $(".add_user_li").active();
+
+    var validator = $("#tagFrm").validate({
+        rules   : 	{
+                        "first_name"		:	{
+                            required:true,
+                            maxlength: 200,
+                        },
+                        "last_name":	{
+                            maxlength: 200,
+                        },
+                        "email"		:	{
+                            maxlength: 200,
+                            email: true,
+                            remote:	function(){
+                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=users&fieldsToCompare=email&fieldName=email&id=<?php echo $id;?>"
+                            },                            
+                        },
+                        "username"		:	{
+                            required:true,
+                            maxlength: 200,
+                            remote:	function(){
+                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=users&fieldsToCompare=username&fieldName=username&id=<?php echo $id;?>"
+                            }, 
+                        },
+                        "phone"		:	{
+                            required:true,
+                            digits:true,
+                            maxlength: 12,
+                            minlength: 6,
+                            remote:	function(){
+                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=users&fieldsToCompare=phone&fieldName=phone&id=<?php echo $id;?>"
+                            }, 
+                        },
+                        "password"		:	{
+                            maxlength: 200,
+                        },
+                        "role"		:	{
+                            required:true,
+                            digits:true,
+                        },
+                    },
+        messages	:	{
+            email		:	{                
+                remote			:	"Email already Exists"
+            },
+            username		:	{
+                remote			:	"Username already Exists",
+            },
+            phone		:	{
+                remote			:	"Phone already Exists",
+            },
+        },
+        errorElement: "p",
+        errorClass:"text-danger error",
+        errorPlacement: function ( error, element ) {
+            $(element).closest(".form-group").append(error);
+        },
+    });
 </script>
 @endscript

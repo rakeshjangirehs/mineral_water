@@ -22,17 +22,17 @@ class Leads extends MY_Controller {
             array(
                 'field' => 'phone_1',
                 'label' => 'Contact No.',
-                'rules' => 'required|numeric|max_length[12]|min_length[6]'
+                'rules' => 'required|numeric|max_length[12]|min_length[6]|callback_check_duplicate_phone|callback_not_equal[phone_2]'
             ),
             array(
                 'field' => 'phone_2',
                 'label' => 'Contact No.',
-                'rules' => 'numeric|max_length[12]|min_length[6]'
+                'rules' => 'numeric|max_length[12]|min_length[6]|callback_check_duplicate_phone|callback_not_equal[phone_1]'
             ),
             array(
                 'field' => 'email',
                 'label' => 'Email',
-                'rules' => 'valid_email|max_length[200]'
+                'rules' => 'valid_email|max_length[200]|callback_check_duplicate_email'
             ),
         );
 	}
@@ -96,7 +96,7 @@ class Leads extends MY_Controller {
                     'phone_2'  =>  ($this->input->post('phone_2')) ? $this->input->post('phone_2') : null,
                 );
 
-                if($this->lead->insert_update($data,$zipcode_group_id)){
+                if($this->lead->add_update($data,$zipcode_group_id)){
                     $msg = 'Lead Created Successfully.';
                     $type = 'success';
                     if($zipcode_group_id){
@@ -123,5 +123,39 @@ class Leads extends MY_Controller {
             $this->flash("error","Lead not Deleted");
         }
         redirect("leads/index");
+    }
+
+    public function check_duplicate_phone($new_phone){
+
+        $lead_id = $this->uri->segment(3);
+
+        if($new_phone && !$this->lead->check_duplicate("leads","phone_1,phone_2", $new_phone, $lead_id)){
+            $this->form_validation->set_message('check_duplicate_phone',"Phone No. {$new_phone} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function check_duplicate_email($new_email){
+
+        $lead_id = $this->uri->segment(3);
+
+        if($new_email && !$this->lead->check_duplicate("leads","email", $new_email, $lead_id)){
+            $this->form_validation->set_message('check_duplicate_email',"{$new_email} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    public function not_equal($new_value,$field_to_compare){
+        $val_to_compare =  $this->input->post($field_to_compare);
+        if($val_to_compare == $new_value){
+            $this->form_validation->set_message('not_equal',"Phone 1 and Phone 2 must be distinct.");
+            return false;
+        }else{
+            return true;
+        }
     }
 }

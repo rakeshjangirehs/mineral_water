@@ -42,7 +42,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label" for="dimension">Brand</label>
-                                    <select class="form-control select2" name="brand_id" id="brand_id" data-placeholder="Choose Brand" required>
+                                    <select class="form-control select2" name="brand_id" id="brand_id" data-placeholder="Choose Brand">
                                         <option value=""></option>
                                         <?php
                                             foreach($brands as $brand){

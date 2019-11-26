@@ -24,9 +24,118 @@ class Clients extends MY_Controller {
                 'label' => 'Address',
                 'rules' => 'max_length[500]'
             ),
+            array(
+                'field' => 'state_id',
+                'label' => 'State',
+                'rules' => 'required|integer'
+            ),
+            array(
+                'field' => 'city_id',
+                'label' => 'City',
+                'rules' => 'required|integer'
+            ),
+            array(
+                'field' => 'zip_code_id',
+                'label' => 'ZIP Code',
+                'rules' => 'required|integer'
+            ),
+
+            array(
+                'field' => 'contact_person_name_1',
+                'label' => 'Name',
+                'rules' => 'required|max_length[200]'
+            ),
+            array(
+                'field' => 'contact_person_1_phone_1',
+                'label' => 'Contact No',
+                'rules' => 'required|integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+            ),
+            array(
+                'field' => 'contact_person_1_phone_2',
+                'label' => 'Contact No',
+                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+            ),
+            array(
+                'field' => 'contact_person_1_email',
+                'label' => 'Email',
+                'rules' => 'required|valid_email|max_length[200]|callback_check_duplicate_email'
+            ),
+
+            array(
+                'field' => 'contact_person_name_2',
+                'label' => 'Name',
+                'rules' => 'max_length[200]'
+            ),
+            array(
+                'field' => 'contact_person_2_phone_1',
+                'label' => 'Contact No',
+                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+            ),
+            array(
+                'field' => 'contact_person_2_phone_2',
+                'label' => 'Contact No',
+                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+            ),
+            array(
+                'field' => 'contact_person_2_email',
+                'label' => 'Email',
+                'rules' => 'valid_email|max_length[200]|callback_check_duplicate_email'
+            ),
 
         );
-	}
+    }
+    
+    public function check_duplicate_phone($new_phone){
+
+        $user_id = $this->uri->segment(3);
+
+        if($new_phone && !$this->client->check_duplicate("clients","contact_person_1_phone_1,contact_person_1_phone_2,contact_person_2_phone_1,contact_person_2_phone_2", $new_phone, $user_id)){
+            $this->form_validation->set_message('check_duplicate_phone',"{$new_phone} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function check_duplicate_email($new_email){
+
+        $user_id = $this->uri->segment(3);
+
+        if($new_email && !$this->client->check_duplicate("clients","contact_person_1_email,contact_person_2_email", $new_email, $user_id)){
+            $this->form_validation->set_message('check_duplicate_email',"{$new_email} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function not_equal_phone($new_value){    
+
+        if($new_value){
+            
+            $contact_person_1_phone_1 =  $this->input->post("contact_person_1_phone_1");
+            $contact_person_1_phone_2 =  $this->input->post("contact_person_1_phone_2");
+            $contact_person_2_phone_1 =  $this->input->post("contact_person_2_phone_1");
+            $contact_person_2_phone_2 =  $this->input->post("contact_person_2_phone_2");
+
+            if(
+                ( $contact_person_1_phone_1 != '' && $contact_person_1_phone_2 !='' && ($contact_person_1_phone_1 == $contact_person_1_phone_2) )
+                || ( $contact_person_1_phone_1 != '' && $contact_person_2_phone_1 !='' && ($contact_person_1_phone_1 == $contact_person_2_phone_1) )
+                || ( $contact_person_1_phone_1 != '' && $contact_person_2_phone_2 !='' && ($contact_person_1_phone_1 == $contact_person_2_phone_2) )
+                || ( $contact_person_1_phone_2 != '' && $contact_person_2_phone_1 !='' && ($contact_person_1_phone_2 == $contact_person_2_phone_1) )
+                || ( $contact_person_1_phone_2 != '' && $contact_person_2_phone_2 !='' && ($contact_person_1_phone_2 == $contact_person_2_phone_2) )
+                || ( $contact_person_2_phone_1 != '' && $contact_person_2_phone_2 !='' && ($contact_person_2_phone_1 == $contact_person_2_phone_2) )
+            ){
+                $this->form_validation->set_message('not_equal_phone',"Phone No. must be distinct.");
+                return false;
+            }else{
+                return true;
+            }
+
+        }else{
+            return true;
+        }
+    }
 
 	public function index(){
 		if($this->input->is_ajax_request()){
@@ -123,7 +232,7 @@ class Clients extends MY_Controller {
                 );
 
                 // add or update records
-                if ($this->client->insert_update($userData, $id)) {
+                if ($this->client->add_update($userData, $id)) {
                     $msg = 'Client created successfully.';
                     $type = 'success';
                     if ($id) {
@@ -407,18 +516,6 @@ class Clients extends MY_Controller {
         }
 
         $this->load_content('client/client_contact_list', $this->data);
-    }
-
-    public function check_duplicate_email($new_email){
-
-	    $client_id = $this->uri->segment(3);
-
-	    if($new_email && $this->client->check_exist("email", $new_email, $client_id)){
-            $this->form_validation->set_message('check_duplicate_email',"Email id {$new_email} already exist.");
-            return false;
-        }else{
-	        return true;
-        }
     }
 
 }
