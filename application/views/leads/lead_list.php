@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="email" class="control-label">Email:</label>
-                                            <input type="email" name="email" id="email" class="form-control" value="<?php echo (isset($_POST['email']))? set_value('email') : $group_details['email']; ?>" />
+                                            <input type="text" name="email" id="email" class="form-control" value="<?php echo (isset($_POST['email']))? set_value('email') : $group_details['email']; ?>" />
                                             <span class="messages"><?php echo form_error('email');?></span>
                                         </div>
                                         <div class="form-group">
@@ -93,6 +93,61 @@
     // to active the sidebar
     // $('.nav .nav-list').activeSidebar('.zipcodegroup_li');
     $(".leads_li").active();
+
+    var validator = $("#tagFrm").validate({
+        rules   : 	{
+                        "company_name"		:	{
+                            required:true,
+                            maxlength: 200,
+                        },
+                        "contact_person_name":	{
+                            required:true,
+                            maxlength: 200,
+                        },
+                        "phone_1"		:	{
+                            required:true,
+                            maxlength: 12,
+                            minlength: 6,
+                            remote:	function(){
+                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=leads&fieldsToCompare=phone_1,phone_2&fieldName=phone_1&id=<?php echo $zipcode_group_id;?>"
+                            },
+                            notEqual:"#phone_2"
+                        },
+                        "email"		:	{
+                            maxlength: 200,
+                            email: true,
+                            remote:	function(){
+                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=leads&fieldsToCompare=email&fieldName=email&id=<?php echo $zipcode_group_id;?>"
+                            },                            
+                        },
+                        "phone_2"		:	{
+                            maxlength: 12,
+                            minlength: 6,
+                            remote:	function(){
+                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=leads&fieldsToCompare=phone_1,phone_2&fieldName=phone_2&id=<?php echo $zipcode_group_id;?>"
+                            },
+                            notEqual:"#phone_1"
+                        },
+                    },
+        messages	:	{
+            phone_1		:	{
+                remote			:	"Phone 1 already Exists",
+                notEqual		:	"Phone 1 and Phone 2 must be different",
+            },
+            phone_2		:	{
+                remote			:	"Phone 2 already Exists",
+                notEqual		:	"Phone 1 and Phone 2 must be different",
+            },
+            email		:	{
+                remote			:	"Email already Exists"
+            },
+        },
+        errorElement: "p",
+        errorClass:"text-danger error",
+        errorPlacement: function ( error, element ) {
+            $(element).closest(".form-group").append(error);
+        },
+    });
 
     var zipcodegroup_id = <?php echo ($zipcode_group_id) ? $zipcode_group_id : "null";?>;
     var table = $("#dynamic-table");

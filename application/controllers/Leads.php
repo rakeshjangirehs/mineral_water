@@ -12,17 +12,27 @@ class Leads extends MY_Controller {
             array(
                 'field' => 'company_name',
                 'label' => 'Company Name',
-                'rules' => 'required'
+                'rules' => 'required|max_length[200]'
             ),
             array(
                 'field' => 'contact_person_name',
                 'label' => 'Contact Person Name',
-                'rules' => 'required'
-            ),
+                'rules' => 'required|max_length[200]'
+            ),            
             array(
                 'field' => 'phone_1',
                 'label' => 'Contact No.',
-                'rules' => 'required'
+                'rules' => 'required|numeric|max_length[12]|min_length[6]'
+            ),
+            array(
+                'field' => 'phone_2',
+                'label' => 'Contact No.',
+                'rules' => 'numeric|max_length[12]|min_length[6]'
+            ),
+            array(
+                'field' => 'email',
+                'label' => 'Email',
+                'rules' => 'valid_email|max_length[200]'
             ),
         );
 	}

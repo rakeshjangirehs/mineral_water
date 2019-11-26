@@ -24,7 +24,7 @@ class Vehicles extends MY_Controller {
             array(
                 'field' => 'capacity_in_ton',
                 'label' => 'Vehicle Capacity',
-                'rules' => 'required|numeric'
+                'rules' => 'required|numeric|less_than[100000]'
             ),
         );
 	}

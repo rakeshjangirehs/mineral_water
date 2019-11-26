@@ -76,9 +76,17 @@
         rules   : 	{
                         "brand_name"		:	{
                             required:true,
-                            maxlength: 200
+                            maxlength: 200,
+                            remote:	function(){
+                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=brands&fieldsToCompare=brand_name&fieldName=brand_name&id=<?php echo $vehicle_id;?>"
+                            }
                         },
                     },
+        messages	:	{
+            brand_name		:	{
+                remote			:	"Brand Name already Exists"
+            },
+        },
         errorElement: "p",
         errorClass:"text-danger error",
         errorPlacement: function ( error, element ) {

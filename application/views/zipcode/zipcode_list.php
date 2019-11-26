@@ -115,12 +115,18 @@
     // for integer validation
     zipcode.forceInt();
 
+    var zip_code_id = "";
+    
     var validator = deptFrm.validate({
         rules		: 	{
                             "zipcode"		:	{
                                 required:true,
                                 digits:true,
-                                maxlength:8
+                                minlength:6,
+                                maxlength:6,
+                                remote:	function(){
+                                    return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>"+"?table=zip_codes&fieldsToCompare=zip_code&fieldName=zipcode&id="+zip_code_id
+                                }
                             },
                             "area"		:	{
                                 required:true,
@@ -135,6 +141,11 @@
                                 digits:true
                             },
                         },
+        messages	:	{
+                zipcode		:	{
+                        remote			:	"ZipCode already Exists"
+                    },
+        },
 
         errorElement: "p",
         errorClass:"text-danger error",
@@ -190,6 +201,7 @@
 			var $this = $(this);
 			reset_form();
 
+            zip_code_id = $this.data('id');
 			$form_title.text("Update ZIP Code");
             $submit_button.text("Update");
             $parent_tr = $(this).closest('tr').addClass('active_row');
@@ -206,6 +218,7 @@
 		});
 
 	function reset_form(){
+        zip_code_id = "";
         validator.resetForm();
 		deptFrm.trigger("reset");
 		zip_id.val("");

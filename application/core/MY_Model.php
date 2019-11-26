@@ -199,4 +199,32 @@ class MY_Model extends CI_Model{
 		);
 		return json_encode($json_data);
 	}
+
+	public function check_duplicate($table,$fieldsToCompare, $new_value, $user_id=null){
+		
+		$fieldsToCompare = explode(",",$fieldsToCompare);
+
+		$query = "SELECT * FROM `{$table}`";
+		if(count($fieldsToCompare)>1){
+			
+			foreach($fieldsToCompare as $k=>$field){
+				$fieldsToCompare[$k] = "`{$field}` = '$new_value'";
+			}
+			
+			$query .= " WHERE (" . implode(" OR ",$fieldsToCompare) . ")";
+
+		}else{
+			$query .= " WHERE `{$fieldsToCompare[0]}` = '$new_value'";
+		}		
+		
+		$query .= ($user_id) ? " AND `id` != $user_id" : "";
+		
+		$this->db->query($query);
+
+		if( $this->db->affected_rows() ){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }

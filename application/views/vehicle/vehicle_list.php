@@ -85,19 +85,28 @@
 
     var validator = $("#tagFrm").validate({
         rules   : 	{
-                        "name"		:	{
-                            required:true,
-                            maxlength: 200
-                        },
-                        "number"		:	{
-                            required:true,
-                            maxlength: 30,
-                        },
-                        "capacity_in_ton"		:	{
-                            required:true,
-                            digits:true,
-                        }
-                    },
+            "name"		:	{
+                required:true,
+                maxlength: 200
+            },
+            "number"		:	{
+                required:true,
+                maxlength: 30,
+                remote:	function(){
+                    return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=vehicle&fieldsToCompare=number&fieldName=number&id=<?php echo $vehicle_id;?>"
+                }
+            },
+            "capacity_in_ton"		:	{
+                required:true,
+                digits:true,
+                max:100000,
+            }
+        },
+        messages	:	{
+            number		:	{
+                remote			:	"Vehicle Number already Exists"
+            },
+        },
         errorElement: "p",
         errorClass:"text-danger error",
         errorPlacement: function ( error, element ) {

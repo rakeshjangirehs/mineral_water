@@ -160,3 +160,7 @@ $.fn.forceInt = function () {
         });
     });
 }
+
+jQuery.validator.addMethod("notEqual", function(value, element, param) {
+    return this.optional(element) || value != $(param).val();
+   }, "This has to be different...");

@@ -242,5 +242,20 @@ class MY_Controller extends CI_Controller {
         $mpdf->Output($file_name,$modeArr[$mode]);
     }
 
+    public function check_unique_ajax(){
+        // {
+        //     table: zip_codes
+        //     fieldsToCompare: zip_code
+        //     fieldName: zipcode
+        //     id: 
+        //     zipcode: 302012
+        // }
+        // echo json_encode($_GET);die;
+        
+
+        extract($this->input->get());        
+		echo json_encode($this->model->check_duplicate($table,$fieldsToCompare, $$fieldName, $id));
+
+	}
 }
 ?>
