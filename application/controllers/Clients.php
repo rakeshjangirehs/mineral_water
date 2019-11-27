@@ -2,8 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Clients extends MY_Controller {
+
 	public function __construct(){
-		parent::__construct();
+
+        parent::__construct();
+        
 		$this->load->model('client');
 		$this->load->model('user');
 
@@ -83,6 +86,24 @@ class Clients extends MY_Controller {
             ),
 
         );
+
+        $this->client_address_validation_config = array(
+            array(
+                'field' => 'title',
+                'label' => 'Title',
+                'rules' => 'trim|required|max_length[200]'
+            ),
+            array(
+                'field' => 'address',
+                'label' => 'Address',
+                'rules' => 'trim|required|max_length[500]'
+            ),
+            array(
+                'field' => 'zip_code_id',
+                'label' => 'Zip Code',
+                'rules' => 'required|integer'
+            ),
+        );
     }
     
     public function check_duplicate_phone($new_phone){
@@ -138,7 +159,9 @@ class Clients extends MY_Controller {
     }
 
 	public function index(){
+
 		if($this->input->is_ajax_request()){
+
 			$colsArr = array(
 				'`clients`.`client_name`',
 				'`clients`.`gst_no`',
@@ -155,10 +178,27 @@ class Clients extends MY_Controller {
 						->common_get('clients');
 
 			echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0");die;
-		}
+        }
+        
 		$this->data['page_title'] = 'Client List';
 		$this->load_content('client/client_list', $this->data);
-	}
+    }
+    
+    public function client_export(){
+		$query = $this
+                    ->model
+                    ->common_select('`clients`.`client_name`,`clients`.`gst_no`, `clients`.`credit_limit`,`clients`.`address`,`zip_codes`.`zip_code`')
+                    ->common_join('zip_codes','zip_codes.id = clients.zip_code_id','LEFT')
+                    ->common_where('clients.is_deleted = 0')
+                    ->common_get('clients');
+
+		$resultData = $this->db->query($query)->result_array();
+		$headerColumns = implode(',', array_keys($resultData[0]));
+		$filename = 'clients-'.time().'.xlsx';
+		$title = 'Client List';
+		$sheetTitle = 'Client List';
+		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
+    }
 
 	public function add_update( $id = NULL ){
         
@@ -358,36 +398,6 @@ class Clients extends MY_Controller {
             redirect("clients/price_list/{$client_id}");
         }		
     }
-
-	public function add_location($id=null){
-        echo "Feedback Required";
-        $client = $this->client->get_client_by_id($id);
-        $this->data['client'] = $client;
-
-        if($this->input->server("REQUEST_METHOD") == "POST"){
-
-        }
-
-        $this->data['page_title'] = 'Client Location';
-        $this->data['sub_page_title'] = "{$client['first_name']} {$client['last_name']}";
-        $this->load_content('client/client_location', $this->data);
-    }
-
-	public function client_export(){
-		$query = $this
-                    ->model
-                    ->common_select('`clients`.`client_name`,`clients`.`credit_limit`,`clients`.`address`,`zip_codes`.`zip_code`')
-                    ->common_join('zip_codes','zip_codes.id = clients.zip_code_id','LEFT')
-                    ->common_where('clients.is_deleted = 0')
-                    ->common_get('clients');
-
-		$resultData = $this->db->query($query)->result_array();
-		$headerColumns = implode(',', array_keys($resultData[0]));
-		$filename = 'clients-'.time().'.xlsx';
-		$title = 'Client List';
-		$sheetTitle = 'Client List';
-		$this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
-    }
     
     public function price_list_sample($client_id){
 
@@ -467,7 +477,87 @@ class Clients extends MY_Controller {
           redirect("clients/price_list/{$client_id}");
     }
 
-	public function contacts($client_id,$contact_id=NULL){
+    public function client_delivery_addresses($client_id, $address_id=NULL){
+
+        $this->data['client_id'] = $client_id;
+        $this->data['address_id'] = $address_id;
+
+        if($address_id){
+            $address = $this->db->get_where("client_delivery_addresses","id = {$address_id}")->row_array();
+            $this->data['form_title'] = 'Update Address';
+        }else{
+            $address = array(
+                'title'     =>  null,
+                'address'   =>  null,
+                'zip_code_id'=>  null,
+            );
+            $this->data['form_title'] = 'Add Address';
+        }
+
+        if($this->input->is_ajax_request()){
+			$colsArr = array(
+				'title',
+                'address',
+                'zip_codes.zip_code',
+				'action'
+			);
+
+            $query = $this
+                ->model
+                ->common_select("client_delivery_addresses.*,zip_codes.zip_code")
+                ->common_join('`zip_codes`','`zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`','LEFT')
+                ->common_get('`client_delivery_addresses`');
+
+			echo $this->model->common_datatable($colsArr, $query, "client_delivery_addresses.is_deleted = 0 AND client_delivery_addresses.client_id = {$client_id}");die;
+		}
+
+        if($this->input->server("REQUEST_METHOD") == "POST"){
+            
+            $this->form_validation->set_rules($this->client_address_validation_config);
+
+            if ($this->form_validation->run() == TRUE) {
+
+                $data = array(
+                    'title'      =>  $this->input->post('title'),
+                    'address'    =>  $this->input->post('address'),
+                    'zip_code_id'=>  $this->input->post('zip_code_id'),
+                );
+
+                if ($this->client->add_update_address($data, $address_id)) {
+                    
+                    $msg = ($address_id) ? 'Client updated successfully.' : 'Address created successfully.';
+                    $this->flash('success', $msg);
+
+                } else {
+                    $this->flash('error', 'Some error ocurred. Please try again later.');
+                }
+                redirect("clients/client_delivery_addresses/{$client_id}", 'location');
+            }
+        }
+
+        $this->data['address'] = $address;
+        $this->data['page_title'] = 'Client Delivery Addresses';
+        $this->data['all_zipcodes'] = array_column($this->db->get_where("zip_codes")->result_array(),"zip_code","id");
+
+		$this->load_content('client/client_delivery_addresses', $this->data);
+    }
+
+    
+    public function add_location($id=null){
+        echo "Feedback Required";
+        $client = $this->client->get_client_by_id($id);
+        $this->data['client'] = $client;
+
+        if($this->input->server("REQUEST_METHOD") == "POST"){
+
+        }
+
+        $this->data['page_title'] = 'Client Location';
+        $this->data['sub_page_title'] = "{$client['first_name']} {$client['last_name']}";
+        $this->load_content('client/client_location', $this->data);
+    }
+
+    public function contacts($client_id,$contact_id=NULL){
 
         $this->data['client'] = $this->model->get("clients",$client_id,'id');
         $this->data['client_contacts'] = $this->model->get("client_contacts",$client_id,'client_id',true);

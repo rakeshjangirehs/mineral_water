@@ -69,13 +69,13 @@ class Leads extends MY_Controller {
                 'contact_person_name',
                 'email',
                 'phone_1',
-                'phone_2',
+                "(CASE WHEN `is_converted`=1 THEN 'Yes' ELSE 'No' END)",
 				'action'
 			);
 
             $query = $this
                 ->model
-                ->common_select('`leads`.*')
+                ->common_select("`leads`.*,(CASE WHEN `is_converted`=1 THEN 'Yes' ELSE 'No' END) AS `conversion_status`")
                 ->common_get('`leads`');
 
 			echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0");die;

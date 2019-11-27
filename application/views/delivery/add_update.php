@@ -362,7 +362,7 @@
 
                 // console.log("onInit",event,currentIndex);                
                 initialization();
-                console.log("Init");
+                // console.log("Init");
 
             },
 
@@ -373,8 +373,8 @@
                        
             onStepChanging: function(event, currentIndex, newIndex) {
                 
-                console.log("onStepChanging");
-                console.log(currentIndex, newIndex);
+                // console.log("onStepChanging");
+                // console.log(currentIndex, newIndex);
 
                 // Allways allow previous action even if the current form is not valid!
                 if (currentIndex > newIndex) {
@@ -445,12 +445,12 @@
             },*/
             onFinishing: function(event, currentIndex) {
 
-                console.log("onFinishing");
+                // console.log("onFinishing");
                 // form.validate().settings.ignore = ":disabled";
                 return form.valid();
             },
             onFinished: function(event, currentIndex) {
-                console.log("onFinished");
+                // console.log("onFinished");
                 // alert("Submitted!");
                 form.submit();
             }

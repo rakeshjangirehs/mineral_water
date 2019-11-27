@@ -120,10 +120,11 @@ class Delivery_model extends CI_Model {
 						SUM(products.weight) as `order_weight`
 					FROM orders
 					LEFT JOIN clients on clients.id = orders.client_id
-					LEFT JOIN zip_codes on clients.zip_code_id = zip_codes.id
 					LEFT JOIN order_items on order_items.order_id = orders.id
 					LEFT JOIN products on products.id = order_items.product_id
-					WHERE clients.zip_code_id IN (
+					LEFT JOIN client_delivery_addresses on client_delivery_addresses.id = orders.delivery_address_id
+					LEFT JOIN zip_codes on client_delivery_addresses.zip_code_id = zip_codes.id
+					WHERE client_delivery_addresses.zip_code_id IN (
 						SELECT
 							DISTINCT(group_to_zip_code.zip_code_id) as zip_code_id
 						FROM zip_code_groups

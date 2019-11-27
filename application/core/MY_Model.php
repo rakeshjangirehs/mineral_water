@@ -194,9 +194,12 @@ class MY_Model extends CI_Model{
 			"draw"            => intval( $request['draw'] ),
 			"recordsTotal"    => intval( $records_total ),
 			"recordsFiltered" => intval( $records_filtered ),
-			"data"            => $data,
-			// "query"=>$this->db->last_query()
+			"data"            => $data,			
 		);
+
+		if(ENVIRONMENT == 'development'){
+			$json_data["query"]	=	trim(preg_replace('/\s\s+/', ' ', $this->db->last_query()	));
+		}
 		return json_encode($json_data);
 	}
 

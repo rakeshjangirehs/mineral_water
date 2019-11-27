@@ -57,6 +57,34 @@ class Client extends MY_Model {
         }
     }
 
+    public function add_update_address($data,$address_id=NULL){
+        
+        $this->db->trans_start();
+
+        if($address_id){
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $data['updated_by'] = USER_ID;
+
+            $this->db->where("id", $address_id);
+            $this->db->update("client_delivery_addresses", $data);
+
+        }else{
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $data['created_by'] = USER_ID;
+
+            $this->db->insert("client_delivery_addresses", $data);
+            $address_id = $this->db->insert_id();
+        }
+
+        $this->db->trans_complete();
+        
+        if($this->db->trans_status()){
+            return $address_id;
+        }else{
+            return false;
+        }
+    }
+
     public function insert_update_client_contact($data,$client_id,$contact_id=null,$create_by=NULL){
 
         $this->db->trans_start();

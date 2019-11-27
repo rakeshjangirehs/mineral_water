@@ -1204,6 +1204,14 @@ class ApiV1 extends REST_Controller {
                 "payment_mode":"Cash",
                 "payment_schedule_date":"2019-12-15",
                 "payment_schedule_time":"18:00:00",
+                "contact_person_name_2":"Mr Unknown",
+                "contact_person_2_phone_1":"9999999999",
+                "contact_person_2_email":"test@test.com",
+                "state_id":"2",
+                "city_id":"3",
+                "city_id":"3",
+                "zip_code_id":"1",
+                "gst_no":"GPC1134",
                 "order_details":[
                     {
                         "product_id": 1,
@@ -1300,6 +1308,15 @@ class ApiV1 extends REST_Controller {
                             'contact_person_name_1'     =>  $lead['contact_person_name'],
                             'contact_person_1_phone_1'  =>  $lead['phone_1'],
                             'contact_person_1_email'    =>  $lead['email'],
+
+                            'contact_person_name_2'     =>  (isset($orders['contact_person_name_2']) && $orders['contact_person_name_2']!='') ? $orders['contact_person_name_2'] : null,
+                            'contact_person_2_phone_1'  =>  (isset($orders['contact_person_2_phone_1']) && $orders['contact_person_2_phone_1']!='') ? $orders['contact_person_2_phone_1'] : null,
+                            'contact_person_2_email'    =>  (isset($orders['contact_person_2_email']) && $orders['contact_person_2_email']!='') ? $orders['contact_person_2_email'] : null,
+                            'gst_no'                    =>  (isset($orders['gst_no']) && $orders['gst_no']!='') ? $orders['gst_no'] : null,
+
+                            'state_id'                  =>  (isset($orders['state_id']) && $orders['state_id']!='') ? $orders['state_id'] : null,
+                            'city_id'                   =>  (isset($orders['city_id']) && $orders['city_id']!='') ? $orders['city_id'] : null,
+                            
                             'created_at'                =>  date('Y-m-d H:i:s'),
                             'created_by'                =>  $user_id,
                         );
@@ -1351,7 +1368,7 @@ class ApiV1 extends REST_Controller {
                         'created_by'    =>  $user_id,
                     );
 
-                    if($orderId = $this->order->insert_order($arrOrder, $arrOrderItems,$arrClient)){
+                    if($orderId = $this->order->add_order($arrOrder, $arrOrderItems,$arrClient)){
                         $this->response([
                             'status' => TRUE,
                             'message' => 'Order placed successfully.',
@@ -1382,7 +1399,44 @@ class ApiV1 extends REST_Controller {
         }
     }
 
-                                                                    /*---------- Order /  Scheme -----------*/
+    /*
+        Get Order List, Optionally can be filtered based on salesman who placed the order.
+        @author Rakesh Jangir
+    */
+    public function orders_get($user_id=NULL){
+
+        $where = " 1=1";
+        $where .= ($user_id) ? " AND `orders`.`created_by` = {$user_id}" : "";
+
+        $query = "SELECT
+                    `clients`.`client_name`,
+                    `orders`.`payable_amount`,
+                    `orders`.`expected_delivery_date`,
+                    `orders`.`priority`,	
+                    `orders`.`order_status`,
+                    SUM(`order_items`.`quantity`) AS `product_count`
+                FROM `orders`
+                LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                LEFT JOIN `order_items` ON `order_items`.`order_id` = `orders`.`id`
+                WHERE {$where}
+                GROUP BY `orders`.`id`";
+        
+        if($orders = $this->db->query($query)->result_array()){
+            $this->response([
+                'status' => TRUE,
+                'message' => 'Data found.',
+                'data' => $orders
+            ], REST_Controller::HTTP_OK);
+        }else{
+            $this->response([
+                'status' => FALSe,
+                'message' => 'Data not found.',
+                'data' => []
+            ], REST_Controller::HTTP_OK);
+        }        
+    }
+
+                                                                    /*---------- Client -----------*/
     /*
         Get List of delivery addresses based on client_id
         @author Rakesh Jangir

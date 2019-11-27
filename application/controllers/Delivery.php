@@ -148,11 +148,6 @@ class Delivery extends MY_Controller {
 
         $data = [];
 
-        // if($selected_orders){
-        //     $whr .= " AND (orders.id in(" . implode(",",$selected_orders) . ") OR orders.delivery_id IS NULL)";
-        // }
-
-        
         if($selected_orders = $this->input->post('selected_orders')){
             $whr = "( orders.delivery_id IS NULL OR orders.id IN (". implode(",",$selected_orders) ."))";
         }else{

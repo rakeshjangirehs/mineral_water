@@ -13,7 +13,7 @@
                                         <th>Contact Person</th>
                                         <th>Email</th>
                                         <th>Phone 1</th>
-                                        <th>Phone 2</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -168,7 +168,7 @@
                 { "data": "contact_person_name" },
                 { "data": "email" },
                 { "data": "phone_1" },
-                { "data": "phone_2" },
+                { "data": "conversion_status" },
                 {
                     "data": 'action',
                     "orderable" : false,
