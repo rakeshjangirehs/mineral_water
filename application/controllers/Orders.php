@@ -127,6 +127,7 @@
         $order = $this->get_order($id);
         
         $this->data['id'] = $id;
+        // echo "<pre>";print_r($order);die;
         $this->data['order'] = $order;
         $this->data['page_title'] = 'Order Details';
         $this->load_content('order/order_details', $this->data);

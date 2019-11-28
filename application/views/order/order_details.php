@@ -114,7 +114,7 @@
                         <div class="col-sm-12">
                             <table class="table table-responsive invoice-table invoice-total">
                                 <tbody>
-                                <tr>
+                                <!--<tr>
                                     <th>Sub Total :</th>
                                     <td>$4725.00</td>
                                 </tr>
@@ -125,7 +125,7 @@
                                 <tr>
                                     <th>Discount (5%) :</th>
                                     <td>$45.00</td>
-                                </tr>
+                                </tr>-->
                                 <tr class="text-info">
                                     <td>
                                         <hr>
@@ -133,7 +133,7 @@
                                     </td>
                                     <td>
                                         <hr>
-                                        <h5 class="text-primary">$4827.00</h5>
+                                        <h5 class="text-primary"><?php echo $order['payable_amount'];?></h5>
                                     </td>
                                 </tr>
                                 </tbody>

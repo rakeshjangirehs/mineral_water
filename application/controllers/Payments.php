@@ -45,6 +45,8 @@ class Payments extends MY_Controller {
 
             $this->db->trans_start();
 
+            $order_status_update = [];
+
             if($this->db->insert("payments",$paymnent_data)){
 
                 $payment_id = $this->db->insert_id();
@@ -68,13 +70,25 @@ class Payments extends MY_Controller {
                         unset($payments[$k]);
                     }elseif($total_payment < $outstanding_amount){
                         $payments[$k]['status'] = 'PARTIAL';
+                        $order_status_update[] = array(
+                            'id'  =>  $payment['order_id'],
+                            'payment_status' => 'Partial'
+                        );
                     }else{
                         $payments[$k]['status'] = 'PAID';
+                        $order_status_update[] = array(
+                            'id'  =>  $payment['order_id'],
+                            'payment_status' => 'Paid'
+                        );
                     }
                 }
 
                 if($total_credit_used){
                     $this->db->update("payments",array('credit_balance_used'=>$total_credit_used),array('id'=>$payment_id));
+                }
+
+                if($order_status_update){
+                    $this->db->update_batch("orders",$order_status_update,'id');
                 }
 
                 if($payments){

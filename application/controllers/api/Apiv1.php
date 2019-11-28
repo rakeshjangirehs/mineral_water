@@ -8,6 +8,7 @@ require APPPATH . 'libraries/Format.php';
 class ApiV1 extends REST_Controller {
 
     public function __construct() { 
+
         parent::__construct();
         
         // Load the user model
@@ -16,6 +17,25 @@ class ApiV1 extends REST_Controller {
         $this->load->model('activity');
         $this->load->model('order_model', 'order');
         $this->load->helper('url');
+
+        $this->baseUrl = base_url()."index.php/";
+        $this->client_signature_path = FCPATH. 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'signatures'.DIRECTORY_SEPARATOR;
+        $this->system_setting = $this->user->get_settings();
+
+        $this->dashboard_images = array(
+            array(
+                "name"=>'product-edit1.jpg',
+                "url"=>base_url()."files/assets/images/product-edit/product-edit1.jpg"
+            ),
+            array(
+                "name"=>'product-edit2.jpg',
+                "url"=>base_url()."files/assets/images/product-edit/product-edit2.jpg"
+            ),
+            array(
+                "name"=>'product-edit3.jpg',
+                "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
+            )
+        );
     }
     
     public function send_notification( $deviceIds = array(), $msg = 'test' ){
@@ -81,117 +101,7 @@ class ApiV1 extends REST_Controller {
     
     
 
-    // dashboards
-    public function sales_dashboard_get($user_id){
-
-        $date = date('Y-m-d');
-
-        $dashboard = array(
-            'today_visits'=>0,
-            'today_orders'=>0,
-            'today_leads'=>0,
-            'images'=>array(
-                array(
-                    "name"=>'product-edit1.jpg',
-                    "url"=>base_url()."files/assets/images/product-edit/product-edit1.jpg"
-                ),
-                array(
-                    "name"=>'product-edit2.jpg',
-                    "url"=>base_url()."files/assets/images/product-edit/product-edit2.jpg"
-                ),
-                array(
-                    "name"=>'product-edit3.jpg',
-                    "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
-                )
-            )
-        );
-        $this->db
-            ->select("*")
-            ->from('client_visits')
-            ->where('created_by', $user_id)
-            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
-            ->get();
-        $dashboard['today_visits'] = $this->db->affected_rows();
-
-        $this->db
-            ->select("*")
-            ->from('orders')
-            ->where('created_by', $user_id)
-            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
-            ->get();
-
-        $dashboard['today_orders'] = $this->db->affected_rows();
-
-        $this->db
-            ->select("*")
-            ->from('leads')
-            ->where('created_by', $user_id)
-            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
-            ->get();
-
-        $dashboard['today_leads'] = $this->db->affected_rows();
-
-        $this->response(
-            array(
-            'status' => TRUE,
-            'message' => "Dashboard",
-            'data' => $dashboard
-            ),
-        REST_Controller::HTTP_OK
-        );
-    }
-
-    //Get Clients by Salesman
-    public function clients_by_salesman_get($user_id){
-
-        $query = "SELECT 
-                        clients.*
-                    FROM clients
-                    WHERE `clients`.`is_deleted` = 0 
-                    AND (zip_code_id IN (
-                            SELECT
-                                `user_zip_codes`.`zip_code_id`
-                            FROM `users`
-                            LEFT JOIN `user_zip_codes` ON `user_zip_codes`.`user_id` = `users`.`id`
-                            WHERE `users`.`id` = {$user_id}
-                        )
-                        OR zip_code_id IN (
-                            SELECT
-                                `group_to_zip_code`.`zip_code_id`
-                            FROM `users`
-                            LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
-                            LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `user_zip_code_groups`.`zip_code_group_id`
-                            WHERE `users`.`created_by` = {$user_id}
-                        )
-                    )";
-        $clients = $this->db->query($query)->result_array();
-
-        if(!empty($clients)){
-            // foreach($clients as $k=>$client){
-
-            //     $contacts = $this->db->select("id,phone,person_name,is_primary")->where("client_id = {$client['id']}")->get("client_contacts")->result_array();
-            //     $clients[$k]['contacts'] = $contacts;
-            // }
-
-            $this->response(
-                array(
-                'status' => TRUE,
-                'message' => "Clients",
-                'data' => $clients
-                ),
-            REST_Controller::HTTP_OK
-            );
-        }else{
-            $this->response(
-                array(
-                'status' => FALSE,
-                'message' => "Clients not found.",
-                'data' => $clients
-                ),
-            REST_Controller::HTTP_OK
-            );
-        }
-    }
+    
 
     
 
@@ -263,12 +173,9 @@ class ApiV1 extends REST_Controller {
     }
     */
 
-    
-
-    
 
     //Get Client Contacts
-    public function contacts_get($client_id,$contact_id=NULL){
+    /*public function contacts_get($client_id,$contact_id=NULL){
 
         if($contact_id){
             $contacts = $this->db->where("id = {$contact_id}")->get("client_contacts")->result_array();
@@ -284,10 +191,10 @@ class ApiV1 extends REST_Controller {
             ),
             REST_Controller::HTTP_OK
         );
-    }
+    }*/
 
     //Add/Update Client Contact
-    public function add_update_client_contact_post(){
+    /*public function add_update_client_contact_post(){
 
         $client_id = $this->post('client_id');
         $user_id = $this->post('user_id');
@@ -347,10 +254,10 @@ class ApiV1 extends REST_Controller {
                 REST_Controller::HTTP_OK
             );
         }
-    }
+    }*/
 
     //Add Client Visit
-    public function add_client_visit_post(){
+    /*public function add_client_visit_post(){
 
         $data = array(
             'client_id'  => $this->post('client_id'),
@@ -378,70 +285,69 @@ class ApiV1 extends REST_Controller {
                 REST_Controller::HTTP_BAD_REQUEST
             );
         }
-    }
+    }*/
 
-    // delivery boy
-    public function order_delivery_post(){
-        $user_id = $this->post('user_id');
-        $order_id = $this->post('order_id');
-        $lat = $this->post('lat');
-        $lng = $this->post('lng');
+        // delivery boy
+        /*public function order_delivery_post(){
 
-        // echo "<pre>"; print_r($_FILES);die;
+            $user_id = $this->post('user_id');
+            $order_id = $this->post('order_id');
+            $lat = $this->post('lat');
+            $lng = $this->post('lng');
 
-        if(!empty($user_id) && !empty($order_id) && !empty($lat) && !empty($lng) && !empty($_FILES)){
-            // check file type validation (image only)
-            $this->file_check();
+            // echo "<pre>"; print_r($_FILES);die;
 
-            $imageData = $this->store('signature');     // generate original image upload
-        }else{
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "Provide user_id, order_id, lat, lng and signature.",
-                    'data' => []
-                ),
-                REST_Controller::HTTP_BAD_REQUEST
-            );   
-        }
-    }
+            if(!empty($user_id) && !empty($order_id) && !empty($lat) && !empty($lng) && !empty($_FILES)){
+                // check file type validation (image only)
+                $this->file_check();
 
-    // file validation
-    public function file_check(){
-        // var_dump($_FILES['signature']['type']);die;
-        $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
-        $mime = $_FILES['signature']['type'];
-        if(isset($_FILES['signature']['name']) && $_FILES['signature']['name']!=""){
-            if(!in_array($mime, $allowed_mime_type_arr)){
+                $imageData = $this->store('signature');     // generate original image upload
+            }else{
                 $this->response(
                     array(
                         'status' => FALSE,
-                        'message' => "Signature is only image file.",
+                        'message' => "Provide user_id, order_id, lat, lng and signature.",
                         'data' => []
                     ),
                     REST_Controller::HTTP_BAD_REQUEST
-                );
+                );   
             }
         }
-        return true;
-    }
-
-    // store signature
-    public function store($str){
-        $config['upload_path'] = FCPATH. 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'orders'.DIRECTORY_SEPARATOR.'signatures'.DIRECTORY_SEPARATOR;
-        $config['allowed_types'] = 'gif|jpg|png';
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload($str)) {
-            $error = array('error' => $this->upload->display_errors());
-            echo "<pre>"; print_r($error);die;
-        } else {
-            $image_data = $this->upload->data();
-            return $image_data;
+        // file validation
+        public function file_check(){
+            // var_dump($_FILES['signature']['type']);die;
+            $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
+            $mime = $_FILES['signature']['type'];
+            if(isset($_FILES['signature']['name']) && $_FILES['signature']['name']!=""){
+                if(!in_array($mime, $allowed_mime_type_arr)){
+                    $this->response(
+                        array(
+                            'status' => FALSE,
+                            'message' => "Signature is only image file.",
+                            'data' => []
+                        ),
+                        REST_Controller::HTTP_BAD_REQUEST
+                    );
+                }
+            }
+            return true;
         }
-    }
+        // store signature
+        public function store($str){
+            $config['upload_path'] = FCPATH. 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'orders'.DIRECTORY_SEPARATOR.'signatures'.DIRECTORY_SEPARATOR;
+            $config['allowed_types'] = 'gif|jpg|png';
+            $this->load->library('upload', $config);
 
-    public function client_invoice_summary_get($user_id = NULL){
+            if (!$this->upload->do_upload($str)) {
+                $error = array('error' => $this->upload->display_errors());
+                echo "<pre>"; print_r($error);die;
+            } else {
+                $image_data = $this->upload->data();
+                return $image_data;
+            }
+        }*/
+
+    /*public function client_invoice_summary_get($user_id = NULL){
         $client = array();
         $client = $this->db->query("SELECT 
                                         `clients`.*,
@@ -500,9 +406,12 @@ class ApiV1 extends REST_Controller {
                 REST_Controller::HTTP_OK
             );
         }
-    }
+    }*/
 
-    public function today_delivery_get($user_id = NULL){
+    
+
+    /*public function today_delivery_get($user_id = NULL){
+        
         if(!$user_id){
             $this->response(
                 array(
@@ -567,6 +476,66 @@ class ApiV1 extends REST_Controller {
                 'today_delivery_data'=>$main_data
             ),
             REST_Controller::HTTP_OK
+        );
+    }*/
+
+    // dashboards
+    public function sales_dashboard_get($user_id){
+
+        $date = date('Y-m-d');
+
+        $dashboard = array(
+            'today_visits'=>0,
+            'today_orders'=>0,
+            'today_leads'=>0,
+            'images'=>array(
+                array(
+                    "name"=>'product-edit1.jpg',
+                    "url"=>base_url()."files/assets/images/product-edit/product-edit1.jpg"
+                ),
+                array(
+                    "name"=>'product-edit2.jpg',
+                    "url"=>base_url()."files/assets/images/product-edit/product-edit2.jpg"
+                ),
+                array(
+                    "name"=>'product-edit3.jpg',
+                    "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
+                )
+            )
+        );
+        $this->db
+            ->select("*")
+            ->from('client_visits')
+            ->where('created_by', $user_id)
+            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
+            ->get();
+        $dashboard['today_visits'] = $this->db->affected_rows();
+
+        $this->db
+            ->select("*")
+            ->from('orders')
+            ->where('created_by', $user_id)
+            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
+            ->get();
+
+        $dashboard['today_orders'] = $this->db->affected_rows();
+
+        $this->db
+            ->select("*")
+            ->from('leads')
+            ->where('created_by', $user_id)
+            ->where('date(created_at) = "'.$date.'"', NULL, FALSE)
+            ->get();
+
+        $dashboard['today_leads'] = $this->db->affected_rows();
+
+        $this->response(
+            array(
+            'status' => TRUE,
+            'message' => "Dashboard",
+            'data' => $dashboard
+            ),
+        REST_Controller::HTTP_OK
         );
     }
 
@@ -712,10 +681,11 @@ class ApiV1 extends REST_Controller {
         }
     }
     
-    public function delivery_boy_orders_get($delivery_boy_id = NULL){
+    /*public function delivery_boy_orders_get($delivery_boy_id = NULL){
 		
 		$where = ' WHERE 1 = 1';
-		$today = date('Y-m-d');
+        $today = date('Y-m-d');
+        
 		if(!empty($delivery_boy_id)){
             $where .= ' AND `orders`.`delivery_boy_id` = "'.$delivery_boy_id.'" 
 						AND `orders`.`expected_delivery_date` < "'.$today.'"
@@ -753,7 +723,7 @@ class ApiV1 extends REST_Controller {
                 REST_Controller::HTTP_OK
             );
         }
-    }
+    }*/
     
 
                                                     /*-------------------------- Updated API ------------------------------*/
@@ -1403,17 +1373,32 @@ class ApiV1 extends REST_Controller {
         Get Order List, Optionally can be filtered based on salesman who placed the order.
         @author Rakesh Jangir
     */
-    public function orders_get($user_id=NULL){
+    public function my_order_list_post(){
+
+        $user_id= $this->input->post('user_id');
+        $start_date= $this->input->post('start_date');
+        $end_date= $this->input->post('end_date');
 
         $where = " 1=1";
         $where .= ($user_id) ? " AND `orders`.`created_by` = {$user_id}" : "";
 
+        if($start_date && $end_date){
+            $where .= " AND ( date(`orders`.`created_at`) BETWEEN '$start_date' AND '{$end_date}' )";
+        }else if($start_date){
+            $where .= " AND date(`orders`.`created_at`) >= '{$start_date}'";
+        }else if($end_date){
+            $where .= " AND date(`orders`.`created_at`) <= '{$end_date}'";
+        }
+
         $query = "SELECT
                     `clients`.`client_name`,
+                    `clients`.`contact_person_name_1`,
+                    `clients`.`contact_person_1_phone_1`,
+                    `clients`.`contact_person_1_email`,
                     `orders`.`payable_amount`,
                     `orders`.`expected_delivery_date`,
                     `orders`.`priority`,	
-                    `orders`.`order_status`,
+                    #`orders`.`order_status`,
                     SUM(`order_items`.`quantity`) AS `product_count`
                 FROM `orders`
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
@@ -1436,6 +1421,336 @@ class ApiV1 extends REST_Controller {
         }        
     }
 
+    /*
+        Get Paid, Partial, Pending Invoice counts for each client.
+        For Salesman -  Result includes all orders, created by this salesman.
+        For Delivery Boy - Result includes all orders, delivered by this delivery boy.
+        @author Rakesh Jangir
+    */
+    public function invoices_post(){
+
+        $user_id = $this->input->post("user_id");
+        $user = $this->db->select("role_id")->get_where("users","id={$user_id}")->row_array();
+        $role_id = $user['role_id'];    //1-Admin, 2-Sales, 3-Delivery Boy ,4-Loader/Driver
+
+        $where = "";
+        if($role_id == 2){
+            $where .= " AND `orders`.`created_by` = {$user_id}";
+        }else if($role_id == 3){
+            $where .= " AND `orders`.`id` IN (
+                SELECT
+                    DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
+                FROM `delivery_config_orders`
+                LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
+                WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
+            )";
+        }
+
+        if($user_id){
+
+            $query = "SELECT
+                        `clients`.`id` AS `client_id`,
+                        `clients`.`client_name`,
+                        `clients`.`contact_person_name_1`,
+                        `clients`.`contact_person_1_phone_1`,
+                        `clients`.`contact_person_1_email`,
+                        (
+                            SELECT
+                                COUNT(`orders`.`id`) as `paid_count`
+                            FROM `orders`
+                            WHERE `orders`.`payment_status` = 'Paid'
+                            AND `orders`.`client_id` = `clients`.`id` {$where}
+                        ) AS `paid_count`,
+                        (
+                            SELECT
+                                COUNT(`orders`.`id`) as `partial_count`
+                            FROM `orders`
+                            WHERE `orders`.`payment_status` = 'Partial'
+                            AND `orders`.`client_id` = `clients`.`id` {$where}
+                        ) AS `partial_count`,
+                        (
+                            SELECT
+                                COUNT(`orders`.`id`) as `pending_count`
+                            FROM `orders`
+                            WHERE `orders`.`payment_status` = 'Pending'
+                            AND `orders`.`client_id` = `clients`.`id` {$where}
+                        ) AS `pending_count`
+                    FROM `clients`
+                    GROUP BY `clients`.`id`
+                    HAVING `paid_count`>0 OR `partial_count`>0 OR `pending_count`>0";
+            
+            if($data = $this->db->query($query)->result_array()){
+                $this->response([
+                    'status' => TRUE,
+                    'message' => 'Data found.',
+                    'data' => $data
+                ], REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Data not found.',
+                    'data' => []
+                ], REST_Controller::HTTP_OK);
+            }
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'user_id is required',
+                'data' => []
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /*
+        Get list of invoices including order items for specific client
+        @author Rakesh Jangir
+    */
+    public function invoice_details_post(){
+
+        $client_id = $this->input->post('client_id');
+        $invoice_url = $this->baseUrl."api/apiv1/print_invoice/";
+
+        if($client_id){
+                $query = "SELECT
+                        `clients`.`client_name`,
+                        `clients`.`contact_person_name_1`,
+                        `clients`.`contact_person_1_phone_1`,
+                        `clients`.`contact_person_1_email`,
+                        `orders`.`id` AS `order_id`,
+                        `orders`.`payable_amount`,
+                        `orders`.`expected_delivery_date`,
+                        `orders`.`priority`,	
+                        `orders`.`payment_status`,
+                        CONCAT('{$invoice_url}',`orders`.`id`) AS `pdf_link`,
+                        SUM(`order_items`.`quantity`) AS `product_count`
+                    FROM `orders`
+                    LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                    LEFT JOIN `order_items` ON `order_items`.`order_id` = `orders`.`id`
+                    WHERE `clients`.`id` = {$client_id}
+                    GROUP BY `orders`.`id`";
+            
+            if($orders = $this->db->query($query)->result_array()){
+
+                foreach($orders as $k=>$order){
+                    $orders[$k]['order_items'] = $this->db
+                    ->select("
+                                products.product_name,
+                                order_items.quantity,
+                                order_items.effective_price AS price,
+                                order_items.subtotal AS total
+                            ")
+                    ->where("order_id = {$order['order_id']}")
+                    ->from("order_items")
+                    ->join("products","products.id = order_items.product_id","left")
+                    ->get()
+                    ->result_array();
+                }
+
+                $this->response([
+                    'status' => TRUE,
+                    'message' => 'Data found.',
+                    'data' => $orders
+                ], REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Data not found.',
+                    'data' => []
+                ], REST_Controller::HTTP_OK);
+            } 
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'client_id is required',
+                'data' => []
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+                                                                    /*---------- Delivery -----------*/
+    
+    /*
+        Get Today Deliveries by Delivery Boy
+        @author Rakesh Jangir
+    */
+    public function today_delivery_get($user_id = NULL){
+
+        if($user_id){
+
+            $query = "SELECT
+                    `clients`.`client_name`,
+                    `clients`.`contact_person_name_1` AS `contact_person`,
+                    `clients`.`contact_person_1_phone_1` AS `client_contact`,
+                    `clients`.`contact_person_1_email` AS `client_email`,
+                    `client_delivery_addresses`.`title`,
+                    `client_delivery_addresses`.`address`,
+                    `zip_codes`.`zip_code`,
+                    `orders`.`priority`,
+                    `orders`.`payable_amount`,
+                    date(`delivery`.`expected_delivey_datetime`) AS `expected_delivery_date`,
+                    `orders`.`order_status`,
+                    `delivery_config_orders`.`id` AS `dco_id`
+                FROM `delivery_config_orders`
+                LEFT JOIN `delivery` ON `delivery`.`id` = `delivery_config_orders`.`delivery_id`
+                LEFT JOIN `orders` ON `orders`.`id` = `delivery_config_orders`.`order_id`
+                LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`
+                LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`
+                LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
+                WHERE `delivery_config`.`delivery_boy_id` = {$user_id} 
+                AND `orders`.`order_status`<>'Delivered'
+                AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()";
+
+            if($deliveries = $this->db->query($query)->result_array()){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "Delivery found.",
+                        'today_delivery'=>count($deliveries),
+                        'today_delivery_data'=>$deliveries
+                    ),REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Delivery not found.",
+                        'today_delivery'=>0,
+                        'today_delivery_data'=>[]
+                    ),REST_Controller::HTTP_OK
+                );
+            }
+
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery'=>0
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
+            );
+        }        
+    }
+    
+    /*
+        Get List of delivery addresses based on client_id
+        @author Rakesh Jangir
+    */
+    public function deliver_order_post(){
+        
+        $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
+
+        $user_id = $this->input->post('user_id');
+
+        $dco_id = $this->input->post('dco_id'); //delivery_config_orders        
+        $payment_mode = $this->input->post('payment_mode');        
+        $amount = $this->input->post('amount');        
+        $notes = $this->input->post('notes');
+
+        if($user_id && $dco_id && $payment_mode && $amount){
+
+            $delivery_data = array(
+                'payment_mode'  =>  $payment_mode,
+                'amount'        =>  $amount,
+                'notes'         =>  $notes,
+                'signature_file'=>  null,
+                'updated_at'    =>  date('Y-m-d'),
+                'updated_by'    =>  $user_id,
+            );
+
+            if(isset($_FILES['signature']['name']) && $_FILES['signature']['error']==0){
+
+                $mime = $_FILES['signature']['type'];
+
+                if(in_array($mime, $allowed_mime_type_arr)){
+
+                    $config = array(
+                        'upload_path'   =>   $this->client_signature_path,
+                        'allowed_types' =>   'gif|jpg|png',
+                    );
+
+                    $this->load->library('upload', $config);
+
+                    if ($this->upload->do_upload('signature')) {
+                        
+                        $image_data = $this->upload->data();
+                        
+                        $delivery_data['signature_file'] = $image_data['file_name'];
+
+                        $this->db->trans_start();
+
+                        $this->db->where("id = {$dco_id}")->update("delivery_config_orders",$delivery_data);
+                        
+                        if($dco_data = $this->db->select("delivery_id,order_id")->get_where("delivery_config_orders","id = {$dco_id}")->row_array()){
+                            
+                            $order_data = array(
+                                'actual_delivery_date'  =>  date('Y-m-d'),
+                                'order_status'          =>  'Delivered',
+                                'updated_at'            =>  date('Y-m-d'),
+                                'updated_by'            =>  $user_id,
+                            );
+                            $this->db->where("id = {$dco_data['order_id']}")->update("orders",$order_data);
+
+                            $delivery_data = array(
+                                'actual_delivey_datetime'  =>  date('Y-m-d H:i:s'),
+                                'updated_at'    =>  date('Y-m-d'),
+                                'updated_by'    =>  $user_id,
+                            );
+                            $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
+                        }
+
+                        $this->db->trans_complete();
+
+                        if($this->db->trans_status()){
+                            $this->response(
+                                array(
+                                    'status' => TRUE,
+                                    'message' => 'Order Delivered'
+                                ),
+                                REST_Controller::HTTP_OK
+                            );
+                        }else{
+                            $this->response(
+                                array(
+                                    'status' => FALSE,
+                                    'message' => 'Please Try Again.'
+                                ),
+                                REST_Controller::HTTP_OK
+                            );
+                        }
+
+                    } else {
+
+                        $error = $this->upload->display_errors('','');                        
+
+                        $this->response(
+                            array(
+                                'status' => FALSE,
+                                'message' => $error
+                            ),
+                            REST_Controller::HTTP_BAD_REQUEST
+                        );
+                    }
+                    
+                }else{
+                    $this->response(
+                        array(
+                            'status' => FALSE,
+                            'message' => "Only image files are allowed as Signature."
+                        ),
+                        REST_Controller::HTTP_BAD_REQUEST
+                    );
+                }
+            }
+
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'user_id, dco_id, payment_mode, amount are required.'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
                                                                     /*---------- Client -----------*/
     /*
         Get List of delivery addresses based on client_id
@@ -1520,6 +1835,218 @@ class ApiV1 extends REST_Controller {
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
         
+    }
+
+    /*
+        Get Clients Created by specifited user and clients within users's zipcode group+zip code
+        @author Rakesh Jangir
+    */
+    public function clients_by_salesman_get($user_id=null){
+
+        if($user_id){
+            $query = "SELECT 
+                            clients.*
+                        FROM clients
+                        WHERE `clients`.`is_deleted` = 0 
+                        AND (zip_code_id IN (
+                                SELECT
+                                    `user_zip_codes`.`zip_code_id`
+                                FROM `users`
+                                LEFT JOIN `user_zip_codes` ON `user_zip_codes`.`user_id` = `users`.`id`
+                                WHERE `users`.`id` = {$user_id}
+                            )
+                            OR zip_code_id IN (
+                                SELECT
+                                    `group_to_zip_code`.`zip_code_id`
+                                FROM `users`
+                                LEFT JOIN `user_zip_code_groups` ON `user_zip_code_groups`.`user_id` = `users`.`id`
+                                LEFT JOIN `group_to_zip_code` ON `group_to_zip_code`.`zip_code_group_id` = `user_zip_code_groups`.`zip_code_group_id`
+                                WHERE `users`.`id` = {$user_id}
+                            )
+                            OR `clients`.`created_by` = {$user_id}
+                        )";
+
+            $clients = $this->db->query($query)->result_array();
+
+            if(!empty($clients)){
+                $this->response(
+                    array(
+                    'status' => TRUE,
+                    'message' => "Clients",
+                    'data' => $clients
+                    ),REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                    'status' => FALSE,
+                    'message' => "Clients not found.",
+                    'data' => []
+                    ),REST_Controller::HTTP_OK
+                );
+            }
+        }else{
+            $this->response(
+                array(
+                'status' => FALSE,
+                'message' => "UserId is required.",
+                'data' => []
+                ),REST_Controller::HTTP_BAD_REQUEST
+            );
+        }
+    }
+
+
+                                                                    /*---------- Dashboards -----------*/    
+    
+    /*
+        Delivery Boy Dashboard
+        @author Rakesh Jangir
+    */
+    public function delivery_boy_dashboard_get($user_id = NULL){
+
+        if($user_id){
+
+            $query = "SELECT
+                    `clients`.`client_name`,
+                    `clients`.`contact_person_name_1` AS `contact_person`,
+                    `clients`.`contact_person_1_phone_1` AS `client_contact`,
+                    `clients`.`contact_person_1_email` AS `client_email`,
+                    `client_delivery_addresses`.`title`,
+                    `client_delivery_addresses`.`address`,
+                    `zip_codes`.`zip_code`,
+                    `orders`.`priority`,
+                    `orders`.`payable_amount`,
+                    date(`delivery`.`expected_delivey_datetime`) AS `expected_delivery_date`,
+                    `orders`.`order_status`,
+                    `delivery_config_orders`.`id` AS `dco_id`
+                FROM `delivery_config_orders`
+                LEFT JOIN `delivery` ON `delivery`.`id` = `delivery_config_orders`.`delivery_id`
+                LEFT JOIN `orders` ON `orders`.`id` = `delivery_config_orders`.`order_id`
+                LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`
+                LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`
+                LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
+                WHERE `delivery_config`.`delivery_boy_id` = {$user_id} 
+                AND `orders`.`order_status`<>'Delivered'";
+
+            $miss_delivery = " AND date(`delivery`.`expected_delivey_datetime`) < CURDATE()";
+            $today_delivery = " AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()";
+
+            $today_deliveries = $this->db->query($query.$today_delivery)->result_array();
+            $today_deliveriey_count = count($today_deliveries);
+
+            if($miss_deliveries = $this->db->query($query.$miss_delivery)->result_array()){
+
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "Missed Delivery found.",
+                        'today_delivery_count'=>$today_deliveriey_count,
+                        'missed_deliveries'=>$miss_deliveries,
+                        'images' => $this->dashboard_images,
+                    ),REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Missed Delivery not found.",
+                        'today_delivery_count'=>$today_deliveriey_count,
+                        'missed_deliveries'=>[],
+                        'images' => $this->dashboard_images,
+                    ),REST_Controller::HTTP_OK
+                );
+            }
+
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'today_delivery_count' => null,
+                    'missed_deliveries'=>[],
+                    'images' => $this->dashboard_images,
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
+            );
+        }        
+    }
+
+    /*
+        Salesman Dashboard
+        @author Rakesh Jangir
+    */
+    public function salesman_dashboard_get($user_id = NULL){
+
+        if($user_id){
+
+            //Count Lead Visits
+            $today_followup_lead = "SELECT
+                            COUNT(*) AS `today_followups`
+                        FROM `lead_visits`
+                        WHERE `created_by` = {$user_id}
+                        AND date(`created_at`) = CURDATE()";
+
+            $today_followup_lead = $this->db->query($today_followup_lead)->row_array()['today_followups'];
+
+            //Count Client Visits
+            $today_followup_client = "SELECT
+                            COUNT(*) AS `today_followups`
+                        FROM `client_visits`
+                        WHERE `created_by` = {$user_id}
+                        AND date(`created_at`) = CURDATE()";
+
+            $today_followup_client = $this->db->query($today_followup_client)->row_array()['today_followups'];
+
+            $today_followup_count = $today_followup_lead + $today_followup_client;
+
+            //Count Today Orders
+            $today_orders = "SELECT
+                COUNT(*) AS `today_orders_count`
+            FROM `orders`
+            WHERE `created_by` = {$user_id}
+            AND date(`created_at`) = CURDATE()";
+
+            $today_orders_count = $this->db->query($today_orders)->row_array()['today_orders_count'];
+            
+            //Count Today Leads
+            $today_leads = "SELECT
+                COUNT(*) AS `today_leads_count`
+            FROM `leads`
+            WHERE `created_by` = {$user_id}
+            AND date(`created_at`) = CURDATE()";
+
+            $today_leads_count = $this->db->query($today_leads)->row_array()['today_leads_count'];
+
+            //Count Pending Invoices (Pending+Partial)
+            // TODO....
+            $today_pending_invoice_count = "0";
+
+            $this->response(
+                array(
+                    'status' => TRUE,
+                    'message' => "Salesman Dashboard",
+                    'today_followup_count'=>$today_followup_count,
+                    'today_orders_count'=>$today_orders_count,
+                    'today_leads_count'=>$today_leads_count,
+                    'today_pending_invoice_count'=>$today_pending_invoice_count,
+                ),REST_Controller::HTTP_OK
+            );
+
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'today_followup_count'=>null,
+                    'today_orders_count'=>null,
+                    'today_leads_count'=>null,
+                    'today_pending_invoice_count'=>null,
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
+            );
+        }        
     }
 
                                                                     /*---------- Product -----------*/
@@ -1726,12 +2253,101 @@ class ApiV1 extends REST_Controller {
 
     // Helper Function
     private function check_in_range($start_date, $end_date, $date_from_user){
-    // Convert to timestamp
-    $start_ts = strtotime($start_date);
-    $end_ts = strtotime($end_date);
-    $user_ts = strtotime($date_from_user);
+        // Convert to timestamp
+        $start_ts = strtotime($start_date);
+        $end_ts = strtotime($end_date);
+        $user_ts = strtotime($date_from_user);
 
-    // Check that user date is between start & end
-    return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+        // Check that user date is between start & end
+        return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+    }
+
+    public function print_invoice_get($id){
+
+        $order = $this->get_order($id);
+        
+        $this->data['order'] = $order;
+        $invoice = $this->load->view('order/order_print', $this->data,true);
+
+        $date = date('d-m-Y',strtotime($order['created_at']));
+        $file_name = "Invoice #{$order['id']} {$order['client_name']} {$date}.pdf";
+        $this->generate_pdf($invoice,$file_name);
+    }
+
+    private function generate_pdf($html,$file_name=NULL,$mode='I'){
+
+        ini_set("pcre.backtrack_limit", "5000000");
+        ini_set('memory_limit','2048M');
+        ini_set('max_execution_time',0);
+
+        $root_path = FCPATH.'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR;
+
+        $pathInfo = pathinfo($file_name);
+        if(isset($pathInfo['extension']) && $pathInfo['dirname']!='.'){
+
+            $dir_structure =dirname($file_name);
+            if (!file_exists($dir_structure)) {
+                mkdir($dir_structure, 0777, true);
+            }
+        }
+
+        $modeArr = array(
+            'I'=>\Mpdf\Output\Destination::INLINE,
+            'D'=>\Mpdf\Output\Destination::DOWNLOAD,
+            'F'=>\Mpdf\Output\Destination::FILE,
+            'S'=>\Mpdf\Output\Destination::STRING_RETURN,
+        );
+
+        $mpdf = new \Mpdf\Mpdf(
+            array(
+                // 'mode' => 'utf-8',
+                // 'format' => array(210, 297),
+                // 'orientation' => 'P',
+                // 'setAutoTopMargin' => 'stretch',
+                // 'autoMarginPadding' => 0,
+                // 'bleedMargin' => 0,
+                // 'crossMarkMargin' => 0,
+                // 'cropMarkMargin' => 0,
+                // 'nonPrintMargin' => 0,
+                // 'margBuffer' => 0,
+                // 'collapseBlockMargins' => false,
+            )
+        );
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($file_name,$modeArr[$mode]);
+    }
+
+    private function get_order($id){    //order_id
+
+        $order = $this->db
+            ->select("orders.*,`clients`.`client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
+            ->where("orders.id = {$id}")
+            ->from("orders")
+            ->join("clients","clients.id = orders.client_id","left")
+            ->join("users as salesman","salesman.id = orders.created_by","left")
+            ->get()
+            ->row_array();
+
+        $client_id = $order['client_id'];
+        
+        if($order){
+            $order['order_items'] = $this->db
+                ->select("order_items.*,products.product_name,products.product_code,products.description,products.weight,products.dimension,products.sale_price as original_sale_price")
+                ->where("order_id = {$order['id']}")
+                ->from("order_items")
+                ->join("products","products.id = order_items.product_id","left")
+                ->get()
+                ->result_array();
+
+            $order['order_client'] = $this->db
+                ->select("clients.*")
+                ->where("id = {$client_id}")
+                ->from("clients")
+                ->get()
+                ->row_array();
+        }
+        
+        return $order;
     }
 }

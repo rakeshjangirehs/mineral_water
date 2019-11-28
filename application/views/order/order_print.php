@@ -129,7 +129,7 @@
             </tr>
         </thead>
         <tbody>
-        <?php if(isset($order['order_items'])){
+        <?php if(isset($order['order_items'])){            
             foreach($order['order_items'] as $k=>$product){
                 $sr = ++$k;
                 $product_price = $product['quantity'] * $product['effective_price'];
@@ -144,10 +144,10 @@
             }
 
             echo "<tr><td colspan='4'>&nbsp;</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr'>Subtotal:</td><td class='tr'>5000.00</td></tr>
+                    <!--<tr><td colspan='2'>&nbsp;</td><td class='tr'>Subtotal:</td><td class='tr'>5000.00</td></tr>
                     <tr><td colspan='2'>&nbsp;</td><td class='tr'>Taxes (10%):</td><td class='tr'>57.00</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb'>Discount (5%):</td><td class='tr bb'>45.00</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb amount_td'><Total></Total>Total:</td><td class='tr bb amount_td'>5000</td></tr>";
+                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb'>Discount (5%):</td><td class='tr bb'>45.00</td></tr>-->
+                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb amount_td'><Total></Total>Total:</td><td class='tr bb amount_td'>{$order['payable_amount']}</td></tr>";
         }?>
         </tbody>
     </table>

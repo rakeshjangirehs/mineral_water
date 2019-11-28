@@ -69,6 +69,10 @@
         color:rgb(64, 78, 103); */
     }
 
+    .add_config_parent{
+        display:none;
+    }
+
 </style>
 
 <div class="page-body">
@@ -131,7 +135,7 @@
                                             <div id="config_parent">
                                                 <?php foreach($delivery_config as $k=>$config):?>
                                                     <div class="well well-lg config_col">
-                                                        <div class="pull-right">                                        
+                                                        <div class="pull-right add_config_parent">                                        
                                                             <a class="add_config" title="Add New" href="#">
                                                                 <i class="feather icon-plus"></i>
                                                             </a>|
@@ -811,7 +815,7 @@
 
 <script type="text/template" id="config_template">
     <div class="well well-lg config_col">
-        <div class="pull-right">                                        
+        <div class="pull-right add_config_parent">                                        
             <a class="add_config" title="Add New" href="#">
                 <i class="feather icon-plus"></i>
             </a>|
