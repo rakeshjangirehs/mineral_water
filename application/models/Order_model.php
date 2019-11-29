@@ -12,8 +12,35 @@ class Order_model extends MY_Model {
 		
 		if($client){
 			if($this->db->insert("clients",$client)){
-				$orders['client_id'] = $this->db->insert_id();
-				$this->db->where("id = {$client['lead_id']}")->update("leads",["is_converted"=>1]);				
+
+				$client_id = $this->db->insert_id();
+
+				$orders['client_id'] = $client_id;
+				
+				$this->db->where("id = {$client['lead_id']}")->update("leads",["is_converted"=>1]);
+
+				$client_delivery_addresses_data = array(
+					'lead_id'	=>	null,
+					'client_id'	=>	$client_id,
+					'updated_at'=>	date('Y-m-d'),
+				);
+
+				$this->db->where("lead_id = {$client['lead_id']}")->update("client_delivery_addresses",$client_delivery_addresses_data);
+
+				//Insert product price for each product in client_product_price table for newly created client.
+				if($products=$this->db->get("products")->result_array()){
+					$products = array_map(function($product) use($client_id){
+						return array(
+							'product_id'    =>  $product['id'],
+							'sale_price'    =>  $product['sale_price'],
+							'client_id'     =>  $client_id,
+							'created_at'    =>  date('Y-m-d H:i:s'),
+							'status'        =>  'Active'
+						);
+					},$products);
+	
+					$this->db->insert_batch("client_product_price",$products);
+				}
 			}
 		}
 

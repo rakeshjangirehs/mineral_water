@@ -211,7 +211,8 @@ class Products extends MY_Controller {
   // export all products in xlsx
   	public function product_export(){
 		  $query = $this->model
-                    ->common_select('product_code, products.product_name, products.weight, dimension, cost_price, sale_price')
+					->common_select('product_code, products.product_name,brands.brand_name as brand, products.weight, dimension, cost_price, sale_price')
+					->common_join("brands","brands.id=products.brand_id","left")
                     ->common_where('products.is_deleted = 0')
                     ->common_get('products');
 

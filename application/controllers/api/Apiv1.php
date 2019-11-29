@@ -480,7 +480,7 @@ class ApiV1 extends REST_Controller {
     }*/
 
     // dashboards
-    public function sales_dashboard_get($user_id){
+    /*public function sales_dashboard_get($user_id){
 
         $date = date('Y-m-d');
 
@@ -679,7 +679,7 @@ class ApiV1 extends REST_Controller {
                 REST_Controller::HTTP_OK
             );
         }
-    }
+    }*/
     
     /*public function delivery_boy_orders_get($delivery_boy_id = NULL){
 		
@@ -985,7 +985,7 @@ class ApiV1 extends REST_Controller {
         @author Rakesh Jangir
     */
     public function scheme_by_evaluation_post(){
-
+        
         /*
             {
                 "subtotal":5000,
@@ -1059,7 +1059,7 @@ class ApiV1 extends REST_Controller {
                                         'id'             =>  $scheme['id'],
                                         'name'           =>  $scheme['name'],
                                         'description'    =>  $description,
-                                        'new_subtotal'   =>  $new_subtotal,
+                                        'new_subtotal'   =>  sprintf('%0.2f', $new_subtotal),
                                     );
                                 }
                             }else{
@@ -1081,7 +1081,7 @@ class ApiV1 extends REST_Controller {
                                             'id'             =>  $scheme['id'],
                                             'name'           =>  $scheme['name'],
                                             'description'    =>  $description,
-                                            'new_subtotal'   =>  $new_subtotal,
+                                            'new_subtotal'   =>  sprintf('%0.2f', $new_subtotal),
                                         );
                                     }
 
@@ -1100,7 +1100,7 @@ class ApiV1 extends REST_Controller {
                                             'id'             =>  $scheme['id'],
                                             'name'           =>  $scheme['name'],
                                             'description'    =>  $description,
-                                            'new_subtotal'   =>  $new_subtotal,
+                                            'new_subtotal'   =>  sprintf('%0.2f', $new_subtotal),
                                         );
                                     }
 
@@ -1756,14 +1756,16 @@ class ApiV1 extends REST_Controller {
         Get List of delivery addresses based on client_id
         @author Rakesh Jangir
     */
-    public function delivery_addresses_get($client_id=null){
+    public function delivery_addresses_get($id=null,$type=null){
 
-        if($client_id){
+        $where = ($type == 'lead') ? "lead_id = {$id}" : "client_id = {$id}";
+
+        if($id){
 
             $delivery_addresses = $this->db
                                         ->select("client_delivery_addresses.id,CONCAT(client_delivery_addresses.title,',\n',client_delivery_addresses.address,',\n',zip_codes.zip_code) as `address`")
                                         ->join("zip_codes","zip_codes.id = client_delivery_addresses.zip_code_id")
-                                        ->where("client_id = {$client_id}")->get("client_delivery_addresses")->result_array();
+                                        ->where($where)->get("client_delivery_addresses")->result_array();
             if($delivery_addresses){
                 $this->response([
                     'status' => TRUE,
@@ -1793,25 +1795,31 @@ class ApiV1 extends REST_Controller {
 
         $title      =   $this->input->post("title");
         $address    =   $this->input->post("address");
-        $client_id  =   $this->input->post("client_id");
+        $id         =   $this->input->post("id");
+        $type       =   $this->input->post("type");
         $user_id    =   $this->input->post("user_id");
-        $zip_code_id    =   $this->input->post("zip_code_id");
+        $zip_code_id=   $this->input->post("zip_code_id");
 
         if(
             $title && $title!=''
             && $address && $address!=''
-            && $client_id && $client_id!=''
+            && $id && $id!=''
             && $user_id && $user_id!=''
             && $zip_code_id && $zip_code_id!=''
         ){
             $address_data = array(
                 'title'     =>  $this->input->post("title"),
                 'address'   =>  $this->input->post("address"),
-                'zip_code_id'=>  $this->input->post("zip_code_id"),
-                'client_id' =>  $this->input->post("client_id"),                
+                'zip_code_id'=>  $this->input->post("zip_code_id"),                
                 'created_at'=>  date('Y-m-d H:i:s'),
                 'created_by'=>  $this->input->post("user_id"),
             );
+
+            if($type == 'lead'){
+                $address_data['lead_id']  =   $this->input->post("id");
+            }else{
+                $address_data['client_id']  =   $this->input->post("id");
+            }
 
             if($this->db->insert("client_delivery_addresses",$address_data)){
                 $address_id = $this->db->insert_id();
@@ -2031,6 +2039,7 @@ class ApiV1 extends REST_Controller {
                     'today_orders_count'=>$today_orders_count,
                     'today_leads_count'=>$today_leads_count,
                     'today_pending_invoice_count'=>$today_pending_invoice_count,
+                    'images' => $this->dashboard_images,
                 ),REST_Controller::HTTP_OK
             );
 
@@ -2043,6 +2052,7 @@ class ApiV1 extends REST_Controller {
                     'today_orders_count'=>null,
                     'today_leads_count'=>null,
                     'today_pending_invoice_count'=>null,
+                    'images' => $this->dashboard_images,
                 ),
                 REST_Controller::HTTP_BAD_REQUEST
             );

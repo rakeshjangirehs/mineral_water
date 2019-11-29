@@ -18,6 +18,7 @@ class Client extends MY_Model {
     public function add_update($data,$client_id = NULL,$create_by=NULL,$visit_note=NULL){
         
         $this->db->trans_start();
+        
         if($client_id){
             $data['updated_at'] = date('Y-m-d H:i:s');
             $data['updated_by'] = ($create_by) ? $create_by : USER_ID;

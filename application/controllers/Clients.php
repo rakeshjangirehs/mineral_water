@@ -331,7 +331,7 @@ class Clients extends MY_Controller {
         
         // echo "<pre>";print_r($data);echo "</pre>";die;
 
-        $this->data['page_title'] = "{$client['client_name']} <small>Price List</small>";
+        $this->data['page_title'] = "Client Price List - {$client['client_name']}";
         $this->data['client'] = $client;
         $this->data['id'] = $client_id;
         $this->data['product_list'] = $data;

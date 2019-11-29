@@ -41,6 +41,10 @@
     .add_product, .remove_product{
         font-size: 13px;
     }
+
+    #order_value-error, #gift_mode-error, #discount_mode-error, #discount_value-error, #match_mode-error{
+        display: inline-block!important;
+    }
 </style>
 <div class="page-body">
     <div class="row">
@@ -81,7 +85,7 @@
                         <hr/>
                         
                         <div class="row" id="price_scheme">
-                            <div class="col-sm-12 col-md-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="order_value" class="control-label"><b>Rule :</b></label>
                                     <label class="control-label">If order value is grater then or equal to :
@@ -96,7 +100,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="order_value" class="control-label"><b>Rule :</b></label>
-                                        <label class="control-label">If order containse 
+                                        <label class="control-label">If order contains 
                                             <select name="match_mode" id="match_mode" class="inline_input">
                                                 <option value=''>---</option>
                                                 <option value='all' <?php echo ($scheme_data['match_mode'] == 'all') ? 'selected' : ''; ?>>all</option>
@@ -139,7 +143,7 @@
                                     <label for="gift_mode" class="control-label">the order will be eligible for this scheme and 
                                         <select name="gift_mode" id="gift_mode" class="inline_input">
                                             <option value=''>---</option>
-                                            <option value='cash_benifit' <?php echo ($scheme_data['gift_mode'] == 'cash_benifit') ? 'selected' : ''; ?>>cash benifit</option>
+                                            <option value='cash_benifit' <?php echo ($scheme_data['gift_mode'] == 'cash_benifit') ? 'selected' : ''; ?>>cash benefit</option>
                                             <option value='free_product' <?php echo ($scheme_data['gift_mode'] == 'free_product') ? 'selected' : ''; ?>>free product</option>
                                         </select>
                                         will be given, as described below.
@@ -155,7 +159,7 @@
                                     <label for="discount_mode" class="control-label">
                                         <select name="discount_mode" id="discount_mode" class="inline_input">
                                             <option value=''>---</option>
-                                            <option value='amount' <?php echo ($scheme_data['discount_mode'] == 'amount') ? 'selected' : ''; ?>>$</option>
+                                            <option value='amount' <?php echo ($scheme_data['discount_mode'] == 'amount') ? 'selected' : ''; ?>>Rs.</option>
                                             <option value='percentage' <?php echo ($scheme_data['discount_mode'] == 'percentage') ? 'selected' : ''; ?>>%</option>
                                         </select>
                                         <input type="text" name="discount_value" id="discount_value" class="inline_input" value="<?php echo $scheme_data['discount_value']; ?>" placeholder=""/>
@@ -218,6 +222,113 @@
             // maxViewMode : 	2
             //orientation: "bottom left"
         });
+
+        var validator = $("#tagFrm").validate({
+            debug:true,
+        rules   : 	{
+                        "name"		:	{
+                            required:true,
+                            maxlength: 200,
+                        },
+                        "start_date"		:	{
+                            required:true,
+                        },
+                        "end_date"		:	{
+                            required:{
+                                depends: function(element) {
+                                   return ($("#start_date").val()) ? true : false;
+                                }
+                            },
+                        },
+                        "type"		:	{
+                            required:true,
+                        },
+                        "order_value"		:	{
+                            required:{
+                                depends: function(element) {
+                                   return ($("#type").val() == 'price_scheme') ? true : false;
+                                }
+                            },
+                        },
+                        "gift_mode"		:	{
+                            required:true,
+                        },
+                        "discount_mode"		:	{
+                            required:{
+                                depends: function(element) {
+                                   return ($("#gift_mode").val() == 'cash_benifit') ? true : false;
+                                }
+                            },
+                        },
+                        "discount_value"		:	{
+                            required:{
+                                depends: function(element) {
+                                   return ($("#discount_mode").val()) ? true : false;
+                                }
+                            },
+                        },
+                        "free_product_id"		:	{
+                            required:{
+                                depends: function(element) {
+                                    return ($("#gift_mode").val() == 'free_product') ? true : false;
+                                }
+                            },
+                        },
+                        "free_product_qty"		:	{
+                            required:{
+                                depends: function(element) {
+                                    return ($("#gift_mode").val() == 'free_product') ? true : false;
+                                }
+                            },
+                            digits: true
+                        },
+                        "match_mode"		:	{
+                            required:{
+                                depends: function(element) {
+                                    return ($("#type").val() == 'product_order_scheme') ? true : false;
+                                }
+                            },
+                        },
+                    },
+        messages	:	{
+            start_date		:	{                
+                required			:	"Start date is required."
+            },
+            end_date		:	{                
+                required			:	"End date is required."
+            },
+            discount_mode		:	{                
+                required			:	"Discount Type is required."
+            },
+            discount_value		:	{                
+                required			:	"Discount Value is required."
+            },
+            // username		:	{
+            //     remote			:	"Username already Exists",
+            // },
+            // phone		:	{
+            //     remote			:	"Phone already Exists",
+            // },
+        },
+        errorElement: "p",
+        errorClass:"text-danger error",
+        errorPlacement: function ( error, element ) {
+
+            console.log(element);
+
+            var el_id = element.attr('id');
+
+            // console.log(element,element.hasClass('products'));
+            if($.inArray(el_id,['order_value']) != -1){                
+                element.after(error);
+            }else 
+            if($.inArray(el_id,['discount_mode','discount_value','match_mode','gift_mode','order_value']) != -1){                
+                $(element).closest("label").append(error);
+            }else{
+                $(element).closest(".form-group").append(error);
+            }
+        },
+    });
 
         var product_template = $("#product_template").html();
         // console.log(product_template);
@@ -354,6 +465,23 @@
                 swal("Can't Deleted", "Unable to delete.", "error");
             }
 
+        }).on('change','.products',function(e){
+          
+            var $this = $(this);
+            var current_value = this.value;
+
+            // console.log("current_value : ",current_value);
+            
+            if(current_value){
+                $product_order_parent.find('.products').not(this).each(function(i,v){
+
+                    if(current_value==v.value){
+                        swal("Already Selected", "This Product is already selected.", "info");
+                        $this.val('').trigger('change');
+                        return;
+                    }
+                });
+            }
         });
 
         function check_childs(){
@@ -367,7 +495,7 @@
             var $recent = $product_order_parent.find('.product_order').last();
             var $product = $recent.find('.products');
             var $qty = $recent.find('.qty');
-
+            
             $qty.attr('id',Math.floor(Math.random()*1000) + (new Date).getTime()).attr('name',"products["+index+"][qty]");
             $product.attr('id',Math.floor(Math.random()*1000) + (new Date).getTime()).attr('name',"products["+index+"][product_id]");
 
@@ -376,8 +504,64 @@
                 dropdownParent: $product.parent()
             });
 
+            $product.rules('add',{
+                required:{
+                    depends: function(element) {
+                        return ($("#type").val() == 'product_order_scheme') ? true : false;
+                    }
+                },
+                messages: {
+                    required: "Please select Product",
+                }
+            });
+            $qty.rules('add',{
+                required:{
+                    depends: function(element) {                        
+                        return ($(element).closest('.form-group').find('.products').val()) ? true : false;
+                    }
+                },
+                digits:true,
+                    min:1,
+                    messages: {
+                        required: "Please enter quantity",
+                        digits: "Please enter only digits.",
+                        min: "Quantity must be grater then 1.",
+                    }
+            });
+
             index++;
         }
+
+        $product_order_parent.children().each(function(i,element){
+            
+            $(element).find(".products").each(function(i,product){
+                $(product).rules('add',{
+                    required:{
+                        depends: function(element) {
+                            return ($("#type").val() == 'product_order_scheme') ? true : false;
+                        }
+                    },
+                    messages: {
+                        required: "Please select Product",
+                    }
+                });
+            }).end().find(".qty").each(function(i,qty){
+                $(qty).rules('add',{
+                    required:{
+                        depends: function(element) {                        
+                            return ($(element).closest('.form-group').find('.products').val()) ? true : false;
+                        }
+                    },
+                    digits:true,
+                    min:1,
+                    messages: {
+                        required: "Please enter quantity",
+                        digits: "Please enter only digits.",
+                        min: "Quantity must be grater then 1.",
+                    }
+                });
+            });
+        });
 
         $product_order_parent.children().find(".products").each(function(i,element){
             var $this = $(this);

@@ -22,8 +22,8 @@
                                 <th>Brand</th>
                                 <th>Weight</th>
                                 <th>Dimension</th>
-                                <th>Cost</th>
-                                <th>Price</th>
+                                <th>Cost Price</th>
+                                <th>Sale Price</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
