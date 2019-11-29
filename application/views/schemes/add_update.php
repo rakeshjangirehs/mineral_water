@@ -249,6 +249,7 @@
                                    return ($("#type").val() == 'price_scheme') ? true : false;
                                 }
                             },
+                            digits:true,
                         },
                         "gift_mode"		:	{
                             required:true,
@@ -328,6 +329,9 @@
                 $(element).closest(".form-group").append(error);
             }
         },
+        submitHandler: function (form) {
+            form.submit();
+        }
     });
 
         var product_template = $("#product_template").html();
