@@ -33,7 +33,7 @@ class Client extends MY_Model {
             $client_id = $this->db->insert_id();
 
             //Insert product price for each product in client_product_price table for newly created client.
-            if($products=$this->db->get("products")->result_array()){
+            if($products=$this->db->where("is_deleted = 0")->get("products")->result_array()){
                 $products = array_map(function($product) use($client_id,$create_by){
                     return array(
                         'product_id'    =>  $product['id'],

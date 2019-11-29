@@ -28,7 +28,7 @@ class Order_model extends MY_Model {
 				$this->db->where("lead_id = {$client['lead_id']}")->update("client_delivery_addresses",$client_delivery_addresses_data);
 
 				//Insert product price for each product in client_product_price table for newly created client.
-				if($products=$this->db->get("products")->result_array()){
+				if($products=$this->db->where("is_deleted = 0")->get("products")->result_array()){
 					$products = array_map(function($product) use($client_id){
 						return array(
 							'product_id'    =>  $product['id'],
