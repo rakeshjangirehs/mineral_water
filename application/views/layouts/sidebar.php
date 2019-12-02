@@ -158,6 +158,11 @@
                             <span class="pcoded-mtext">Payment List</span>
                         </a>
                     </li>
+                    <li class="cash_collection_li">
+                        <a href="<?php echo $this->baseUrl; ?>cashcollection">
+                            <span class="pcoded-mtext">Cash Collection</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

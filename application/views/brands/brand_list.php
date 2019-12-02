@@ -114,7 +114,7 @@
                     "orderable" : false,
                     "render": function ( data, type, row, meta ) {
                         return "<a class='' href='<?php echo $this->baseUrl; ?>brands/index/"+data.id+"' title='Edit Brand'><i class='feather icon-edit'></i></a>" +
-                                "<a class='text-danger' id='delete_vehicle' href='<?php echo $this->baseUrl; ?>brands/delete/"+data.id+"' title='Delete Brand'><i class='feather icon-trash-2'></i></a>";
+                                "<a class='text-danger delete_vehicle' href='<?php echo $this->baseUrl; ?>brands/delete/"+data.id+"' title='Delete Brand'><i class='feather icon-trash-2'></i></a>";
                     }
                 }
             ],
@@ -123,7 +123,7 @@
                     $(row).addClass('active_row');
                 }
             }
-        }).on('click','#delete_vehicle',function(e){
+        }).on('click','delete_vehicle',function(e){
             e.preventDefault();
 
             var url = this.getAttribute('href');

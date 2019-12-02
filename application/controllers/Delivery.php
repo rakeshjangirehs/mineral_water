@@ -149,9 +149,9 @@ class Delivery extends MY_Controller {
         $data = [];
 
         if($selected_orders = $this->input->post('selected_orders')){
-            $whr = "( orders.delivery_id IS NULL OR orders.id IN (". implode(",",$selected_orders) ."))";
+            $whr = "( orders.delivery_id IS NULL OR orders.id IN (". implode(",",$selected_orders) .")) AND orders.order_status <> 'Approval Required'";
         }else{
-            $whr = "orders.delivery_id IS NULL";
+            $whr = "orders.delivery_id IS NULL AND orders.order_status <> 'Approval Required'";
         }
 
         if($zip_code_group_ids = $this->input->post('zip_code_group_ids')){

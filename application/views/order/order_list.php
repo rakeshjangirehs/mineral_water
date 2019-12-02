@@ -7,90 +7,90 @@
                     <div class="card-header-right" style="padding:0px 0px;">
                         <ul class="list-unstyled card-option">
                             <li><i class="feather icon-maximize full-card"></i></li>
-<!--                            <li title="Export Excel"><a href="--><?php //echo $this->baseUrl; ?><!--products/product_export"><i class="fa fa-file-excel-o"></i></a></li>-->
                         </ul>
                     </div>
                 </div>
                 <div class="card-block">
-                <div class="row m-b-30">
-                    <div class="col-sm-12">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs md-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#pending_orders_tab" role="tab">Pending Orders</a>
-                                <div class="slide"></div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#ontheway_orders_tab" role="tab">Out For Delivery</a>
-                                <div class="slide"></div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#completed_orders_tab" role="tab">Completed</a>
-                                <div class="slide"></div>
-                            </li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content card-block" id="table_patent">
-                            <div class="tab-pane active" id="pending_orders_tab" role="tabpanel">
-                                <div class="dt-responsive table-responsive">
-                                    <table id="pending_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/pending" style="width: 100%;">
-                                        <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Status</th>
-                                            <th>Client</th>
-                                            <th>C Delivery Dt</th>
-                                            <th>Order Amount</th>
-                                            <th>Salesman</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                    <div class="row m-b-30">
+                        <div class="col-sm-12">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs md-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#pending_orders_tab" role="tab">Pending Orders</a>
+                                    <div class="slide"></div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#ontheway_orders_tab" role="tab">Out For Delivery</a>
+                                    <div class="slide"></div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#completed_orders_tab" role="tab">Completed</a>
+                                    <div class="slide"></div>
+                                </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content card-block" id="table_patent">
+                                <div class="tab-pane active" id="pending_orders_tab" role="tabpanel">
+                                    <div class="dt-responsive table-responsive">
+                                        <table id="pending_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/pending" style="width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Status</th>
+                                                <th>Client</th>
+                                                <th>C Delivery Dt</th>
+                                                <th>Order Amount</th>
+                                                <th>Salesman</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="ontheway_orders_tab" role="tabpanel">
+                                    <div class="dt-responsive table-responsive">
+                                        <table id="ontheway_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/ontheway" style="width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Client</th>
+                                                <th>C Delivery Dt</th>
+                                                <th>Order Amount</th>
+                                                <th>Expected Delivery Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="completed_orders_tab" role="tabpanel">
+                                    <div class="dt-responsive table-responsive">
+                                        <table id="completed_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/completed" style="width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Client</th>
+                                                <th>C Delivery Dt</th>
+                                                <th>Order Amount</th>
+                                                <th>Expected Delivery Date</th>
+                                                <th>Actual Delivery Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="ontheway_orders_tab" role="tabpanel">
-                                <div class="dt-responsive table-responsive">
-                                    <table id="ontheway_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/ontheway" style="width: 100%;">
-                                        <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Client</th>
-                                            <th>C Delivery Dt</th>
-                                            <th>Order Amount</th>
-                                            <th>Expected Delivery Date</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="completed_orders_tab" role="tabpanel">
-                                <div class="dt-responsive table-responsive">
-                                    <table id="completed_orders" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>orders/index/completed" style="width: 100%;">
-                                        <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Client</th>
-                                            <th>C Delivery Dt</th>
-                                            <th>Order Amount</th>
-                                            <th>Expected Delivery Date</th>
-                                            <th>Actual Delivery Date</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                   
+                        </div>                   
+                    </div>
                 </div>
             </div>
         </div>
@@ -310,7 +310,7 @@
             $("#expected_delivery_date").val(expected_delivery_date);
             $delivery_boy.children().not(":first").remove();
             // console.log(order_id,delivery_boy_id);
-            console.log(expected_delivery_date);
+            // console.log(expected_delivery_date);
 
             $.ajax({
                 url: '<?php echo $this->baseUrl; ?>orders/get_deliveryboy_by_order_id',

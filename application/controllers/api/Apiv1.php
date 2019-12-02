@@ -1286,6 +1286,7 @@ class ApiV1 extends REST_Controller {
 
                             'state_id'                  =>  (isset($orders['state_id']) && $orders['state_id']!='') ? $orders['state_id'] : null,
                             'city_id'                   =>  (isset($orders['city_id']) && $orders['city_id']!='') ? $orders['city_id'] : null,
+                            'zip_code_id'               =>  (isset($orders['zip_code_id']) && $orders['zip_code_id']!='') ? $orders['zip_code_id'] : null,
                             
                             'created_at'                =>  date('Y-m-d H:i:s'),
                             'created_by'                =>  $user_id,
@@ -1436,7 +1437,7 @@ class ApiV1 extends REST_Controller {
         $where = "";
         if($role_id == 2){
             $where .= " AND `orders`.`created_by` = {$user_id}";
-        }else if($role_id == 3){
+        }else if($role_id == 3){    
             $where .= " AND `orders`.`id` IN (
                 SELECT
                     DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
@@ -1597,7 +1598,7 @@ class ApiV1 extends REST_Controller {
                 LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`
                 LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`
                 LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
-                WHERE `delivery_config`.`delivery_boy_id` = {$user_id} 
+                WHERE (`delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id})
                 AND `orders`.`order_status`<>'Delivered'
                 AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()";
 
@@ -1678,49 +1679,7 @@ class ApiV1 extends REST_Controller {
                         
                         $delivery_data['signature_file'] = $image_data['file_name'];
 
-                        $this->db->trans_start();
-
-                        $this->db->where("id = {$dco_id}")->update("delivery_config_orders",$delivery_data);
-                        
-                        if($dco_data = $this->db->select("delivery_id,order_id")->get_where("delivery_config_orders","id = {$dco_id}")->row_array()){
-                            
-                            $order_data = array(
-                                'actual_delivery_date'  =>  date('Y-m-d'),
-                                'order_status'          =>  'Delivered',
-                                'updated_at'            =>  date('Y-m-d'),
-                                'updated_by'            =>  $user_id,
-                            );
-                            $this->db->where("id = {$dco_data['order_id']}")->update("orders",$order_data);
-
-                            $delivery_data = array(
-                                'actual_delivey_datetime'  =>  date('Y-m-d H:i:s'),
-                                'updated_at'    =>  date('Y-m-d'),
-                                'updated_by'    =>  $user_id,
-                            );
-                            $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
-                        }
-
-                        $this->db->trans_complete();
-
-                        if($this->db->trans_status()){
-                            $this->response(
-                                array(
-                                    'status' => TRUE,
-                                    'message' => 'Order Delivered'
-                                ),
-                                REST_Controller::HTTP_OK
-                            );
-                        }else{
-                            $this->response(
-                                array(
-                                    'status' => FALSE,
-                                    'message' => 'Please Try Again.'
-                                ),
-                                REST_Controller::HTTP_OK
-                            );
-                        }
-
-                    } else {
+                    }else{
 
                         $error = $this->upload->display_errors('','');                        
 
@@ -1731,8 +1690,8 @@ class ApiV1 extends REST_Controller {
                             ),
                             REST_Controller::HTTP_BAD_REQUEST
                         );
+                        die;
                     }
-                    
                 }else{
                     $this->response(
                         array(
@@ -1741,7 +1700,51 @@ class ApiV1 extends REST_Controller {
                         ),
                         REST_Controller::HTTP_BAD_REQUEST
                     );
+                    die;
                 }
+                    
+            }
+
+            $this->db->trans_start();
+
+            $this->db->where("id = {$dco_id}")->update("delivery_config_orders",$delivery_data);
+            
+            if($dco_data = $this->db->select("delivery_id,order_id")->get_where("delivery_config_orders","id = {$dco_id}")->row_array()){
+                
+                $order_data = array(
+                    'actual_delivery_date'  =>  date('Y-m-d'),
+                    'order_status'          =>  'Delivered',
+                    'updated_at'            =>  date('Y-m-d'),
+                    'updated_by'            =>  $user_id,
+                );
+                $this->db->where("id = {$dco_data['order_id']}")->update("orders",$order_data);
+
+                $delivery_data = array(
+                    'actual_delivey_datetime'  =>  date('Y-m-d H:i:s'),
+                    'updated_at'    =>  date('Y-m-d'),
+                    'updated_by'    =>  $user_id,
+                );
+                $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
+            }
+
+            $this->db->trans_complete();
+
+            if($this->db->trans_status()){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => 'Order Delivered'
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => 'Please Try Again.'
+                    ),
+                    REST_Controller::HTTP_OK
+                );
             }
 
         }else{
@@ -2028,8 +2031,13 @@ class ApiV1 extends REST_Controller {
             $today_leads_count = $this->db->query($today_leads)->row_array()['today_leads_count'];
 
             //Count Pending Invoices (Pending+Partial)
-            // TODO....
-            $today_pending_invoice_count = "0";
+            $pending_invoices_count = $this->db
+                                            ->query("SELECT
+                                                        COUNT(`orders`.`id`) AS `pending_invoices_count`
+                                                    FROM `orders`
+                                                    WHERE `orders`.`payment_status` <> 'Paid'
+                                                    AND `orders`.`created_by` = 1")
+                                            ->row_array()['pending_invoices_count'];
 
             $this->response(
                 array(
@@ -2038,7 +2046,7 @@ class ApiV1 extends REST_Controller {
                     'today_followup_count'=>$today_followup_count,
                     'today_orders_count'=>$today_orders_count,
                     'today_leads_count'=>$today_leads_count,
-                    'today_pending_invoice_count'=>$today_pending_invoice_count,
+                    'today_pending_invoice_count'=>$pending_invoices_count,
                     'images' => $this->dashboard_images,
                 ),REST_Controller::HTTP_OK
             );

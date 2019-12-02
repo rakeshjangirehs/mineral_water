@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2019 at 10:33 AM
+-- Generation Time: Dec 02, 2019 at 03:08 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -47,8 +47,38 @@ INSERT INTO `brands` (`id`, `brand_name`, `created_at`, `created_by`, `updated_a
 (1, 'Kinley', '2019-11-25 13:33:58', 2, NULL, NULL, 'Active', 0),
 (2, 'Bislery', '2019-11-25 13:34:07', 2, NULL, NULL, 'Active', 0),
 (3, 'Bailley', '2019-11-25 13:34:39', 2, NULL, NULL, 'Active', 0),
-(4, 'Aquafina', '2019-11-25 13:34:48', 2, '2019-11-26 14:35:22', 2, 'Active', 0),
+(4, 'Aquafina', '2019-11-25 13:34:48', 2, '2019-12-02 19:22:43', 2, 'Active', 1),
 (5, 'dsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdsfsdfsdfsdfdfdf', '2019-11-26 14:31:50', 2, '2019-11-26 14:32:37', 2, 'Active', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cash_collection`
+--
+
+CREATE TABLE `cash_collection` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `amount` float DEFAULT 0,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1 = Deleted',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cash_collection`
+--
+
+INSERT INTO `cash_collection` (`id`, `user_id`, `amount`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(12, 1, 100, 0, '2019-12-02 00:00:00', 2, NULL, NULL),
+(13, 1, 800, 1, '2019-12-02 00:00:00', 2, '2019-12-02 19:28:12', NULL),
+(14, 1, 50, 0, '2019-12-02 00:00:00', 2, NULL, NULL),
+(15, 1, 200, 0, '2019-12-02 00:00:00', 2, NULL, NULL),
+(16, 1, 500, 1, '2019-12-02 00:00:00', 2, '2019-12-02 19:34:44', NULL),
+(17, 1, 50, 1, '2019-12-02 00:00:00', 2, '2019-12-02 19:34:21', NULL),
+(18, 1, 300, 0, '2019-12-02 00:00:00', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -111,7 +141,7 @@ CREATE TABLE `clients` (
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive',
-  `gst_no` varchar(50) NOT NULL,
+  `gst_no` varchar(50) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -127,7 +157,8 @@ INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `a
 (7, 'Test Company', '0.00', 0.00, NULL, 3, 2, NULL, 2, NULL, NULL, 'Rakesh Jangir xx', '1231231231', NULL, NULL, 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 11:39:54', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
 (8, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:09:47', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
 (9, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:10:19', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
-(10, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:10:29', 1, NULL, NULL, 'Active', 'GPC1134', NULL);
+(10, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:10:29', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
+(11, 'Test Company 123', '0.00', 0.00, NULL, 3, 2, NULL, 4, NULL, NULL, 'Rakesh Jangir abcd', '1231231231', NULL, NULL, 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 15:21:01', 1, NULL, NULL, 'Active', 'GPC1134', NULL);
 
 -- --------------------------------------------------------
 
@@ -206,7 +237,8 @@ INSERT INTO `client_delivery_addresses` (`id`, `client_id`, `lead_id`, `title`, 
 (4, 1, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:31:17', 1, NULL, NULL, 'Active'),
 (5, 8, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:31:27', 1, '2019-11-29 00:00:00', NULL, 'Active'),
 (6, 7, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:38:27', 1, '2019-11-29 00:00:00', NULL, 'Active'),
-(7, NULL, 3, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:54:37', 1, NULL, NULL, 'Active');
+(7, NULL, 3, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:54:37', 1, NULL, NULL, 'Active'),
+(8, 11, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 15:20:54', 1, '2019-11-29 00:00:00', NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -289,7 +321,13 @@ INSERT INTO `client_product_price` (`id`, `client_id`, `product_id`, `sale_price
 (53, 10, 4, 7, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
 (54, 10, 5, 5, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
 (55, 10, 6, 5, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(56, 10, 7, 343.4, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active');
+(56, 10, 7, 343.4, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
+(57, 11, 1, 20, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
+(58, 11, 2, 20, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
+(59, 11, 3, 18, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
+(60, 11, 4, 7, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
+(61, 11, 5, 5, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
+(62, 11, 7, 343.4, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -424,7 +462,7 @@ CREATE TABLE `delivery_config` (
 --
 
 INSERT INTO `delivery_config` (`id`, `delivery_id`, `vehicle_id`, `driver_id`, `delivery_boy_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(64, 22, 1, 4, 3, '2019-11-28 20:08:14', 2, NULL, NULL, 'Active', 0);
+(64, 22, 1, 4, 1, '2019-11-28 20:08:14', 2, '2019-12-02 14:45:44', NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -454,8 +492,8 @@ CREATE TABLE `delivery_config_orders` (
 --
 
 INSERT INTO `delivery_config_orders` (`id`, `delivery_id`, `delivery_config_id`, `order_id`, `payment_mode`, `amount`, `notes`, `signature_file`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(95, 22, 64, 8, NULL, 0, NULL, NULL, '2019-11-28 20:08:14', 2, NULL, NULL, 'Active', 0),
-(96, 22, 64, 9, NULL, 0, NULL, NULL, '2019-11-28 20:08:14', 2, NULL, NULL, 'Active', 0);
+(95, 22, 64, 8, NULL, 200, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-02 16:37:07', NULL, 'Active', 0),
+(96, 22, 64, 9, NULL, 670, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-02 16:37:10', NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -537,7 +575,8 @@ CREATE TABLE `leads` (
 INSERT INTO `leads` (`id`, `company_name`, `contact_person_name`, `email`, `phone_1`, `phone_2`, `is_converted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_deleted`) VALUES
 (1, 'test', 'Rakesh', 'rk@gmail.com', '8963015122', '9166650505', 1, '2019-11-28 15:49:30', 1, '2019-11-29 13:09:47', 2, 0),
 (2, 'Test Company', 'Rakesh Jangir xx', NULL, '1231231231', NULL, 1, '2019-11-29 11:37:59', 123, '2019-11-29 11:39:54', NULL, 0),
-(3, 'Test Company', 'Rakesh Jangir abcd', NULL, '1231231231', NULL, 0, '2019-11-29 11:54:23', 123, NULL, NULL, 0);
+(3, 'Test Company', 'Rakesh Jangir abcd', NULL, '1231231231', NULL, 0, '2019-11-29 11:54:23', 123, NULL, NULL, 0),
+(4, 'Test Company 123', 'Rakesh Jangir abcd', NULL, '1231231231', NULL, 1, '2019-11-29 15:20:04', 123, '2019-11-29 15:21:01', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -628,7 +667,8 @@ INSERT INTO `orders` (`id`, `client_id`, `delivery_address_id`, `scheme_id`, `pr
 (12, 7, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 11:39:54', 1, NULL, NULL),
 (13, 8, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:09:47', 1, NULL, NULL),
 (14, 9, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:19', 1, NULL, NULL),
-(15, 10, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:29', 1, NULL, NULL);
+(15, 10, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:29', 1, NULL, NULL),
+(16, 11, 8, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 15:21:01', 1, '2019-12-02 11:56:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -686,7 +726,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `actual_p
 (27, 14, 5, 10, 5, 5, '50.00', '2019-11-29 13:10:19', 1, NULL, NULL),
 (28, 14, 4, 10, 7, 7, '70.00', '2019-11-29 13:10:19', 1, NULL, NULL),
 (29, 15, 5, 10, 5, 5, '50.00', '2019-11-29 13:10:29', 1, NULL, NULL),
-(30, 15, 4, 10, 7, 7, '70.00', '2019-11-29 13:10:29', 1, NULL, NULL);
+(30, 15, 4, 10, 7, 7, '70.00', '2019-11-29 13:10:29', 1, NULL, NULL),
+(31, 16, 5, 10, 5, 5, '50.00', '2019-11-29 15:21:01', 1, NULL, NULL),
+(32, 16, 4, 10, 7, 7, '70.00', '2019-11-29 15:21:01', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -989,6 +1031,14 @@ CREATE TABLE `user_devices` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `user_devices`
+--
+
+INSERT INTO `user_devices` (`id`, `user_id`, `device_id`, `created_at`) VALUES
+(1, 1, 'abcd', '2019-12-02 17:10:58'),
+(2, 1, 'abcd', '2019-12-02 17:11:21');
+
 -- --------------------------------------------------------
 
 --
@@ -1173,6 +1223,12 @@ INSERT INTO `zip_code_groups` (`id`, `group_name`, `state_id`, `city_id`, `creat
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cash_collection`
+--
+ALTER TABLE `cash_collection`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1439,6 +1495,12 @@ ALTER TABLE `brands`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `cash_collection`
+--
+ALTER TABLE `cash_collection`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
@@ -1448,7 +1510,7 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `client_categories`
@@ -1466,7 +1528,7 @@ ALTER TABLE `client_contacts`
 -- AUTO_INCREMENT for table `client_delivery_addresses`
 --
 ALTER TABLE `client_delivery_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `client_location_images`
@@ -1478,7 +1540,7 @@ ALTER TABLE `client_location_images`
 -- AUTO_INCREMENT for table `client_product_price`
 --
 ALTER TABLE `client_product_price`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `client_selesmans`
@@ -1532,7 +1594,7 @@ ALTER TABLE `group_to_zip_code`
 -- AUTO_INCREMENT for table `leads`
 --
 ALTER TABLE `leads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `lead_visits`
@@ -1550,7 +1612,7 @@ ALTER TABLE `mail_template`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_delivery_images`
@@ -1562,7 +1624,7 @@ ALTER TABLE `order_delivery_images`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1628,7 +1690,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_vehicle`

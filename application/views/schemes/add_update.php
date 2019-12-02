@@ -224,7 +224,7 @@
         });
 
         var validator = $("#tagFrm").validate({
-            debug:true,
+            // debug:true,
         rules   : 	{
                         "name"		:	{
                             required:true,

@@ -13,7 +13,7 @@ class User extends MY_Model {
      */
     function getRows($params = array()){
 
-        $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, roles.role_name `role`")
+        $resultUser = $this->db->select("users.id AS `user_id`, users.first_name, users.last_name, users.username, users.email, users.phone, users.role_id, roles.role_name `role`")
                  ->from("users")
                  ->join("roles", "roles.id = users.role_id", "LEFT")
                  ->where("users.status", 'Active')
