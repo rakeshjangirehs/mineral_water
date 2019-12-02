@@ -27,17 +27,17 @@ class Products extends MY_Controller {
 			array(
 				'field' => 'weight',
 				'label' => 'Weight',
-				'rules' => 'trim|required|decimal'
+				'rules' => 'trim|required|integer'
 			),
 			array(
 				'field' => 'cost_price',
 				'label' => 'Cost Price',
-				'rules' => 'trim|decimal'
+				'rules' => 'trim|integer'
 			),
 			array(
 				'field' => 'sale_price',
 				'label' => 'Sale Price',
-				'rules' => 'trim|required|decimal'
+				'rules' => 'trim|required|integer'
 			),
 			array(
 				'field' => 'brand_id',
@@ -73,7 +73,8 @@ class Products extends MY_Controller {
  			'dimension'				=> 	'',
  			'cost_price'			=>	'',
  			'sale_price'			=>	'',
- 			'brand_id'			=>	'',
+ 			'brand_id'				=>	'',
+ 			'manage_stock_needed'	=>	'',
 		 );
 		 
  		$this->data['page_title'] = 'Add Product';
@@ -93,9 +94,10 @@ class Products extends MY_Controller {
         		'dimension'			=> $this->input->post('dimension'),
         		'cost_price'		=> $this->input->post('cost_price'),
         		'sale_price'		=> $this->input->post('sale_price'),
-        		'brand_id'			=> $this->input->post('brand_id')
+        		'brand_id'			=> $this->input->post('brand_id'),
+        		'manage_stock_needed'=> ($this->input->post('manage_stock_needed')) ? 1 : 0,
         	);
-
+			
         	// upload product image if selected
         	$productImageData = array();
         	if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['name']!=""){
@@ -214,7 +216,7 @@ class Products extends MY_Controller {
 					->common_select('product_code, products.product_name,brands.brand_name as brand, products.weight, dimension, cost_price, sale_price')
 					->common_join("brands","brands.id=products.brand_id","left")
                     ->common_where('products.is_deleted = 0')
-                    ->common_get('products');
+				->common_get('products');
 
 		  $resultData = $this->db->query($query)->result_array();
 		  $headerColumns = implode(',', array_keys($resultData[0]));

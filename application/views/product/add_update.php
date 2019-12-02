@@ -36,6 +36,16 @@
                                     <input type="text" name="sale_price" id="sale_price" class="form-control" value="<?php echo (isset($_POST['sale_price'])) ? $_POST['sale_price'] : $products['sale_price']; ?>" />
                                     <span class="messages"><?php echo form_error('sale_price');?></span>
                                 </div>
+                                <div class="form-group">
+                                    <div class='checkbox-fade fade-in-primary'>
+                                        <label>
+                                            <input type='checkbox' name='manage_stock_needed' class='' value='1' <?php echo (isset($_POST['manage_stock_needed']) && $_POST['manage_stock_needed']==1) ? 'checked' : ( ($products['manage_stock_needed']==1) ? 'checked' : '' ); ?>>
+                                            <span class='cr'>
+                                                <i class='cr-icon icofont icofont-ui-check txt-primary'></i>
+                                            </span> Manage Stock?
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-xs-12 col-md-6">
