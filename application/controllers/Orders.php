@@ -27,9 +27,11 @@
                 $where .= " AND delivery_id IS NULL";
                 $colsArr = array(
                     'id',
+                    'order_status',
                     'client_name',
                     'expected_delivery_date',
                     'payable_amount',
+                    'effective_price',
                     'salesman_name',
                     'action'
                 );
@@ -41,6 +43,7 @@
                         'client_name',
                         'expected_delivery_date',
                         'payable_amount',
+                        'effective_price',                        
                         'expected_delivey_datetime'
                     );
                     break;
@@ -51,6 +54,7 @@
                         'client_name',
                         'expected_delivery_date',
                         'payable_amount',
+                        'effective_price',
                         'expected_delivey_datetime',
                         'actual_delivey_datetime',
                         'action'
@@ -74,11 +78,19 @@
                     DATE_FORMAT(tbl.expected_delivey_datetime,'%Y-%m-%d') as expected_delivey_datetime,
 	                DATE_FORMAT(tbl.actual_delivey_datetime,'%Y-%m-%d') as actual_delivey_datetime,
                     tbl.pickup_location,
-                    tbl.warehouse
+                    tbl.warehouse,
+                    (CASE
+                        WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                            WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                            ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                        END)
+                        ELSE orders.payable_amount
+                    END) AS `effective_price`
                 FROM orders				
                 LEFT JOIN clients ON clients.id = orders.client_id 
                 LEFT JOIN users as salesman ON salesman.id = orders.created_by 
                 LEFT JOIN users as deliveryboy ON deliveryboy.id = orders.delivery_boy_id
+                LEFT JOIN schemes ON schemes.id = orders.scheme_id
                 LEFT JOIN (
                     SELECT
                         delivery_config.id,		
@@ -99,8 +111,7 @@
                     LEFT JOIN `users` as `delivery_boy` on `delivery_boy`.`id` = `delivery_config`.`delivery_boy_id`
                     GROUP BY delivery_config.id
                 ) as tbl ON FIND_IN_SET(orders.id,tbl.orders)
-                GROUP BY `orders`.`id`
-                ORDER BY `orders`.`id`";
+                GROUP BY `orders`.`id`";    //ORDER BY `orders`.`id`
 
                 $result = $this->model->common_datatable($colsArr, $query, $where,NULL,TRUE);                
                 // echo "<pre>".$this->db->last_query();die;

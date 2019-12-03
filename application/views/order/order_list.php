@@ -40,6 +40,7 @@
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
+                                                <th>Effective Amount</th>
                                                 <th>Salesman</th>
                                                 <th>Action</th>
                                             </tr>
@@ -59,6 +60,7 @@
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
+                                                <th>Effective Amount</th>
                                                 <th>Expected Delivery Date</th>
                                             </tr>
                                             </thead>
@@ -77,6 +79,7 @@
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
+                                                <th>Effective Amount</th>
                                                 <th>Expected Delivery Date</th>
                                                 <th>Actual Delivery Date</th>
                                                 <th>Action</th>
@@ -174,6 +177,7 @@
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
+                { "data": "effective_price" },
                 { "data": "salesman_name" },
                 {
                     "data": 'link',
@@ -207,6 +211,7 @@
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
+                { "data": "effective_price" },
                 { "data": "expected_delivey_datetime" }
             ],
             "createdRow": function ( row, data, index ) {}
@@ -229,6 +234,7 @@
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
+                { "data": "effective_price" },
                 { "data": "expected_delivey_datetime" },
                 { "data": "actual_delivey_datetime" },
                 {

@@ -1938,7 +1938,7 @@ class ApiV1 extends REST_Controller {
                 LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`
                 LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`
                 LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
-                WHERE `delivery_config`.`delivery_boy_id` = {$user_id} 
+                WHERE (`delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id})
                 AND `orders`.`order_status`<>'Delivered'";
 
             $miss_delivery = " AND date(`delivery`.`expected_delivey_datetime`) < CURDATE()";

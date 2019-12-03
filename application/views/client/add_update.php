@@ -90,6 +90,7 @@
                                         endif;
                                         ?>
                                     </select>
+                                    <span class="messages"><?php echo form_error('zip_code_id');?></span>                                
                                 </div>
                             </div>
                             

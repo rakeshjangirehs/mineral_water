@@ -286,6 +286,7 @@ class Clients extends MY_Controller {
                 }
                 redirect('clients', 'location');
             }else{
+                // echo validation_errors();die;
                 if($state_id = $this->input->post('state_id')){
                     $this->data['cities'] = $this->db->get_where('cities',["is_deleted"=>0,'state_id'=>$state_id])->result_array();
                     $all_zip_code_where["state_id"] = $state_id;
@@ -521,6 +522,7 @@ class Clients extends MY_Controller {
                     'title'      =>  $this->input->post('title'),
                     'address'    =>  $this->input->post('address'),
                     'zip_code_id'=>  $this->input->post('zip_code_id'),
+                    'client_id'  =>  $client_id,
                 );
 
                 if ($this->client->add_update_address($data, $address_id)) {
