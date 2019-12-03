@@ -1599,6 +1599,7 @@ class ApiV1 extends REST_Controller {
                     `orders`.`order_status`,
                     `delivery_config_orders`.`id` AS `dco_id`,
                     `orders`.`id` AS `order_id`,
+                    `schemes`.`id` AS `scheme_id`,
                     0 AS `manage_stock_needed`,
                     NULL AS `inverntory_existing_quantity`,
                     NULL AS `inverntory_product_id`
@@ -1625,7 +1626,19 @@ class ApiV1 extends REST_Controller {
                                                     order_items.subtotal AS total
                                                 FROM order_items
                                                 LEFT JOIN products ON products.id = order_items.product_id
-                                                WHERE order_items.order_id = {$delivery['order_id']}")
+                                                WHERE order_items.order_id = {$delivery['order_id']}
+                                                
+                                                UNION
+
+                                                SELECT
+                                                    `products`.`product_name` AS `product`,
+                                                    `schemes`.`free_product_qty` AS `quantity`,
+                                                    0 AS `price`,
+                                                    0 AS `total`
+                                                FROM `schemes`
+                                                LEFT JOIN `products` ON `products`.`id` = `schemes`.`free_product_id`
+                                                WHERE `schemes`.`gift_mode` = 'free_product'
+                                                AND `schemes`.`id` = {$delivery['scheme_id']}")
                                         ->result_array();
                     
                     $deliveries[$k]['products'] = $products;

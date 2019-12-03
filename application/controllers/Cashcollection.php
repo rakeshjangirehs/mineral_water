@@ -94,7 +94,13 @@ class Cashcollection extends MY_Controller {
         }
 
 
-        $this->data['users'] = $this->db->where("role_id = 2")->get("users")->result_array();   //2-Salesman
+        $this->data['users'] = $this->db
+                                    ->select("users.id,users.first_name,users.last_name,roles.role_name")
+                                    ->join("roles","roles.id = users.role_id","left")
+                                    ->where_in("role_id",[3,4])
+                                    ->get("users")->result_array();   //2-Salesman
+        // echo "<pre>";print_r($this->data['users']);die;
+
 		$this->data['page_title'] = 'Cash Collection';
 		$this->load_content('cash_collection/collection_list', $this->data);
     }

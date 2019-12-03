@@ -17,11 +17,11 @@
                             <form method="post" action="<?php echo $this->baseUrl; ?>cashcollection" id="tagFrm" autocomplete="off">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-5">
-                                        <select class="form-control select2" style="width:100%" data-placeholder="Choose Salesman" id="salesman" name="salesman">
+                                        <select class="form-control select2" style="width:100%" data-placeholder="Choose User" id="salesman" name="salesman">
                                             <option></option>
                                             <?php foreach($users as $k=>$user){
                                                 $selected = ($user['id'] == $user_id) ? 'selected' : '';
-                                                echo "<option value='{$user['id']}' {$selected}>{$user['first_name']} {$user['last_name']}</option>";
+                                                echo "<option value='{$user['id']}' {$selected}>{$user['first_name']} {$user['last_name']} - ({$user['role_name']})</option>";
                                             }?>
                                         </select>
                                     </div>                                    
