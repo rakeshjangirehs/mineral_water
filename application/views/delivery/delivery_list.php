@@ -15,6 +15,7 @@
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>delivery/index" style="width:100%;">
                             <thead>
                             <tr>
+                                <th>Clients</th>
                                 <th>Expected Delivery</th>
                                 <th>Actual Delivery</th>
                                 <th>Pickup Location</th>
@@ -52,10 +53,11 @@
                 "type": "POST",
             },
             "columns": [
+                { "data": "client_name" },
                 { "data": "expected_delivey_datetime_f" },
                 { "data": "actual_delivey_datetime_f" },
                 { "data": "pickup_location" },
-                { "data": "warehouse_name" },
+                { "data": "warehouse_name" },                
                 {
                 	"data": 'link',
                     orderable:false,

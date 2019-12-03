@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2019 at 03:08 PM
+-- Generation Time: Dec 03, 2019 at 02:09 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -153,7 +153,7 @@ INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `a
 (1, 'letsenkindle', '2000.00', 390.00, 'Plot No.-5,\r\nKanbha', 3, 2, 5, NULL, NULL, NULL, 'Milan Soni', '1231231231', '7897897897', 'rakeshj@letsenkindle.com', 'Snehal Trapsiya', '9772446625', '9772446628', 'snehal@gmail.com', 0, '2019-11-25 14:10:26', 2, '2019-11-26 17:39:21', 2, 'Active', 'GJ08 1806 FC', 4),
 (2, 'Milan & Sons', '5000.00', 0.00, 'Plot No.-5,\r\nKanbha', 3, 2, 6, NULL, NULL, NULL, 'Milan Soni', '9166650505', '8963015122', 'milan@gmail.com', 'Gopal', '9829069118', '9772446628', 'milan@gmail.com', 0, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active', 'GJ08 1806 FC', 1),
 (5, 'test', '5000.00', 0.00, 'Plot No.-5,\r\nKanbha', 3, 2, 6, NULL, NULL, NULL, 'Milan Soni', '9166650505', '8963015122', 'milan@gmail.com', 'Gopal', '9829069118', '9772446628', 'milan@gmail.com', 0, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active', 'GJ08 1806 FC', 1),
-(6, 'test', '2.11', 0.00, 'test', 1, 1, 3, NULL, NULL, NULL, 'Rakesh', '1231231232', '1231231321', 'rakesh@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-11-29 11:08:23', 2, NULL, NULL, 'Active', 'test', 1),
+(6, 'XYZ Company', '2.11', 0.00, 'test', 1, 1, 3, NULL, NULL, NULL, 'Rakesh', '1231231232', '1231231321', 'rakesh@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-11-29 11:08:23', 2, '2019-12-03 11:23:08', 2, 'Active', 'test', 1),
 (7, 'Test Company', '0.00', 0.00, NULL, 3, 2, NULL, 2, NULL, NULL, 'Rakesh Jangir xx', '1231231231', NULL, NULL, 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 11:39:54', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
 (8, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:09:47', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
 (9, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:10:19', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
@@ -238,7 +238,8 @@ INSERT INTO `client_delivery_addresses` (`id`, `client_id`, `lead_id`, `title`, 
 (5, 8, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:31:27', 1, '2019-11-29 00:00:00', NULL, 'Active'),
 (6, 7, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:38:27', 1, '2019-11-29 00:00:00', NULL, 'Active'),
 (7, NULL, 3, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 11:54:37', 1, NULL, NULL, 'Active'),
-(8, 11, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 15:20:54', 1, '2019-11-29 00:00:00', NULL, 'Active');
+(8, 11, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 0, '2019-11-29 15:20:54', 1, '2019-11-29 00:00:00', NULL, 'Active'),
+(10, 6, NULL, 'client 6', 'test 2', 6, 0, '2019-12-03 11:33:50', 2, '2019-12-03 11:33:55', 2, 'Active');
 
 -- --------------------------------------------------------
 
@@ -255,6 +256,36 @@ CREATE TABLE `client_location_images` (
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_product_inventory`
+--
+
+CREATE TABLE `client_product_inventory` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `existing_quentity` int(11) DEFAULT 0,
+  `new_delivered` int(11) NOT NULL DEFAULT 0,
+  `empty_collected` int(11) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_product_inventory`
+--
+
+INSERT INTO `client_product_inventory` (`id`, `client_id`, `product_id`, `existing_quentity`, `new_delivered`, `empty_collected`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
+(1, 7, 4, 5, 5, 3, '2019-12-03 17:33:35', NULL, '2019-12-03 18:00:02', NULL, 'Active'),
+(2, 7, 4, 7, 5, 0, '2019-12-03 17:33:35', NULL, '2019-12-03 18:00:10', NULL, 'Active'),
+(3, 7, NULL, 12, 5, 2, '2019-12-03 00:00:00', 4, NULL, NULL, 'Active'),
+(4, 7, 4, 12, 5, 2, '2019-12-03 00:00:00', 4, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -435,7 +466,8 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`id`, `expected_delivey_datetime`, `actual_delivey_datetime`, `pickup_location`, `warehouse`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(22, '2019-11-26 00:00:00', '2019-11-28 18:58:39', 'Office', NULL, '2019-11-28 14:18:36', 2, '2019-11-28 20:08:14', 2, 'Active', 0);
+(22, '2019-11-26 00:00:00', '2019-11-28 18:58:39', 'Office', NULL, '2019-11-28 14:18:36', 2, '2019-11-28 20:08:14', 2, 'Active', 0),
+(23, '2019-12-03 00:00:00', '2019-12-03 18:36:16', 'Office', NULL, '2019-12-03 11:54:39', 2, '2019-12-03 00:00:00', 4, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -462,7 +494,9 @@ CREATE TABLE `delivery_config` (
 --
 
 INSERT INTO `delivery_config` (`id`, `delivery_id`, `vehicle_id`, `driver_id`, `delivery_boy_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(64, 22, 1, 4, 1, '2019-11-28 20:08:14', 2, '2019-12-02 14:45:44', NULL, 'Active', 0);
+(64, 22, 1, 4, 1, '2019-11-28 20:08:14', 2, '2019-12-02 14:45:44', NULL, 'Active', 0),
+(65, 22, 1, 4, 3, '2019-12-03 11:54:39', 2, '2019-12-03 12:24:07', NULL, 'Active', 0),
+(66, 23, 1, 4, 3, '2019-12-03 11:54:39', 2, '2019-12-03 12:24:07', NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -492,8 +526,10 @@ CREATE TABLE `delivery_config_orders` (
 --
 
 INSERT INTO `delivery_config_orders` (`id`, `delivery_id`, `delivery_config_id`, `order_id`, `payment_mode`, `amount`, `notes`, `signature_file`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(95, 22, 64, 8, NULL, 200, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-02 16:37:07', NULL, 'Active', 0),
-(96, 22, 64, 9, NULL, 670, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-02 16:37:10', NULL, 'Active', 0);
+(96, 22, 64, 9, NULL, 670, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-02 16:37:10', NULL, 'Active', 0),
+(97, 22, 65, 10, NULL, 0, NULL, NULL, '2019-12-03 11:54:39', 2, '2019-12-03 12:24:25', NULL, 'Active', 0),
+(98, 22, 64, 11, NULL, 670, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-03 12:22:49', NULL, 'Active', 0),
+(99, 23, 66, 12, 'CashCash', 30, 'Manage Inventory', 'saajan-july-81.jpg', '2019-11-28 20:08:14', 2, '2019-12-03 00:00:00', 4, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -518,7 +554,8 @@ CREATE TABLE `delivery_routes` (
 --
 
 INSERT INTO `delivery_routes` (`id`, `delivery_id`, `zip_code_group_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(47, 22, 1, '2019-11-28 20:08:14', 2, NULL, NULL, 'Active', 0);
+(47, 22, 1, '2019-11-28 20:08:14', 2, NULL, NULL, 'Active', 0),
+(48, 23, 1, '2019-12-03 11:54:39', 2, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -660,15 +697,16 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `client_id`, `delivery_address_id`, `scheme_id`, `priority`, `delivery_boy_id`, `expected_delivery_date`, `actual_delivery_date`, `payable_amount`, `delivery_id`, `payment_mode`, `payment_schedule_date`, `payment_schedule_time`, `order_status`, `status`, `payment_status`, `need_admin_approval`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(8, 2, 1, 2, 'High', NULL, '2019-12-02', '2019-11-28', 400.00, 22, 'Cash', '2019-12-06', '19:03:00', 'Delivered', 'Active', 'Paid', 0, '2019-11-28 11:23:13', 1, '2019-11-28 20:08:14', 3),
+(8, 2, 1, 2, 'High', NULL, '2019-12-02', '2019-11-28', 400.00, 22, 'Cash', '2019-12-06', '19:03:00', 'Delivered', 'Active', 'Paid', 0, '2019-11-28 11:23:13', 1, '2019-12-03 11:13:24', 3),
 (9, 2, 1, 2, 'High', NULL, '2019-12-03', NULL, 140.00, 22, 'Cash', '2019-12-07', '19:03:00', 'Pending', 'Active', 'Paid', 0, '2019-11-28 11:24:35', 1, '2019-11-28 20:08:14', NULL),
-(10, 2, 1, 2, 'High', NULL, '2019-12-04', NULL, 110.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Approved', 'Active', 'Partial', 1, '2019-11-28 11:25:24', 1, '2019-11-28 15:06:01', NULL),
+(10, 2, 1, 1, 'High', NULL, '2019-12-04', NULL, 110.00, 23, 'Cash', '2019-12-08', '19:03:00', 'Approved', 'Active', 'Partial', 1, '2019-11-28 11:25:24', 1, '2019-12-03 11:54:39', NULL),
 (11, 5, 1, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-28 12:54:24', 1, NULL, NULL),
-(12, 7, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 11:39:54', 1, NULL, NULL),
-(13, 8, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:09:47', 1, NULL, NULL),
-(14, 9, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:19', 1, NULL, NULL),
-(15, 10, 6, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:29', 1, NULL, NULL),
-(16, 11, 8, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 15:21:01', 1, '2019-12-02 11:56:56', NULL);
+(12, 7, 6, 2, 'High', NULL, '2019-12-04', NULL, 130.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 11:39:54', 1, '2019-12-03 18:38:25', 4),
+(13, 8, 6, 2, 'High', NULL, '2019-12-04', NULL, 140.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:09:47', 1, '2019-12-03 12:51:29', NULL),
+(14, 9, 6, 2, 'High', NULL, '2019-12-04', NULL, 150.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:19', 1, '2019-12-03 12:51:32', NULL),
+(15, 10, 6, 2, 'High', NULL, '2019-12-04', NULL, 160.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:29', 1, '2019-12-03 12:51:36', NULL),
+(16, 11, 8, 2, 'High', NULL, '2019-12-04', NULL, 170.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 15:21:01', 1, '2019-12-03 12:51:40', NULL),
+(17, 6, 10, 2, 'High', NULL, '2019-12-05', NULL, 570.00, NULL, 'Cash', '2019-12-06', '19:03:00', 'Approval Required', 'Active', 'Pending', 1, '2019-12-03 11:34:48', 1, '2019-12-03 11:38:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -728,7 +766,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `actual_p
 (29, 15, 5, 10, 5, 5, '50.00', '2019-11-29 13:10:29', 1, NULL, NULL),
 (30, 15, 4, 10, 7, 7, '70.00', '2019-11-29 13:10:29', 1, NULL, NULL),
 (31, 16, 5, 10, 5, 5, '50.00', '2019-11-29 15:21:01', 1, NULL, NULL),
-(32, 16, 4, 10, 7, 7, '70.00', '2019-11-29 15:21:01', 1, NULL, NULL);
+(32, 16, 4, 10, 7, 7, '70.00', '2019-11-29 15:21:01', 1, NULL, NULL),
+(33, 17, 1, 20, 19, 19, '380.00', '2019-12-03 11:34:48', 1, NULL, NULL),
+(34, 17, 2, 20, 5, 4.5, '90.00', '2019-12-03 11:34:48', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -791,6 +831,7 @@ CREATE TABLE `products` (
   `dimension` varchar(100) DEFAULT NULL,
   `cost_price` float DEFAULT 0,
   `sale_price` float DEFAULT 0,
+  `manage_stock_needed` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Do we need to manage stock for this product.',
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active | Deactive',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -803,14 +844,14 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `brand_id`, `product_name`, `product_code`, `description`, `weight`, `dimension`, `cost_price`, `sale_price`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 2, 'Bisleri Pet Bottle', 'BIS-1', '', 1, '12*4*4', 12, 20, 'Active', 0, '2019-11-25 14:00:43', 2, NULL, NULL),
-(2, 4, 'Aquafina 1 Ltr', 'AQ - 1', '', 1, '5*3*10', 12, 20, 'Active', 0, '2019-11-25 14:01:23', 2, NULL, NULL),
-(3, 3, 'Evian 1 Ltr', 'EV -1', '', 1, '5*3*10', 14, 18, 'Active', 0, '2019-11-25 14:02:03', 2, NULL, NULL),
-(4, 2, 'Bilery 250ml', 'BS-250', '', 250, '7*4*4', 3, 7, 'Active', 0, '2019-11-25 14:03:09', 2, NULL, NULL),
-(5, 4, 'Evian 250 ml', 'Ev-250', '', 250, '7*4*4', 3, 5, 'Active', 0, '2019-11-25 14:03:45', 2, NULL, NULL),
-(6, 1, 'test', 'te', '', 0, 'd', 5, 5, 'Active', 1, '2019-11-25 14:04:51', 2, '2019-11-25 14:05:01', NULL),
-(7, 1, 'df', '33', 'dfd', 3.15, '3', 22.4, 343.4, 'Active', 0, '2019-11-28 17:26:20', 2, NULL, NULL);
+INSERT INTO `products` (`id`, `brand_id`, `product_name`, `product_code`, `description`, `weight`, `dimension`, `cost_price`, `sale_price`, `manage_stock_needed`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 2, 'Bisleri Pet Bottle', 'BIS-1', '', 1, '12*4*4', 12, 20, 0, 'Active', 0, '2019-11-25 14:00:43', 2, '2019-12-03 14:34:10', NULL),
+(2, 4, 'Aquafina 1 Ltr', 'AQ - 1', '', 1, '5*3*10', 12, 20, 0, 'Active', 0, '2019-11-25 14:01:23', 2, NULL, NULL),
+(3, 3, 'Evian 1 Ltr', 'EV -1', '', 1, '5*3*10', 14, 18, 0, 'Active', 0, '2019-11-25 14:02:03', 2, NULL, NULL),
+(4, 2, 'Bilery 250ml', 'BS-250', '', 250, '7*4*4', 3, 7, 1, 'Active', 0, '2019-11-25 14:03:09', 2, '2019-12-03 18:33:39', NULL),
+(5, 1, 'Evian 250 ml', 'Ev-250', '', 250, '7*4*4', 3, 5, 0, 'Active', 0, '2019-11-25 14:03:45', 2, '2019-12-02 20:21:42', 2),
+(6, 1, 'test', 'te', '', 0, 'd', 5, 5, 0, 'Active', 1, '2019-11-25 14:04:51', 2, '2019-11-25 14:05:01', NULL),
+(7, 1, 'df', '33', 'dfd', 3.15, '3', 22.4, 343.4, 0, 'Active', 0, '2019-11-28 17:26:20', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -901,8 +942,9 @@ CREATE TABLE `schemes` (
 --
 
 INSERT INTO `schemes` (`id`, `name`, `description`, `start_date`, `end_date`, `type`, `order_value`, `gift_mode`, `discount_mode`, `discount_value`, `discounted_amount`, `match_mode`, `free_product_id`, `free_product_qty`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(1, 'Get 5% discount on purchase of 1000', 'Get 5% discount on purchase of 1000', '2019-11-25', '2019-12-31', 'price_scheme', 1000, 'cash_benifit', 'percentage', 5, NULL, NULL, NULL, NULL, '2019-11-25 14:15:56', 2, NULL, NULL, 'Active', 0),
-(2, 'Get 1 bottle free on purchase of 10 qty of Bilery-1ltr', 'Get 50 of on purchase of 50 qty of Bilery-1ltr', '2019-11-25', '2019-12-31', 'product_order_scheme', NULL, 'free_product', NULL, NULL, NULL, 'all', 1, 1, '2019-11-25 14:17:13', 2, '2019-11-29 13:38:35', 2, 'Active', 0);
+(1, 'Get 5% discount on purchase of 1000', 'Get 5% discount on purchase of 1000', '2019-11-25', '2020-01-16', 'price_scheme', 500, 'cash_benifit', 'percentage', 5, NULL, NULL, NULL, NULL, '2019-11-25 14:15:56', 2, '2019-12-03 11:28:25', 2, 'Active', 0),
+(2, 'Get 1 bottle free on purchase of 10 qty of Bilery-1ltr', 'Get 50 of on purchase of 50 qty of Bilery-1ltr', '2019-11-25', '2020-01-23', 'product_order_scheme', NULL, 'cash_benifit', 'amount', 100, NULL, 'all', NULL, NULL, '2019-11-25 14:17:13', 2, '2019-12-03 11:27:35', 2, 'Active', 0),
+(7, 'free product', NULL, '2019-12-03', '2020-01-31', 'price_scheme', 500, 'free_product', NULL, NULL, NULL, NULL, 3, 2, '2019-12-03 11:29:01', 2, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -928,9 +970,8 @@ CREATE TABLE `scheme_products` (
 --
 
 INSERT INTO `scheme_products` (`id`, `scheme_id`, `product_id`, `quantity`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(4, 2, 1, 10, '2019-11-29 13:38:35', 2, NULL, NULL, 'Active', 0),
-(5, 2, 3, 0, '2019-11-29 13:38:35', 2, NULL, NULL, 'Active', 0),
-(6, 2, 0, 3, '2019-11-29 13:38:35', 2, NULL, NULL, 'Active', 0);
+(9, 2, 1, 10, '2019-12-03 11:27:35', 2, NULL, NULL, 'Active', 0),
+(10, 2, 2, 5, '2019-12-03 11:27:35', 2, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -1126,7 +1167,7 @@ INSERT INTO `vehicle` (`id`, `name`, `number`, `capacity_in_ton`, `created_at`, 
 (1, 'Tata 207', 'GJ01CA1234', 12000, '2019-11-25 13:06:33', 2, NULL, NULL, 'Active', 0),
 (2, 'Tata 407', 'Gj02CC1122', 15000, '2019-11-25 13:06:52', 2, NULL, NULL, 'Active', 0),
 (3, 'Tata ACE', 'RJ23ST1695', 8000, '2019-11-25 13:07:09', 2, NULL, NULL, 'Active', 0),
-(4, 'Honda CD Deluxe', 'GJ03DF1212', 2000, '2019-11-25 13:07:33', 2, '2019-11-26 14:19:27', 2, 'Active', 0),
+(4, 'Honda CD Deluxe', 'GJ03DF1212', 20, '2019-11-25 13:07:33', 2, '2019-12-02 20:23:33', 2, 'Active', 0),
 (5, 'Honda CD Deluxe', 'GJ06FC3218', 2000, '2019-11-25 13:07:52', 2, NULL, NULL, 'Active', 0),
 (6, 'test', 'GJ01CA1233', 15000, '2019-11-26 14:33:53', 2, '2019-11-26 14:33:56', NULL, 'Active', 1);
 
@@ -1267,6 +1308,13 @@ ALTER TABLE `client_delivery_addresses`
 -- Indexes for table `client_location_images`
 --
 ALTER TABLE `client_location_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_id` (`client_id`);
+
+--
+-- Indexes for table `client_product_inventory`
+--
+ALTER TABLE `client_product_inventory`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client_id` (`client_id`);
 
@@ -1528,13 +1576,19 @@ ALTER TABLE `client_contacts`
 -- AUTO_INCREMENT for table `client_delivery_addresses`
 --
 ALTER TABLE `client_delivery_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `client_location_images`
 --
 ALTER TABLE `client_location_images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `client_product_inventory`
+--
+ALTER TABLE `client_product_inventory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `client_product_price`
@@ -1564,25 +1618,25 @@ ALTER TABLE `coordinates`
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `delivery_config`
 --
 ALTER TABLE `delivery_config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `delivery_config_orders`
 --
 ALTER TABLE `delivery_config_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `delivery_routes`
 --
 ALTER TABLE `delivery_routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `group_to_zip_code`
@@ -1612,7 +1666,7 @@ ALTER TABLE `mail_template`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `order_delivery_images`
@@ -1624,7 +1678,7 @@ ALTER TABLE `order_delivery_images`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1660,13 +1714,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `schemes`
 --
 ALTER TABLE `schemes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `scheme_products`
 --
 ALTER TABLE `scheme_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `settings`

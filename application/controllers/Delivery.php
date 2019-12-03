@@ -31,15 +31,19 @@ class Delivery extends MY_Controller {
 				'action'
 			);
 
-			$query = $this
-						->model
-                        ->common_select('delivery.*,
-                                        DATE_FORMAT(expected_delivey_datetime,"%Y-%m-%d") as expected_delivey_datetime_f,
-                                        DATE_FORMAT(actual_delivey_datetime,"%Y-%m-%d") as actual_delivey_datetime_f,
-                                        warehouses.name as warehouse_name
-                                        ')
-                        ->common_join("warehouses","warehouses.id=delivery.warehouse","left")
-						->common_get('delivery');
+            $query = "SELECT
+                            delivery.*,
+                            DATE_FORMAT(expected_delivey_datetime,'%Y-%m-%d') as expected_delivey_datetime_f,
+                            DATE_FORMAT(actual_delivey_datetime,'%Y-%m-%d') as actual_delivey_datetime_f,
+                            warehouses.name as warehouse_name,
+                            GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name
+                        FROM delivery
+                        LEFT JOIN warehouses ON warehouses.id=delivery.warehouse
+                        LEFT JOIN delivery_config ON delivery_config.delivery_id = delivery.id
+                        LEFT JOIN delivery_config_orders ON delivery_config_orders.delivery_config_id = delivery_config.id
+                        LEFT JOIN orders ON orders.id = delivery_config_orders.order_id
+                        LEFT JOIN clients ON clients.id = orders.client_id
+                        GROUP BY delivery.id";
 
             echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0",NULL,true);die;
 		}

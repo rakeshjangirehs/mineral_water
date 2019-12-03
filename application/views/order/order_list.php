@@ -40,7 +40,7 @@
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
-                                                <th>Effective Amount</th>
+                                                <th>Final Amount</th>
                                                 <th>Salesman</th>
                                                 <th>Action</th>
                                             </tr>
@@ -60,7 +60,7 @@
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
-                                                <th>Effective Amount</th>
+                                                <th>Final Amount</th>
                                                 <th>Expected Delivery Date</th>
                                             </tr>
                                             </thead>
@@ -79,7 +79,7 @@
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
-                                                <th>Effective Amount</th>
+                                                <th>Final Amount</th>
                                                 <th>Expected Delivery Date</th>
                                                 <th>Actual Delivery Date</th>
                                                 <th>Action</th>

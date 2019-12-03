@@ -1398,6 +1398,7 @@ class ApiV1 extends REST_Controller {
                     `clients`.`contact_person_1_email`,
                     `orders`.`payable_amount`,
                     `orders`.`expected_delivery_date`,
+                    DATE_FORMAT(`orders`.`created_at`,'%Y-%m-%d') AS `created_at`,
                     `orders`.`priority`,	
                     #`orders`.`order_status`,
                     SUM(`order_items`.`quantity`) AS `product_count`
@@ -1587,22 +1588,74 @@ class ApiV1 extends REST_Controller {
                     `client_delivery_addresses`.`address`,
                     `zip_codes`.`zip_code`,
                     `orders`.`priority`,
-                    `orders`.`payable_amount`,
+                    (CASE
+                        WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                            WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                            ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                        END)
+                        ELSE orders.payable_amount
+                    END) AS `payable_amount`,
                     date(`delivery`.`expected_delivey_datetime`) AS `expected_delivery_date`,
                     `orders`.`order_status`,
-                    `delivery_config_orders`.`id` AS `dco_id`
-                FROM `delivery_config_orders`
-                LEFT JOIN `delivery` ON `delivery`.`id` = `delivery_config_orders`.`delivery_id`
+                    `delivery_config_orders`.`id` AS `dco_id`,
+                    `orders`.`id` AS `order_id`,
+                    0 AS `manage_stock_needed`,
+                    NULL AS `inverntory_existing_quantity`,
+                    NULL AS `inverntory_product_id`
+                FROM `delivery`
+                LEFT JOIN `delivery_config` ON `delivery_config`.`delivery_id` = `delivery`.`id`
+                LEFT JOIN `delivery_config_orders` ON `delivery_config_orders`.`delivery_config_id` = `delivery_config`.`id`                
                 LEFT JOIN `orders` ON `orders`.`id` = `delivery_config_orders`.`order_id`
+                LEFT JOIN `schemes` ON `schemes`.`id` = `orders`.`scheme_id`
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
                 LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`
                 LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`
-                LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
                 WHERE (`delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id})
                 AND `orders`.`order_status`<>'Delivered'
                 AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()";
 
             if($deliveries = $this->db->query($query)->result_array()){
+
+                foreach($deliveries as $k=>$delivery){
+                    
+                    $products = $this->db->query("SELECT
+                                                    products.product_name AS product,
+                                                    order_items.quantity,
+                                                    order_items.effective_price AS price,
+                                                    order_items.subtotal AS total
+                                                FROM order_items
+                                                LEFT JOIN products ON products.id = order_items.product_id
+                                                WHERE order_items.order_id = {$delivery['order_id']}")
+                                        ->result_array();
+                    
+                    $deliveries[$k]['products'] = $products;
+
+                    $existing_inv = $this->db->query("SELECT                                                    
+                                                        order_items.product_id,
+                                                        (
+                                                            IFNULL(client_product_inventory.existing_quentity,0) +
+                                                            IFNULL(client_product_inventory.new_delivered,0) -
+                                                            IFNULL(client_product_inventory.empty_collected,0)
+                                                        ) AS existing_quentity
+                                                    FROM orders                                                                
+                                                    LEFT JOIN order_items ON order_items.order_id = orders.id
+                                                    LEFT JOIN products ON products.id = order_items.product_id
+                                                    LEFT JOIN client_product_inventory ON client_product_inventory.product_id = products.id 
+                                                    AND client_product_inventory.client_id = orders.client_id 
+                                                    WHERE order_items.order_id = {$delivery['order_id']} 
+                                                    AND products.manage_stock_needed=1
+                                                    ORDER BY client_product_inventory.id DESC
+                                                    LIMIT 1")
+                                            ->row_array();                    
+                    
+                    if($existing_inv){                        
+                        $deliveries[$k]['inverntory_existing_quantity'] = $existing_inv['existing_quentity'];
+                        $deliveries[$k]['inverntory_product_id'] = $existing_inv['product_id'];
+                        $deliveries[$k]['manage_stock_needed'] = 1;
+                    }
+
+                }
+
                 $this->response(
                     array(
                         'status' => TRUE,
@@ -1649,7 +1702,22 @@ class ApiV1 extends REST_Controller {
         $amount = $this->input->post('amount');        
         $notes = $this->input->post('notes');
 
-        if($user_id && $dco_id && $payment_mode && $amount){
+        $manage_stock_needed = $this->input->post('manage_stock_needed');
+        $existing_quentity = $this->input->post('existing_quentity');
+        $new_delivered = $this->input->post('new_delivered');
+        $empty_collected = $this->input->post('empty_collected');
+        $product_id = $this->input->post('inverntory_product_id');
+
+        if($user_id && $dco_id && $payment_mode && $amount && $manage_stock_needed){
+
+            //Check for stock
+            if($manage_stock_needed && (!$existing_quentity || !$new_delivered || !$empty_collected || !$product_id)){
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'existing_quentity, new_delivered, empty_collected, product_id are required'
+                ], REST_Controller::HTTP_BAD_REQUEST);
+                die;
+            }
 
             $delivery_data = array(
                 'payment_mode'  =>  $payment_mode,
@@ -1709,7 +1777,15 @@ class ApiV1 extends REST_Controller {
 
             $this->db->where("id = {$dco_id}")->update("delivery_config_orders",$delivery_data);
             
-            if($dco_data = $this->db->select("delivery_id,order_id")->get_where("delivery_config_orders","id = {$dco_id}")->row_array()){
+            $dco_data = $this->db->select("
+                                        delivery_config_orders.delivery_id,
+                                        delivery_config_orders.order_id,
+                                        orders.client_id")
+                                ->join("orders","orders.id = delivery_config_orders.order_id","left")
+                                ->get_where("delivery_config_orders","delivery_config_orders.id = {$dco_id}")
+                                ->row_array();
+            
+            if($dco_data){
                 
                 $order_data = array(
                     'actual_delivery_date'  =>  date('Y-m-d'),
@@ -1725,6 +1801,16 @@ class ApiV1 extends REST_Controller {
                     'updated_by'    =>  $user_id,
                 );
                 $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
+
+                $this->db->insert("client_product_inventory",array(
+                    'client_id'     =>  $dco_data['client_id'],
+                    'product_id'    =>  $product_id,
+                    'existing_quentity' =>  $existing_quentity,
+                    'new_delivered'     =>  $new_delivered,
+                    'empty_collected'   =>  $empty_collected,
+                    'created_at'        =>  date('Y-m-d'),
+                    'created_by'        =>  $user_id,
+                ));
             }
 
             $this->db->trans_complete();
@@ -1750,7 +1836,7 @@ class ApiV1 extends REST_Controller {
         }else{
             $this->response([
                 'status' => FALSE,
-                'message' => 'user_id, dco_id, payment_mode, amount are required.'
+                'message' => 'user_id, dco_id, payment_mode, amount, manage_stock_needed are required.'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
