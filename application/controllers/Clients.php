@@ -325,7 +325,8 @@ class Clients extends MY_Controller {
                     client_product_price.id as client_product_price_id
                 FROM products
                 LEFT JOIN client_product_price ON client_product_price.product_id = products.id
-                WHERE client_product_price.client_id={$client_id}";
+                WHERE client_product_price.client_id={$client_id}
+                ORDER BY products.product_name";
         $data = $this->db->query($query)->result_array();
         
         $client = $this->db->get_where("clients",["id"=>$client_id])->row_array();
@@ -400,7 +401,7 @@ class Clients extends MY_Controller {
         }		
     }
     
-    public function price_list_sample($client_id){
+    private function get_client_price_list($client_id){
 
         $query = "SELECT
                     products.id as product_id,
@@ -409,22 +410,18 @@ class Clients extends MY_Controller {
                     products.sale_price,
                     client_product_price.sale_price as client_price
                 FROM products
-                LEFT JOIN client_product_price ON client_product_price.product_id = products.id
-                AND client_product_price.client_id={$client_id}";
+                RIGHT JOIN client_product_price ON client_product_price.product_id = products.id
+                WHERE client_product_price.client_id={$client_id}
+                ORDER BY products.product_name";
+
+        return $this->db->query($query)->result_array();
         
+    }
+
+    public function price_list_sample($client_id){
+
         $client = $this->db->get_where("clients",["id"=>$client_id])->row_array();
-
-        $resultData = $this->db->query($query)->result_array();
-
-        /*
-        foreach($resultData as $k=>$dt){
-            if($existing_price = $this->db->get_where("client_product_price",['product_id'=>$dt['product_id'],'client_id'=>$client_id])->row_array()){
-                $resultData[$k]['client_price'] = $existing_price['sale_price'];
-            }
-        }
-        */
-        
-        // echo "<pre>";print_r($resultData);die;
+        $resultData = $this->get_client_price_list($client_id);
 
 		$headerColumns = implode(',', array_keys($resultData[0]));
 		$filename = 'price_list_sample.xlsx';
@@ -438,30 +435,34 @@ class Clients extends MY_Controller {
         if(isset($_FILES['csv_file']) && $_FILES['csv_file']['error']==0){
 		  
             $csv_data = $this->readExcel($_FILES['csv_file']['tmp_name']);
+
+            $client_price_list = $this->get_client_price_list($client_id);
+
+            $product_id_arr = array_column($client_price_list,'product_id');
             
             if(count($csv_data) > 2){
               
               $data_to_import = [];
 
+
               foreach($csv_data as $k=>$arr){
       
                 if($k==1) continue; //Skip header row
 
-                $data_to_import[] = array(
-                    'client_id'     =>  $client_id,
-                    'product_id'    =>  $arr['A'],
-                    'sale_price'    =>  $arr['E'],
-                    'created_at'    =>  date('Y-m-d H:i:s'),
-                    'created_by'    =>  USER_ID
-                );
-                
+                if(in_array($arr['A'],$product_id_arr)){
+                    $data_to_import[] = array(
+                        'client_id'     =>  $client_id,
+                        'product_id'    =>  $arr['A'],
+                        'sale_price'    =>  $arr['E'],
+                        'created_at'    =>  date('Y-m-d H:i:s'),
+                        'created_by'    =>  USER_ID
+                    );
+                }
               }
   
               if($data_to_import){                
 
-                $this->db->delete("client_product_price",['client_id'=>$client_id]);
-                
-                if($this->db->insert_batch("client_product_price",$data_to_import) !== FALSE){                    
+                if($this->db->where("client_id = {$client_id}")->update_batch("client_product_price",$data_to_import,'product_id') !== FALSE){                                        
                     $this->flash('success','Prices updated successfully');
                 }else{
                   $this->flash("error","Internal Server Error. Please try again.");
