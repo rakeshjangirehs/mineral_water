@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <h4 class="sub-title">Cash Recieved from User
+                            <h4 class="sub-title">Cash Received from User
                                 <span class="text-success m-t-20" id="total_user_collection"></span>
                             </h4>
                             <div class="dt-responsive table-responsive">

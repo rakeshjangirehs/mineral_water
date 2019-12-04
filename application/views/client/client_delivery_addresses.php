@@ -8,7 +8,7 @@
                             <div class="card-header-right" style="padding:0px 0px;">
                                 <ul class="list-unstyled card-option">
                                     <li><i class="feather icon-maximize full-card"></i></li>
-                                    <li title="Export Excel"><a href="<?php echo $this->baseUrl; ?>zipcodegroups/zip_group_export"><i class="fa fa-file-excel-o"></i></a></li>
+                                    <!--<li title="Export Excel"><a href="<?php //echo $this->baseUrl; ?>zipcodegroups/zip_group_export"><i class="fa fa-file-excel-o"></i></a></li>-->
                                 </ul>
                             </div>
                         </div>
@@ -19,6 +19,7 @@
                                     <tr>
                                         <th>Title</th>
                                         <th>Address</th>
+                                        <th>Coordinates</th>
                                         <th>ZipCode</th>
                                         <th>Action</th>
                                     </tr>
@@ -37,7 +38,7 @@
         <div class="page-body">
             <div class="row">
                 <div class="col-sm-12">
-                    <form action="<?php echo $this->baseUrl; ?>clients/client_delivery_addresses/<?php echo $client_id.'/'.$address_id; ?>" id="tagFrm" method="post">
+                    <form action="<?php echo $this->baseUrl; ?>clients/client_delivery_addresses/<?php echo $client_id.'/'.$address_id; ?>" id="tagFrm" method="post" autocomplete="off">
                         <div class="card">
                             <div class="card-header">
                                 <h5><?php echo $form_title; ?></h5>
@@ -54,7 +55,7 @@
                                             <label for="address" class="control-label">Address:</label>
                                             <input type="text" name="address" id="address" class="form-control" value="<?php echo (isset($_POST['address']))? set_value('address') : $address['address']; ?>"  />
                                             <span class="messages"><?php echo form_error('address');?></span>
-                                        </div>                                        
+                                        </div>
                                         <div class="form-group">
                                             <label for="zip_code_id" class="control-label">Zip Codes:</label>                                            
                                             <select class="form-control select2" name="zip_code_id" id="zip_code_id" data-placeholder="Choose ZIP Code">
@@ -71,6 +72,16 @@
                                                 ?>
                                             </select>
                                             <span class="messages"><?php echo form_error('zip_code_id');?></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lat" class="control-label">Latitude:</label>
+                                            <input type="text" name="lat" id="lat" class="form-control" value="<?php echo (isset($_POST['lat']))? set_value('lat') : $address['lat']; ?>"  />
+                                            <span class="messages"><?php echo form_error('lat');?></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lng" class="control-label">Longitude:</label>
+                                            <input type="text" name="lng" id="lng" class="form-control" value="<?php echo (isset($_POST['lng']))? set_value('lng') : $address['lng']; ?>"  />
+                                            <span class="messages"><?php echo form_error('lng');?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -129,6 +140,7 @@
             "columns": [
                 { "data": "title" },
                 { "data": "address" },
+                { "data": "coordinates" },
                 { "data": "zip_code" },
                 {
                     "data": 'link',

@@ -103,6 +103,16 @@ class Clients extends MY_Controller {
                 'label' => 'Zip Code',
                 'rules' => 'required|integer'
             ),
+            array(
+                'field' => 'lat',
+                'label' => 'Latitude',
+                'rules' => 'trim|decimal'
+            ),
+            array(
+                'field' => 'lng',
+                'label' => 'Longitude',
+                'rules' => 'trim|decimal'
+            ),
         );
     }
     
@@ -486,12 +496,16 @@ class Clients extends MY_Controller {
 
         if($address_id){
             $address = $this->db->get_where("client_delivery_addresses","id = {$address_id}")->row_array();
+            // echo $this->db->last_query();
+            // echo "<pre>";print_r($address);die;
             $this->data['form_title'] = 'Update Address';
         }else{
             $address = array(
                 'title'     =>  null,
                 'address'   =>  null,
                 'zip_code_id'=>  null,
+                'lat'=>  null,
+                'lng'=>  null,
             );
             $this->data['form_title'] = 'Add Address';
         }
@@ -500,13 +514,26 @@ class Clients extends MY_Controller {
 			$colsArr = array(
 				'title',
                 'address',
+                "(CASE
+                    WHEN client_delivery_addresses.lat IS NOT NULL AND client_delivery_addresses.lng IS NOT NULL
+                    THEN CONCAT(client_delivery_addresses.lat,client_delivery_addresses.lng)
+                    ELSE NULL
+                END)",
                 'zip_codes.zip_code',
 				'action'
 			);
 
             $query = $this
                 ->model
-                ->common_select("client_delivery_addresses.*,zip_codes.zip_code")
+                ->common_select("
+                                    client_delivery_addresses.*,
+                                    (CASE
+                                        WHEN client_delivery_addresses.lat IS NOT NULL AND client_delivery_addresses.lng IS NOT NULL
+                                        THEN CONCAT(client_delivery_addresses.lat,client_delivery_addresses.lng)
+                                        ELSE NULL
+                                    END)  AS coordinates,
+                                    zip_codes.zip_code
+                                ")
                 ->common_join('`zip_codes`','`zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`','LEFT')
                 ->common_get('`client_delivery_addresses`');
 
@@ -523,6 +550,8 @@ class Clients extends MY_Controller {
                     'title'      =>  $this->input->post('title'),
                     'address'    =>  $this->input->post('address'),
                     'zip_code_id'=>  $this->input->post('zip_code_id'),
+                    'lat'        =>  ($this->input->post('lat')) ? $this->input->post('lat') : null,
+                    'lng'        =>  ($this->input->post('lng')) ? $this->input->post('lng') : null,
                     'client_id'  =>  $client_id,
                 );
 

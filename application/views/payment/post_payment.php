@@ -23,7 +23,7 @@
                             <div class="col-sm-12 col-md-6">
 
                                 <div class="form-group row">
-                                    <label for="payment_mode" class="col-form-label col-md-4">Paymont Mode:</label>
+                                    <label for="payment_mode" class="col-form-label col-md-4">Payment Mode:</label>
                                     <div class="col-sm-8">
                                         <select name="payment_mode" id="payment_mode" class="form-control">
                                             <option value="" disabled>Choose Payment Mode</option>

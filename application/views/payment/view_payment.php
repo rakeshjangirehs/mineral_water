@@ -30,7 +30,7 @@
                                     <div class="m-r-10">
                                         <ul>
                                             <li class="p-t-10">
-                                                <i class="icofont icofont-double-right text-success"></i> Paymont Mode : <span class="details-left f-w-900"><?php echo $payment_data['payment_mode']; ?></span>
+                                                <i class="icofont icofont-double-right text-success"></i> Payment Mode : <span class="details-left f-w-900"><?php echo $payment_data['payment_mode']; ?></span>
                                             </li>
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Paid Amount : <span class="details-left"><?php echo $payment_data['paid_amount']; ?></span>
@@ -45,7 +45,7 @@
                                                 <i class="icofont icofont-double-right text-success"></i> Cheque Date. : <span class="details-left"><?php echo $payment_data['check_date']; ?></span>
                                             </li>
                                             <li class="p-t-10">
-                                                <i class="icofont icofont-double-right text-success"></i> Transection No. : <span class="details-left"><?php echo $payment_data['transection_no']; ?></span>
+                                                <i class="icofont icofont-double-right text-success"></i> Transaction No. : <span class="details-left"><?php echo $payment_data['transection_no']; ?></span>
                                             </li>
 
                                         </ul>
