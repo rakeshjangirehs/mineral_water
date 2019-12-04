@@ -953,7 +953,7 @@ class ApiV1 extends REST_Controller {
                 $this->response(
                     array(
                         'status' => TRUE,
-                        'message' => 'Visit created successfully.',
+                        'message' => 'FollowUp created successfully.',
                         'data' => []
                     ),
                     REST_Controller::HTTP_OK

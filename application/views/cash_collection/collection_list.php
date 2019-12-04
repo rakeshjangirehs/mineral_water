@@ -24,13 +24,15 @@
                                                 echo "<option value='{$user['id']}' {$selected}>{$user['first_name']} {$user['last_name']} - ({$user['role_name']})</option>";
                                             }?>
                                         </select>
+                                        <span class="messages"><?php echo form_error('salesman');?></span>
                                     </div>                                    
                                     <div class="col-sm-12 col-md-2 submitable" style="text-align:center;padding: 5px;">
                                         Balance : <span id="pending_amount"></span>
                                     </div>
                                     <div class="col-sm-12 col-md-3 submitable">
                                         <input type="hidden" name="pending_amount_hidden" id="pending_amount_hidden" value=""/>
-                                        <input type="text" class="form-control" placeholder="Amount to clear" name="amount_clearing" id="amount_clearing"/>
+                                        <input type="text" class="form-control" placeholder="Amount to clear" name="amount_clearing" id="amount_clearing" value="<?php echo set_value('amount_clearing');?>"/>
+                                        <span class="messages"><?php echo form_error('amount_clearing');?></span>
                                     </div>
                                     <div class="col-sm-12 col-md-2 submitable">
                                         <button type="submit" class="btn btn-sm btn-primary">Clear Balance</button>
@@ -136,10 +138,16 @@
                         },
                         "amount_clearing"		:	{
                             required:true,
-                            digits:true,
+                            // digits:true,
                             // number:true,
+                            regex:/^(\d*\.)?\d+$/
                         },
                     },
+        messages:{
+            amount_clearing		:	{                
+                regex			:	"This Field can only contain positive numbers."
+            },
+        },
         errorElement: "p",
         errorClass:"text-danger error",
         errorPlacement: function ( error, element ) {

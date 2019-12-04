@@ -109,6 +109,7 @@ class Products extends MY_Controller {
 				$imageData = $this->store('product_image');		// generate original image upload
 				
 	        	if(!empty($imageData['file_name'])){
+
 	        		if($this->do_resize($imageData)){        	// resize image and generate thumbnail
 	        			$thumbImageName = explode('.', $imageData['file_name']);
 	        			$thumb = $thumbImageName[0].'_thumb'.'.'.$thumbImageName[1];
@@ -122,20 +123,23 @@ class Products extends MY_Controller {
 	        	);
         	}
 
-        	if($this->product_model->add_update($productData, $productImageData, $id)){
-        		$msg = '';
-        		$type = 'message';
+			$type = 'success';
+			$msg = 'Product inserted successfully.';
+
+		if($this->product_model->add_update($productData, $productImageData, $id)){
+
         		if($id){
         			$msg = 'Product updated successfully.';
-        		}else{
-        			$msg = 'Product inserted successfully.';
-        		}
+				}
+				
         	}else{
         		$msg = 'Some error occured. Please try again later.';
         		$type = 'error';
-        	}
+			}
+			
         	$this->flash($type, $msg);
-        	redirect('products', 'location');
+			redirect('products', 'location');
+			
 	    }
 
  		$this->data['products'] = $productsArr;
@@ -144,38 +148,56 @@ class Products extends MY_Controller {
  		$this->load_content('product/add_update', $this->data);
  	}
 
+	public function check_duplicate_product_code($new_code){
+
+        $product_id = $this->uri->segment(3);
+
+        if($new_code && !$this->product_model->check_duplicate("products","product_code", $new_code, $product_id)){
+            $this->form_validation->set_message('check_duplicate_product_code',"{$new_code} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+	}
+
 	public function validate_file($str){
 
 		$allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
-		$mime = $_FILES['product_image']['type'];
-		
-		if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['name']!=""){
+
+		if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['error']==0){
+
+			$mime = $_FILES['product_image']['type'];
+
 			if(in_array($mime, $allowed_mime_type_arr)){
 				return true;
 			}else{
 				$this->form_validation->set_message('validate_file', 'Please select only gif/jpg/png file.');
 				return false;
 			}
+		}else{
+			return true;
 		}
-		return true;
 	}
 
 	public function store($str){
+		
 		$config['upload_path'] = FCPATH.'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'originals'.DIRECTORY_SEPARATOR;
-		$config['allowed_types'] = 'gif|jpg|png';
+		$config['allowed_types'] = '*';
 		$this->load->library('upload', $config);
 
 		if (!$this->upload->do_upload($str)) {
-		$error = array('error' => $this->upload->display_errors());
-		echo "<pre>"; print_r($error);die;
+			$error = array('error' => $this->upload->display_errors());
+			// echo "<pre>"; print_r($error);die;
 		} else {
-		$image_data = $this->upload->data();
-		return $image_data;
+			$image_data = $this->upload->data();
+			return $image_data;
 		}
 	}
 
 	public function do_resize($image_data = array()){
+
 		$this->load->library('image_lib');
+
 		$configer =  array(
 		'image_library'   => 'gd2',
 		'source_image'    =>  $image_data['full_path'],
@@ -186,6 +208,7 @@ class Products extends MY_Controller {
 		'width'           =>  250,
 		'height'          =>  250,
 		);
+
 		$this->image_lib->clear();
 		$this->image_lib->initialize($configer);
 		return $this->image_lib->resize();
@@ -205,19 +228,7 @@ class Products extends MY_Controller {
 		  $title = 'Product List';
 		  $sheetTitle = 'Product List';
 		  $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
-	}
-
-	private function check_duplicate_product_code($new_code){
-
-        $product_id = $this->uri->segment(3);
-
-        if($new_code && !$this->product_model->check_duplicate("products","product_code", $new_code, $product_id)){
-            $this->form_validation->set_message('check_duplicate_product_code',"{$new_code} already exist.");
-            return false;
-        }else{
-            return true;
-        }
-	}
+	}	
 
 	public function delete($product_id){
 		

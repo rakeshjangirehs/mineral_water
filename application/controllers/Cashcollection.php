@@ -19,9 +19,13 @@ class Cashcollection extends MY_Controller {
             array(
                 'field' => 'amount_clearing',
                 'label' => 'Amount',
-                'rules' => 'required|integer'
+                'rules' => 'required|regex_match[/^(\d*\.)?\d+$/]',
+                'errors' => array(
+                    'regex_match' =>'This Field can only contain positive numbers.'
+                )
             ),
         );
+
 	}
 
 	public function index(){
@@ -89,7 +93,8 @@ class Cashcollection extends MY_Controller {
                 redirect("cashcollection", 'location');
 
             }else{
-                
+                // echo "<pre>";print_r(validation_errors());die;
+                $this->data['user_id'] = $this->input->post('salesman');
             }
         }
 
@@ -113,6 +118,10 @@ class Cashcollection extends MY_Controller {
         }
         $this->flash("user_id", $user_id);
         redirect("cashcollection");
+    }
+
+    public function int_and_float_check(){
+
     }
 
 }

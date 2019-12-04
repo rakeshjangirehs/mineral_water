@@ -24,8 +24,8 @@ class Product_model extends MY_Model {
                 $this->db->delete('product_images');
                 
                 $product_image['product_id'] = $id;
-                $product_image['updated_by'] = USER_ID;
-                $product_image['updated_at'] = date('Y-m-d H:i:s');
+                $product_image['created_by'] = USER_ID;
+                $product_image['created_at'] = date('Y-m-d H:i:s');
 
                 $this->db->insert('product_images', $product_image);
             }
@@ -40,6 +40,7 @@ class Product_model extends MY_Model {
     		if(!empty($product_image)){
     			$product_image['product_id'] = $id;
     			$product_image['created_by'] = USER_ID;
+    			$product_image['created_at'] = date('Y-m-d H:i:s');
 
     			$this->db->insert('product_images', $product_image);
             }

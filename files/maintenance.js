@@ -163,4 +163,9 @@ $.fn.forceInt = function () {
 
 jQuery.validator.addMethod("notEqual", function(value, element, param) {
     return this.optional(element) || value != $(param).val();
-   }, "This has to be different...");
+}, "This has to be different...");
+
+$.validator.addMethod("regex",function(value, element, regexp) {        
+    var re = new RegExp(regexp);
+    return this.optional(element) || re.test(value);
+},"Please check your input.");
