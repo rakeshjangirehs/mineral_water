@@ -75,17 +75,20 @@ class Products extends MY_Controller {
  			'sale_price'			=>	'',
  			'brand_id'				=>	'',
  			'manage_stock_needed'	=>	'',
-		 );
+		);
 		 
  		$this->data['page_title'] = 'Add Product';
- 		if($id){
+		 
+		if($id){
+			
  			$productsArr = $this->model->get("products", $id, 'id');
  			$this->data['page_title'] = 'Update Product';
  		}
 
 		$this->form_validation->set_rules($this->product_validation_config);
- 		if ($this->form_validation->run() == TRUE)
-	    {
+
+ 		if ($this->form_validation->run() === TRUE){
+
         	$productData = array(
         		'product_name'		=> $this->input->post('product_name'),
         		'product_code'		=> $this->input->post('product_code'),
@@ -99,9 +102,12 @@ class Products extends MY_Controller {
         	);
 			
         	// upload product image if selected
-        	$productImageData = array();
-        	if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['name']!=""){
-	        	$imageData = $this->store('product_image');		// generate original image upload
+			$productImageData = array();
+			
+			if(isset($_FILES['product_image']['name']) && $_FILES['product_image']['error']==0){
+
+				$imageData = $this->store('product_image');		// generate original image upload
+				
 	        	if(!empty($imageData['file_name'])){
 	        		if($this->do_resize($imageData)){        	// resize image and generate thumbnail
 	        			$thumbImageName = explode('.', $imageData['file_name']);
@@ -138,30 +144,6 @@ class Products extends MY_Controller {
  		$this->load_content('product/add_update', $this->data);
  	}
 
-	public function delete($product_id){
-		
-		//remove client product price
-		
-		if($this->db->update("products",array('is_deleted'=>1),array('id'=>$product_id))){
-			$this->flash("success","Product Deleted Successfully");
-		}else{
-			$this->flash("error","Product not Deleted");
-		}
-		redirect("products/index");
-	}
-
-	public function check_duplicate_product_code($new_code){
-
-        $product_id = $this->uri->segment(3);
-
-        if($new_code && !$this->product_model->check_duplicate("products","product_code", $new_code, $product_id)){
-            $this->form_validation->set_message('check_duplicate_product_code',"{$new_code} already exist.");
-            return false;
-        }else{
-            return true;
-        }
-	}
-
 	public function validate_file($str){
 
 		$allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
@@ -192,7 +174,6 @@ class Products extends MY_Controller {
 		}
 	}
 
-  // generate image thumbnails
 	public function do_resize($image_data = array()){
 		$this->load->library('image_lib');
 		$configer =  array(
@@ -210,8 +191,8 @@ class Products extends MY_Controller {
 		return $this->image_lib->resize();
 	}
 
-  // export all products in xlsx
   	public function product_export(){
+
 		  $query = $this->model
 					->common_select('product_code, products.product_name,brands.brand_name as brand, products.weight, dimension, cost_price, sale_price')
 					->common_join("brands","brands.id=products.brand_id","left")
@@ -224,5 +205,27 @@ class Products extends MY_Controller {
 		  $title = 'Product List';
 		  $sheetTitle = 'Product List';
 		  $this->export( $filename, $title, $sheetTitle, $headerColumns,  $resultData );
+	}
+
+	private function check_duplicate_product_code($new_code){
+
+        $product_id = $this->uri->segment(3);
+
+        if($new_code && !$this->product_model->check_duplicate("products","product_code", $new_code, $product_id)){
+            $this->form_validation->set_message('check_duplicate_product_code',"{$new_code} already exist.");
+            return false;
+        }else{
+            return true;
+        }
+	}
+
+	public function delete($product_id){
+		
+		if($this->db->update("products",array('is_deleted'=>1),array('id'=>$product_id))){
+			$this->flash("success","Product Deleted Successfully");
+		}else{
+			$this->flash("error","Product not Deleted");
+		}
+		redirect("products/index");
 	}
 }

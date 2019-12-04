@@ -544,7 +544,6 @@ class Clients extends MY_Controller {
 
 		$this->load_content('client/client_delivery_addresses', $this->data);
     }
-
     
     public function add_location($id=null){
         echo "Feedback Required";
