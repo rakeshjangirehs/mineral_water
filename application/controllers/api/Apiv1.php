@@ -98,12 +98,6 @@ class ApiV1 extends REST_Controller {
 
     
     // general function stop
-    
-    
-
-    
-
-    
 
     //Add/Update Visit - Client
     /*
@@ -582,55 +576,7 @@ class ApiV1 extends REST_Controller {
             ),
             REST_Controller::HTTP_OK
         );
-    }
-
-    public function ideal_route_plan_get($user_id = NULL){
-        if(!$user_id){
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "Please provide user_id.",
-                    'today_delivery'=>0
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }
-
-        $sql = $this->db->query("SELECT
-                    CONCAT_WS(' ', `clients`.`first_name`, `clients`.`last_name`) AS `client_name`,
-                    `clients`.`email`,
-                    IFNULL(`clients`.`phone`, '-') AS phone,
-                    `clients`.`lat`,
-                    `clients`.`lng`
-                FROM `orders`
-                LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
-                WHERE delivery_boy_id = $user_id
-                AND expected_delivery_date = CURDATE()
-                AND actual_delivery_date IS NULL
-                GROUP BY `orders`.`id`
-        ");
-        $main_data = (!empty($sql->result_array())) ? $sql->result_array() : array();
-        // echo "<pre>".$this->db->last_query();die;
-        if(!empty($main_data)){
-            $this->response(
-                array(
-                    'status' => TRUE,
-                    'message' => "Ideal Route plan found.",
-                    'ideal_route'=>$main_data
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }else{
-            $this->response(
-                array(
-                    'status' => FALSE,
-                    'message' => "Ideal Route plan not found.",
-                    'ideal_route'=>$main_data
-                ),
-                REST_Controller::HTTP_OK
-            );
-        }
-    }
+    }    
 
     public function follow_up_get($user_id = NULL){
         $result = [];
@@ -1598,11 +1544,15 @@ class ApiV1 extends REST_Controller {
                     date(`delivery`.`expected_delivey_datetime`) AS `expected_delivery_date`,
                     `orders`.`order_status`,
                     `delivery_config_orders`.`id` AS `dco_id`,
+                    (CASE
+                        WHEN `delivery_config`.`delivery_boy_id` IS NULL THEN TRUE
+                        ELSE FALSE
+                    END) AS `show_full_details`,
                     `orders`.`id` AS `order_id`,
                     `schemes`.`id` AS `scheme_id`,
                     0 AS `manage_stock_needed`,
-                    NULL AS `inverntory_existing_quantity`,
-                    NULL AS `inverntory_product_id`
+                    0 AS `inverntory_existing_quantity`,
+                    0 AS `inverntory_product_id`
                 FROM `delivery`
                 LEFT JOIN `delivery_config` ON `delivery_config`.`delivery_id` = `delivery`.`id`
                 LEFT JOIN `delivery_config_orders` ON `delivery_config_orders`.`delivery_config_id` = `delivery_config`.`id`                
@@ -1853,6 +1803,60 @@ class ApiV1 extends REST_Controller {
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+    /*
+        Get Today Deliveries by Delivery Boy
+        @author Rakesh Jangir
+    */
+    public function ideal_route_plan_get($user_id = NULL){
+
+        if($user_id){
+
+            $query = "SELECT	
+                        `clients`.`client_name`,
+                        `clients`.`contact_person_1_email` AS `email`,
+                        `clients`.`contact_person_1_phone_1` AS `phone`,
+                        `client_delivery_addresses`.`lat`,
+                        `client_delivery_addresses`.`lng`
+                    FROM `delivery`
+                    LEFT JOIN `delivery_config` ON `delivery_config`.`delivery_id` = `delivery`.`id`
+                    LEFT JOIN `delivery_config_orders` ON `delivery_config_orders`.`delivery_config_id` = `delivery_config`.`id`                
+                    LEFT JOIN `orders` ON `orders`.`id` = `delivery_config_orders`.`order_id`
+                    LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                    LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`                    
+                    WHERE (`delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id})
+                    AND `orders`.`order_status`<>'Delivered'
+                    AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()";
+
+            if($routes = $this->db->query($query)->result_array()){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "Route Plan found.",
+                        'route'=>$routes
+                    ),REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Route Plan not found.",
+                        'route'=>[]
+                    ),REST_Controller::HTTP_OK
+                );
+            }
+
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'message' => "Please provide user_id.",
+                    'route'=>[]
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
+            );
+        }        
+    }
                                                                     /*---------- Client -----------*/
     /*
         Get List of delivery addresses based on client_id
@@ -2029,7 +2033,11 @@ class ApiV1 extends REST_Controller {
                     `orders`.`payable_amount`,
                     date(`delivery`.`expected_delivey_datetime`) AS `expected_delivery_date`,
                     `orders`.`order_status`,
-                    `delivery_config_orders`.`id` AS `dco_id`
+                    `delivery_config_orders`.`id` AS `dco_id`,
+                    (CASE
+                        WHEN `delivery_config`.`delivery_boy_id` IS NULL THEN TRUE
+                        ELSE FALSE
+                    END) AS `show_full_details`                    
                 FROM `delivery_config_orders`
                 LEFT JOIN `delivery` ON `delivery`.`id` = `delivery_config_orders`.`delivery_id`
                 LEFT JOIN `orders` ON `orders`.`id` = `delivery_config_orders`.`order_id`
