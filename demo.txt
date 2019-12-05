@@ -1,0 +1,19 @@
+{"date":"2019-12-05 15:04:53","url":"\/mineral_water\/index.php\/api\/apiv1\/test","method":"GET","data":[]}
+{"date":"2019-12-05 15:30:23","url":"\/mineral_water\/index.php\/api\/apiv1\/test","method":"GET","data":[]}
+{"date":"2019-12-05 15:35:12","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/","method":"GET","data":[]}
+{"date":"2019-12-05 15:35:16","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/","method":"GET","data":[]}
+{"date":"2019-12-05 15:35:19","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/","method":"GET","data":[]}
+{"date":"2019-12-05 15:35:32","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/","method":"GET","data":[]}
+{"date":"2019-12-05 15:35:37","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/","method":"GET","data":[]}
+{"date":"2019-12-05 15:36:16","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/","method":"GET","data":[]}
+{"date":"2019-12-05 15:36:25","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/1","method":"GET","data":[]}
+{"date":"2019-12-05 15:36:28","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/2","method":"GET","data":[]}
+{"date":"2019-12-05 15:36:31","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/3","method":"GET","data":[]}
+{"date":"2019-12-05 15:36:48","url":"\/mineral_water\/index.php\/api\/apiv1\/zip_codes\/2","method":"GET","data":[]}
+{"date":"2019-12-05 16:59:17","url":"\/mineral_water\/index.php\/api\/apiv1\/add_delivery_address","method":"POST","data":{"title":"a","address":"Plot No.-1, Client 1 Colony","zip_code_id":"5","user_id":"1","id":"4","type":"client","lat":"123","lng":""}}
+{"date":"2019-12-05 16:59:54","url":"\/mineral_water\/index.php\/api\/apiv1\/add_delivery_address","method":"POST","data":{"title":"a","address":"Plot No.-1, Client 1 Colony","zip_code_id":"5","user_id":"1","id":"4","type":"client","lat":"123","lng":"123"}}
+{"date":"2019-12-05 17:42:32","url":"\/mineral_water\/index.php\/api\/apiv1\/ideal_route_plan\/4","method":"GET","data":[]}
+{"date":"2019-12-05 17:42:49","url":"\/mineral_water\/index.php\/api\/apiv1\/ideal_route_plan\/4","method":"GET","data":[]}
+{"date":"2019-12-05 18:01:02","url":"\/mineral_water\/index.php\/api\/apiv1\/","method":"GET","data":[]}
+{"date":"2019-12-05 18:21:27","url":"\/mineral_water\/index.php\/api\/apiv1\/notifications_get\/1","method":"GET","data":[]}
+{"date":"2019-12-05 18:21:33","url":"\/mineral_water\/index.php\/api\/apiv1\/notifications\/1","method":"GET","data":[]}

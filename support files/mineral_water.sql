@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2019 at 01:01 PM
+-- Generation Time: Dec 05, 2019 at 02:09 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -66,28 +66,6 @@ CREATE TABLE `cash_collection` (
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cash_collection`
---
-
-INSERT INTO `cash_collection` (`id`, `user_id`, `amount`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(12, 1, 100, 0, '2019-12-02 00:00:00', 2, NULL, NULL),
-(13, 1, 800, 1, '2019-12-02 00:00:00', 2, '2019-12-02 19:28:12', NULL),
-(14, 1, 50, 0, '2019-12-02 00:00:00', 2, NULL, NULL),
-(15, 1, 200, 0, '2019-12-02 00:00:00', 2, NULL, NULL),
-(16, 1, 500, 1, '2019-12-02 00:00:00', 2, '2019-12-02 19:34:44', NULL),
-(17, 1, 50, 1, '2019-12-02 00:00:00', 2, '2019-12-02 19:34:21', NULL),
-(18, 1, 300, 0, '2019-12-02 00:00:00', 2, NULL, NULL),
-(19, 3, 34, 1, '2019-12-04 00:00:00', 2, '2019-12-04 14:30:43', NULL),
-(20, 3, 0, 1, '2019-12-04 00:00:00', 2, '2019-12-04 14:30:32', NULL),
-(21, 3, 0.45, 1, '2019-12-04 00:00:00', 2, '2019-12-04 14:30:30', NULL),
-(22, 3, 10, 0, '2019-12-04 00:00:00', 2, NULL, NULL),
-(23, 3, 0.5, 0, '2019-12-04 00:00:00', 2, NULL, NULL),
-(24, 3, 0.5, 0, '2019-12-04 00:00:00', 2, NULL, NULL),
-(25, 3, 0, 0, '2019-12-04 00:00:00', 2, NULL, NULL),
-(26, 3, 45, 0, '2019-12-04 00:00:00', 2, NULL, NULL),
-(27, 3, 12, 0, '2019-12-04 00:00:00', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -153,23 +131,6 @@ CREATE TABLE `clients` (
   `gst_no` varchar(50) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `clients`
---
-
-INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `address`, `city_id`, `state_id`, `zip_code_id`, `lead_id`, `lat`, `lng`, `contact_person_name_1`, `contact_person_1_phone_1`, `contact_person_1_phone_2`, `contact_person_1_email`, `contact_person_name_2`, `contact_person_2_phone_1`, `contact_person_2_phone_2`, `contact_person_2_email`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `gst_no`, `category_id`) VALUES
-(1, 'letsenkindle', '2000.00', 390.00, 'Plot No.-5,\r\nKanbha', 3, 2, 5, NULL, NULL, NULL, 'Milan Soni', '1231231231', '7897897897', 'rakeshj@letsenkindle.com', 'Snehal Trapsiya', '9772446625', '9772446628', 'snehal@gmail.com', 0, '2019-11-25 14:10:26', 2, '2019-11-26 17:39:21', 2, 'Active', 'GJ08 1806 FC', 4),
-(2, 'Milan & Sons', '5000.00', 0.00, 'Plot No.-5,\r\nKanbha', 3, 2, 6, NULL, NULL, NULL, 'Milan Soni', '9166650505', '8963015122', 'milan@gmail.com', 'Gopal', '9829069118', '9772446628', 'milan@gmail.com', 0, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active', 'GJ08 1806 FC', 1),
-(5, 'test', '5000.00', 0.00, 'Plot No.-5,\r\nKanbha', 3, 2, 6, NULL, NULL, NULL, 'Milan Soni', '9166650505', '8963015122', 'milan@gmail.com', 'Gopal', '9829069118', '9772446628', 'milan@gmail.com', 0, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active', 'GJ08 1806 FC', 1),
-(6, 'XYZ Company', '2.11', 0.00, 'test', 1, 1, 3, NULL, NULL, NULL, 'Rakesh', '1231231232', '1231231321', 'rakesh@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-11-29 11:08:23', 2, '2019-12-03 11:23:08', 2, 'Active', 'test', 1),
-(7, 'Test Company', '0.00', 0.00, NULL, 3, 2, NULL, 2, NULL, NULL, 'Rakesh Jangir xx', '1231231231', NULL, NULL, 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 11:39:54', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
-(8, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:09:47', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
-(9, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:10:19', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
-(10, 'test', '0.00', 0.00, NULL, 3, 2, NULL, 1, NULL, NULL, 'Rakesh', '8963015122', NULL, 'rk@gmail.com', 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 13:10:29', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
-(11, 'Test Company 123', '0.00', 0.00, NULL, 3, 2, NULL, 4, NULL, NULL, 'Rakesh Jangir abcd', '1231231231', NULL, NULL, 'Mr Client 2', '9999999999', NULL, 'client1@test.com', 0, '2019-11-29 15:21:01', 1, NULL, NULL, 'Active', 'GPC1134', NULL),
-(12, 'Khanjan', '20.50', 0.00, 'test', 1, 1, 3, NULL, NULL, NULL, 'test', '1212121232', NULL, 'kh@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-12-04 11:36:12', 2, NULL, NULL, 'Active', 'test', 1),
-(14, 'zahid', '200.00', 0.00, 'test', 1, 1, 3, NULL, NULL, NULL, 'zahid', '1599517533', NULL, 'zahid@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-12-04 12:35:31', 2, NULL, NULL, 'Active', '123', 4);
 
 -- --------------------------------------------------------
 
@@ -239,21 +200,6 @@ CREATE TABLE `client_delivery_addresses` (
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive	'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `client_delivery_addresses`
---
-
-INSERT INTO `client_delivery_addresses` (`id`, `client_id`, `lead_id`, `title`, `address`, `zip_code_id`, `lat`, `lng`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 2, NULL, 'Home', 'Plot No.-1, New Colony', 5, NULL, NULL, 0, '2019-11-25 15:02:26', 1, '2019-11-27 14:01:03', 2, 'Active'),
-(2, 1, NULL, 'Client 1 Home', 'Plot No.-1, Client 1 Colony', 5, 12.450000, 45.456001, 0, '2019-11-27 15:31:51', 1, '2019-12-04 17:20:35', 2, 'Active'),
-(3, 1, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, 12.000000, 123.120003, 0, '2019-11-29 11:31:02', 1, '2019-12-04 17:25:50', 2, 'Active'),
-(4, 1, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, NULL, NULL, 0, '2019-11-29 11:31:17', 1, NULL, NULL, 'Active'),
-(5, 8, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, NULL, NULL, 0, '2019-11-29 11:31:27', 1, '2019-11-29 00:00:00', NULL, 'Active'),
-(6, 7, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, NULL, NULL, 0, '2019-11-29 11:38:27', 1, '2019-11-29 00:00:00', NULL, 'Active'),
-(7, NULL, 3, 'client test', 'Plot No.-1, Client 1 Colony', 5, NULL, NULL, 0, '2019-11-29 11:54:37', 1, NULL, NULL, 'Active'),
-(8, 11, NULL, 'client test', 'Plot No.-1, Client 1 Colony', 5, NULL, NULL, 0, '2019-11-29 15:20:54', 1, '2019-11-29 00:00:00', NULL, 'Active'),
-(10, 6, NULL, 'client 6', 'test 2', 6, NULL, NULL, 0, '2019-12-03 11:33:50', 2, '2019-12-03 11:33:55', 2, 'Active');
-
 -- --------------------------------------------------------
 
 --
@@ -290,16 +236,6 @@ CREATE TABLE `client_product_inventory` (
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `client_product_inventory`
---
-
-INSERT INTO `client_product_inventory` (`id`, `client_id`, `product_id`, `existing_quentity`, `new_delivered`, `empty_collected`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 7, 4, 5, 5, 3, '2019-12-03 17:33:35', NULL, '2019-12-03 18:00:02', NULL, 'Active'),
-(2, 7, 4, 7, 5, 0, '2019-12-03 17:33:35', NULL, '2019-12-03 18:00:10', NULL, 'Active'),
-(3, 7, NULL, 12, 5, 2, '2019-12-03 00:00:00', 4, NULL, NULL, 'Active'),
-(4, 7, 4, 12, 5, 2, '2019-12-03 00:00:00', 4, NULL, NULL, 'Active');
-
 -- --------------------------------------------------------
 
 --
@@ -317,94 +253,6 @@ CREATE TABLE `client_product_price` (
   `updated_by` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `client_product_price`
---
-
-INSERT INTO `client_product_price` (`id`, `client_id`, `product_id`, `sale_price`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 2, 1, 20, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active'),
-(2, 2, 2, 20, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active'),
-(3, 2, 3, 18, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active'),
-(4, 2, 4, 6, '2019-11-25 15:26:24', 2, '2019-11-28 15:06:01', NULL, 'Active'),
-(5, 2, 5, 5, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active'),
-(6, 2, 6, 5, '2019-11-25 15:26:24', 2, NULL, NULL, 'Active'),
-(13, 1, 1, 5, '2019-11-28 13:36:26', 2, NULL, NULL, 'Active'),
-(14, 1, 2, 5, '2019-11-28 13:36:26', 2, NULL, NULL, 'Active'),
-(15, 1, 3, 5, '2019-11-28 13:36:26', 2, NULL, NULL, 'Active'),
-(16, 1, 4, 5, '2019-11-28 13:36:26', 2, NULL, NULL, 'Active'),
-(17, 1, 5, 5, '2019-11-28 13:36:26', 2, NULL, NULL, 'Active'),
-(18, 1, 6, 5, '2019-11-28 13:36:26', 2, NULL, NULL, 'Active'),
-(19, 1, 7, 343.4, '2019-11-28 17:26:20', 2, NULL, NULL, 'Active'),
-(20, 2, 7, 343.4, '2019-11-28 17:26:20', 2, NULL, NULL, 'Active'),
-(21, 5, 7, 343.4, '2019-11-28 17:26:20', 2, NULL, NULL, 'Active'),
-(29, 6, 1, 10, '2019-11-29 11:10:05', 2, '2019-11-29 11:10:43', 2, 'Active'),
-(30, 6, 2, 5, '2019-11-29 11:10:05', 2, NULL, NULL, 'Active'),
-(31, 6, 3, 5, '2019-11-29 11:10:05', 2, NULL, NULL, 'Active'),
-(32, 6, 4, 5, '2019-11-29 11:10:05', 2, NULL, NULL, 'Active'),
-(33, 6, 5, 5, '2019-11-29 11:10:05', 2, NULL, NULL, 'Active'),
-(34, 6, 6, 5, '2019-11-29 11:10:05', 2, NULL, NULL, 'Active'),
-(35, 6, 7, 5, '2019-11-29 11:10:05', 2, NULL, NULL, 'Active'),
-(36, 8, 1, 20, '2019-11-29 13:09:47', 0, NULL, NULL, 'Active'),
-(37, 8, 2, 20, '2019-11-29 13:09:47', 0, NULL, NULL, 'Active'),
-(38, 8, 3, 18, '2019-11-29 13:09:47', 0, NULL, NULL, 'Active'),
-(39, 8, 4, 7, '2019-11-29 13:09:47', 0, NULL, NULL, 'Active'),
-(40, 8, 5, 5, '2019-11-29 13:09:47', 0, NULL, NULL, 'Active'),
-(41, 8, 6, 5, '2019-11-29 13:09:47', 0, NULL, NULL, 'Active'),
-(42, 8, 7, 343.4, '2019-11-29 13:09:47', 0, NULL, NULL, 'Active'),
-(43, 9, 1, 20, '2019-11-29 13:10:19', 0, NULL, NULL, 'Active'),
-(44, 9, 2, 20, '2019-11-29 13:10:19', 0, NULL, NULL, 'Active'),
-(45, 9, 3, 18, '2019-11-29 13:10:19', 0, NULL, NULL, 'Active'),
-(46, 9, 4, 7, '2019-11-29 13:10:19', 0, NULL, NULL, 'Active'),
-(47, 9, 5, 5, '2019-11-29 13:10:19', 0, NULL, NULL, 'Active'),
-(48, 9, 6, 5, '2019-11-29 13:10:19', 0, NULL, NULL, 'Active'),
-(49, 9, 7, 343.4, '2019-11-29 13:10:19', 0, NULL, NULL, 'Active'),
-(50, 10, 1, 20, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(51, 10, 2, 20, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(52, 10, 3, 18, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(53, 10, 4, 7, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(54, 10, 5, 5, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(55, 10, 6, 5, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(56, 10, 7, 343.4, '2019-11-29 13:10:29', NULL, NULL, NULL, 'Active'),
-(57, 11, 1, 20, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
-(58, 11, 2, 20, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
-(59, 11, 3, 18, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
-(60, 11, 4, 7, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
-(61, 11, 5, 5, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
-(62, 11, 7, 343.4, '2019-11-29 15:21:01', NULL, NULL, NULL, 'Active'),
-(69, 12, 1, 20, '2019-12-04 11:52:28', 2, NULL, NULL, 'Active'),
-(70, 12, 2, 20, '2019-12-04 11:52:28', 2, NULL, NULL, 'Active'),
-(71, 12, 3, 18, '2019-12-04 11:52:28', 2, NULL, NULL, 'Active'),
-(72, 12, 4, 7, '2019-12-04 11:52:28', 2, NULL, NULL, 'Active'),
-(73, 12, 5, 5, '2019-12-04 11:52:28', 2, NULL, NULL, 'Active'),
-(74, 14, 1, 300, '2019-12-04 12:47:58', 2, '2019-12-04 12:47:58', 2, 'Active'),
-(75, 14, 2, 100, '2019-12-04 12:47:58', 2, '2019-12-04 12:47:58', NULL, 'Active'),
-(76, 14, 3, 500, '2019-12-04 12:47:58', 2, '2019-12-04 12:47:58', NULL, 'Active'),
-(77, 14, 4, 200, '2019-12-04 12:47:58', 2, '2019-12-04 12:47:58', 2, 'Active'),
-(78, 14, 5, 600, '2019-12-04 12:47:58', 2, '2019-12-04 12:47:58', NULL, 'Active'),
-(79, 14, 7, 0, '2019-12-04 12:47:58', 2, '2019-12-04 12:47:58', 2, 'Active'),
-(80, 1, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(81, 2, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(82, 5, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(83, 6, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(84, 7, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(85, 8, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(86, 9, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(87, 10, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(88, 11, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(89, 12, 8, 45, '2019-12-04 12:38:18', 2, NULL, NULL, 'Active'),
-(90, 14, 8, 70, '2019-12-04 12:47:58', 2, '2019-12-04 12:47:58', 2, 'Active'),
-(91, 1, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(92, 2, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(93, 5, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(94, 6, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(95, 7, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(96, 8, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(97, 9, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(98, 10, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(99, 11, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(100, 12, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active'),
-(101, 14, 9, 45, '2019-12-04 13:42:52', 2, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -444,13 +292,6 @@ CREATE TABLE `client_visits` (
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `client_visits`
---
-
-INSERT INTO `client_visits` (`id`, `client_id`, `visit_date`, `visit_time`, `visit_type`, `opportunity`, `other_notes`, `visit_notes`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 2, '2019-01-01', '05:00:00', NULL, NULL, NULL, NULL, '2019-11-28 19:52:56', 1, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -465,27 +306,6 @@ CREATE TABLE `coordinates` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `coordinates`
---
-
-INSERT INTO `coordinates` (`id`, `lat`, `lng`, `user_id`, `created_at`, `created_by`) VALUES
-(1, 23.033058, 72.463005, 4, '2019-09-24 11:02:52', NULL),
-(2, 23.026896, 72.468155, 4, '2019-09-24 11:02:54', NULL),
-(3, 23.019314, 72.473816, 4, '2019-09-24 11:02:56', NULL),
-(4, 23.014257, 72.479485, 4, '2019-09-24 11:02:57', NULL),
-(5, 23.008570, 72.478111, 4, '2019-09-24 11:02:58', NULL),
-(6, 23.005568, 72.476562, 4, '2019-09-24 11:02:59', NULL),
-(7, 22.998772, 72.473473, 4, '2019-09-24 11:03:01', NULL),
-(8, 22.992926, 72.472275, 4, '2019-09-24 11:03:01', NULL),
-(9, 22.985579, 72.484879, 4, '2019-09-24 11:03:03', NULL),
-(10, 22.985498, 72.499565, 4, '2019-09-24 11:03:05', NULL),
-(11, 22.990871, 72.519310, 4, '2019-09-24 11:03:06', NULL),
-(12, 22.993954, 72.535339, 4, '2019-09-24 11:03:09', NULL),
-(13, 22.988028, 72.538910, 4, '2019-09-24 11:03:10', NULL),
-(14, 22.976965, 72.546806, 4, '2019-09-24 11:03:11', NULL),
-(15, 22.975384, 72.552986, 4, '2019-09-24 11:03:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -507,14 +327,6 @@ CREATE TABLE `delivery` (
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `delivery`
---
-
-INSERT INTO `delivery` (`id`, `expected_delivey_datetime`, `actual_delivey_datetime`, `pickup_location`, `warehouse`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(22, '2019-11-26 00:00:00', '2019-11-28 18:58:39', 'Office', NULL, '2019-11-28 14:18:36', 2, '2019-11-28 20:08:14', 2, 'Active', 0),
-(23, '2019-12-03 00:00:00', '2019-12-03 18:36:16', 'Office', NULL, '2019-12-03 11:54:39', 2, '2019-12-03 00:00:00', 4, 'Active', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -534,15 +346,6 @@ CREATE TABLE `delivery_config` (
   `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `delivery_config`
---
-
-INSERT INTO `delivery_config` (`id`, `delivery_id`, `vehicle_id`, `driver_id`, `delivery_boy_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(64, 22, 1, 4, 1, '2019-11-28 20:08:14', 2, '2019-12-02 14:45:44', NULL, 'Active', 0),
-(65, 22, 1, 4, 3, '2019-12-03 11:54:39', 2, '2019-12-03 12:24:07', NULL, 'Active', 0),
-(66, 23, 1, 4, 3, '2019-12-03 11:54:39', 2, '2019-12-03 12:24:07', NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -567,16 +370,6 @@ CREATE TABLE `delivery_config_orders` (
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `delivery_config_orders`
---
-
-INSERT INTO `delivery_config_orders` (`id`, `delivery_id`, `delivery_config_id`, `order_id`, `payment_mode`, `amount`, `notes`, `signature_file`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(96, 22, 64, 9, NULL, 670, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-02 16:37:10', NULL, 'Active', 0),
-(97, 22, 65, 10, NULL, 0, NULL, NULL, '2019-12-03 11:54:39', 2, '2019-12-03 12:24:25', NULL, 'Active', 0),
-(98, 22, 64, 11, NULL, 670, NULL, NULL, '2019-11-28 20:08:14', 2, '2019-12-03 12:22:49', NULL, 'Active', 0),
-(99, 23, 66, 12, 'CashCash', 30, 'Manage Inventory', 'saajan-july-81.jpg', '2019-11-28 20:08:14', 2, '2019-12-03 00:00:00', 4, 'Active', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -595,13 +388,40 @@ CREATE TABLE `delivery_routes` (
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `delivery_routes`
+-- Table structure for table `fcm_notifications`
 --
 
-INSERT INTO `delivery_routes` (`id`, `delivery_id`, `zip_code_group_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(47, 22, 1, '2019-11-28 20:08:14', 2, NULL, NULL, 'Active', 0),
-(48, 23, 1, '2019-12-03 11:54:39', 2, NULL, NULL, 'Active', 0);
+CREATE TABLE `fcm_notifications` (
+  `id` int(11) NOT NULL,
+  `message` varchar(500) DEFAULT NULL,
+  `response` varchar(500) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive '
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fcm_notification_user`
+--
+
+CREATE TABLE `fcm_notification_user` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `notification_id` int(11) DEFAULT NULL,
+  `is_read` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive '
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -651,16 +471,6 @@ CREATE TABLE `leads` (
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `leads`
---
-
-INSERT INTO `leads` (`id`, `company_name`, `contact_person_name`, `email`, `phone_1`, `phone_2`, `is_converted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_deleted`) VALUES
-(1, 'test', 'Rakesh', 'rk@gmail.com', '8963015122', '9166650505', 1, '2019-11-28 15:49:30', 1, '2019-11-29 13:09:47', 2, 0),
-(2, 'Test Company', 'Rakesh Jangir xx', NULL, '1231231231', NULL, 1, '2019-11-29 11:37:59', 123, '2019-11-29 11:39:54', NULL, 0),
-(3, 'Test Company', 'Rakesh Jangir abcd', NULL, '1231231231', NULL, 0, '2019-11-29 11:54:23', 123, NULL, NULL, 0),
-(4, 'Test Company 123', 'Rakesh Jangir abcd', NULL, '1231231231', NULL, 1, '2019-11-29 15:20:04', 123, '2019-11-29 15:21:01', NULL, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -682,13 +492,6 @@ CREATE TABLE `lead_visits` (
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `lead_visits`
---
-
-INSERT INTO `lead_visits` (`id`, `lead_id`, `visit_date`, `visit_time`, `visit_type`, `opportunity`, `other_notes`, `visit_notes`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(2, 1, '2019-01-01', '05:00:00', NULL, NULL, NULL, NULL, '2019-11-28 19:49:09', 1, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -700,13 +503,6 @@ CREATE TABLE `mail_template` (
   `template_body` text CHARACTER SET utf8 DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `mail_template`
---
-
-INSERT INTO `mail_template` (`id`, `template_body`, `type`) VALUES
-(1, '<!DOCTYPE html>\r\n<html>\r\n<head>\r\n\r\n  <meta charset=\"utf-8\">\r\n  <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">\r\n  <title>Password Reset</title>\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n  <style type=\"text/css\">\r\n  /**\r\n   * Google webfonts. Recommended to include the .woff version for cross-client compatibility.\r\n   */\r\n  @media screen {\r\n    @font-face {\r\n      font-family: \'Source Sans Pro\';\r\n      font-style: normal;\r\n      font-weight: 400;\r\n      src: local(\'Source Sans Pro Regular\'), local(\'SourceSansPro-Regular\'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format(\'woff\');\r\n    }\r\n    @font-face {\r\n      font-family: \'Source Sans Pro\';\r\n      font-style: normal;\r\n      font-weight: 700;\r\n      src: local(\'Source Sans Pro Bold\'), local(\'SourceSansPro-Bold\'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff) format(\'woff\');\r\n    }\r\n  }\r\n  /**\r\n   * Avoid browser level font resizing.\r\n   * 1. Windows Mobile\r\n   * 2. iOS / OSX\r\n   */\r\n  body,\r\n  table,\r\n  td,\r\n  a {\r\n    -ms-text-size-adjust: 100%; /* 1 */\r\n    -webkit-text-size-adjust: 100%; /* 2 */\r\n  }\r\n  /**\r\n   * Remove extra space added to tables and cells in Outlook.\r\n   */\r\n  table,\r\n  td {\r\n    mso-table-rspace: 0pt;\r\n    mso-table-lspace: 0pt;\r\n  }\r\n  /**\r\n   * Better fluid images in Internet Explorer.\r\n   */\r\n  img {\r\n    -ms-interpolation-mode: bicubic;\r\n  }\r\n  /**\r\n   * Remove blue links for iOS devices.\r\n   */\r\n  a[x-apple-data-detectors] {\r\n    font-family: inherit !important;\r\n    font-size: inherit !important;\r\n    font-weight: inherit !important;\r\n    line-height: inherit !important;\r\n    color: inherit !important;\r\n    text-decoration: none !important;\r\n  }\r\n  /**\r\n   * Fix centering issues in Android 4.4.\r\n   */\r\n  div[style*=\"margin: 16px 0;\"] {\r\n    margin: 0 !important;\r\n  }\r\n  body {\r\n    width: 100% !important;\r\n    height: 100% !important;\r\n    padding: 0 !important;\r\n    margin: 0 !important;\r\n  }\r\n  /**\r\n   * Collapse table borders to avoid space between cells.\r\n   */\r\n  table {\r\n    border-collapse: collapse !important;\r\n  }\r\n  a {\r\n    color: #1a82e2;\r\n  }\r\n  img {\r\n    height: auto;\r\n    line-height: 100%;\r\n    text-decoration: none;\r\n    border: 0;\r\n    outline: none;\r\n  }\r\n  </style>\r\n\r\n</head>\r\n<body style=\"background-color: #e9ecef;\">\r\n\r\n  <!-- start preheader -->\r\n  <div class=\"preheader\" style=\"display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;\">\r\n    A preheader is the short summary text that follows the subject line when an email is viewed in the inbox.\r\n  </div>\r\n  <!-- end preheader -->\r\n\r\n  <!-- start body -->\r\n  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n\r\n    <!-- start logo -->\r\n    <tr>\r\n      <td align=\"center\" bgcolor=\"#e9ecef\">\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n        <tr>\r\n        <td align=\"center\" valign=\"top\" width=\"600\">\r\n        <![endif]-->\r\n        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px;\">\r\n          <tr>\r\n            <td align=\"center\" valign=\"top\" style=\"padding: 36px 24px;\">\r\n              <a href=\"SYSTEM_URL\" target=\"_blank\" style=\"display: inline-block;\">\r\n                <img src=\"LOGO_URL\" alt=\"SYSTEM_NAME\" border=\"0\" width=\"48\" style=\"display: block; width: 48px; max-width: 48px; min-width: 48px;\">\r\n              </a>\r\n            </td>\r\n          </tr>\r\n        </table>\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        </td>\r\n        </tr>\r\n        </table>\r\n        <![endif]-->\r\n      </td>\r\n    </tr>\r\n    <!-- end logo -->\r\n\r\n    <!-- start hero -->\r\n    <tr>\r\n      <td align=\"center\" bgcolor=\"#e9ecef\">\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n        <tr>\r\n        <td align=\"center\" valign=\"top\" width=\"600\">\r\n        <![endif]-->\r\n        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px;\">\r\n          <tr>\r\n            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 36px 24px 0; font-family: \'Source Sans Pro\', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;\">\r\n              <h1 style=\"margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;\">Reset Your Password</h1>\r\n            </td>\r\n          </tr>\r\n        </table>\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        </td>\r\n        </tr>\r\n        </table>\r\n        <![endif]-->\r\n      </td>\r\n    </tr>\r\n    <!-- end hero -->\r\n\r\n    <!-- start copy block -->\r\n    <tr>\r\n      <td align=\"center\" bgcolor=\"#e9ecef\">\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n        <tr>\r\n        <td align=\"center\" valign=\"top\" width=\"600\">\r\n        <![endif]-->\r\n        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px;\">\r\n\r\n          <!-- start copy -->\r\n          <tr>\r\n            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 24px; font-family: \'Source Sans Pro\', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\r\n              <p style=\"margin: 0;\">Tap the button below to reset your customer account password. If you didn\'t request a new password, you can safely delete this email.</p>\r\n            </td>\r\n          </tr>\r\n          <!-- end copy -->\r\n\r\n          <!-- start button -->\r\n          <tr>\r\n            <td align=\"left\" bgcolor=\"#ffffff\">\r\n              <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n                <tr>\r\n                  <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding: 12px;\">\r\n                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n                      <tr>\r\n                        <td align=\"center\" bgcolor=\"#1a82e2\" style=\"border-radius: 6px;\">\r\n                          <a href=\"RESET_PASSWORD_LINK\" target=\"_blank\" style=\"display: inline-block; padding: 16px 36px; font-family: \'Source Sans Pro\', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;\">Reset Password</a>\r\n                        </td>\r\n                      </tr>\r\n                    </table>\r\n                  </td>\r\n                </tr>\r\n              </table>\r\n            </td>\r\n          </tr>\r\n          <!-- end button -->\r\n\r\n          <!-- start copy -->\r\n          <tr>\r\n            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 24px; font-family: \'Source Sans Pro\', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\r\n              <p style=\"margin: 0;\">If that doesn\'t work, copy and paste the following link in your browser:</p>\r\n              <p style=\"margin: 0;\"><a href=\"RESET_PASSWORD_LINK\" target=\"_blank\">RESET_PASSWORD_LINK</a></p>\r\n            </td>\r\n          </tr>\r\n          <!-- end copy -->\r\n\r\n          <!-- start copy -->\r\n          <tr>\r\n            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 24px; font-family: \'Source Sans Pro\', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf\">\r\n              <p style=\"margin: 0;\">Cheers,<br> Neervana Support</p>\r\n            </td>\r\n          </tr>\r\n          <!-- end copy -->\r\n\r\n        </table>\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        </td>\r\n        </tr>\r\n        </table>\r\n        <![endif]-->\r\n      </td>\r\n    </tr>\r\n    <!-- end copy block -->\r\n\r\n    <!-- start footer -->\r\n    <tr>\r\n      <td align=\"center\" bgcolor=\"#e9ecef\" style=\"padding: 24px;\">\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n        <tr>\r\n        <td align=\"center\" valign=\"top\" width=\"600\">\r\n        <![endif]-->\r\n        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px;\">\r\n\r\n          <!-- start permission -->\r\n          <tr>\r\n            <td align=\"center\" bgcolor=\"#e9ecef\" style=\"padding: 12px 24px; font-family: \'Source Sans Pro\', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;\">\r\n              <p style=\"margin: 0;\">You received this email because we received a request for reset password for your account. If you didn\'t request reset password you can safely delete this email.</p>\r\n            </td>\r\n          </tr>\r\n          <!-- end permission -->\r\n\r\n        </table>\r\n        <!--[if (gte mso 9)|(IE)]>\r\n        </td>\r\n        </tr>\r\n        </table>\r\n        <![endif]-->\r\n      </td>\r\n    </tr>\r\n    <!-- end footer -->\r\n\r\n  </table>\r\n  <!-- end body -->\r\n\r\n</body>\r\n</html>', 'PASSWORD_RESET');
 
 -- --------------------------------------------------------
 
@@ -737,22 +533,6 @@ CREATE TABLE `orders` (
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `client_id`, `delivery_address_id`, `scheme_id`, `priority`, `delivery_boy_id`, `expected_delivery_date`, `actual_delivery_date`, `payable_amount`, `delivery_id`, `payment_mode`, `payment_schedule_date`, `payment_schedule_time`, `order_status`, `status`, `payment_status`, `need_admin_approval`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(8, 2, 1, 2, 'High', NULL, '2019-12-02', '2019-11-28', 400.00, 22, 'Cash', '2019-12-06', '19:03:00', 'Delivered', 'Active', 'Paid', 0, '2019-11-28 11:23:13', 1, '2019-12-03 11:13:24', 3),
-(9, 2, 1, 2, 'High', NULL, '2019-12-03', NULL, 140.00, 22, 'Cash', '2019-12-07', '19:03:00', 'Pending', 'Active', 'Paid', 0, '2019-11-28 11:24:35', 1, '2019-11-28 20:08:14', NULL),
-(10, 2, 1, 1, 'High', NULL, '2019-12-04', NULL, 110.00, 23, 'Cash', '2019-12-08', '19:03:00', 'Approved', 'Active', 'Partial', 1, '2019-11-28 11:25:24', 1, '2019-12-03 11:54:39', NULL),
-(11, 5, 1, 2, 'High', NULL, '2019-12-04', NULL, 120.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-28 12:54:24', 1, NULL, NULL),
-(12, 7, 2, 2, 'High', NULL, '2019-12-04', NULL, 130.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 11:39:54', 1, '2019-12-03 19:12:31', 4),
-(13, 8, 6, 2, 'High', NULL, '2019-12-04', NULL, 140.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:09:47', 1, '2019-12-03 12:51:29', NULL),
-(14, 9, 6, 2, 'High', NULL, '2019-12-04', NULL, 150.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:19', 1, '2019-12-03 12:51:32', NULL),
-(15, 10, 6, 2, 'High', NULL, '2019-12-04', NULL, 160.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 13:10:29', 1, '2019-12-03 12:51:36', NULL),
-(16, 11, 8, 2, 'High', NULL, '2019-12-04', NULL, 170.00, NULL, 'Cash', '2019-12-08', '19:03:00', 'Pending', 'Active', 'Pending', 0, '2019-11-29 15:21:01', 1, '2019-12-03 12:51:40', NULL),
-(17, 6, 10, 2, 'High', NULL, '2019-12-05', NULL, 570.00, NULL, 'Cash', '2019-12-06', '19:03:00', 'Approval Required', 'Active', 'Pending', 1, '2019-12-03 11:34:48', 1, '2019-12-03 11:38:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -790,32 +570,6 @@ CREATE TABLE `order_items` (
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `actual_price`, `effective_price`, `subtotal`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(15, 8, 1, 10, 20, 20, '200.00', '2019-11-28 11:23:13', 1, NULL, NULL),
-(16, 8, 2, 10, 20, 20, '200.00', '2019-11-28 11:23:13', 1, NULL, NULL),
-(17, 9, 3, 10, 7, 7, '70.00', '2019-11-28 11:24:35', 1, '2019-11-28 11:25:53', NULL),
-(18, 9, 4, 10, 7, 7, '70.00', '2019-11-28 11:24:35', 1, '2019-11-28 11:25:55', NULL),
-(19, 10, 5, 10, 5, 5, '50.00', '2019-11-28 11:25:24', 1, NULL, NULL),
-(20, 10, 4, 10, 6, 6, '70.00', '2019-11-28 11:25:24', 1, '2019-11-28 15:06:01', NULL),
-(21, 11, 5, 10, 5, 5, '50.00', '2019-11-28 12:54:24', 1, NULL, NULL),
-(22, 11, 4, 10, 7, 7, '70.00', '2019-11-28 12:54:24', 1, NULL, NULL),
-(23, 12, 5, 10, 5, 5, '50.00', '2019-11-29 11:39:54', 1, NULL, NULL),
-(24, 12, 4, 10, 7, 7, '70.00', '2019-11-29 11:39:54', 1, NULL, NULL),
-(25, 13, 5, 10, 5, 5, '50.00', '2019-11-29 13:09:47', 1, NULL, NULL),
-(26, 13, 4, 10, 7, 7, '70.00', '2019-11-29 13:09:47', 1, NULL, NULL),
-(27, 14, 5, 10, 5, 5, '50.00', '2019-11-29 13:10:19', 1, NULL, NULL),
-(28, 14, 4, 10, 7, 7, '70.00', '2019-11-29 13:10:19', 1, NULL, NULL),
-(29, 15, 5, 10, 5, 5, '50.00', '2019-11-29 13:10:29', 1, NULL, NULL),
-(30, 15, 4, 10, 7, 7, '70.00', '2019-11-29 13:10:29', 1, NULL, NULL),
-(31, 16, 5, 10, 5, 5, '50.00', '2019-11-29 15:21:01', 1, NULL, NULL),
-(32, 16, 4, 10, 7, 7, '70.00', '2019-11-29 15:21:01', 1, NULL, NULL),
-(33, 17, 1, 20, 19, 19, '380.00', '2019-12-03 11:34:48', 1, NULL, NULL),
-(34, 17, 2, 20, 5, 4.5, '90.00', '2019-12-03 11:34:48', 1, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -836,14 +590,6 @@ CREATE TABLE `payments` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`id`, `client_id`, `payment_mode`, `check_no`, `check_date`, `transection_no`, `paid_amount`, `credit_balance_used`, `previous_credit_balance`, `new_credit_balance`, `created_at`, `created_by`) VALUES
-(66, 2, 'Cash', NULL, NULL, NULL, '90.00', '0.00', '0.00', '0.00', '2019-11-28 11:52:48', NULL),
-(67, 2, 'Cash', NULL, NULL, NULL, '10.00', '0.00', '0.00', '0.00', '2019-11-28 11:53:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -1128,7 +874,8 @@ CREATE TABLE `user_devices` (
 
 INSERT INTO `user_devices` (`id`, `user_id`, `device_id`, `created_at`) VALUES
 (1, 1, 'abcd', '2019-12-02 17:10:58'),
-(2, 1, 'abcd', '2019-12-02 17:11:21');
+(2, 1, 'abcd', '2019-12-02 17:11:21'),
+(3, 2, 'abcd', '2019-12-02 17:11:21');
 
 -- --------------------------------------------------------
 
@@ -1418,6 +1165,18 @@ ALTER TABLE `delivery_routes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `fcm_notifications`
+--
+ALTER TABLE `fcm_notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fcm_notification_user`
+--
+ALTER TABLE `fcm_notification_user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `group_to_zip_code`
 --
 ALTER TABLE `group_to_zip_code`
@@ -1596,7 +1355,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `cash_collection`
 --
 ALTER TABLE `cash_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -1608,7 +1367,7 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `client_categories`
@@ -1626,7 +1385,7 @@ ALTER TABLE `client_contacts`
 -- AUTO_INCREMENT for table `client_delivery_addresses`
 --
 ALTER TABLE `client_delivery_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `client_location_images`
@@ -1638,13 +1397,13 @@ ALTER TABLE `client_location_images`
 -- AUTO_INCREMENT for table `client_product_inventory`
 --
 ALTER TABLE `client_product_inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `client_product_price`
 --
 ALTER TABLE `client_product_price`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `client_selesmans`
@@ -1656,37 +1415,49 @@ ALTER TABLE `client_selesmans`
 -- AUTO_INCREMENT for table `client_visits`
 --
 ALTER TABLE `client_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `coordinates`
 --
 ALTER TABLE `coordinates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery_config`
 --
 ALTER TABLE `delivery_config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery_config_orders`
 --
 ALTER TABLE `delivery_config_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery_routes`
 --
 ALTER TABLE `delivery_routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `fcm_notifications`
+--
+ALTER TABLE `fcm_notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `fcm_notification_user`
+--
+ALTER TABLE `fcm_notification_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `group_to_zip_code`
@@ -1698,25 +1469,25 @@ ALTER TABLE `group_to_zip_code`
 -- AUTO_INCREMENT for table `leads`
 --
 ALTER TABLE `leads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lead_visits`
 --
 ALTER TABLE `lead_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `mail_template`
 --
 ALTER TABLE `mail_template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_delivery_images`
@@ -1728,19 +1499,19 @@ ALTER TABLE `order_delivery_images`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment_details`
 --
 ALTER TABLE `payment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1794,7 +1565,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_vehicle`

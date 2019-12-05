@@ -138,6 +138,20 @@ class Order_model extends MY_Model {
 		//change order payable amount too.
 		$this->db->where("id",$order_id)->update("orders",$data);
 
+		// Notification Send
+		$order_user = $this->db
+						->select("users.id as user_id, user_devices.device_id")
+						->where("orders.id",$order_id)
+						->where("user_devices.device_id IS NOT NULL")
+						->join("users","users.id = orders.created_by","left")
+						->join("user_devices","user_devices.user_id = users.id","left")
+						->group_by("users.id")
+						->get("orders")->result_array();
+		if($order_user){
+			$message =	($action=='accept') ? "approved" : "rejected";
+			$this->fcm->send($order_user,"Order Approval", "Order NO. - {$order_id} has been {$message}.");
+		}
+
 		$this->db->trans_complete();
 		if($this->db->trans_status()){
             return $order_id;

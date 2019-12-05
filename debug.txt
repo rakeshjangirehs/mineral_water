@@ -1,3 +1,4 @@
 $h = fopen("debug.txt","a+");
 fwrite($h,$this->db->last_query());
 fclose($h);
+{"payment_mode":"CashCash","amount":"30","notes":"Manage Inventory","dco_id":"99","user_id":"4","manage_stock_needed":"1","inverntory_product_id":"4","existing_quentity":"12","new_delivered":"5","empty_collected":"2"}

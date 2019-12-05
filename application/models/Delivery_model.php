@@ -59,6 +59,8 @@ class Delivery_model extends CI_Model {
 		$this->db->delete("delivery_config",['delivery_id'=>$delivery_id]);
 		$this->db->delete("delivery_config_orders",['delivery_id'=>$delivery_id]);
 		
+		$notifiable_user = [];	//delivery boy & salesman
+
 		foreach($deliveries as $k=>$delivery){
 			
 			if(isset($delivery['orders']) && count($delivery['orders']) > 0){
@@ -72,6 +74,13 @@ class Delivery_model extends CI_Model {
 					'created_by'		=>	USER_ID,
 					'status'			=>	'Active'
 				);
+
+				$notifiable_user[] = $delivery['drivers'];
+				if($delivery['delivery_boys']){
+					if(!in_array($delivery['delivery_boys'],$notifiable_user)){
+						$notifiable_user[] = $delivery['delivery_boys'];
+					}
+				}
 
 				if($this->db->insert("delivery_config",$delivery_config)){
 					
@@ -93,6 +102,19 @@ class Delivery_model extends CI_Model {
 					}
 				}
 			}
+		}
+
+		//Send Notification
+		if($notifiable_user){
+			
+			$users = $this->db->where_in("users.id",$notifiable_user)
+                        ->where("user_devices.device_id IS NOT NULL")
+						->select("users.id as user_id, user_devices.device_id")
+                        ->join("user_devices","user_devices.user_id = users.id","left")
+                        ->group_by("users.id")
+						->get("users")->result_array();
+						
+			$this->fcm->send($users,"Order Delivery", "New Delivery Created.");
 		}
 
 		if($new_orders){

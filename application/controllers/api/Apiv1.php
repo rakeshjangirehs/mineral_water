@@ -36,65 +36,19 @@ class ApiV1 extends REST_Controller {
                 "url"=>base_url()."files/assets/images/product-edit/product-edit3.jpg"
             )
         );
+
+        $h = fopen("demo.txt","a+");
+        fwrite($h,json_encode(array(
+            'date'=>date('Y-m-d H:i:s'),
+            'url'=>$_SERVER['PHP_SELF'],
+            'method'=>$this->input->server('REQUEST_METHOD'),
+            'data'=>$_REQUEST,
+        )) . PHP_EOL);
+        fclose($h);
+
     }
     
-    public function send_notification( $deviceIds = array(), $msg = 'test' ){
-        // API access key from Google FCM App Console
-        define( 'API_ACCESS_KEY', 'AAAAttXlDzw:APA91bFay0Y4UpcRFTefhlu2zNJbnGUcyImoBp7v3oUwh3SGK6hs8NBS2s_gXBvmr7SUM9QnWMsjGU5_WrIhfqsftRVMOH5DQZY8E8Zt1FRGGkwPIT5s9s1mGFK71s2_u72Xw8qRf807' );
-
-        //$singleID = 'fvSMP9Herzk:APA91bGVjjj71IN-5vxUcfOgndIcNd2wEgQWxayllwESVMOzr9znJPteYXOM8S35qcG5CuMokOz10KVyEorZvo8IjanIkywzLX1R6c0gqJc9fSHN-oG0KTimSy4hwDLtbF3ruZ002nPl'; 
-        $registrationIDs = array();
-        foreach($deviceIds as $device){
-            array_push($registrationIDs, $device['device_id']);
-        }
-
-        /*$registrationIDs = array(
-             'eEvFbrtfRMA:APA91bFoT2XFPeM5bLQdsa8-HpVbOIllzgITD8gL9wohZBg9U.............mNYTUewd8pjBtoywd', 
-             'eEvFbrtfRMA:APA91bFoT2XFPeM5bLQdsa8-HpVbOIllzgITD8gL9wohZBg9U.............mNYTUewd8pjBtoywd'
-             'eEvFbrtfRMA:APA91bFoT2XFPeM5bLQdsa8-HpVbOIllzgITD8gL9wohZBg9U.............mNYTUewd8pjBtoywd'
-        ) ;*/
-
-        // prep the bundle
-        // to see all the options for FCM to/notification payload: 
-        // https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support 
-
-        // 'vibrate' available in GCM, but not in FCM
-        $fcmMsg = array(
-            'body' => $msg,
-            'title' => 'Maintenance Activity',
-            'sound' => "default",
-                'color' => "#203E78" 
-        );
-        // I haven't figured 'color' out yet.
-        // On one phone 'color' was the background color behind the actual app icon.  (ie Samsung Galaxy S5)
-        // On another phone, it was the color of the app icon. (ie: LG K20 Plush)
-
-        // 'to' => $singleID ;  // expecting a single ID
-        // 'registration_ids' => $registrationIDs ;  // expects an array of ids
-        // 'priority' => 'high' ; // options are normal and high, if not set, defaults to high.
-        $fcmFields = array(
-            // 'to'                => 'test',
-            'registration_ids'  => $registrationIDs,
-            'priority'          => 'high',
-            'notification'      => $fcmMsg
-        );
-
-        $headers = array(
-            'Authorization: key=' . API_ACCESS_KEY,
-            'Content-Type: application/json'
-        );
-         
-        $ch = curl_init();
-        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
-        curl_setopt( $ch,CURLOPT_POST, true );
-        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
-        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
-        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fcmFields ) );
-        $result = curl_exec($ch );
-        curl_close( $ch );
-        // echo $result . "\n\n";
-    }
+    
 
     
     // general function stop
@@ -682,7 +636,16 @@ class ApiV1 extends REST_Controller {
         @author Rakesh Jangir
     */
     public function test_get(){
-        $this->response("It Works");
+        
+        $users = $this->db
+                    ->where("user_devices.device_id IS NOT NULL")
+                    ->select("users.id as user_id, user_devices.device_id")
+                    ->join("user_devices","user_devices.user_id = users.id","left")
+                    ->group_by("users.id")
+                    ->get("users")->result_array();
+                    
+        $this->fcm->send($users,"Testing", "New Delivery Created.");
+        $this->response("It Works, FCM Notification Sent.");
     }
 
                                                                     /*------------- Login -------------*/
@@ -738,7 +701,7 @@ class ApiV1 extends REST_Controller {
                 //BAD_REQUEST (400) being the HTTP response code
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'Wrong email or password.',
+                    'message' => 'Wrong username or password.',
                     'data' => new stdClass()
                 ], REST_Controller::HTTP_OK);
             }
@@ -746,7 +709,7 @@ class ApiV1 extends REST_Controller {
             // Set the response and exit
             $this->response([
                     'status' => FALSE,
-                    'message' => "Provide email and password.",
+                    'message' => "Provide username and password.",
                     'data' => array()
                 ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -1346,7 +1309,7 @@ class ApiV1 extends REST_Controller {
                     `orders`.`expected_delivery_date`,
                     DATE_FORMAT(`orders`.`created_at`,'%Y-%m-%d') AS `created_at`,
                     `orders`.`priority`,	
-                    #`orders`.`order_status`,
+                    `orders`.`order_status`,
                     SUM(`order_items`.`quantity`) AS `product_count`
                 FROM `orders`
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
@@ -1525,6 +1488,8 @@ class ApiV1 extends REST_Controller {
 
         if($user_id){
 
+            $role_id = $this->db->select("role_id")->get_where("users","id = {$user_id}")->row_array()['role_id'];
+
             $query = "SELECT
                     `clients`.`client_name`,
                     `clients`.`contact_person_name_1` AS `contact_person`,
@@ -1545,8 +1510,11 @@ class ApiV1 extends REST_Controller {
                     `orders`.`order_status`,
                     `delivery_config_orders`.`id` AS `dco_id`,
                     (CASE
-                        WHEN `delivery_config`.`delivery_boy_id` IS NULL THEN TRUE
-                        ELSE FALSE
+                        WHEN {$role_id} = 3 THEN TRUE
+                        ELSE (CASE
+                            WHEN `delivery_config`.`delivery_boy_id` IS NULL THEN TRUE
+                            ELSE FALSE
+                        END)
                     END) AS `show_full_details`,
                     `orders`.`id` AS `order_id`,
                     `schemes`.`id` AS `scheme_id`,
@@ -1671,10 +1639,10 @@ class ApiV1 extends REST_Controller {
         $empty_collected = $this->input->post('empty_collected');
         $product_id = $this->input->post('inverntory_product_id');
 
-        if($user_id && $dco_id && $payment_mode && $amount && $manage_stock_needed){
+        if($user_id!='' && $dco_id!='' && $payment_mode!='' && $amount!='' && $manage_stock_needed!=''){
 
             //Check for stock
-            if($manage_stock_needed && (!$existing_quentity || !$new_delivered || !$empty_collected || !$product_id)){
+            if($manage_stock_needed==1 && ($existing_quentity=='' || $new_delivered=='' || $empty_collected=='' || $product_id=='' )){
                 $this->response([
                     'status' => FALSE,
                     'message' => 'existing_quentity, new_delivered, empty_collected, product_id are required'
@@ -1826,7 +1794,8 @@ class ApiV1 extends REST_Controller {
                     LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`                    
                     WHERE (`delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id})
                     AND `orders`.`order_status`<>'Delivered'
-                    AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()";
+                    AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()
+                    AND `client_delivery_addresses`.`lat` IS NOT NULL AND `client_delivery_addresses`.`lng` IS NOT NULL";
 
             if($routes = $this->db->query($query)->result_array()){
                 $this->response(
@@ -1906,6 +1875,9 @@ class ApiV1 extends REST_Controller {
         $user_id    =   $this->input->post("user_id");
         $zip_code_id=   $this->input->post("zip_code_id");
 
+        $lat=   $this->input->post("lat");
+        $lng=   $this->input->post("lng");
+
         if(
             $title && $title!=''
             && $address && $address!=''
@@ -1916,7 +1888,9 @@ class ApiV1 extends REST_Controller {
             $address_data = array(
                 'title'     =>  $this->input->post("title"),
                 'address'   =>  $this->input->post("address"),
-                'zip_code_id'=>  $this->input->post("zip_code_id"),                
+                'zip_code_id'=>  $this->input->post("zip_code_id"),
+                'lat'=>  ($lat!='' && $lng!='') ? $lat : null,
+                'lng'=>  ($lat!='' && $lng!='') ? $lng : null,
                 'created_at'=>  date('Y-m-d H:i:s'),
                 'created_by'=>  $this->input->post("user_id"),
             );
@@ -2243,6 +2217,93 @@ class ApiV1 extends REST_Controller {
         }
     }
 
+                                                                        /*---------- FCM Notifications -----------*/
+    /*
+        Get FCM Notifications List
+        @author Rakesh Jangir
+    */
+    public function notifications_get($user_id=null){
+
+        if($user_id){
+
+            $notifications = $this->db
+                                ->select("fcm_notifications.title,fcm_notifications.message,fcm_notification_user.is_read,fcm_notification_user.user_id,fcm_notification_user.id AS notification_id")
+                                ->where("fcm_notification_user.user_id",$user_id)
+                                ->join("fcm_notification_user","fcm_notification_user.notification_id = fcm_notifications.id","left")
+                                ->get("fcm_notifications")
+                                ->result_array();
+
+            if($notifications){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "Notifications found.",
+                        'notifications' => $notifications
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Notifications not found.",
+                        'notifications' => []
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }    
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Please provide user_id.',
+                'notifications' => []
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /*
+        Get FCM Notifications List
+        @param $user_id, $notification_id
+        @author Rakesh Jangir
+    */
+    public function read_notification_post(){
+
+        $user_id = $this->input->post('user_id');
+        $notification_id = $this->input->post('notification_id');   // id field of fcm_notification_user table
+
+        if($user_id && $notification_id){
+
+            $data = array(
+                "is_read"   =>  1,
+                "updated_at"=>  date('Y-m-d'),
+                "updated_by"=>  $user_id,
+            );
+
+            if($this->db->where("id",$notification_id)->update("fcm_notification_user",$data)){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'message' => "Notifications read successful"
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => FALSE,
+                        'message' => "Notifications read failed"
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }    
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Please provide user_id and notification_id both.',
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
 
                                                                     /*---------- Stae/City/Zip -----------*/
     /*
@@ -2255,7 +2316,7 @@ class ApiV1 extends REST_Controller {
         if($user_id){
             $zip_codes = $this->db->query("SELECT 
                     `zip_code_id`,
-                    `zip_code`
+                    CONCAT(`zip_code`,' ',`area`) AS `zip_code`
                     FROM `user_zip_codes`
                     LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `user_zip_codes`.`zip_code_id`
                     LEFT JOIN `users` ON `users`.`id` = `user_zip_codes`.`user_id`
@@ -2263,7 +2324,7 @@ class ApiV1 extends REST_Controller {
                     AND `zip_codes`.`status` = 'Active'
                     ")->result_array();
         }else{
-            $zip_codes = $this->db->select("id as zip_code_id,zip_code")->get("zip_codes")->result_array();
+            $zip_codes = $this->db->select("id as zip_code_id,CONCAT(`zip_code`,' ',`area`) AS `zip_code`")->get("zip_codes")->result_array();
         }
         
         if(!empty($zip_codes)){
