@@ -206,6 +206,7 @@
                                                                             <tr>
                                                                                 <th>#</th>
                                                                                 <th>Order No.</th>
+                                                                                <th>Weight (Kg)</th>
                                                                                 <th>Client Name</th>
                                                                                 <th>Expected Delivery Date</th>
                                                                                 <th>ZIP Code</th>
@@ -226,6 +227,7 @@
                                                                                             </div>    
                                                                                         </td>
                                                                                         <td>{$order['id']}</td>
+                                                                                        <td>{$order['order_weight']}</td>
                                                                                         <td>{$order['client_name']}</td>
                                                                                         <td>{$order['expected_delivery_date']}</td>
                                                                                         <td>{$order['zip_code']}</td>
@@ -340,6 +342,7 @@
                         </div>    
                     </td>
                     <td>{$order['id']}</td>
+                    <td>{$order['order_weight']}</td>
                     <td>{$order['client_name']}</td>
                     <td>{$order['expected_delivery_date']}</td>
                     <td>{$order['zip_code']}</td>
@@ -638,6 +641,9 @@
                     $(v).empty();
                 });
 
+                //Clear Order weight
+                $(".order_weight").text('');
+
                 $order_found_count.removeClass('text-success text-warning');
 
                 if(zip_code_group_ids.length != 0){
@@ -670,6 +676,7 @@
                                                         </div>    
                                                     </td>
                                                     <td>${arr.id}</td>
+                                                    <td>${arr.order_weight}</td>
                                                     <td>${arr.client_name}</td>
                                                     <td>${arr.expected_delivery_date}</td>
                                                     <td>${arr.zip_code}</td>
@@ -882,6 +889,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Order No.</th>
+                                <th>Weight (Kg)</th>
                                 <th>Client Name</th>
                                 <th>Expected Delivery Date</th>
                                 <th>ZIP Code</th>

@@ -24,10 +24,12 @@ class Delivery extends MY_Controller {
         if($this->input->is_ajax_request()){
 
 			$colsArr = array(
+				'client_name',
 				'expected_delivey_datetime',
 				'actual_delivey_datetime',
 				'pickup_location',
 				'warehouse_name',
+				'deliverying_staff',
 				'action'
 			);
 
@@ -36,13 +38,38 @@ class Delivery extends MY_Controller {
                             DATE_FORMAT(expected_delivey_datetime,'%Y-%m-%d') as expected_delivey_datetime_f,
                             DATE_FORMAT(actual_delivey_datetime,'%Y-%m-%d') as actual_delivey_datetime_f,
                             warehouses.name as warehouse_name,
-                            GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name
+                            GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name,
+                            orders.order_status,
+                            GROUP_CONCAT(
+                                (CASE
+                                    WHEN delivery_boy.id IS NULL 
+                                        THEN CONCAT(
+                                            'Driver : ',
+                                            driver.first_name,
+                                            ' ',
+                                            driver.last_name
+                                        )
+                                    ELSE CONCAT(
+                                            'Delivery Boy : ',
+                                            delivery_boy.first_name,
+                                            ' ',
+                                            delivery_boy.last_name,
+                                            '<br/>',
+                                            'Driver : ',
+                                            driver.first_name,
+                                            ' ',
+                                            driver.last_name
+                                        )
+                                END)
+                            SEPARATOR '<hr/>') AS `deliverying_staff`
                         FROM delivery
                         LEFT JOIN warehouses ON warehouses.id=delivery.warehouse
                         LEFT JOIN delivery_config ON delivery_config.delivery_id = delivery.id
                         LEFT JOIN delivery_config_orders ON delivery_config_orders.delivery_config_id = delivery_config.id
                         LEFT JOIN orders ON orders.id = delivery_config_orders.order_id
                         LEFT JOIN clients ON clients.id = orders.client_id
+                        LEFT JOIN users AS delivery_boy ON delivery_boy.id = delivery_config.delivery_boy_id
+                        LEFT JOIN users AS driver ON driver.id = delivery_config.driver_id
                         GROUP BY delivery.id";
 
             echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0",NULL,true);die;
@@ -56,6 +83,7 @@ class Delivery extends MY_Controller {
 	    $this->data['delivery_id'] = $delivery_id;
 
 	    if($delivery_id){
+
             $this->data['page_title'] = "Update Delivery";
             $this->data['delivery_data'] = $this->db->get_where("delivery",["id"=>$delivery_id])->row_array();
             $this->data['delivery_routes'] = array_column($this->db->get_where("delivery_routes",["delivery_id"=>$delivery_id])->result_array(),'zip_code_group_id');

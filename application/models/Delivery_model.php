@@ -9,6 +9,7 @@ class Delivery_model extends CI_Model {
 
     public function insert_update($delivery_data,$delivery_routes,$deliveries,$delivery_id=null){
 	
+		$expected_delivery_date = date('d-m-Y',strtotime($delivery_data['expected_delivey_datetime']));
 		$this->db->trans_start();
 
 		if($delivery_id){
@@ -59,7 +60,7 @@ class Delivery_model extends CI_Model {
 		$this->db->delete("delivery_config",['delivery_id'=>$delivery_id]);
 		$this->db->delete("delivery_config_orders",['delivery_id'=>$delivery_id]);
 		
-		$notifiable_user = [];	//delivery boy & salesman
+		$notifiable_user_arr = [];	//delivery boy & salesman
 
 		foreach($deliveries as $k=>$delivery){
 			
@@ -74,13 +75,6 @@ class Delivery_model extends CI_Model {
 					'created_by'		=>	USER_ID,
 					'status'			=>	'Active'
 				);
-
-				$notifiable_user[] = $delivery['drivers'];
-				if($delivery['delivery_boys']){
-					if(!in_array($delivery['delivery_boys'],$notifiable_user)){
-						$notifiable_user[] = $delivery['delivery_boys'];
-					}
-				}
 
 				if($this->db->insert("delivery_config",$delivery_config)){
 					
@@ -99,22 +93,45 @@ class Delivery_model extends CI_Model {
 						);
 
 						$this->db->insert("delivery_config_orders",$delivery_config_orders);
+
+						$order_data_qry = "SELECT
+												clients.client_name,
+												client_delivery_addresses.address
+											FROM orders
+											LEFT JOIN client_delivery_addresses ON client_delivery_addresses.id = orders.delivery_address_id
+											LEFT JOIN clients ON clients.id = orders.client_id
+											WHERE orders.id = {$order_id}";
+						$order_data_get = $this->db->query($order_data_qry)->row_array();
+
+						$notifiable_user_arr[] = array(
+							'user_id'	=>	$delivery_config['driver_id'],							
+							'message'	=>	"Delivery created for {$order_data_get['client_name']} at {$order_data_get['address']} with expected delivery on {$expected_delivery_date} having order amount Rs.1800 with Order Id {$order_id}",
+						);
+
+						if($delivery_config['delivery_boy_id']){
+							$notifiable_user_arr[] = array(
+								'user_id'	=>	$delivery_config['delivery_boy_id'],							
+								'message'	=>	"Delivery created for {$order_data_get['client_name']} at {$order_data_get['address']} with expected delivery on {$expected_delivery_date} having order amount Rs.1800 with Order Id {$order_id}",
+							);
+						}
 					}
 				}
 			}
 		}
 
 		//Send Notification
-		if($notifiable_user){
+		if($notifiable_user_arr){
 			
-			$users = $this->db->where_in("users.id",$notifiable_user)
-                        ->where("user_devices.device_id IS NOT NULL")
-						->select("users.id as user_id, user_devices.device_id")
-                        ->join("user_devices","user_devices.user_id = users.id","left")
-                        ->group_by("users.id")
-						->get("users")->result_array();
-						
-			$this->fcm->send($users,"Order Delivery", "New Delivery Created.");
+			foreach($notifiable_user_arr AS $notifiable_user){
+				$users = $this->db->where("users.id",$notifiable_user['user_id'])
+							->where("user_devices.device_id IS NOT NULL")
+							->select("users.id as user_id, user_devices.device_id")
+							->join("user_devices","user_devices.user_id = users.id","left")
+							->group_by("users.id")
+							->get("users")->result_array();
+							
+				$this->fcm->send($users,"Order Delivery", $notifiable_user['message']);
+			}
 		}
 
 		if($new_orders){
@@ -139,7 +156,7 @@ class Delivery_model extends CI_Model {
 						orders.*,
 						clients.client_name,
 						zip_codes.zip_code,
-						SUM(products.weight) as `order_weight`
+						SUM(IFNULL(products.weight, 0)*IFNULL(order_items.quantity, 0)) as `order_weight`
 					FROM orders
 					LEFT JOIN clients on clients.id = orders.client_id
 					LEFT JOIN order_items on order_items.order_id = orders.id

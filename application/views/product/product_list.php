@@ -20,7 +20,7 @@
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Brand</th>
-                                <th>Weight</th>
+                                <th>Weight (Kg)</th>
                                 <th>Dimension</th>
                                 <th>Cost Price</th>
                                 <th>Sale Price</th>

@@ -1,3 +1,9 @@
+<style>
+    .delivered{
+        background-color:#82da82!important;
+    }
+</style>
+
 <div class="page-body">
     <div class="row">
         <div class="col-sm-12">
@@ -20,6 +26,7 @@
                                 <th>Actual Delivery</th>
                                 <th>Pickup Location</th>
                                 <th>Warehouse</th>
+                                <th>Delivery Staff</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -58,6 +65,7 @@
                 { "data": "actual_delivey_datetime_f" },
                 { "data": "pickup_location" },
                 { "data": "warehouse_name" },                
+                { "data": "deliverying_staff" },                
                 {
                 	"data": 'link',
                     orderable:false,
@@ -66,8 +74,14 @@
 				      return "<a href='<?php echo $this->baseUrl; ?>delivery/add_update/"+data.id+"' title='Edit Delete'><i class='feather icon-edit'></i></a>"+
                           "<a class='text-danger' id='delete_user' href='<?php echo $this->baseUrl; ?>delivery/delete/"+data.id+"' title='Delete Delivery'><i class='feather icon-trash-2'></i></a>";
 				    }
-            	}
+            	},                
             ],
+            createdRow:function(row, data, index){
+                if(data.order_status=='Delivered'){
+                    row.classList.add('delivered');
+                    row.title = "Delivered";
+                }
+            }
 		}).on('click','#delete_user',function(e){
 		    e.preventDefault();
 

@@ -19,7 +19,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label" for="weight">Weight</label>
+                                    <label class="control-label" for="weight">Weight (Kg)</label>
                                     <input type="text" name="weight" id="weight" class="form-control" value="<?php echo (isset($_POST['weight'])) ? $_POST['weight'] : $products['weight']; ?>" />
                                     <span class="messages"><?php echo form_error('weight');?></span>
                                 </div>

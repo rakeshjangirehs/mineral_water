@@ -1298,6 +1298,9 @@ class ApiV1 extends REST_Controller {
             $where .= " AND date(`orders`.`created_at`) >= '{$start_date}'";
         }else if($end_date){
             $where .= " AND date(`orders`.`created_at`) <= '{$end_date}'";
+        }else{
+            // By default In my Order list, current date orders should come. Date is must required in order list.
+            $where .= " AND date(`orders`.`created_at`) = CURDATE()";
         }
 
         $query = "SELECT
@@ -1315,7 +1318,8 @@ class ApiV1 extends REST_Controller {
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
                 LEFT JOIN `order_items` ON `order_items`.`order_id` = `orders`.`id`
                 WHERE {$where}
-                GROUP BY `orders`.`id`";
+                GROUP BY `orders`.`id`
+                ORDER BY `orders`.`created_at` DESC";
         
         if($orders = $this->db->query($query)->result_array()){
             $this->response([
@@ -1346,49 +1350,151 @@ class ApiV1 extends REST_Controller {
 
         $where = "";
         if($role_id == 2){
-            $where .= " AND `orders`.`created_by` = {$user_id}";
+            $query = "SELECT
+                            clients.id AS client_id,
+                            clients.client_name,
+                            clients.contact_person_name_1,
+                            clients.contact_person_1_phone_1,
+                            clients.contact_person_1_email,
+                            IFNULL(sub_pending.pending,0) AS pending,
+                            IFNULL(sub_partial.partial,0) AS partial,
+                            IFNULL(sub_paid.paid,0) AS paid
+                        FROM clients
+                        LEFT JOIN client_delivery_addresses ON client_delivery_addresses.client_id = clients.id
+                        LEFT JOIN (
+                            SELECT
+                                COUNT(*) AS pending,
+                                client_id,
+                                payment_status,
+                                created_by
+                            FROM orders
+                            WHERE orders.order_status ='Delivered'
+                            AND orders.payment_status = 'Pending'
+                            GROUP BY client_id
+                        ) sub_pending ON sub_pending.client_id = clients.id
+                        LEFT JOIN (
+                            SELECT
+                                COUNT(*) AS paid,
+                                client_id,
+                                payment_status,
+                                created_by
+                            FROM orders
+                            WHERE orders.order_status  = 'Delivered'
+                            AND orders.payment_status = 'Paid'
+                            GROUP BY client_id
+                        ) sub_paid ON sub_paid.client_id = clients.id
+                        LEFT JOIN (
+                            SELECT
+                                COUNT(*) AS partial,
+                                client_id,
+                                payment_status,
+                                created_by
+                            FROM orders
+                            WHERE orders.order_status  = 'Delivered'
+                            AND orders.payment_status = 'Partial'
+                            GROUP BY client_id
+                        ) sub_partial ON sub_partial.client_id = clients.id
+                        WHERE 
+                        (
+                            client_delivery_addresses.zip_code_id IN
+                            (
+                                SELECT 
+                                    zipcode_id
+                                FROM 
+                                (SELECT
+                                    zip_codes.id as zipcode_id
+                                FROM user_zip_code_groups
+                                LEFT JOIN zip_code_groups ON zip_code_groups.id = user_zip_code_groups.zip_code_group_id
+                                LEFT JOIN group_to_zip_code ON group_to_zip_code.zip_code_group_id = zip_code_groups.id
+                                LEFT JOIN zip_codes ON zip_codes.id = group_to_zip_code.zip_code_id
+                                WHERE user_zip_code_groups.user_id = {$user_id}
+                                UNION
+                                SELECT
+                                    zip_codes.id as zipcode_id
+                                FROM user_zip_codes
+                                LEFT JOIN zip_codes ON zip_codes.id = user_zip_codes.zip_code_id
+                                WHERE user_zip_codes.user_id = {$user_id}
+                                ) tmp_zip
+                                GROUP BY zip_code
+                            )
+                            OR
+                            (
+                                sub_pending.created_by = {$user_id} OR sub_paid.created_by = {$user_id} OR sub_partial.created_by = {$user_id}
+                            )
+                        )
+                        GROUP BY clients.id
+                        HAVING  ( pending > 0 OR partial > 0 OR paid > 0 )";
         }else if($role_id == 3){    
-            $where .= " AND `orders`.`id` IN (
-                SELECT
-                    DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
-                FROM `delivery_config_orders`
-                LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
-                WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
-            )";
+            $query = "SELECT
+                        clients.id AS client_id,
+                        clients.client_name,
+                        clients.contact_person_name_1,
+                        clients.contact_person_1_phone_1,
+                        clients.contact_person_1_email,
+                        IFNULL(sub_pending.pending,0) AS pending,
+                        IFNULL(sub_partial.partial,0) AS partial,
+                        IFNULL(sub_paid.paid,0) AS paid
+                    FROM clients
+                    LEFT JOIN client_delivery_addresses ON client_delivery_addresses.client_id = clients.id
+                    LEFT JOIN (
+                        SELECT
+                            COUNT(*) AS pending,
+                            client_id,
+                            payment_status,
+                            created_by
+                        FROM orders
+                        WHERE orders.order_status ='Delivered'
+                        AND orders.payment_status = 'Pending'
+                        AND `orders`.`id` IN (
+                            SELECT
+                                DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
+                            FROM `delivery_config_orders`
+                            LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
+                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
+                        )
+                        GROUP BY client_id
+                    ) sub_pending ON sub_pending.client_id = clients.id
+                    LEFT JOIN (
+                        SELECT
+                            COUNT(*) AS paid,
+                            client_id,
+                            payment_status,
+                            created_by
+                        FROM orders
+                        WHERE orders.order_status  = 'Delivered'
+                        AND orders.payment_status = 'Paid'
+                        AND `orders`.`id` IN (
+                            SELECT
+                                DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
+                            FROM `delivery_config_orders`
+                            LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
+                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
+                        )
+                        GROUP BY client_id
+                    ) sub_paid ON sub_paid.client_id = clients.id
+                    LEFT JOIN (
+                        SELECT
+                            COUNT(*) AS partial,
+                            client_id,
+                            payment_status,
+                            created_by
+                        FROM orders
+                        WHERE orders.order_status  = 'Delivered'
+                        AND orders.payment_status = 'Partial'
+                        AND `orders`.`id` IN (
+                            SELECT
+                                DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
+                            FROM `delivery_config_orders`
+                            LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
+                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
+                        )
+                        GROUP BY client_id
+                    ) sub_partial ON sub_partial.client_id = clients.id
+                    GROUP BY clients.id
+                    HAVING  ( pending > 0 OR partial > 0 OR paid > 0 )";
         }
 
         if($user_id){
-
-            $query = "SELECT
-                        `clients`.`id` AS `client_id`,
-                        `clients`.`client_name`,
-                        `clients`.`contact_person_name_1`,
-                        `clients`.`contact_person_1_phone_1`,
-                        `clients`.`contact_person_1_email`,
-                        (
-                            SELECT
-                                COUNT(`orders`.`id`) as `paid_count`
-                            FROM `orders`
-                            WHERE `orders`.`payment_status` = 'Paid'
-                            AND `orders`.`client_id` = `clients`.`id` {$where}
-                        ) AS `paid_count`,
-                        (
-                            SELECT
-                                COUNT(`orders`.`id`) as `partial_count`
-                            FROM `orders`
-                            WHERE `orders`.`payment_status` = 'Partial'
-                            AND `orders`.`client_id` = `clients`.`id` {$where}
-                        ) AS `partial_count`,
-                        (
-                            SELECT
-                                COUNT(`orders`.`id`) as `pending_count`
-                            FROM `orders`
-                            WHERE `orders`.`payment_status` = 'Pending'
-                            AND `orders`.`client_id` = `clients`.`id` {$where}
-                        ) AS `pending_count`
-                    FROM `clients`
-                    GROUP BY `clients`.`id`
-                    HAVING `paid_count`>0 OR `partial_count`>0 OR `pending_count`>0";
             
             if($data = $this->db->query($query)->result_array()){
                 $this->response([
@@ -1438,10 +1544,12 @@ class ApiV1 extends REST_Controller {
                     LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
                     LEFT JOIN `order_items` ON `order_items`.`order_id` = `orders`.`id`
                     WHERE `clients`.`id` = {$client_id}
+                    AND `orders`.`order_status` = 'Delivered'
                     GROUP BY `orders`.`id`";
             
             if($orders = $this->db->query($query)->result_array()){
 
+                /*
                 foreach($orders as $k=>$order){
                     $orders[$k]['order_items'] = $this->db
                     ->select("
@@ -1455,7 +1563,7 @@ class ApiV1 extends REST_Controller {
                     ->join("products","products.id = order_items.product_id","left")
                     ->get()
                     ->result_array();
-                }
+                }*/
 
                 $this->response([
                     'status' => TRUE,
@@ -1520,7 +1628,8 @@ class ApiV1 extends REST_Controller {
                     `schemes`.`id` AS `scheme_id`,
                     0 AS `manage_stock_needed`,
                     0 AS `inverntory_existing_quantity`,
-                    0 AS `inverntory_product_id`
+                    0 AS `inverntory_product_id`,
+                    '' AS `inverntory_product_name`
                 FROM `delivery`
                 LEFT JOIN `delivery_config` ON `delivery_config`.`delivery_id` = `delivery`.`id`
                 LEFT JOIN `delivery_config_orders` ON `delivery_config_orders`.`delivery_config_id` = `delivery_config`.`id`                
@@ -1530,14 +1639,17 @@ class ApiV1 extends REST_Controller {
                 LEFT JOIN `client_delivery_addresses` ON `client_delivery_addresses`.`id` = `orders`.`delivery_address_id`
                 LEFT JOIN `zip_codes` ON `zip_codes`.`id` = `client_delivery_addresses`.`zip_code_id`
                 WHERE (`delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id})
-                AND `orders`.`order_status`<>'Delivered'
+                AND `orders`.`order_status` <> 'Delivered'
                 AND date(`delivery`.`expected_delivey_datetime`) = CURDATE()";
 
             if($deliveries = $this->db->query($query)->result_array()){
 
+                
                 foreach($deliveries as $k=>$delivery){
-                    
-                    $products = $this->db->query("SELECT
+
+                    if($delivery['scheme_id']){
+
+                        $products = $this->db->query("SELECT
                                                     products.product_name AS product,
                                                     order_items.quantity,
                                                     order_items.effective_price AS price,
@@ -1558,11 +1670,24 @@ class ApiV1 extends REST_Controller {
                                                 WHERE `schemes`.`gift_mode` = 'free_product'
                                                 AND `schemes`.`id` = {$delivery['scheme_id']}")
                                         ->result_array();
+                    }else{
+                        $products = $this->db->query("SELECT
+                                                    products.product_name AS product,
+                                                    order_items.quantity,
+                                                    order_items.effective_price AS price,
+                                                    order_items.subtotal AS total
+                                                FROM order_items
+                                                LEFT JOIN products ON products.id = order_items.product_id
+                                                WHERE order_items.order_id = {$delivery['order_id']}")
+                                        ->result_array();
+                    }
+                    
                     
                     $deliveries[$k]['products'] = $products;
 
                     $existing_inv = $this->db->query("SELECT                                                    
                                                         order_items.product_id,
+                                                        products.product_name,
                                                         (
                                                             IFNULL(client_product_inventory.existing_quentity,0) +
                                                             IFNULL(client_product_inventory.new_delivered,0) -
@@ -1582,6 +1707,7 @@ class ApiV1 extends REST_Controller {
                     if($existing_inv){                        
                         $deliveries[$k]['inverntory_existing_quantity'] = $existing_inv['existing_quentity'];
                         $deliveries[$k]['inverntory_product_id'] = $existing_inv['product_id'];
+                        $deliveries[$k]['inverntory_product_name'] = $existing_inv['product_name'];
                         $deliveries[$k]['manage_stock_needed'] = 1;
                     }
 
@@ -1639,7 +1765,7 @@ class ApiV1 extends REST_Controller {
         $empty_collected = $this->input->post('empty_collected');
         $product_id = $this->input->post('inverntory_product_id');
 
-        if($user_id!='' && $dco_id!='' && $payment_mode!='' && $amount!='' && $manage_stock_needed!=''){
+        if($user_id!='' && $dco_id!='' && $payment_mode!=''  && $manage_stock_needed!=''){
 
             //Check for stock
             if($manage_stock_needed==1 && ($existing_quentity=='' || $new_delivered=='' || $empty_collected=='' || $product_id=='' )){
@@ -1767,7 +1893,7 @@ class ApiV1 extends REST_Controller {
         }else{
             $this->response([
                 'status' => FALSE,
-                'message' => 'user_id, dco_id, payment_mode, amount, manage_stock_needed are required.'
+                'message' => 'user_id, dco_id, payment_mode, manage_stock_needed are required.'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
@@ -1995,6 +2121,8 @@ class ApiV1 extends REST_Controller {
 
         if($user_id){
 
+            $notification_count = count($this->get_notifications($user_id));
+
             $query = "SELECT
                     `clients`.`client_name`,
                     `clients`.`contact_person_name_1` AS `contact_person`,
@@ -2034,6 +2162,7 @@ class ApiV1 extends REST_Controller {
                     array(
                         'status' => TRUE,
                         'message' => "Missed Delivery found.",
+                        'notification_count'    =>  $notification_count,
                         'today_delivery_count'=>$today_deliveriey_count,
                         'missed_deliveries'=>$miss_deliveries,
                         'images' => $this->dashboard_images,
@@ -2044,6 +2173,7 @@ class ApiV1 extends REST_Controller {
                     array(
                         'status' => FALSE,
                         'message' => "Missed Delivery not found.",
+                        'notification_count'    =>  $notification_count,
                         'today_delivery_count'=>$today_deliveriey_count,
                         'missed_deliveries'=>[],
                         'images' => $this->dashboard_images,
@@ -2056,6 +2186,7 @@ class ApiV1 extends REST_Controller {
                 array(
                     'status' => FALSE,
                     'message' => "Please provide user_id.",
+                    'notification_count'    =>  0,
                     'today_delivery_count' => null,
                     'missed_deliveries'=>[],
                     'images' => $this->dashboard_images,
@@ -2073,6 +2204,8 @@ class ApiV1 extends REST_Controller {
 
         if($user_id){
 
+            $notification_count = count($this->get_notifications($user_id));
+            
             //Count Lead Visits
             $today_followup_lead = "SELECT
                             COUNT(*) AS `today_followups`
@@ -2124,6 +2257,7 @@ class ApiV1 extends REST_Controller {
                 array(
                     'status' => TRUE,
                     'message' => "Salesman Dashboard",
+                    'notification_count'    =>  $notification_count,
                     'today_followup_count'=>$today_followup_count,
                     'today_orders_count'=>$today_orders_count,
                     'today_leads_count'=>$today_leads_count,
@@ -2137,6 +2271,7 @@ class ApiV1 extends REST_Controller {
                 array(
                     'status' => FALSE,
                     'message' => "Please provide user_id.",
+                    'notification_count'    =>  0,
                     'today_followup_count'=>null,
                     'today_orders_count'=>null,
                     'today_leads_count'=>null,
@@ -2226,12 +2361,7 @@ class ApiV1 extends REST_Controller {
 
         if($user_id){
 
-            $notifications = $this->db
-                                ->select("fcm_notifications.title,fcm_notifications.message,fcm_notification_user.is_read,fcm_notification_user.user_id,fcm_notification_user.id AS notification_id")
-                                ->where("fcm_notification_user.user_id",$user_id)
-                                ->join("fcm_notification_user","fcm_notification_user.notification_id = fcm_notifications.id","left")
-                                ->get("fcm_notifications")
-                                ->result_array();
+            $notifications = $this->get_notifications($user_id);
 
             if($notifications){
                 $this->response(
@@ -2446,6 +2576,17 @@ class ApiV1 extends REST_Controller {
 
         // Check that user date is between start & end
         return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+    }
+
+    private function get_notifications($user_id){
+
+        $notifications = $this->db
+                            ->select("fcm_notifications.title,fcm_notifications.message,fcm_notification_user.is_read,fcm_notification_user.user_id,fcm_notification_user.id AS notification_id")
+                            ->where("fcm_notification_user.user_id",$user_id)
+                            ->join("fcm_notification_user","fcm_notification_user.notification_id = fcm_notifications.id","left")
+                            ->get("fcm_notifications")
+                            ->result_array();
+        return $notifications;
     }
 
     public function print_invoice_get($id){

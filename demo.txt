@@ -17,3 +17,35 @@
 {"date":"2019-12-05 18:01:02","url":"\/mineral_water\/index.php\/api\/apiv1\/","method":"GET","data":[]}
 {"date":"2019-12-05 18:21:27","url":"\/mineral_water\/index.php\/api\/apiv1\/notifications_get\/1","method":"GET","data":[]}
 {"date":"2019-12-05 18:21:33","url":"\/mineral_water\/index.php\/api\/apiv1\/notifications\/1","method":"GET","data":[]}
+{"date":"2019-12-06 12:50:49","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/3","method":"GET","data":[]}
+{"date":"2019-12-06 13:44:11","url":"\/mineral_water\/index.php\/api\/apiv1\/deliver_order","method":"POST","data":{"payment_mode":"CashCash","amount":"30","notes":"Manage Inventory","dco_id":"99","user_id":"4","manage_stock_needed":"1","inverntory_product_id":"4","existing_quentity":"12","new_delivered":"5","empty_collected":"2"}}
+{"date":"2019-12-06 13:44:17","url":"\/mineral_water\/index.php\/api\/apiv1\/deliver_order","method":"POST","data":{"payment_mode":"CashCash","notes":"Manage Inventory","dco_id":"99","user_id":"4","manage_stock_needed":"1","inverntory_product_id":"4","existing_quentity":"12","new_delivered":"5","empty_collected":"2"}}
+{"date":"2019-12-06 13:44:20","url":"\/mineral_water\/index.php\/api\/apiv1\/deliver_order","method":"POST","data":{"payment_mode":"CashCash","notes":"Manage Inventory","dco_id":"99","user_id":"4","manage_stock_needed":"1","inverntory_product_id":"4","existing_quentity":"12","new_delivered":"5","empty_collected":"2"}}
+{"date":"2019-12-06 13:46:39","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:48:05","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:48:17","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:52:11","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:52:50","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:52:57","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:53:10","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:53:28","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:53:41","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:54:02","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:54:34","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:54:55","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:55:05","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:55:12","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 13:55:20","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 14:01:37","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"3"}}
+{"date":"2019-12-06 14:01:50","url":"\/mineral_water\/index.php\/api\/apiv1\/invoice_details","method":"POST","data":{"client_id":"1"}}
+{"date":"2019-12-06 14:04:45","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 14:04:58","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"3"}}
+{"date":"2019-12-06 14:05:02","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"2"}}
+{"date":"2019-12-06 14:05:05","url":"\/mineral_water\/index.php\/api\/apiv1\/my_order_list\/","method":"POST","data":{"user_id":"4"}}
+{"date":"2019-12-06 14:31:41","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"3"}}
+{"date":"2019-12-06 14:37:22","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 14:37:27","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"1"}}
+{"date":"2019-12-06 15:07:27","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/3","method":"GET","data":[]}
+{"date":"2019-12-06 15:07:30","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/2","method":"GET","data":[]}
+{"date":"2019-12-06 15:07:32","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/1","method":"GET","data":[]}
+{"date":"2019-12-06 15:11:02","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/3","method":"GET","data":[]}
