@@ -1356,9 +1356,9 @@ class ApiV1 extends REST_Controller {
                             clients.contact_person_name_1,
                             clients.contact_person_1_phone_1,
                             clients.contact_person_1_email,
-                            IFNULL(sub_pending.pending,0) AS pending,
-                            IFNULL(sub_partial.partial,0) AS partial,
-                            IFNULL(sub_paid.paid,0) AS paid
+                            IFNULL(sub_pending.pending,0) AS pending_count,
+                            IFNULL(sub_partial.partial,0) AS partial_count,
+                            IFNULL(sub_paid.paid,0) AS paid_count
                         FROM clients
                         LEFT JOIN client_delivery_addresses ON client_delivery_addresses.client_id = clients.id
                         LEFT JOIN (
@@ -1423,17 +1423,18 @@ class ApiV1 extends REST_Controller {
                             )
                         )
                         GROUP BY clients.id
-                        HAVING  ( pending > 0 OR partial > 0 OR paid > 0 )";
+                        HAVING  ( pending_count > 0 OR partial_count > 0 OR paid_count > 0 )";
+                        
         }else if($role_id == 3){    
             $query = "SELECT
                         clients.id AS client_id,
                         clients.client_name,
                         clients.contact_person_name_1,
                         clients.contact_person_1_phone_1,
-                        clients.contact_person_1_email,
-                        IFNULL(sub_pending.pending,0) AS pending,
-                        IFNULL(sub_partial.partial,0) AS partial,
-                        IFNULL(sub_paid.paid,0) AS paid
+                        clients.contact_person_1_email,                        
+                        IFNULL(sub_pending.pending,0) AS pending_count,
+                        IFNULL(sub_partial.partial,0) AS partial_count,
+                        IFNULL(sub_paid.paid,0) AS paid_count
                     FROM clients
                     LEFT JOIN client_delivery_addresses ON client_delivery_addresses.client_id = clients.id
                     LEFT JOIN (
@@ -1491,7 +1492,7 @@ class ApiV1 extends REST_Controller {
                         GROUP BY client_id
                     ) sub_partial ON sub_partial.client_id = clients.id
                     GROUP BY clients.id
-                    HAVING  ( pending > 0 OR partial > 0 OR paid > 0 )";
+                    HAVING  ( pending_count > 0 OR partial_count > 0 OR paid_count > 0 )";
         }
 
         if($user_id){

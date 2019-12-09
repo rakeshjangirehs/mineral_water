@@ -223,7 +223,7 @@ $config['allow_get_array'] = TRUE;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -234,7 +234,7 @@ $config['log_threshold'] = 0;
 | application/logs/ directory. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config['log_path'] = FCPATH . 'logs' . DIRECTORY_SEPARATOR;
 
 /*
 |--------------------------------------------------------------------------
@@ -539,3 +539,7 @@ $config['maintenance_mode'] = FALSE;
 | Developer: Milan Soni
 */
 $config['maintenance_ips'] = array('172.16.3.124', '0.0.0.0', '0.0.0.0');
+
+
+/* Rakesh */
+$config["clv_log_folder_path"] = FCPATH . "logs";

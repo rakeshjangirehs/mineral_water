@@ -166,9 +166,34 @@
     private function get_order($id){    //order_id
 
         $order = $this->db
-            ->select("orders.*,`clients`.`client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
+            ->select("
+                orders.*,
+                `clients`.`client_name`,
+                CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`,
+                schemes.name as scheme_name,
+                schemes.description,
+                schemes.gift_mode,
+                schemes.discount_mode,
+                schemes.discount_value,
+                schemes.free_product_id,
+                schemes.free_product_qty,
+                (CASE
+                    WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                        WHEN schemes.discount_mode='amount' THEN schemes.discount_value
+                        ELSE (orders.payable_amount*schemes.discount_value/100)
+                    END)
+                    ELSE 0
+                END) AS `computed_disc`,
+                (CASE
+                    WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                        WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                        ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                    END)
+                    ELSE orders.payable_amount
+                END) AS `effective_amount`")                
             ->where("orders.id = {$id}")
             ->from("orders")
+            ->join("schemes","schemes.id = orders.scheme_id","left")
             ->join("clients","clients.id = orders.client_id","left")
             ->join("users as salesman","salesman.id = orders.created_by","left")
             ->get()
@@ -191,6 +216,13 @@
                 ->from("clients")
                 ->get()
                 ->row_array();
+
+            if($order['free_product_id']){
+                $order['free_product'] = $this->db->where("id",$order['free_product_id'])->get("products")->row_array();
+                // echo "<pre>";print_r($order['free_product']);die;
+            }else{
+                $order['free_product'] = null;
+            }
         }
         
         return $order;

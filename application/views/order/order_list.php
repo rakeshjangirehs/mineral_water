@@ -62,6 +62,7 @@
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
                                                 <th>Expected Delivery Date</th>
+                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -184,9 +185,10 @@
                     "sortable": false,
                     "render": function ( data, type, row, meta ) {
                         if(row.need_admin_approval==1 && row.order_status=='Approval Required'){
-                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
+                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
+                            "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
                         }else{
-                            return "";
+                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>";
                         }
                     }
                 }
@@ -212,7 +214,14 @@
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },
-                { "data": "expected_delivey_datetime" }
+                { "data": "expected_delivey_datetime" },
+                {
+                    "data": 'link',
+                    "sortable": false,
+                    "render": function ( data, type, row, meta ) {
+                        return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>";
+                    }
+                }
             ],
             "createdRow": function ( row, data, index ) {}
         });

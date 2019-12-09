@@ -5,6 +5,19 @@
         top: 33px;
         font-weight: 700;
     }
+    
+    .table.scheme-block td, .table.scheme-block th {
+        padding: .10rem;
+        vertical-align: top;
+        border-top: none;
+    }
+
+    .scheme-block td.w1{
+        width:80%;
+    }
+    .scheme-block td.w2{
+        width:20%;
+    }
 </style>
 <div class="page-body">
     <div class="row">
@@ -80,13 +93,13 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table class="table  invoice-detail-table">
+                                <table class="table invoice-detail-table">
                                     <thead>
                                     <tr class="thead-default">
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Amount</th>
-                                        <th>Total</th>
+                                        <th style='width:70%;'>Product</th>
+                                        <th style='width:10%;'>Quantity</th>
+                                        <th style='width:10%;'>Amount</th>
+                                        <th style='width:10%;'>Total</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -104,53 +117,66 @@
                                                     <td>{$product_price}</td>
                                                 </tr>";
                                         }
+                                        
+                                        if($order['scheme_id']){
+                                            if($order['gift_mode'] == 'cash_benifit'){
+
+                                                $dis_type = ($order['discount_mode']=='percentage') ? "Discount ({$order['discount_value']}%) :" : "Discount(Rs.) :";
+
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['payable_amount']}</td></tr>";
+                                                echo "<tr style='font-weight: 800;'>
+                                                    <td>
+                                                        Scheme
+                                                        <br/>
+                                                        <p style='font-weight: 200;'>{$order['scheme_name']}</p>
+                                                        {$order['free_product']['product_name']}
+                                                    </td>
+                                                    <td></td>
+                                                    <td>{$dis_type}</td>
+                                                    <td>{$order['computed_disc']}</td>
+                                                </tr>";
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['effective_amount']}</td></tr>";
+                                            }else if($order['free_product']){
+                                                echo "<tr style='font-weight: 800;'>
+                                                    <td>
+                                                        Scheme
+                                                        <br/>
+                                                        <p style='font-weight: 200;'>{$order['scheme_name']}</p>
+                                                    </td>
+                                                    <td>{$order['free_product_qty']}</td>
+                                                    <td>0</td>
+                                                    <td>0</td>
+                                                </tr>";
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['payable_amount']}</td></tr>";
+
+                                            }
+                                        }else{
+                                            echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['payable_amount']}</td></tr>";
+                                        }
+
+                                        
                                     }?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table class="table table-responsive invoice-table invoice-total">
-                                <tbody>
-                                <!--<tr>
-                                    <th>Sub Total :</th>
-                                    <td>$4725.00</td>
-                                </tr>
-                                <tr>
-                                    <th>Taxes (10%) :</th>
-                                    <td>$57.00</td>
-                                </tr>
-                                <tr>
-                                    <th>Discount (5%) :</th>
-                                    <td>$45.00</td>
-                                </tr>-->
-                                <tr class="text-info">
-                                    <td>
-                                        <hr>
-                                        <h5 class="text-primary">Total :</h5>
-                                    </td>
-                                    <td>
-                                        <hr>
-                                        <h5 class="text-primary"><?php echo $order['payable_amount'];?></h5>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
+                    <?php if($order['order_status'] == 'Delivered'):?>
                     <div class="row">
                         <div class="col-sm-12">
                             <h6>Terms And Condition :</h6>
                             <p>lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor </p>
                         </div>
                     </div>
+                    <?php endif;?>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-sm-12 invoice-btn-group text-center">
+                    <?php if($order['order_status'] == 'Delivered'):?>
                     <button type="button" id="print_button" class="btn btn-primary btn-print-invoice m-b-10 btn-sm waves-effect waves-light m-r-20">Print</button>
+                    <?php endif;?>
                     <button type="button" id="back_button" class="btn btn-danger waves-effect m-b-10 btn-sm waves-light">Back</button>
                 </div>
             </div>
