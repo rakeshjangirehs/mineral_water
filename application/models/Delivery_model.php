@@ -10,7 +10,9 @@ class Delivery_model extends CI_Model {
     public function insert_update($delivery_data,$delivery_routes,$deliveries,$delivery_id=null){
 	
 		$expected_delivery_date = date('d-m-Y',strtotime($delivery_data['expected_delivey_datetime']));
-		$this->db->trans_start();
+		$action = ($delivery_id) ? 'updated' : 'created';
+
+		$this->db->trans_start();		
 
 		if($delivery_id){
 			
@@ -96,22 +98,31 @@ class Delivery_model extends CI_Model {
 
 						$order_data_qry = "SELECT
 												clients.client_name,
-												client_delivery_addresses.address
+												client_delivery_addresses.address,
+												(CASE
+													WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+														WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+														ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+													END)
+													ELSE orders.payable_amount
+												END) AS `effective_price`
 											FROM orders
+											LEFT JOIN schemes ON schemes.id = orders.scheme_id
 											LEFT JOIN client_delivery_addresses ON client_delivery_addresses.id = orders.delivery_address_id
 											LEFT JOIN clients ON clients.id = orders.client_id
 											WHERE orders.id = {$order_id}";
+											
 						$order_data_get = $this->db->query($order_data_qry)->row_array();
 
 						$notifiable_user_arr[] = array(
 							'user_id'	=>	$delivery_config['driver_id'],							
-							'message'	=>	"Delivery created for {$order_data_get['client_name']} at {$order_data_get['address']} with expected delivery on {$expected_delivery_date} having order amount Rs.1800 with Order Id {$order_id}",
+							'message'	=>	"Delivery {$action} for {$order_data_get['client_name']} at {$order_data_get['address']} with expected delivery on {$expected_delivery_date} having order amount Rs. {$order_data_get['effective_price']} with Order Id {$order_id}",
 						);
 
 						if($delivery_config['delivery_boy_id']){
 							$notifiable_user_arr[] = array(
 								'user_id'	=>	$delivery_config['delivery_boy_id'],							
-								'message'	=>	"Delivery created for {$order_data_get['client_name']} at {$order_data_get['address']} with expected delivery on {$expected_delivery_date} having order amount Rs.1800 with Order Id {$order_id}",
+								'message'	=>	"Delivery {$action} for {$order_data_get['client_name']} at {$order_data_get['address']} with expected delivery on {$expected_delivery_date} having order amount Rs. {$order_data_get['effective_price']} with Order Id {$order_id}",
 							);
 						}
 					}
