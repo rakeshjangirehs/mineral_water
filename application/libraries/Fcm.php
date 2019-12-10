@@ -126,4 +126,14 @@ class Fcm{
         */
     }
 
+    public function send_text($mobile,$message){
+        
+        $ch=curl_init();
+        $msg = urlencode($message);
+        curl_setopt($ch,CURLOPT_URL,"http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR");
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        $output =curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
 }

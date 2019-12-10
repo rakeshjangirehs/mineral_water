@@ -1,3 +1,18 @@
+<style>
+    .my-link{
+        color: #007bff;
+        text-decoration: initial;
+        text-decoration-color: #007bff;
+        text-decoration-line: underline;
+    }
+
+    .my-link:hover{
+        color: #007bff;
+        text-decoration: initial;
+        text-decoration-color: #007bff;
+        text-decoration-line: underline;
+    }
+</style>
 <div class="page-body">
     <div class="row">
         <div class="col-sm-12">
@@ -62,7 +77,6 @@
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
                                                 <th>Expected Delivery Date</th>
-                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -83,6 +97,7 @@
                                                 <th>Final Amount</th>
                                                 <th>Expected Delivery Date</th>
                                                 <th>Actual Delivery Date</th>
+                                                <th>Received Payment</th>
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -173,7 +188,14 @@
                 [ 0, "desc" ]
             ],
             "columns": [
-                { "data": "id" },
+                // { "data": "id" },
+                {
+                    "data": 'id',
+                    "sortable": false,
+                    "render": function ( id, type, row, meta ) {
+                        return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
+                    }
+                },
                 { "data": "order_status" },
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
@@ -185,10 +207,9 @@
                     "sortable": false,
                     "render": function ( data, type, row, meta ) {
                         if(row.need_admin_approval==1 && row.order_status=='Approval Required'){
-                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
-                            "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
+                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
                         }else{
-                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>";
+                            return "";
                         }
                     }
                 }
@@ -209,19 +230,19 @@
                 [ 0, "desc" ]
             ],
             "columns": [
-                { "data": "id" },
+                // { "data": "id" },
+                {
+                    "data": 'id',
+                    "sortable": false,
+                    "render": function ( id, type, row, meta ) {
+                        return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
+                    }
+                },
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },
-                { "data": "expected_delivey_datetime" },
-                {
-                    "data": 'link',
-                    "sortable": false,
-                    "render": function ( data, type, row, meta ) {
-                        return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>";
-                    }
-                }
+                { "data": "expected_delivey_datetime" }
             ],
             "createdRow": function ( row, data, index ) {}
         });
@@ -239,19 +260,26 @@
                 [ 0, "desc" ]
             ],
             "columns": [
-                { "data": "id" },
+                // { "data": "id" },
+                {
+                    "data": 'id',
+                    "sortable": false,
+                    "render": function ( id, type, row, meta ) {
+                        return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
+                    }
+                },
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },
                 { "data": "expected_delivey_datetime" },
                 { "data": "actual_delivey_datetime" },
+                { "data": "amount_recieved" },
                 {
                     "data": 'link',
                     "sortable": false,
                     "render": function ( data, type, row, meta ) {
-                    return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_details/"+data.id+"' title='View Invoice'><i class='feather icon-credit-card'></i></a>"+
-                        "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>";
+                        return "<a class='order_email' href='<?php echo $this->baseUrl; ?>orders/email_order/"+data.id+"' title='Send Invoice to Client'><i class='feather icon-mail'></i></a>";
                     }
                 }
             ],

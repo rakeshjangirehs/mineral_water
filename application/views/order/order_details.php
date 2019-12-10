@@ -98,8 +98,8 @@
                                     <tr class="thead-default">
                                         <th style='width:70%;'>Product</th>
                                         <th style='width:10%;'>Quantity</th>
-                                        <th style='width:10%;'>Amount</th>
-                                        <th style='width:10%;'>Total</th>
+                                        <th style='width:10%;text-align:right;'>Amount</th>
+                                        <th style='width:10%;text-align:right;'>Total</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -113,8 +113,8 @@
                                                         <p>{$product['description']}</p>
                                                     </td>                                                    
                                                     <td>{$product['quantity']}</td>
-                                                    <td>{$product['effective_price']}</td>
-                                                    <td>{$product_price}</td>
+                                                    <td style='text-align:right;'>{$product['effective_price']}</td>
+                                                    <td style='text-align:right;'>{$product_price}</td>
                                                 </tr>";
                                         }
                                         
@@ -123,35 +123,38 @@
 
                                                 $dis_type = ($order['discount_mode']=='percentage') ? "Discount ({$order['discount_value']}%) :" : "Discount(Rs.) :";
 
-                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['payable_amount']}</td></tr>";
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'></td><td style='text-align:right;'>{$order['payable_amount']}</td></tr>";
                                                 echo "<tr style='font-weight: 800;'>
                                                     <td>
                                                         Scheme
                                                         <br/>
-                                                        <p style='font-weight: 200;'>{$order['scheme_name']}</p>
-                                                        {$order['free_product']['product_name']}
+                                                        <p style='font-weight: 200;'>{$order['scheme_name']}</p>                                                        
                                                     </td>
                                                     <td></td>
-                                                    <td>{$dis_type}</td>
-                                                    <td>{$order['computed_disc']}</td>
+                                                    <td style='text-align:right;'>{$dis_type}</td>
+                                                    <td style='text-align:right;'>{$order['computed_disc']}</td>
                                                 </tr>";
-                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['effective_amount']}</td></tr>";
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$order['effective_amount']}</td></tr>";
                                             }else if($order['free_product']){
-                                                echo "<tr style='font-weight: 800;'>
+                                                
+                                                echo "<tr>
                                                     <td>
-                                                        Scheme
+                                                        <span style='font-weight: 800;'>Scheme</span>
                                                         <br/>
-                                                        <p style='font-weight: 200;'>{$order['scheme_name']}</p>
+                                                        <p style='font-weight: 200;'>
+                                                        {$order['scheme_name']}
+                                                        <br/>
+                                                        {$order['free_product']['product_name']}
+                                                        </p>
                                                     </td>
                                                     <td>{$order['free_product_qty']}</td>
-                                                    <td>0</td>
-                                                    <td>0</td>
+                                                    <td style='text-align:right;'>0</td>
+                                                    <td style='text-align:right;'>0</td>
                                                 </tr>";
-                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['payable_amount']}</td></tr>";
-
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$order['payable_amount']}</td></tr>";
                                             }
                                         }else{
-                                            echo "<tr style='font-weight: 800;'><td></td><td></td><td>Total : </td><td>{$order['payable_amount']}</td></tr>";
+                                            echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$order['payable_amount']}</td></tr>";
                                         }
 
                                         

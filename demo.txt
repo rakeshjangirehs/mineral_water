@@ -49,3 +49,13 @@
 {"date":"2019-12-06 15:07:30","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/2","method":"GET","data":[]}
 {"date":"2019-12-06 15:07:32","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/1","method":"GET","data":[]}
 {"date":"2019-12-06 15:11:02","url":"\/mineral_water\/index.php\/api\/apiv1\/today_delivery\/3","method":"GET","data":[]}
+{"date":"2019-12-10 11:39:39","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"3"}}
+{"date":"2019-12-10 11:39:47","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"4"}}
+{"date":"2019-12-10 11:40:01","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"4"}}
+{"date":"2019-12-10 11:52:53","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"3"}}
+{"date":"2019-12-10 11:57:52","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"3"}}
+{"date":"2019-12-10 12:01:33","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"3"}}
+{"date":"2019-12-10 12:01:37","url":"\/mineral_water\/index.php\/api\/apiv1\/invoice_details","method":"POST","data":{"client_id":"9"}}
+{"date":"2019-12-10 12:01:40","url":"\/mineral_water\/index.php\/api\/apiv1\/invoice_details","method":"POST","data":{"client_id":"9"}}
+{"date":"2019-12-10 12:01:55","url":"\/mineral_water\/index.php\/api\/apiv1\/invoices","method":"POST","data":{"user_id":"4"}}
+{"date":"2019-12-10 16:39:55","url":"\/mineral_water\/index.php\/api\/apiv1\/invoice_details","method":"POST","data":{"client_id":"9"}}

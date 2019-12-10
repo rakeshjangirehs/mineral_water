@@ -637,15 +637,18 @@ class ApiV1 extends REST_Controller {
     */
     public function test_get(){
         
-        $users = $this->db
-                    ->where("user_devices.device_id IS NOT NULL")
-                    ->select("users.id as user_id, user_devices.device_id")
-                    ->join("user_devices","user_devices.user_id = users.id","left")
-                    ->group_by("users.id")
-                    ->get("users")->result_array();
+        // $users = $this->db
+        //             ->where("user_devices.device_id IS NOT NULL")
+        //             ->select("users.id as user_id, user_devices.device_id")
+        //             ->join("user_devices","user_devices.user_id = users.id","left")
+        //             ->group_by("users.id")
+        //             ->get("users")->result_array();
                     
-        $this->fcm->send($users,"Testing", "New Delivery Created.");
-        $this->response("It Works, FCM Notification Sent.");
+        // $this->fcm->send($users,"Testing", "New Delivery Created.");
+        // $this->response("It Works, FCM Notification Sent.");
+        
+        $this->response("It Works");
+        // $this->response("It Works".$this->fcm->send_text(9166650505,"hi rakesh"));
     }
 
                                                                     /*------------- Login -------------*/
@@ -1425,7 +1428,7 @@ class ApiV1 extends REST_Controller {
                         GROUP BY clients.id
                         HAVING  ( pending_count > 0 OR partial_count > 0 OR paid_count > 0 )";
                         
-        }else if($role_id == 3){    
+        }else if($role_id == 3 || $role_id == 4){    
             $query = "SELECT
                         clients.id AS client_id,
                         clients.client_name,
@@ -1442,16 +1445,18 @@ class ApiV1 extends REST_Controller {
                             COUNT(*) AS pending,
                             client_id,
                             payment_status,
-                            created_by
+                            orders.created_by
                         FROM orders
+                        LEFT JOIN clients on clients.id = orders.client_id
                         WHERE orders.order_status ='Delivered'
                         AND orders.payment_status = 'Pending'
-                        AND `orders`.`id` IN (
+                        AND `orders`.`client_id` IN (
                             SELECT
-                                DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
+                                DISTINCT(`orders`.`client_id`) AS `client_id`
                             FROM `delivery_config_orders`
+                            left join orders on orders.id = delivery_config_orders.order_id
                             LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
-                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
+                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id}
                         )
                         GROUP BY client_id
                     ) sub_pending ON sub_pending.client_id = clients.id
@@ -1460,16 +1465,18 @@ class ApiV1 extends REST_Controller {
                             COUNT(*) AS paid,
                             client_id,
                             payment_status,
-                            created_by
+                            orders.created_by
                         FROM orders
-                        WHERE orders.order_status  = 'Delivered'
+                        LEFT JOIN clients on clients.id = orders.client_id
+                        WHERE orders.order_status ='Delivered'
                         AND orders.payment_status = 'Paid'
-                        AND `orders`.`id` IN (
+                        AND `orders`.`client_id` IN (
                             SELECT
-                                DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
+                                DISTINCT(`orders`.`client_id`) AS `client_id`
                             FROM `delivery_config_orders`
+                            left join orders on orders.id = delivery_config_orders.order_id
                             LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
-                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
+                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id}
                         )
                         GROUP BY client_id
                     ) sub_paid ON sub_paid.client_id = clients.id
@@ -1478,16 +1485,18 @@ class ApiV1 extends REST_Controller {
                             COUNT(*) AS partial,
                             client_id,
                             payment_status,
-                            created_by
+                            orders.created_by
                         FROM orders
-                        WHERE orders.order_status  = 'Delivered'
+                        LEFT JOIN clients on clients.id = orders.client_id
+                        WHERE orders.order_status ='Delivered'
                         AND orders.payment_status = 'Partial'
-                        AND `orders`.`id` IN (
+                        AND `orders`.`client_id` IN (
                             SELECT
-                                DISTINCT(`delivery_config_orders`.`order_id`) AS `order_id`
+                                DISTINCT(`orders`.`client_id`) AS `client_id`
                             FROM `delivery_config_orders`
+                            left join orders on orders.id = delivery_config_orders.order_id
                             LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
-                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id}
+                            WHERE `delivery_config`.`delivery_boy_id` = {$user_id} OR `delivery_config`.`driver_id` = {$user_id}
                         )
                         GROUP BY client_id
                     ) sub_partial ON sub_partial.client_id = clients.id
@@ -1874,6 +1883,10 @@ class ApiV1 extends REST_Controller {
             $this->db->trans_complete();
 
             if($this->db->trans_status()){
+
+                //Send SMS to client.
+                // $this->fcm->send_text(9166650505,"hi rakesh");
+
                 $this->response(
                     array(
                         'status' => TRUE,
@@ -2362,7 +2375,7 @@ class ApiV1 extends REST_Controller {
 
         if($user_id){
 
-            $notifications = $this->get_notifications($user_id);
+            $notifications = $this->get_notifications($user_id,true);
 
             if($notifications){
                 $this->response(
@@ -2579,14 +2592,25 @@ class ApiV1 extends REST_Controller {
         return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
     }
 
-    private function get_notifications($user_id){
+    private function get_notifications($user_id,$all=false){
 
-        $notifications = $this->db
+        if($all){
+            $notifications = $this->db
                             ->select("fcm_notifications.title,fcm_notifications.message,fcm_notification_user.is_read,fcm_notification_user.user_id,fcm_notification_user.id AS notification_id")
                             ->where("fcm_notification_user.user_id",$user_id)
                             ->join("fcm_notification_user","fcm_notification_user.notification_id = fcm_notifications.id","left")
                             ->get("fcm_notifications")
                             ->result_array();
+        }else{
+            $notifications = $this->db
+                            ->select("fcm_notifications.title,fcm_notifications.message,fcm_notification_user.is_read,fcm_notification_user.user_id,fcm_notification_user.id AS notification_id")
+                            ->where("fcm_notification_user.user_id",$user_id)
+                            ->where("fcm_notification_user.is_read",0)
+                            ->join("fcm_notification_user","fcm_notification_user.notification_id = fcm_notifications.id","left")
+                            ->get("fcm_notifications")
+                            ->result_array();
+        }
+        
         return $notifications;
     }
 

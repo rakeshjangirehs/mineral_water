@@ -124,8 +124,8 @@
             <tr>
                 <th>Product</th>
                 <th>Quantity</th>
-                <th>Amount</th>
-                <th>Total</th>
+                <th class='tr'>Amount</th>
+                <th class='tr'>Total</th>
             </tr>
         </thead>
         <tbody>
@@ -138,16 +138,46 @@
                                 {$product['product_name']} - {$product['product_code']}
                             </td>                                                    
                             <td class='tc bb'>{$product['quantity']}</td>
-                            <td class='tc bb'>{$product['effective_price']}</td>
+                            <td class='tr bb'>{$product['effective_price']}</td>
                             <td class='tr bb'>{$product_price}</td>
                         </tr>";
             }
 
-            echo "<tr><td colspan='4'>&nbsp;</td></tr>
-                    <!--<tr><td colspan='2'>&nbsp;</td><td class='tr'>Subtotal:</td><td class='tr'>5000.00</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr'>Taxes (10%):</td><td class='tr'>57.00</td></tr>
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb'>Discount (5%):</td><td class='tr bb'>45.00</td></tr>-->
-                    <tr><td colspan='2'>&nbsp;</td><td class='tr bb amount_td'><Total></Total>Total:</td><td class='tr bb amount_td'>{$order['payable_amount']}</td></tr>";
+            $payable_amount = ($order['payable_amount']) ? sprintf("%.2f", $order['payable_amount']) : 0.00;
+            
+            if($order['scheme_id']){
+
+                if($order['gift_mode'] == 'cash_benifit'){
+
+                    $dis_type = ($order['discount_mode']=='percentage') ? "Discount ({$order['discount_value']}%)" : "Discount(Rs.)";
+                    $effective_amount = ($order['effective_amount']) ? sprintf("%.2f", $order['effective_amount']) : 0.00;                    
+                    $computed_disc = ($order['computed_disc']) ? sprintf("%.2f", $order['computed_disc']) : 0.00;
+
+                    echo "<tr><td colspan='2' class='bb'>&nbsp;</td><td class='tr bb'></td><td class='tr bb'><b>{$payable_amount}</b></td></tr>";
+                    echo "<tr><td class='bb' colspan='2'>
+                            Scheme<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{$order['scheme_name']}<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{$order['free_product']['product_name']}
+                            </td>
+                            <td class='tr bb'>{$dis_type}</td>
+                            <td class='tr bb'>{$computed_disc}</td></tr>";
+                    echo "<tr><td colspan='2'>&nbsp;</td><td class='tr bb amount_td'>Total</td><td class='tr bb amount_td'>{$effective_amount}</td></tr>";
+                    
+                }else if($order['free_product']){
+
+                    echo "<tr><td class='bb'>
+                            Scheme<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{$order['scheme_name']}<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{$order['free_product']['product_name']}
+                            </td>
+                            <td class='tc bb'>{$order['free_product_qty']}</td>
+                            <td class='tr bb'>0</td>
+                            <td class='tr bb'>0</td></tr>";
+                    echo "<tr><td colspan='2'>&nbsp;</td><td class='tr bb amount_td'>Total:</td><td class='tr bb amount_td'>{$payable_amount}</td></tr>";
+                }
+            }else{
+                echo "<tr><td colspan='2'>&nbsp;</td><td class='tr bb amount_td'>Total</td><td class='tr bb amount_td'>{$payable_amount}</td></tr>";
+            }
         }?>
         </tbody>
     </table>

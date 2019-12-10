@@ -33,9 +33,10 @@ class Cashcollection extends MY_Controller {
         $this->data['user_id'] = $this->session->flashdata('user_id');
 
         if($this->input->is_ajax_request()){
+
             $salesman_id = $this->input->post('salesman_id');
 
-            $client_where = ($salesman_id) ? "( `delivery_config`.`delivery_boy_id` = {$salesman_id} OR `delivery_config`.`driver_id` = {$salesman_id})" : " 1<>1";
+            $client_where = ($salesman_id) ? "delivery.actual_delivey_datetime IS NOT NULL AND ( `delivery_config`.`delivery_boy_id` = {$salesman_id} OR ( `delivery_config`.`driver_id` = {$salesman_id} AND `delivery_config`.`delivery_boy_id` IS NULL) )" : " 1<>1";
         
             $client_payments_qry = "SELECT
                                     `clients`.`client_name`,

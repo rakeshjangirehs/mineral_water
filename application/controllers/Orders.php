@@ -44,7 +44,8 @@
                         'expected_delivery_date',
                         'payable_amount',
                         'effective_price',                        
-                        'expected_delivey_datetime'
+                        'expected_delivey_datetime',
+                        'action'
                     );
                     break;
                 case 'completed':
@@ -57,6 +58,7 @@
                         'effective_price',
                         'expected_delivey_datetime',
                         'actual_delivey_datetime',
+                        'amount_recieved',
                         'action'
                     );
                     break;
@@ -71,9 +73,9 @@
                     `deliveryboy`.`id` AS `deliveryboy_id`, 
                     CONCAT(`deliveryboy`.`first_name`,' ',IFNULL(`deliveryboy`.`last_name`, '')) as `deliveryboy_name`,
                     #GROUP_CONCAT(tbl.id),
-                    GROUP_CONCAT(tbl.vehicle_details) as vehicles,
-                    GROUP_CONCAT(tbl.driver_details) as drivers,
-                    GROUP_CONCAT(tbl.delivery_boy_details) as delivery_boys,
+                    #GROUP_CONCAT(tbl.vehicle_details) as vehicles,
+                    #GROUP_CONCAT(tbl.driver_details) as drivers,
+                    #GROUP_CONCAT(tbl.delivery_boy_details) as delivery_boys,
                     #tbl.delivery_id,
                     DATE_FORMAT(tbl.expected_delivey_datetime,'%Y-%m-%d') as expected_delivey_datetime,
 	                DATE_FORMAT(tbl.actual_delivey_datetime,'%Y-%m-%d') as actual_delivey_datetime,
@@ -85,7 +87,13 @@
                             ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
                         END)
                         ELSE orders.payable_amount
-                    END) AS `effective_price`
+                    END) AS `effective_price`,
+                    (
+                        SELECT
+                            SUM(delivery_config_orders.amount)
+                        FROM delivery_config_orders
+                        WHERE delivery_config_orders.order_id = orders.id
+                    ) AS `amount_recieved`
                 FROM orders				
                 LEFT JOIN clients ON clients.id = orders.client_id 
                 LEFT JOIN users as salesman ON salesman.id = orders.created_by 
@@ -99,9 +107,9 @@
                         delivery.actual_delivey_datetime,
                         delivery.pickup_location,
                         delivery.warehouse,
-                        CONCAT_WS('##',vehicle.id,vehicle.name,vehicle.number,vehicle.capacity_in_ton) as vehicle_details,
-                        CONCAT_WS('##',driver.id,driver.first_name,driver.phone) as driver_details,
-                        CONCAT_WS('##',delivery_boy.id,delivery_boy.first_name,delivery_boy.phone) as delivery_boy_details,
+                        #CONCAT_WS('##',vehicle.id,vehicle.name,vehicle.number,vehicle.capacity_in_ton) as vehicle_details,
+                        #CONCAT_WS('##',driver.id,driver.first_name,driver.phone) as driver_details,
+                        #CONCAT_WS('##',delivery_boy.id,delivery_boy.first_name,delivery_boy.phone) as delivery_boy_details,
                         GROUP_CONCAT(delivery_config_orders.order_id) as orders
                     FROM `delivery_config_orders`
                     LEFT JOIN `delivery_config` ON `delivery_config`.`id` = `delivery_config_orders`.`delivery_config_id`
@@ -224,7 +232,7 @@
                 $order['free_product'] = null;
             }
         }
-        
+        // echo "<pre>";print_r($order);die;
         return $order;
     }
 

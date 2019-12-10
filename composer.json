@@ -1,4 +1,9 @@
 {
+    "config": {
+        "platform": {
+            "php": "7.1"
+        }
+    },
     "require": {
         "phpoffice/phpspreadsheet": "^1.9",
         "phpmailer/phpmailer": "^6.0",
