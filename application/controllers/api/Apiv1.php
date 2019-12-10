@@ -1181,11 +1181,10 @@ class ApiV1 extends REST_Controller {
                     }else{
 
                         $lead = $this->db->get_where("leads",["id"=>$id])->row_array();
-                        $settings = $this->db->get("settings")->row_array();
-
+                        
                         $arrClient = array(
                             'client_name'       =>  $lead['company_name'],
-                            'credit_limit'      =>  $settings['default_credit_limit'],
+                            'credit_limit'      =>  $this->settings['default_credit_limit'],
                             'lead_id'           =>  $id,
                             'contact_person_name_1'     =>  $lead['contact_person_name'],
                             'contact_person_1_phone_1'  =>  $lead['phone_1'],
@@ -1880,12 +1879,21 @@ class ApiV1 extends REST_Controller {
                 ));
             }
 
+            $ord_data = $this->db->query("SELECT 
+                                            delivery_config_orders.order_id,
+                                            clients.contact_person_1_phone_1 AS `mobile`
+                                        FROM delivery_config_orders 
+                                        LEFT JOIN orders on orders.id = delivery_config_orders.order_id
+                                        LEFT JOIN clients on clients.id = orders.client_id
+                                        WHERE delivery_config_orders.id = {$dco_id}")->row_array();
+
             $this->db->trans_complete();
 
             if($this->db->trans_status()){
 
                 //Send SMS to client.
-                // $this->fcm->send_text(9166650505,"hi rakesh");
+                $dt = date('Y-m-d');
+                $this->fcm->send_text($ord_data['mobile'],"Dear customer, Your order (Order Id : {$ord_data['order_id']}) was delivered on {$dt} from {$this->system_setting['system_name']}");
 
                 $this->response(
                     array(

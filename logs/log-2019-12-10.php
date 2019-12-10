@@ -877,3 +877,5 @@ ERROR - 2019-12-10 17:22:57 --> Query error: Unknown column 'tbl.expected_delive
                 LEFT JOIN schemes ON schemes.id = orders.scheme_id                
                 #below join                
                 GROUP BY `orders`.`id`) AS `tmp` WHERE 1=1  AND status = 'Active' AND actual_delivey_datetime IS NOT NULL 
+ERROR - 2019-12-10 19:10:30 --> Severity: Notice --> Undefined variable: dt E:\XAMPP\htdocs\mineral_water\application\controllers\api\Apiv1.php 659
+ERROR - 2019-12-10 19:10:31 --> Severity: Notice --> Undefined variable: dt E:\XAMPP\htdocs\mineral_water\application\controllers\api\Apiv1.php 661
