@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $hook['pre_controller'] = function(){
 
-    require_once(APPPATH.'libraries/debug.php');
+    require_once(dirname(__DIR__)."/libraries/Debug.php");
     $isCli  =  is_cli();
     $isWeb  = !is_cli();
     $isAjax =  isset($_SERVER['HTTP_X_REQUESTED_WITH']) 

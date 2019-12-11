@@ -37,14 +37,14 @@ class ApiV1 extends REST_Controller {
             )
         );
 
-        $h = fopen("demo.txt","a+");
-        fwrite($h,json_encode(array(
-            'date'=>date('Y-m-d H:i:s'),
-            'url'=>$_SERVER['PHP_SELF'],
-            'method'=>$this->input->server('REQUEST_METHOD'),
-            'data'=>$_REQUEST,
-        )) . PHP_EOL);
-        fclose($h);
+        // $h = fopen("demo.txt","a+");
+        // fwrite($h,json_encode(array(
+        //     'date'=>date('Y-m-d H:i:s'),
+        //     'url'=>$_SERVER['PHP_SELF'],
+        //     'method'=>$this->input->server('REQUEST_METHOD'),
+        //     'data'=>$_REQUEST,
+        // )) . PHP_EOL);
+        // fclose($h);
 
     }
     
@@ -718,6 +718,37 @@ class ApiV1 extends REST_Controller {
         }
     }
 
+    /*
+        Logout User
+        Afffected Table - user_devices
+    */
+    public function logout_post(){
+
+        // $user_id = $this->input->post('user_id');
+        $fcm = $this->input->post('fcm');
+
+        if($fcm!=''){
+
+            if($this->db->where("device_id",$fcm)->delete("user_devices")){
+                $this->response([
+                    'status' => TRUE,
+                    'message' => 'Logout successfull'
+                ], REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Logout not successfull',
+                ], REST_Controller::HTTP_OK);
+            }
+        }else{
+            // Set the response and exit
+            $this->response([
+                    'status' => FALSE,
+                    'message' => "fcm is required.",
+                ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
 
                                                                     /*---------- Lead / Visit -----------*/
     
@@ -1114,7 +1145,7 @@ class ApiV1 extends REST_Controller {
         if(!empty($entityBody)){
 
             $orders = json_decode($entityBody,true);
-
+            
             if(!empty($orders)){
 
                 if(
@@ -1184,7 +1215,7 @@ class ApiV1 extends REST_Controller {
                         
                         $arrClient = array(
                             'client_name'       =>  $lead['company_name'],
-                            'credit_limit'      =>  $this->settings['default_credit_limit'],
+                            'credit_limit'      =>  $this->system_setting['default_credit_limit'],
                             'lead_id'           =>  $id,
                             'contact_person_name_1'     =>  $lead['contact_person_name'],
                             'contact_person_1_phone_1'  =>  $lead['phone_1'],

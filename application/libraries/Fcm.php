@@ -130,10 +130,14 @@ class Fcm{
         
         $ch=curl_init();
         $msg = urlencode($message);
+        echo "http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR";die;
         curl_setopt($ch,CURLOPT_URL,"http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR");
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         $output =curl_exec($ch);
         curl_close($ch);
+
+        log_message('error',$mobile.' - '.$message.' - '.$output);
+
         return $output;
     }
 }
