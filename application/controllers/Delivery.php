@@ -42,7 +42,7 @@ class Delivery extends MY_Controller {
                             warehouses.name as warehouse_name,
                             #GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name,
                             #GROUP_CONCAT(CONCAT_WS(' - ', CONCAT('<a href=\"orders.id\">',orders.id,'</a>'), orders.order_status) SEPARATOR '<br/>') AS order_short_info,
-                            GROUP_CONCAT(CONCAT_WS(' - ', orders.id , clients.client_name, orders.order_status) SEPARATOR '**') AS order_short_info,
+                            GROUP_CONCAT(CONCAT_WS(' - ', orders.id , clients.client_name, orders.order_status) SEPARATOR '<br/>') AS order_short_info,
                             (
                                 CASE
                                 WHEN sub_delivery_boy.delivery_boy IS NULL

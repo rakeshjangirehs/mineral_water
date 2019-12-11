@@ -70,7 +70,7 @@
                         var str = "";
                         $.each(data.split('<br/>'),function(i1,v1){
                             var row = v1.split('-');
-                            str += `<a class='open_order' href='<?php echo $this->baseUrl.'orders/order_details/';?>${row[0].trim()}'>${row[0].trim()}</a> - ${row[1].trim()} - ${row[2].trim()}<br/>`;
+                            str += `<a title='View Order' class='open_order' href='<?php echo $this->baseUrl.'orders/order_details/';?>${row[0].trim()}'>${row[0].trim()}</a> - ${row[1].trim()} - ${row[2].trim()}<br/>`;
                             // console.log(str);
                         });
 
