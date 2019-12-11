@@ -21,10 +21,12 @@ class Delivery extends MY_Controller {
     }
     
     public function index(){
+
+        $order_info_url = $this->baseUrl.'orders/order_details/';
         if($this->input->is_ajax_request()){
 
 			$colsArr = array(
-				'client_name',
+				'order_short_info',
 				'expected_delivey_datetime',
 				'actual_delivey_datetime',
 				'pickup_location',
@@ -38,39 +40,37 @@ class Delivery extends MY_Controller {
                             DATE_FORMAT(expected_delivey_datetime,'%Y-%m-%d') as expected_delivey_datetime_f,
                             DATE_FORMAT(actual_delivey_datetime,'%Y-%m-%d') as actual_delivey_datetime_f,
                             warehouses.name as warehouse_name,
-                            GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name,
-                            orders.order_status,
-                            GROUP_CONCAT(
-                                (CASE
-                                    WHEN delivery_boy.id IS NULL 
-                                        THEN CONCAT(
-                                            'Driver : ',
-                                            driver.first_name,
-                                            ' ',
-                                            driver.last_name
-                                        )
-                                    ELSE CONCAT(
-                                            'Delivery Boy : ',
-                                            delivery_boy.first_name,
-                                            ' ',
-                                            delivery_boy.last_name,
-                                            '<br/>',
-                                            'Driver : ',
-                                            driver.first_name,
-                                            ' ',
-                                            driver.last_name
-                                        )
-                                END)
-                            SEPARATOR '<hr/>') AS `deliverying_staff`
+                            #GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name,
+                            #GROUP_CONCAT(CONCAT_WS(' - ', CONCAT('<a href=\"orders.id\">',orders.id,'</a>'), orders.order_status) SEPARATOR '<br/>') AS order_short_info,
+                            GROUP_CONCAT(CONCAT_WS(' - ', orders.id , clients.client_name, orders.order_status) SEPARATOR '**') AS order_short_info,
+                            (
+                                CASE
+                                WHEN sub_delivery_boy.delivery_boy IS NULL
+                                    THEN CONCAT('Driver : ', sub_driver.driver)
+                                ELSE CONCAT('Delivery Boy : ', sub_delivery_boy.delivery_boy, '<br/>', 'Driver : ', sub_driver.driver)
+                                END
+                            ) AS deliverying_staff
                         FROM delivery
-                        LEFT JOIN warehouses ON warehouses.id=delivery.warehouse
+                        LEFT JOIN warehouses ON warehouses.id = delivery.warehouse
                         LEFT JOIN delivery_config ON delivery_config.delivery_id = delivery.id
                         LEFT JOIN delivery_config_orders ON delivery_config_orders.delivery_config_id = delivery_config.id
                         LEFT JOIN orders ON orders.id = delivery_config_orders.order_id
                         LEFT JOIN clients ON clients.id = orders.client_id
-                        LEFT JOIN users AS delivery_boy ON delivery_boy.id = delivery_config.delivery_boy_id
-                        LEFT JOIN users AS driver ON driver.id = delivery_config.driver_id
-                        GROUP BY delivery.id";
+                        LEFT JOIN (
+                            SELECT
+                                CONCAT_WS(' ', first_name, last_name) as delivery_boy,
+                                id
+                            FROM users
+                            GROUP BY users.id
+                        ) AS sub_delivery_boy ON sub_delivery_boy.id = delivery_config.delivery_boy_id
+                        LEFT JOIN (
+                            SELECT
+                                CONCAT_WS(' ', first_name, last_name) as driver,
+                                id
+                            FROM users
+                            GROUP BY users.id
+                        ) AS sub_driver ON sub_driver.id = delivery_config.driver_id
+                        GROUP BY delivery.id,delivery_config.id";
 
             echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0",NULL,true);die;
 		}

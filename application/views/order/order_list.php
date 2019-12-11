@@ -95,9 +95,9 @@
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
-                                                <th>Expected Delivery Date</th>
-                                                <th>Actual Delivery Date</th>
                                                 <th>Received Payment</th>
+                                                <th>Expected Delivery Date</th>
+                                                <th>Actual Delivery Date</th>                                                
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -191,7 +191,7 @@
                 // { "data": "id" },
                 {
                     "data": 'id',
-                    "sortable": false,
+                    // "sortable": false,
                     "render": function ( id, type, row, meta ) {
                         return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
                     }
@@ -233,7 +233,7 @@
                 // { "data": "id" },
                 {
                     "data": 'id',
-                    "sortable": false,
+                    // "sortable": false,
                     "render": function ( id, type, row, meta ) {
                         return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
                     }
@@ -263,7 +263,7 @@
                 // { "data": "id" },
                 {
                     "data": 'id',
-                    "sortable": false,
+                    // "sortable": false,
                     "render": function ( id, type, row, meta ) {
                         return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
                     }
@@ -272,9 +272,9 @@
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },
+                { "data": "amount_recieved" },
                 { "data": "expected_delivey_datetime" },
                 { "data": "actual_delivey_datetime" },
-                { "data": "amount_recieved" },
                 {
                     "data": 'link',
                     "sortable": false,

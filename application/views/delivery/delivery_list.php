@@ -21,7 +21,7 @@
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>delivery/index" style="width:100%;">
                             <thead>
                             <tr>
-                                <th>Clients</th>
+                                <th>Order Info</th>
                                 <th>Expected Delivery</th>
                                 <th>Actual Delivery</th>
                                 <th>Pickup Location</th>
@@ -60,11 +60,29 @@
                 "type": "POST",
             },
             "columns": [
-                { "data": "client_name" },
+                // { "data": "order_short_info" },
+                {
+                	"data": 'order_short_info',
+                    orderable:false,
+                    // "sortable": false,
+                	"render": function ( data, type, row, meta ) {
+
+                        var str = "";
+                        $.each(data.split('<br/>'),function(i1,v1){
+                            var row = v1.split('-');
+                            str += `<a class='open_order' href='<?php echo $this->baseUrl.'orders/order_details/';?>${row[0].trim()}'>${row[0].trim()}</a> - ${row[1].trim()} - ${row[2].trim()}<br/>`;
+                            // console.log(str);
+                        });
+
+                        // console.log(str);
+                        
+                        return str;
+				    }
+            	},
                 { "data": "expected_delivey_datetime_f" },
                 { "data": "actual_delivey_datetime_f" },
                 { "data": "pickup_location" },
-                { "data": "warehouse_name" },                
+                { "data": "warehouse_name" },
                 { "data": "deliverying_staff" },                
                 {
                 	"data": 'link',
@@ -82,26 +100,16 @@
                     row.title = "Delivered";
                 }
             }
-		}).on('click','#delete_user',function(e){
+		}).on('click','.open_order',function(e){
+            
 		    e.preventDefault();
 
 		    var url = this.getAttribute('href');
 
-            swal(
-                {
-                    title: "Delete Delivery ?",
-                    text: "You will not be able to recover this Delivery!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes",
-                    cancelButtonText: "No"
-                },
-                function(isConfirm) {
-                    if (isConfirm) {
-                        window.location.href = url;
-                    }
-                }
+            window.open(
+                url,
+                "DescriptiveWindowName",
+                "resizable,scrollbars,status"
             );
         });
 </script>

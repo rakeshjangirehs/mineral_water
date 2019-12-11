@@ -140,8 +140,9 @@ class Delivery_model extends CI_Model {
 							->join("user_devices","user_devices.user_id = users.id","left")
 							->group_by("users.id")
 							->get("users")->result_array();
-							
-				$this->fcm->send($users,"Order Delivery", $notifiable_user['message']);
+				if($users){
+					$this->fcm->send($users,"Order Delivery", $notifiable_user['message']);
+				}
 			}
 		}
 
