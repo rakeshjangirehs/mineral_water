@@ -648,7 +648,7 @@ class ApiV1 extends REST_Controller {
         // $this->response("It Works, FCM Notification Sent.");
         
         $this->response("It Works");
-        // $this->response("It Works".$this->fcm->send_text(9166650505,"hi rakesh"));
+        $this->response("It Works".$this->fcm->send_text(9166650505,"hi rakesh"));
     }
 
                                                                     /*------------- Login -------------*/
@@ -678,6 +678,8 @@ class ApiV1 extends REST_Controller {
             $user = $this->user->getRows($con);
             
             if($user){
+
+                $this->db->delete("user_devices", array("device_id"=>$device_id));
                 $this->db->insert("user_devices", array("user_id"=>$user['user_id'], "device_id"=>$device_id));
 
                 // remove first created device ids if more than two
@@ -725,6 +727,7 @@ class ApiV1 extends REST_Controller {
     public function logout_post(){
 
         // $user_id = $this->input->post('user_id');
+        
         $fcm = $this->input->post('fcm');
 
         if($fcm!=''){
@@ -761,7 +764,7 @@ class ApiV1 extends REST_Controller {
 
         if($user_id){
 
-            $where = "1=1 AND is_converted = 0 AND created_by = {$user_id}";            
+            $where = "1=1 AND is_converted = 0 AND is_deleted = 0 AND created_by = {$user_id}";            
 
             if($leads = $this->db->where($where)->get("leads")->result_array()){
 
@@ -2638,6 +2641,7 @@ class ApiV1 extends REST_Controller {
                             ->select("fcm_notifications.title,fcm_notifications.message,fcm_notification_user.is_read,fcm_notification_user.user_id,fcm_notification_user.id AS notification_id")
                             ->where("fcm_notification_user.user_id",$user_id)
                             ->join("fcm_notification_user","fcm_notification_user.notification_id = fcm_notifications.id","left")
+                            ->order_by("fcm_notifications.created_at", "DESC")
                             ->get("fcm_notifications")
                             ->result_array();
         }else{
@@ -2646,6 +2650,7 @@ class ApiV1 extends REST_Controller {
                             ->where("fcm_notification_user.user_id",$user_id)
                             ->where("fcm_notification_user.is_read",0)
                             ->join("fcm_notification_user","fcm_notification_user.notification_id = fcm_notifications.id","left")
+                            ->order_by("fcm_notifications.created_at", "DESC")
                             ->get("fcm_notifications")
                             ->result_array();
         }

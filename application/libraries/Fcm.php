@@ -42,11 +42,19 @@ class Fcm{
             /*
                 vibrate - available in GCM, but not in FCM
             */
+            // $fcmMsg = array(
+            //     'title' => $title,
+            //     'body' => $message,
+            //     'sound' => "default",
+            //     'color' => "#203E78" 
+            // );
             $fcmMsg = array(
-                'title' => $title,
-                'body' => $message,
-                'sound' => "default",
-                    'color' => "#203E78" 
+                'title' => $title, 
+                // 'is_background' => '', 
+                'body' => $message, 
+                // 'image' => '', 
+                // 'payload' => [], 
+                'sound' => 'notification.wav'
             );
 
             /*
@@ -55,9 +63,10 @@ class Fcm{
                 to - expecting a single ID
             */
             $fields = array(
-                'registration_ids'  => $registration_ids,
-                'priority'          => 'high',
-                'notification'      => $fcmMsg
+                // 'registration_ids'  => $registration_ids,
+                'to'  => $registration_ids,
+                'priority'  => 'high',
+                'data'      => $fcmMsg,
             );
 
             
@@ -94,7 +103,9 @@ class Fcm{
             $fcm_notifications_data = array(
                 'title'     =>  $title,
                 'message'   =>  $message,
-                'response'  =>  $result
+                'response'  =>  $result,
+                'fcm_tokens'=>  json_encode($registration_ids),
+                'user_arr'=>  json_encode($user_arr)
             );
             
             if($this->db->insert("fcm_notifications",$fcm_notifications_data)){
@@ -128,16 +139,19 @@ class Fcm{
 
     public function send_text($mobile,$message){
         
-        $ch=curl_init();
-        $msg = urlencode($message);
-        echo "http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR";die;
-        curl_setopt($ch,CURLOPT_URL,"http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR");
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        $output =curl_exec($ch);
-        curl_close($ch);
+        if($mobile){
+            $ch=curl_init();
+            $msg = urlencode($message);        
+            curl_setopt($ch,CURLOPT_URL,"http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR");
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+            $output =curl_exec($ch);
+            curl_close($ch);
 
-        log_message('error',$mobile.' - '.$message.' - '.$output);
+            log_message('error',$mobile.' - '.$message.' - '.$output);
+        }else{
+            log_message('error',"Mobile No Missing");
+        }
 
-        return $output;
+        // return $output;
     }
 }
