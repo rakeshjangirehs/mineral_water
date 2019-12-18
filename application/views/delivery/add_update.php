@@ -73,6 +73,10 @@
         display:none;
     }
 
+    .miss_delivery, .miss_delivery:hover{
+        background-color: orange!important;
+    }
+
 </style>
 
 <div class="page-body">
@@ -215,7 +219,8 @@
                                                                         <tbody class="order_body">
                                                                             <?php foreach($config_orders as $ko=>$order){
                                                                                 $checked = (in_array($order['id'],$config['selected_orders'])) ? "checked": "";
-                                                                                echo "<tr>
+                                                                                $tr_attribute = ($order['delivery_id'] != '' && $delivery_id != $order['delivery_id']) ? "class='miss_delivery' title='Missed Delivery'" : '';
+                                                                                echo "<tr {$tr_attribute}>
                                                                                         <td>
                                                                                             <div class='checkbox-fade fade-in-primary'>
                                                                                                 <label>
@@ -663,8 +668,8 @@
                                 $.each(data,function(i,arr){
                                     
                                     var checked = '';//($.inArray(arr.id,selected_orders) != -1) ? 'checked' : '';
-                                    
-                                    var str = `<tr>
+                                    var tr_attribute = (arr.delivery_id) ? "class='miss_delivery' title='Missed Delivery'" : '';
+                                    var str = `<tr ${tr_attribute}>
                                                     <td>
                                                         <div class='checkbox-fade fade-in-primary'>
                                                             <label>

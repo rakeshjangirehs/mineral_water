@@ -196,7 +196,7 @@
                         client_collection_tbl.draw();
 
                         if(total_client_payments){
-                            $total_client_collection.text("( Total : "+total_client_payments+" )");
+                            $total_client_collection.text("( Total : "+total_client_payments.toFixed(2)+" )");
                         }else{
                             $total_client_collection.text("");
                         }
@@ -218,14 +218,14 @@
 
                         user_collection_tbl.draw();
 
-                        if(total_client_payments){
-                            $total_user_collection.text("( Total : "+total_user_payments+" )");
+                        if(total_user_payments){
+                            $total_user_collection.text("( Total : "+total_user_payments.toFixed(2)+" )");
                         }else{
                             $total_user_collection.text("");
                         }
                     }
 
-                    var balance = total_client_payments-total_user_payments;
+                    var balance = (total_client_payments-total_user_payments).toFixed(2);
                     $pending_amount.text(balance);
                     if(balance >= 0){
                         $pending_amount.removeClass('text-danger').addClass('text-success');

@@ -639,4 +639,84 @@ class Clients extends MY_Controller {
         $this->load_content('client/client_contact_list', $this->data);
     }
 
+    public function client_inventory(){
+
+        if($this->input->is_ajax_request()){
+			$colsArr = array(
+				'client_name',
+				'product_name',
+				'client_quantity',
+                'action'
+			);
+
+            $query = "SELECT
+                        clients.id AS clinet_id,
+                        clients.client_name,
+                        products.id AS product_id,
+                        products.product_name,
+                        (
+                            SUM(IFNULL(client_product_inventory.existing_quentity,0)) +
+                            SUM(IFNULL(client_product_inventory.new_delivered,0)) -
+                            SUM(IFNULL(client_product_inventory.empty_collected,0))
+                        ) AS client_quantity
+                    FROM client_product_inventory
+                    LEFT JOIN products ON products.id = client_product_inventory.product_id
+                    LEFT JOIN clients ON clients.id = client_product_inventory.client_id
+                    GROUP BY clients.id";
+
+			echo $this->model->common_datatable($colsArr, $query, "",NULL,true);die;
+		}
+
+        $this->data['page_title'] = 'Client Inventory';
+		$this->load_content('client/inventory_list', $this->data);
+    }
+
+    public function client_inventory_history($client_id=NULL){
+        if($client_id){
+
+            $sql = "SELECT
+                        clients.id AS client_id,
+                        clients.client_name,
+                        products.id AS product_id,
+                        products.product_name,
+                        IFNULL(client_product_inventory.existing_quentity,0) AS `existing_quentity`,
+                        IFNULL(client_product_inventory.new_delivered,0) AS `new_delivered`,
+                        IFNULL(client_product_inventory.empty_collected,0) AS `empty_collected`,
+                        DATE_FORMAT(delivery.actual_delivey_datetime,'%Y-%m-%d') AS delivey_date,
+                        #delivery_boy.first_name AS delivery_boy,
+                        #driver.first_name AS driver,
+                        (CASE
+                            WHEN delivery_boy.id IS NOT NULL
+                            THEN CONCAT(delivery_boy.first_name, ' ', delivery_boy.last_name, '<br/>',driver.first_name, ' ',driver.last_name)
+                            ELSE CONCAT(driver.first_name, ' ',driver.last_name)
+                        END) AS `team`,
+                        delivery_config_orders.signature_file
+                    FROM client_product_inventory
+                    LEFT JOIN products ON products.id = client_product_inventory.product_id
+                    LEFT JOIN clients ON clients.id = client_product_inventory.client_id
+                    LEFT JOIN delivery_config_orders ON delivery_config_orders.id = client_product_inventory.dco_id
+                    LEFT JOIN delivery_config ON delivery_config.id = delivery_config_orders.delivery_config_id
+                    LEFT JOIN delivery ON delivery.id = delivery_config.delivery_id
+                    LEFT JOIN users AS delivery_boy ON delivery_boy.id = delivery_config.delivery_boy_id
+                    LEFT JOIN users AS driver ON driver.id = delivery_config.driver_id
+                    WHERE clients.id = {$client_id}
+                    ORDER BY delivery.actual_delivey_datetime DESC
+                    LIMIT 10";
+            
+            $inventory = $this->db->query($sql)->result_array();
+
+            echo json_encode(array(
+                'status'    =>  true,
+                'message'   =>  'Success',
+                'payload'   =>  $inventory,
+
+            ));
+        }else{
+            echo json_encode(array(
+                'status'    =>  false,
+                'message'   =>  'Client not specified.',
+                'payload'   =>  [],
+            ));
+        }
+    }
 }

@@ -871,16 +871,18 @@ class ApiV1 extends REST_Controller {
         $id = $this->post('id');      //client or lead id
         $user_id = $this->post('user_id');
 
+        
+
         if( !empty($type) && !empty($id) && !empty($user_id) ){
 
-            $visit_notes = ($this->input->post('visit_notes')) ? $this->input->post('visit_notes') : NULL;
+            // $visit_notes = ($this->input->post('visit_notes')) ? $this->input->post('visit_notes') : NULL;
 
             $visit_data = array(
                 'visit_date'=> ($this->input->post('visit_date')) ? $this->input->post('visit_date') : NULL,
                 'visit_time'=> ($this->input->post('visit_time')) ? $this->input->post('visit_time') : NULL,
                 'visit_type'=> ($this->input->post('visit_type')) ? $this->input->post('visit_type') : NULL,
                 'opportunity'=> ($this->input->post('opportunity')) ? $this->input->post('opportunity') : NULL,
-                'other_notes'=> ($this->input->post('other_notes')) ? $this->input->post('other_notes') : NULL,
+                'visit_notes'=> ($this->input->post('other_notes')) ? $this->input->post('other_notes') : NULL, //other notes is actuelly visit_notes
                 'created_at' => date('Y-m-d H:i:s'),
                 'created_by' => $user_id,
             );
@@ -1900,11 +1902,14 @@ class ApiV1 extends REST_Controller {
                     'updated_at'    =>  date('Y-m-d'),
                     'updated_by'    =>  $user_id,
                 );
+
+                //TODO - Update only when there is no delivery order pending, check sideeffects.
                 $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
 
                 $this->db->insert("client_product_inventory",array(
-                    'client_id'     =>  $dco_data['client_id'],
-                    'product_id'    =>  $product_id,
+                    'dco_id'            =>  $dco_id,
+                    'client_id'         =>  $dco_data['client_id'],
+                    'product_id'        =>  $product_id,
                     'existing_quentity' =>  $existing_quentity,
                     'new_delivered'     =>  $new_delivered,
                     'empty_collected'   =>  $empty_collected,

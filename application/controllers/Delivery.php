@@ -26,6 +26,7 @@ class Delivery extends MY_Controller {
         if($this->input->is_ajax_request()){
 
 			$colsArr = array(
+				'delivery_id',
 				'order_short_info',
 				'expected_delivey_datetime',
 				'actual_delivey_datetime',
@@ -37,12 +38,14 @@ class Delivery extends MY_Controller {
 
             $query = "SELECT
                             delivery.*,
+                            delivery.id AS delivery_id,
                             DATE_FORMAT(expected_delivey_datetime,'%Y-%m-%d') as expected_delivey_datetime_f,
                             DATE_FORMAT(actual_delivey_datetime,'%Y-%m-%d') as actual_delivey_datetime_f,
                             warehouses.name as warehouse_name,
                             #GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name,
                             #GROUP_CONCAT(CONCAT_WS(' - ', CONCAT('<a href=\"orders.id\">',orders.id,'</a>'), orders.order_status) SEPARATOR '<br/>') AS order_short_info,
                             GROUP_CONCAT(CONCAT_WS(' - ', orders.id , clients.client_name, orders.order_status) SEPARATOR '<br/>') AS order_short_info,
+                            orders.order_status,
                             (
                                 CASE
                                 WHEN sub_delivery_boy.delivery_boy IS NULL
@@ -86,8 +89,16 @@ class Delivery extends MY_Controller {
 
             $this->data['page_title'] = "Update Delivery";
             $this->data['delivery_data'] = $this->db->get_where("delivery",["id"=>$delivery_id])->row_array();
-            $this->data['delivery_routes'] = array_column($this->db->get_where("delivery_routes",["delivery_id"=>$delivery_id])->result_array(),'zip_code_group_id');
             
+            // echo "<pre>";print_r($this->data['delivery_data']);die;
+
+            if(!$this->data['delivery_data']){
+                $this->flash("error","Request delivery not found");
+                redirect("delivery");
+            }
+
+            $this->data['delivery_routes'] = array_column($this->db->get_where("delivery_routes",["delivery_id"=>$delivery_id])->result_array(),'zip_code_group_id');
+            // echo "<pre>";print_r($this->data['delivery_data']);die;
             $delivery_config = $this->db->get_where("delivery_config",["delivery_id"=>$delivery_id])->result_array();
             $selected_orders = [];
             foreach($delivery_config as $k=>$conf){
@@ -96,16 +107,40 @@ class Delivery extends MY_Controller {
             }
             $this->data['delivery_config'] = $delivery_config;
 
-            $whr = "orders.created_at <= '{$this->data['delivery_data']['created_at']}'";
+            $whr = "orders.created_at <= '{$this->data['delivery_data']['created_at']}' ";
 
+            $today = date('Y-m-d');
             if($selected_orders){
                 $selected_orders = array_unique($selected_orders);
-                $whr .= " AND (orders.id in(" . implode(",",$selected_orders) . ") OR orders.delivery_id IS NULL)";
+                // $whr .= " AND (orders.id in(" . implode(",",$selected_orders) . ") OR orders.delivery_id IS NULL)";
+                $whr .= " AND ( 
+                            orders.delivery_id IS NULL
+                            OR orders.id IN ("
+                                . implode(",",$selected_orders) .
+                            ")
+                            OR (
+                                orders.delivery_id IS NOT NULL 
+                                AND orders.order_status <> 'Delivered' 
+                                AND orders.expected_delivery_date_in_deliver_table < '{$today}'
+                            )
+                        )
+                        AND orders.order_status <> 'Approval Required'";
+            }else{
+                $whr .= " AND ( 
+                    orders.delivery_id IS NULL
+                    OR (
+                        orders.delivery_id IS NOT NULL 
+                        AND orders.order_status <> 'Delivered' 
+                        AND orders.expected_delivery_date_in_deliver_table< '{$today}'
+                    )
+                )
+                AND orders.order_status <> 'Approval Required'";
             }
             $this->data['selected_orders'] = $selected_orders;
             
             $this->data['config_orders'] = $this->delivery_model->get_orders_by_zip_code_group($this->data['delivery_routes'],$whr);
-
+            
+            // echo "<pre>";print_r($this->data['config_orders']);die;
             // echo "<pre>";print_r($this->data['delivery_config']);die;
             // echo "<pre>".$this->db->last_query()."</pre>";
             // echo "<pre>";print_r($selected_orders);die;
@@ -179,11 +214,30 @@ class Delivery extends MY_Controller {
     public function get_orders_by_zip_code_group(){   //comma seprated zip_code_group_ids
 
         $data = [];
-
+        $today = date('Y-m-d');
+        $whr = " orders.created_at <= '{$today}' ";
         if($selected_orders = $this->input->post('selected_orders')){
-            $whr = "( orders.delivery_id IS NULL OR orders.id IN (". implode(",",$selected_orders) .")) AND orders.order_status <> 'Approval Required'";
-        }else{
-            $whr = "orders.delivery_id IS NULL AND orders.order_status <> 'Approval Required'";
+            
+            $whr .= " AND ( 
+                            orders.delivery_id IS NULL 
+                            OR orders.id IN (". implode(",",$selected_orders) .") 
+                            OR (
+                                orders.delivery_id IS NOT NULL 
+                                AND orders.order_status <> 'Delivered' 
+                                AND orders.expected_delivery_date_in_deliver_table< '{$today}'
+                            )
+                        )
+                    AND orders.order_status <> 'Approval Required'";
+        }else{            
+            $whr .= " AND ( 
+                            orders.delivery_id IS NULL
+                            OR (
+                                orders.delivery_id IS NOT NULL 
+                                AND orders.order_status <> 'Delivered' 
+                                AND orders.expected_delivery_date_in_deliver_table< '{$today}'
+                            )
+                        )
+                    AND orders.order_status <> 'Approval Required'";
         }
 
         if($zip_code_group_ids = $this->input->post('zip_code_group_ids')){

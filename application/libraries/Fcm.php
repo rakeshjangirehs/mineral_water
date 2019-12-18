@@ -12,6 +12,8 @@ class Fcm{
         $this->CI =& get_instance();
         $this->db = $this->CI->db;
         $this->settings = $this->CI->db->get('settings')->row_array();
+        // API access key from Google FCM App Console
+        define( 'API_ACCESS_KEY', 'AAAAMQEDeNc:APA91bHJlseCIESeljuCJ7uKv-5TQk1-_nFt6SljrCTXE9TjH4HjPSDbgjHSFExEtNYv6MgSiBsu6bernHEd0mJVZLDwzq5W1EBrDRJQ_6MTT1mdwbryQ3pXwzmNC3eLei676_1yADLn');
     }
 
     /*
@@ -26,9 +28,6 @@ class Fcm{
         }
 
         if($registration_ids){
-
-            // API access key from Google FCM App Console
-            define( 'API_ACCESS_KEY', 'AAAAMQEDeNc:APA91bHJlseCIESeljuCJ7uKv-5TQk1-_nFt6SljrCTXE9TjH4HjPSDbgjHSFExEtNYv6MgSiBsu6bernHEd0mJVZLDwzq5W1EBrDRJQ_6MTT1mdwbryQ3pXwzmNC3eLei676_1yADLn');
 
             //API URL of FCM
             $url = 'https://fcm.googleapis.com/fcm/send';

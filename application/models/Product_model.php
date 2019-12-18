@@ -76,7 +76,6 @@ class Product_model extends MY_Model {
             'products.product_name',
             'brands.brand_name',
             'products.weight',
-            'products.dimension',
             'products.cost_price',
             'products.sale_price',
         );

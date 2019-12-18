@@ -46,6 +46,13 @@
                 </a>
             </li>
 
+            <li class="visits_li">
+                <a href="<?php echo $this->baseUrl; ?>visits">
+                    <span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
+                    <span class="pcoded-mtext">Followup List</span>
+                </a>
+            </li>
+
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
@@ -118,6 +125,11 @@
                     <li class="clientcategory_li">
                         <a href="<?php echo $this->baseUrl; ?>clientcategory">
                             <span class="pcoded-mtext">Client Category</span>
+                        </a>
+                    </li>
+                    <li class="client_inventory_li">
+                        <a href="<?php echo $this->baseUrl; ?>clients/client_inventory">
+                            <span class="pcoded-mtext">Inventory</span>
                         </a>
                     </li>
                     <!--<li class="payments_list_li">

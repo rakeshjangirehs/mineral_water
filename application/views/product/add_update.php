@@ -64,7 +64,7 @@
                                     </select>
                                     <span class="messages"><?php echo form_error('brand_id');?></span>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display:none;">
                                     <label class="control-label" for="dimension">Dimension</label>
                                     <input type="text" name="dimension" id="dimension" class="form-control" value="<?php echo (isset($_POST['dimension'])) ? $_POST['dimension'] : $products['dimension']; ?>" />
                                     <span class="messages"><?php echo form_error('dimension');?></span>

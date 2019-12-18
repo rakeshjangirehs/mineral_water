@@ -21,6 +21,7 @@
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover" data-url="<?php echo $this->baseUrl; ?>delivery/index" style="width:100%;">
                             <thead>
                             <tr>
+                                <th>Delivery Id</th>
                                 <th>Order Info</th>
                                 <th>Expected Delivery</th>
                                 <th>Actual Delivery</th>
@@ -60,7 +61,7 @@
                 "type": "POST",
             },
             "columns": [
-                // { "data": "order_short_info" },
+                { "data": "delivery_id" },
                 {
                 	"data": 'order_short_info',
                     orderable:false,
@@ -89,12 +90,17 @@
                     orderable:false,
                     // "sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a href='<?php echo $this->baseUrl; ?>delivery/add_update/"+data.id+"' title='Edit Delete'><i class='feather icon-edit'></i></a>"+
+                        if(data.order_status != 'Delivered'){
+				            return "<a href='<?php echo $this->baseUrl; ?>delivery/add_update/"+data.id+"' title='Edit Delete'><i class='feather icon-edit'></i></a>"+
                           "<a class='text-danger' id='delete_user' href='<?php echo $this->baseUrl; ?>delivery/delete/"+data.id+"' title='Delete Delivery'><i class='feather icon-trash-2'></i></a>";
+                        }else{
+                            return "";
+                        }
 				    }
             	},                
             ],
             createdRow:function(row, data, index){
+                console.log(data.order_status);
                 if(data.order_status=='Delivered'){
                     row.classList.add('delivered');
                     row.title = "Delivered";

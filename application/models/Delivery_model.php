@@ -55,7 +55,7 @@ class Delivery_model extends CI_Model {
 		}
 
 		//Update delivery_id to null
-		$this->db->update("orders",["delivery_id"=> null],["delivery_id"=>$delivery_id]);
+		$this->db->update("orders",["delivery_id"=> null,"expected_delivery_date_in_deliver_table"=>null],["delivery_id"=>$delivery_id]);
 		
 		$new_orders = [];
 		
@@ -93,6 +93,27 @@ class Delivery_model extends CI_Model {
 							'created_by'		=>	USER_ID,
 							'status'			=>	'Active'
 						);
+
+						// If order is in missed delivery remove it from there and check if delivery is now empty remove it too.
+						if($tbl_delivery_config_orders = $this->db->where("order_id",$order_id)->get("delivery_config_orders")->row_array()){
+							
+							$this->db->where("order_id",$order_id)->delete("delivery_config_orders");
+
+							if($col_delivery_config_id = $tbl_delivery_config_orders['delivery_config_id']){
+								if(count($this->db->where("delivery_config_id",$col_delivery_config_id)->get("delivery_config_orders")->result_array()) == 0){
+									
+									$this->db->where("id",$col_delivery_config_id)->delete("delivery_config");
+																		
+									if($col_delivery_id = $tbl_delivery_config_orders['delivery_id']){
+										
+										if(count($this->db->where("delivery_id",$col_delivery_id)->get("delivery_config")->result_array()) == 0){
+											$this->db->where("id",$col_delivery_id)->delete("delivery");											
+											$this->db->where("delivery_id",$col_delivery_id)->delete("delivery_routes");											
+										}
+									}									
+								}
+							}
+						}
 
 						$this->db->insert("delivery_config_orders",$delivery_config_orders);
 
@@ -147,7 +168,7 @@ class Delivery_model extends CI_Model {
 		}
 
 		if($new_orders){
-			$this->db->where_in("id",$new_orders)->update("orders",["delivery_id"=> $delivery_id]);
+			$this->db->where_in("id",$new_orders)->update("orders",["delivery_id"=> $delivery_id,'expected_delivery_date_in_deliver_table'=>$delivery_data['expected_delivey_datetime']]);
 		}
 		
 		$this->db->trans_complete();
@@ -182,9 +203,12 @@ class Delivery_model extends CI_Model {
 						LEFT JOIN group_to_zip_code ON group_to_zip_code.zip_code_group_id = zip_code_groups.id
 						WHERE zip_code_groups.id IN ({$zip_code_group_ids_str})
 					)
+					
 					$whr
 					GROUP BY orders.id";
-						
+		
+		// echo "<pre>".$query;die;	
+
 		$data = $this->db->query($query)->result_array();
 		// echo "<pre>".$this->db->last_query();die;
 		return $data;
