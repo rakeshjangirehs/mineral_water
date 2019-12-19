@@ -85,11 +85,13 @@ class Zipcodegroups extends MY_Controller {
                     'city_id'  =>  ($this->input->post('city_id')) ? $this->input->post('city_id') : null,
                 );
 
-                if($this->zipcodegroup->insert_update($data, $zip_code,$zipcode_group_id)){
-                    $msg = 'ZIP Code Group created successfully.';
+                $insert_data_status = $this->zipcodegroup->insert_update($data, $zip_code,$zipcode_group_id);
+                
+                if($insert_data_status['status']==true){
+                    $msg = 'ZIP Code Group created successfully.'.$insert_data_status['message'];
                     $type = 'success';
                     if($zipcode_group_id){
-                        $msg = "ZIP Code Group updated successfully.";
+                        $msg = "ZIP Code Group updated successfully.".$insert_data_status['message'];
                         $this->flash($type, $msg);
                     }else{
                         $this->flash($type, $msg);

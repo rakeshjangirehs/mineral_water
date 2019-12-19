@@ -635,20 +635,8 @@ class ApiV1 extends REST_Controller {
         Test API Endpoint Path
         @author Rakesh Jangir
     */
-    public function test_get(){
-        
-        // $users = $this->db
-        //             ->where("user_devices.device_id IS NOT NULL")
-        //             ->select("users.id as user_id, user_devices.device_id")
-        //             ->join("user_devices","user_devices.user_id = users.id","left")
-        //             ->group_by("users.id")
-        //             ->get("users")->result_array();
-                    
-        // $this->fcm->send($users,"Testing", "New Delivery Created.");
-        // $this->response("It Works, FCM Notification Sent.");
-        
+    public function test_get(){        
         $this->response("It Works");
-        $this->response("It Works".$this->fcm->send_text(9166650505,"hi rakesh"));
     }
 
                                                                     /*------------- Login -------------*/
@@ -1109,6 +1097,15 @@ class ApiV1 extends REST_Controller {
 
         $entityBody = file_get_contents('php://input');
         // var_dump($entityBody);die;
+        // $h = fopen("debug.txt","a+");
+        // fwrite($h,json_encode(array(
+        //     'date'=>date('Y-m-d H:i:s'),
+        //     'url'=>$_SERVER['PHP_SELF'],
+        //     'method'=>$this->input->server('REQUEST_METHOD'),
+        //     'data'=>$entityBody,
+        // )) . PHP_EOL);
+        // fclose($h);
+        
         /*
             {                
                 "user_id":1,
@@ -1826,6 +1823,7 @@ class ApiV1 extends REST_Controller {
                 'amount'        =>  $amount,
                 'notes'         =>  $notes,
                 'signature_file'=>  null,
+                'delivery_datetime'=>  date('Y-m-d H:i:s'),
                 'updated_at'    =>  date('Y-m-d'),
                 'updated_by'    =>  $user_id,
             );
@@ -1895,6 +1893,7 @@ class ApiV1 extends REST_Controller {
                     'updated_at'            =>  date('Y-m-d'),
                     'updated_by'            =>  $user_id,
                 );
+                
                 $this->db->where("id = {$dco_data['order_id']}")->update("orders",$order_data);
 
                 $delivery_data = array(
@@ -1904,6 +1903,7 @@ class ApiV1 extends REST_Controller {
                 );
 
                 //TODO - Update only when there is no delivery order pending, check sideeffects.
+                
                 $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
 
                 $this->db->insert("client_product_inventory",array(

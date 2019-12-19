@@ -107,7 +107,7 @@ class Delivery extends MY_Controller {
             }
             $this->data['delivery_config'] = $delivery_config;
 
-            $whr = "orders.created_at <= '{$this->data['delivery_data']['created_at']}' ";
+            $whr = "date(orders.created_at) <= '{$this->data['delivery_data']['created_at']}' ";
 
             $today = date('Y-m-d');
             if($selected_orders){
@@ -215,7 +215,7 @@ class Delivery extends MY_Controller {
 
         $data = [];
         $today = date('Y-m-d');
-        $whr = " orders.created_at <= '{$today}' ";
+        $whr = " date(orders.created_at) <= '{$today}' ";
         if($selected_orders = $this->input->post('selected_orders')){
             
             $whr .= " AND ( 

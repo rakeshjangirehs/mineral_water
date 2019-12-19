@@ -65,20 +65,22 @@ class Leads extends MY_Controller {
 
 		if($this->input->is_ajax_request()){
 			$colsArr = array(
-				'company_name',
-                'contact_person_name',
-                'email',
-                'phone_1',
-                "(CASE WHEN `is_converted`=1 THEN 'Yes' ELSE 'No' END)",
+				'leads.company_name',
+                'leads.contact_person_name',
+                'leads.email',
+                'leads.phone_1',
+                "(CASE WHEN `leads`.`is_converted`=1 THEN 'Yes' ELSE 'No' END)",
+                "CONCAT(users.first_name,' ',IFNULL(users.last_name,''))",
 				'action'
 			);
 
             $query = $this
                 ->model
-                ->common_select("`leads`.*,(CASE WHEN `is_converted`=1 THEN 'Yes' ELSE 'No' END) AS `conversion_status`")
+                ->common_select("`leads`.*,(CASE WHEN `is_converted`=1 THEN 'Yes' ELSE 'No' END) AS `conversion_status`,CONCAT(users.first_name,' ',IFNULL(users.last_name,'')) AS created_by_emp")
+                ->common_join("users","users.id = leads.created_by","left")
                 ->common_get('`leads`');
 
-			echo $this->model->common_datatable($colsArr, $query, "is_deleted = 0");die;
+			echo $this->model->common_datatable($colsArr, $query, "leads.is_deleted = 0");die;
 		}
 
         if($this->input->server("REQUEST_METHOD") == "POST"){

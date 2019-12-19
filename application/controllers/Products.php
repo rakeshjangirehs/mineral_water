@@ -126,7 +126,7 @@ class Products extends MY_Controller {
 			$type = 'success';
 			$msg = 'Product inserted successfully.';
 
-		if($this->product_model->add_update($productData, $productImageData, $id)){
+			if($this->product_model->add_update($productData, $productImageData, $id)){
 
         		if($id){
         			$msg = 'Product updated successfully.';

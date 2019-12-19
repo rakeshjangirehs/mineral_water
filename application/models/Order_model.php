@@ -166,12 +166,15 @@ class Order_model extends MY_Model {
 						->where("user_devices.device_id IS NOT NULL")
 						->join("users","users.id = orders.created_by","left")
 						->join("user_devices","user_devices.user_id = users.id","left")
-						->group_by("users.id")
+						->group_by("users.id,user_devices.device_id")
 						->get("orders")->result_array();
+		
 		if($order_user){
 			$message =	($action=='accept') ? "approved" : "rejected";
-			$this->fcm->send($order_user,"Order Approval", "Order NO. - {$order_id} has been {$message}.");
-			$this->fcm->send($order_user,"Order No. {$order_id} for {$order_data_get['client_name']} has been {$message} with final amount {$order_data_get['effective_price']}. Delivery date is {$order_data_get['expected_delivey_datetime_dt']}");
+			$messageTitle =	ucfirst($message);
+			$this->fcm->send($order_user,"Order {$messageTitle}", "Order No. {$order_id} for {$order_data_get['client_name']} has been {$message} with final amount {$order_data_get['effective_price']}. Delivery date is {$order_data_get['expected_delivey_datetime_dt']}");
+		}else{
+			log_message('error',"Order Approval Notification cant be send, because no user found with device_id Order ID: {$order_id} File: Order_model, Line:  ".__LINE__);
 		}
 
 		$this->db->trans_complete();

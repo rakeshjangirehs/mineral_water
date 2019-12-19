@@ -78,10 +78,29 @@ class Product_model extends MY_Model {
             'products.weight',
             'products.cost_price',
             'products.sale_price',
+            '(
+                CASE 
+                    WHEN products.manage_stock_needed = 1
+                    THEN "Yes"
+                    ELSE "No"
+                END
+            )',
+            'action',
         );
 
         $query = $this->model
-                    ->common_select('products.*,brands.brand_name,product_images.thumb')
+                    ->common_select('
+                                        products.*,
+                                        brands.brand_name,
+                                        product_images.thumb,
+                                        (
+                                            CASE 
+                                                WHEN products.manage_stock_needed = 1
+                                                THEN "Yes"
+                                                ELSE "No"
+                                            END
+                                        ) AS manage_stock
+                                    ')
                     ->common_join("brands","brands.id = products.brand_id","left")
                     ->common_join("product_images","product_images.product_id = products.id","left")
                     ->common_get('products');

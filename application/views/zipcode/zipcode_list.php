@@ -21,6 +21,7 @@
                                         <th>Area</th>
                                         <th>City</th>
                                         <th>State</th>
+                                        <th>Groups</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -54,6 +55,24 @@
                                         <div class="form-group">
                                             <label for="area" class="control-label">Area:</label>
                                             <input type="text" name="area" id="area" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="zip_code_group" class="control-label">ZIP Code Groups:</label>
+                                            <select class="form-control select2 multiple" name="zip_code_group[]" id="zip_code_group" data-placeholder="Choose ZIP Code Groups" multiple>
+                                                <option value=""></option>
+                                                <?php
+                                                if(!empty($zip_code_groups)):
+                                                    foreach($zip_code_groups as $key=>$zip_code_group):
+                                                        ?>
+                                                        <option value="<?php echo $key; ?>"><?php echo $zip_code_group; ?></option>
+                                                    <?php
+                                                    endforeach;
+                                                endif;
+                                                ?>
+                                            </select>
+                                            <span class="messages"><?php echo form_error('zip_code_group[]');?></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -136,6 +155,9 @@
                                 required:true,
                                 digits:true
                             },
+                            "zip_code_group[]"		:	{
+                                required:true,
+                            },
                             "city_id"		:	{
                                 required:true,
                                 digits:true
@@ -185,11 +207,12 @@
                 { "data": "area" },
                 { "data": "city_name" },
                 { "data": "state_name" },
+                { "data": "zip_code_groups" },
                 {
                 	"data": null,
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
-				      return "<a class='green zip_edit' href='#' data-id='"+data.id+"' data-name='"+data.zip_code+"' data-state_id='"+data.state_id+"' data-city_id='"+data.city_id+"' data-area='"+data.area+"' title='Edit ZIP Code'><i class='feather icon-edit'></i></a>";
+				      return "<a class='green zip_edit' href='#' data-id='"+data.id+"' data-name='"+data.zip_code+"' data-state_id='"+data.state_id+"' data-city_id='"+data.city_id+"' data-area='"+data.area+"' data-zip_code_group_ids='"+data.zip_code_group_ids+"' title='Edit ZIP Code'><i class='feather icon-edit'></i></a>";
 				    }
             	}
             ],
@@ -210,6 +233,14 @@
 			zip_id.val($this.data('id'));
             $area.val($this.data('area'));
 
+            var zIds = ""+$this.data('zip_code_group_ids');
+            if(zIds){
+                // console.log(zIds.split(","));
+                $("#zip_code_group").val(zIds.split(",")).change();
+            }else{
+                $("#zip_code_group").val([]).change();
+            }
+
             var state_id = $this.data('state_id') || '';
             temp_city_id = $this.data('city_id') || '';
             // console.log('temp_city_id : ',temp_city_id);
@@ -218,6 +249,7 @@
 		});
 
 	function reset_form(){
+        $("#zip_code_group").val([]).change();
         zip_code_id = "";
         validator.resetForm();
 		deptFrm.trigger("reset");

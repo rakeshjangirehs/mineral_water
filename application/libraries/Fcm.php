@@ -62,8 +62,8 @@ class Fcm{
                 to - expecting a single ID
             */
             $fields = array(
-                // 'registration_ids'  => $registration_ids,
-                'to'  => $registration_ids,
+                'registration_ids'  => $registration_ids,
+                // 'to'  => $registration_ids,
                 'priority'  => 'high',
                 'data'      => $fcmMsg,
             );
@@ -104,7 +104,9 @@ class Fcm{
                 'message'   =>  $message,
                 'response'  =>  $result,
                 'fcm_tokens'=>  json_encode($registration_ids),
-                'user_arr'=>  json_encode($user_arr)
+                'user_arr'=>  json_encode($user_arr),
+                'created_at'=> date('Y-m-d H:i:s'),
+                'created_by'=> USER_ID,
             );
             
             if($this->db->insert("fcm_notifications",$fcm_notifications_data)){
@@ -113,19 +115,22 @@ class Fcm{
                 $fcm_notification_user_data = [];
                 
                 foreach($user_arr as $k=>$user_notify){
-                    $fcm_notification_user_data[] = array(
-                        'user_id'           =>  $user_notify['user_id'],
-                        'notification_id'   =>  $notification_id,
-                        'created_at'        =>  date('Y-m-d'),
-                        'created_by'        =>  0,
-                    );                    
+
+                    if(!in_array($user_notify['user_id'],array_column($fcm_notification_user_data,'user_id'))){
+                        $fcm_notification_user_data[] = array(
+                            'user_id'           =>  $user_notify['user_id'],
+                            'notification_id'   =>  $notification_id,
+                            'created_at'        =>  date('Y-m-d H:i:s'),
+                            'created_by'        =>  USER_ID,
+                        );
+                    }
                 }
 
                 $this->db->insert_batch("fcm_notification_user",$fcm_notification_user_data);
             }
 
         }else{
-            echo 'no user';die;
+            log_message('error',"Notification cah't be sent Message: '{$message}', File: FCM, Line:  ".__LINE__);
         }
 
         /*

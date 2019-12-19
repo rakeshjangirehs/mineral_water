@@ -14,6 +14,7 @@
                                         <th>Email</th>
                                         <th>Phone 1</th>
                                         <th>Status</th>
+                                        <th>Created By</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -169,6 +170,7 @@
                 { "data": "email" },
                 { "data": "phone_1" },
                 { "data": "conversion_status" },
+                { "data": "created_by_emp" },
                 {
                     "data": 'action',
                     "orderable" : false,

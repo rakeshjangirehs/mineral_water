@@ -23,6 +23,7 @@
                                 <th>Weight (Kg)</th>
                                 <th>Cost Price</th>
                                 <th>Sale Price</th>
+                                <th>Manage Stock</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -72,16 +73,17 @@
                 { "data": "weight" },
                 { "data": "cost_price" },
                 { "data": "sale_price" },
+                { "data": "manage_stock" },
                 {
                 	"data": 'link',
                 	"sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a class='orange' href='<?php echo $this->baseUrl; ?>products/add_update/"+data.id+"' title='Edit Product'><i class='feather icon-edit'></i></a>" +
-                             "<a class='text-danger' id='delete_product' href='<?php echo $this->baseUrl; ?>products/delete/"+data.id+"' title='Delete Product'><i class='feather icon-trash-2'></i></a>";
+                             "<a class='text-danger delete_product' href='<?php echo $this->baseUrl; ?>products/delete/"+data.id+"' title='Delete Product'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
-		}).on('click','#delete_product',function(e){
+		}).on('click','.delete_product',function(e){
             e.preventDefault();
 
             var url = this.getAttribute('href');

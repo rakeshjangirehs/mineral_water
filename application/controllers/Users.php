@@ -91,6 +91,8 @@ class Users extends MY_Controller {
 			'email'			=> '',
 			'phone'			=> '',
             'role_id'       =>  '',
+            'user_zip_code_groups'=>  '',
+            'user_zip_codes'=>  '',
 		);
 		if($id){
 			$this->data['page_title'] = 'Update User';
