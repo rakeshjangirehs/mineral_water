@@ -71,7 +71,10 @@
                         var str = "";
                         $.each(data.split('<br/>'),function(i1,v1){
                             var row = v1.split('-');
-                            str += `<a title='View Order' class='open_order' href='<?php echo $this->baseUrl.'orders/order_details/';?>${row[0].trim()}'>${row[0].trim()}</a> - ${row[1].trim()} - ${row[2].trim()}<br/>`;
+                            // console.log(v1,row);
+                            if(row.length>1){
+                                str += `<a title='View Order' class='open_order' href='<?php echo $this->baseUrl.'orders/order_details/';?>${row[0].trim()}'>${row[0].trim()}</a> - ${row[1].trim()} - ${row[2].trim()}<br/>`;
+                            }
                             // console.log(str);
                         });
 
@@ -90,7 +93,8 @@
                     orderable:false,
                     // "sortable": false,
                 	"render": function ( data, type, row, meta ) {
-                        if(data.order_status != 'Delivered'){
+                        // if(data.order_status != 'Delivered'){
+                        if(!data.individual_orders_delivery_date){
 				            return "<a href='<?php echo $this->baseUrl; ?>delivery/add_update/"+data.id+"' title='Edit Delete'><i class='feather icon-edit'></i></a>"+
                           "<a class='text-danger' id='delete_user' href='<?php echo $this->baseUrl; ?>delivery/delete/"+data.id+"' title='Delete Delivery'><i class='feather icon-trash-2'></i></a>";
                         }else{
@@ -100,8 +104,10 @@
             	},                
             ],
             createdRow:function(row, data, index){
-                console.log(data.order_status);
-                if(data.order_status=='Delivered'){
+                // console.log(data.actual_delivey_datetime);
+                // console.log(data.order_status);
+                // if(data.order_status=='Delivered'){
+                if(data.actual_delivey_datetime){
                     row.classList.add('delivered');
                     row.title = "Delivered";
                 }

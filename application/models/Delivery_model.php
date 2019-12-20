@@ -100,7 +100,28 @@ class Delivery_model extends CI_Model {
 							$this->db->where("order_id",$order_id)->delete("delivery_config_orders");
 
 							if($col_delivery_config_id = $tbl_delivery_config_orders['delivery_config_id']){
-								if(count($this->db->where("delivery_config_id",$col_delivery_config_id)->get("delivery_config_orders")->result_array()) == 0){
+																
+								if($tbl_delivery_config_orders = $this->db->where("delivery_config_id",$col_delivery_config_id)->get("delivery_config_orders")->result_array()){
+									
+									$col_delivery_id = $tbl_delivery_config_orders[0]['delivery_id'];
+
+									$tbl_delivery_config_orders_delivered = array_filter($tbl_delivery_config_orders,function($val){
+										return (bool)($val['delivery_datetime']);
+									});
+									
+									if(count($col_delivery_config_id) == count($tbl_delivery_config_orders_delivered)){
+										$max_date = max(array_column($tbl_delivery_config_orders,'delivery_datetime'));
+										$delivery_update_data = array(
+											'actual_delivey_datetime'	=> $max_date,
+											'updated_at' => date('Y-m-d H:i:s'),
+											'updated_by' => USER_ID,
+										);
+										
+										$this->db->update("delivery",$delivery_update_data,["id"=>$col_delivery_id]);
+										// log_message('error',$this->db->last_query());
+									}
+
+								} else {
 									
 									$this->db->where("id",$col_delivery_config_id)->delete("delivery_config");
 																		
@@ -156,10 +177,10 @@ class Delivery_model extends CI_Model {
 			
 			foreach($notifiable_user_arr AS $notifiable_user){
 				$users = $this->db->where("users.id",$notifiable_user['user_id'])
-							->where("user_devices.device_id IS NOT NULL")
+							// ->where("user_devices.device_id IS NOT NULL")
 							->select("users.id as user_id, user_devices.device_id")
 							->join("user_devices","user_devices.user_id = users.id","left")
-							->group_by("users.id")
+							->group_by("users.id,user_devices.device_id")
 							->get("users")->result_array();
 				if($users){
 					$this->fcm->send($users,"Order Delivery", $notifiable_user['message']);

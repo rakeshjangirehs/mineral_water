@@ -72,11 +72,13 @@
                                             <thead>
                                             <tr>
                                                 <th>Order ID</th>
+                                                <th>Delivery Id</th>
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
                                                 <th>Expected Delivery Date</th>
+                                                <th>Delivery Team</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -91,13 +93,16 @@
                                             <thead>
                                             <tr>
                                                 <th>Order ID</th>
+                                                <th>Delivery Id</th>
                                                 <th>Client</th>
                                                 <th>C Delivery Dt</th>
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
                                                 <th>Received Payment</th>
                                                 <th>Expected Delivery Date</th>
-                                                <th>Actual Delivery Date</th>                                                
+                                                <th>Actual Delivery Date</th>
+                                                <th>Delivery Team</th>
+                                                <th>Delivery Notes</th>
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -233,16 +238,17 @@
                 // { "data": "id" },
                 {
                     "data": 'id',
-                    // "sortable": false,
                     "render": function ( id, type, row, meta ) {
                         return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
                     }
                 },
+                { "data": 'delivery_id'},
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },
-                { "data": "expected_delivey_datetime" }
+                { "data": "expected_delivey_datetime" },
+                { "data": "delivery_team" }
             ],
             "createdRow": function ( row, data, index ) {}
         });
@@ -268,6 +274,7 @@
                         return "<a class='my-link' href='<?php echo $this->baseUrl; ?>orders/order_details/"+id+"' title='View'>"+id+"</a>";
                     }
                 },
+                { "data": 'delivery_id'},
                 { "data": "client_name" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
@@ -275,6 +282,8 @@
                 { "data": "amount_recieved" },
                 { "data": "expected_delivey_datetime" },
                 { "data": "actual_delivey_datetime" },
+                { "data": "delivery_team" },
+                { "data": "notes" },
                 {
                     "data": 'link',
                     "sortable": false,

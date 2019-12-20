@@ -117,7 +117,7 @@
                                             if(!empty($invoice_list)){
                                                 foreach($invoice_list as $k=>$invoice){
                                                     $payable_amount = number_format($invoice['payable_amount'],2);
-                                                    $pending_amount = $invoice['payable_amount'] - $invoice['paid_amount'];//number_format(($invoice['payable_amount'] - $invoice['paid_amount']), 2);
+                                                    $pending_amount = sprintf('%0.2f', $invoice['payable_amount'] - $invoice['paid_amount']);//number_format(($invoice['payable_amount'] - $invoice['paid_amount']), 2);
                                                     echo "<tr>
                                                                 <th>
                                                                     <a title='View Order' href='{$this->baseUrl}orders/order_details/{$invoice['id']}' target='_blank'>{$invoice['id']}</a>

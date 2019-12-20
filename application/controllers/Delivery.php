@@ -45,6 +45,7 @@ class Delivery extends MY_Controller {
                             #GROUP_CONCAT(clients.client_name SEPARATOR ',<br/>') AS client_name,
                             #GROUP_CONCAT(CONCAT_WS(' - ', CONCAT('<a href=\"orders.id\">',orders.id,'</a>'), orders.order_status) SEPARATOR '<br/>') AS order_short_info,
                             GROUP_CONCAT(CONCAT_WS(' - ', orders.id , clients.client_name, orders.order_status) SEPARATOR '<br/>') AS order_short_info,
+                            GROUP_CONCAT(delivery_config_orders.delivery_datetime) AS individual_orders_delivery_date,
                             orders.order_status,
                             (
                                 CASE

@@ -22,9 +22,15 @@ class Fcm{
     */
     public function send( $user_arr = array(), $title='New Notification', $message = 'New Notification' ){
 
+        // $h = fopen("debug.txt","a+");
+        // fwrite($h,json_encode($user_arr) . PHP_EOL);
+        // fclose($h);
+
         $registration_ids = [];
         foreach($user_arr as $user){
-            $registration_ids[] = $user['device_id'];
+            if($user['device_id']){
+                $registration_ids[] = $user['device_id'];
+            }
         }
 
         if($registration_ids){
@@ -81,22 +87,6 @@ class Fcm{
             curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
             $result = curl_exec($ch );
 
-            // var_dump(curl_errno($ch));
-            // var_dump(curl_getinfo($ch));
-            // var_dump($result);die;
-            
-            // $response = array(
-            //     'status'    =>  true,
-            //     'message'   =>  'FCM Notification sent.',
-            // );
-
-            // if ($result === FALSE) {
-            //     $response = array(
-            //         'status'    =>  false,
-            //         'message'   =>  curl_error($ch),
-            //     );
-            // }
-
             curl_close( $ch );
 
             $fcm_notifications_data = array(
@@ -130,7 +120,39 @@ class Fcm{
             }
 
         }else{
-            log_message('error',"Notification cah't be sent Message: '{$message}', File: FCM, Line:  ".__LINE__);
+
+            $fcm_notifications_data = array(
+                'title'     =>  $title,
+                'message'   =>  $message,
+                'response'  =>  "Not a FCM Notification",
+                'fcm_tokens'=>  null,
+                'user_arr'=>  json_encode($user_arr),
+                'created_at'=> date('Y-m-d H:i:s'),
+                'created_by'=> USER_ID,
+            );
+
+            if($this->db->insert("fcm_notifications",$fcm_notifications_data)){
+
+                $notification_id = $this->db->insert_id();
+                
+                $fcm_notification_user_data = [];
+                
+                foreach($user_arr as $k=>$user_notify){
+
+                    if(!in_array($user_notify['user_id'],array_column($fcm_notification_user_data,'user_id'))){
+                        $fcm_notification_user_data[] = array(
+                            'user_id'           =>  $user_notify['user_id'],
+                            'notification_id'   =>  $notification_id,
+                            'created_at'        =>  date('Y-m-d H:i:s'),
+                            'created_by'        =>  USER_ID,
+                        );
+                    }
+                }
+
+                $this->db->insert_batch("fcm_notification_user",$fcm_notification_user_data);
+            }
+
+            log_message('error',"FCM Notification saved as simple notification: '{$message}', File: FCM, Line:  ".__LINE__);
         }
 
         /*

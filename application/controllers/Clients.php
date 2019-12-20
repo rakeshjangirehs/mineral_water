@@ -655,7 +655,7 @@ class Clients extends MY_Controller {
                         products.id AS product_id,
                         products.product_name,
                         (
-                            SUM(IFNULL(client_product_inventory.existing_quentity,0)) +
+                            #SUM(IFNULL(client_product_inventory.existing_quentity,0)) +
                             SUM(IFNULL(client_product_inventory.new_delivered,0)) -
                             SUM(IFNULL(client_product_inventory.empty_collected,0))
                         ) AS client_quantity
@@ -672,6 +672,7 @@ class Clients extends MY_Controller {
     }
 
     public function client_inventory_history($client_id=NULL){
+        
         if($client_id){
 
             $sql = "SELECT
@@ -682,7 +683,7 @@ class Clients extends MY_Controller {
                         IFNULL(client_product_inventory.existing_quentity,0) AS `existing_quentity`,
                         IFNULL(client_product_inventory.new_delivered,0) AS `new_delivered`,
                         IFNULL(client_product_inventory.empty_collected,0) AS `empty_collected`,
-                        DATE_FORMAT(delivery.actual_delivey_datetime,'%Y-%m-%d') AS delivey_date,
+                        DATE_FORMAT(delivery_config_orders.delivery_datetime,'%Y-%m-%d') AS delivey_date,
                         #delivery_boy.first_name AS delivery_boy,
                         #driver.first_name AS driver,
                         (CASE

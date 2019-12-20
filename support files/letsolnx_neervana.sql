@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 18, 2019 at 10:22 AM
+-- Generation Time: Dec 20, 2019 at 06:53 AM
 -- Server version: 10.1.43-MariaDB-cll-lve
 -- PHP Version: 7.2.7
 
@@ -68,20 +68,6 @@ CREATE TABLE `cash_collection` (
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cash_collection`
---
-
-INSERT INTO `cash_collection` (`id`, `user_id`, `amount`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 3, 224.5, 0, '2019-12-09 00:00:00', 2, NULL, NULL),
-(2, 3, 100, 0, '2019-12-09 00:00:00', 2, NULL, NULL),
-(3, 4, 1000, 0, '2019-12-17 00:00:00', 2, NULL, NULL),
-(4, 4, 2500, 0, '2019-12-17 00:00:00', 2, NULL, NULL),
-(5, 3, 6000, 0, '2019-12-17 00:00:00', 2, NULL, NULL),
-(6, 3, 7400, 0, '2019-12-17 00:00:00', 2, NULL, NULL),
-(7, 3, 200, 0, '2019-12-17 00:00:00', 2, NULL, NULL),
-(8, 4, 200, 0, '2019-12-18 00:00:00', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -153,30 +139,9 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `address`, `city_id`, `state_id`, `zip_code_id`, `lead_id`, `lat`, `lng`, `contact_person_name_1`, `contact_person_1_phone_1`, `contact_person_1_phone_2`, `contact_person_1_email`, `contact_person_name_2`, `contact_person_2_phone_1`, `contact_person_2_phone_2`, `contact_person_2_email`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `gst_no`, `category_id`) VALUES
-(1, 'Sun Pharma', '0.00', 0.00, NULL, 1, 1, 3, 1, NULL, NULL, 'Snehal Trapsiya', '9166650505', NULL, 'snehal@gmail.com', 'Mehul Patel', '8963015122', NULL, 'mehul@gmail.com', 0, '2019-12-05 14:26:27', 1, '2019-12-05 15:36:53', 2, 'Active', 'abc123', NULL),
-(2, 'Gandhi soda', '0.00', 0.00, NULL, 3, 2, 5, 2, NULL, NULL, 'priyanshu', '6598653265', NULL, 'priyanshu@gmail.com', 'priyanshu', '4477880055', NULL, NULL, 0, '2019-12-05 14:52:06', 1, '2019-12-05 15:34:36', 2, 'Active', '77BJDEP4681J1JC', NULL),
-(3, 'Khanjan testing', '0.00', 0.00, NULL, 3, 2, 6, 4, NULL, NULL, 'Khanjan Shah', '9429620022', NULL, 'khanjanshah06@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-12-05 18:19:39', 1, NULL, NULL, 'Active', NULL, NULL),
-(4, 'Ravi Sandwich', '0.00', 0.00, NULL, 3, 2, 1, 3, NULL, NULL, 'Vasukaka', '8454813349', NULL, 'ehs.mehul@gmail.com', NULL, '8525329645', NULL, NULL, 0, '2019-12-05 19:02:02', 1, NULL, NULL, 'Active', NULL, NULL),
-(5, 'star snacks', '0.00', 0.00, NULL, 3, 2, 4, 5, NULL, NULL, 'shivabhai', '9865326598', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-12-05 19:23:47', 1, NULL, NULL, 'Active', NULL, NULL),
-(6, 'Empire bakery', '0.00', 0.00, NULL, 3, 2, 6, 10, NULL, NULL, 'Mohsinbhai', '6459865329', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-12-06 12:45:00', 1, NULL, NULL, 'Active', NULL, NULL),
-(7, 'natural ice-cream', '0.00', 0.00, NULL, 3, 2, 12, 9, NULL, NULL, 'divyesh bhai', '9904499818', NULL, 'arjit@neervana.net', NULL, NULL, NULL, NULL, 0, '2019-12-06 12:49:02', 1, '2019-12-17 17:41:30', 2, 'Active', NULL, NULL),
-(8, 'Khanjan final testing', '0.00', 0.00, NULL, 3, 2, 12, 12, NULL, NULL, '9867777777', '9429620022', NULL, 'kh', NULL, NULL, NULL, NULL, 0, '2019-12-06 13:51:03', 1, NULL, NULL, 'Active', NULL, NULL),
-(9, 'modi sandwich', '0.00', 0.00, NULL, 3, 2, 12, 14, NULL, NULL, 'pranav modi', '9865487845', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2019-12-09 11:19:10', 1, NULL, NULL, 'Active', NULL, NULL),
-(10, 'Harish pan parlour', '0.00', 0.00, NULL, 3, 2, 12, 15, NULL, NULL, 'Harish dave', '7855669988', NULL, 'hariah@aol.com', NULL, NULL, NULL, NULL, 0, '2019-12-09 13:15:51', 1, NULL, NULL, 'Active', '44ghjim7657hweo', NULL),
-(11, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:03', 1, '2019-12-17 04:13:42', NULL, 'Active', NULL, NULL),
-(12, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:25', 1, '2019-12-17 04:13:47', NULL, 'Active', NULL, NULL),
-(13, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:31', 1, '2019-12-17 04:13:51', NULL, 'Active', NULL, NULL),
-(14, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:32', 1, '2019-12-17 04:13:55', NULL, 'Active', NULL, NULL),
-(15, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:33', 1, '2019-12-17 04:14:00', NULL, 'Active', NULL, NULL),
-(16, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:34', 1, '2019-12-17 04:14:05', NULL, 'Active', NULL, NULL),
-(17, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:35', 1, '2019-12-17 04:22:22', NULL, 'Active', NULL, NULL),
-(18, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:37', 1, '2019-12-17 04:22:27', NULL, 'Active', NULL, NULL),
-(19, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 1, '2019-12-11 10:51:46', 1, '2019-12-17 04:22:32', NULL, 'Active', NULL, NULL),
-(20, 'Eminent hotel', NULL, 0.00, NULL, 3, 2, 12, 13, NULL, NULL, 'Azam', '9173021172', NULL, 'azaz@yahoo.com', NULL, NULL, NULL, NULL, 0, '2019-12-11 10:53:24', 1, NULL, NULL, 'Active', NULL, NULL),
-(21, 'Queenland cafe', '0.00', 0.00, NULL, 3, 2, 12, 16, NULL, NULL, 'pritesh', '9265579908', NULL, 'pritesh@yahoo.com', NULL, NULL, NULL, NULL, 0, '2019-12-11 12:53:22', 1, '2019-12-11 13:02:22', 2, 'Active', NULL, NULL),
-(22, 'yuk', '0.00', 0.00, NULL, 3, 2, 12, 40, NULL, NULL, 'tres', '9723664556', NULL, 'test@test.com', NULL, NULL, NULL, NULL, 0, '2019-12-16 18:15:07', 1, NULL, NULL, 'Active', NULL, NULL),
-(23, 'Khanjanss', '0.00', 0.00, NULL, 2, 1, 8, 41, NULL, NULL, '9429629022', '9638527410', NULL, 'khanjanshah06@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-12-17 14:15:21', 1, NULL, NULL, 'Active', 'gggg', NULL),
-(24, 'Reliance mart', '0.00', 0.00, NULL, 3, 2, 12, 39, NULL, NULL, 'Ashok Mishra', '8401036474', NULL, 'ashok@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-12-17 14:33:24', 1, '2019-12-17 16:06:54', 2, 'Active', '22hdbpk6378j11', 4);
+(1, 'Milan & Company', '0.00', 0.00, NULL, 3, 2, 8, 5, NULL, NULL, 'Milan Soni', '7600265925', NULL, 'milans@letsenkindle.com', NULL, NULL, NULL, NULL, 0, '2019-12-19 19:12:50', 5, NULL, NULL, 'Active', 'GJ 01 VV 1809', NULL),
+(2, 'Ashish & Company', '0.00', 0.00, NULL, 3, 2, 6, 1, NULL, NULL, 'Ashish Makwana', '9510335127', NULL, 'ashishm@letsenkindle.com', 'Rakesh Jangir', '9166650505', NULL, 'rakeshj@letsenkindle.com', 0, '2019-12-19 19:53:36', 1, NULL, NULL, 'Active', 'ASH 1234', NULL),
+(3, 'Rakesh & Company', '0.00', 0.00, NULL, 3, 2, 12, 2, NULL, NULL, 'Rakesh Jangir', '9166650505', NULL, 'rakeshj@letsenkindle.com', NULL, NULL, NULL, NULL, 0, '2019-12-19 22:29:01', 1, NULL, NULL, 'Active', 'GST 1234', NULL);
 
 -- --------------------------------------------------------
 
@@ -251,23 +216,9 @@ CREATE TABLE `client_delivery_addresses` (
 --
 
 INSERT INTO `client_delivery_addresses` (`id`, `client_id`, `lead_id`, `title`, `address`, `zip_code_id`, `lat`, `lng`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 1, NULL, 'Home', 'Home address', 1, 23.048065, 72.568230, 0, '2019-12-05 14:25:54', 1, '2019-12-05 17:41:30', 2, 'Active'),
-(2, 2, NULL, 'shop', 'ganesh complex, paladi char rasta, Ahmedabad', 5, 23.048065, 72.568230, 0, '2019-12-05 14:51:50', 1, '2019-12-05 17:40:52', 2, 'Active'),
-(3, 3, NULL, 'Home', 'F/5 Chandrika Appartment', 6, 23.045265, 72.568817, 0, '2019-12-05 18:15:22', 1, '2019-12-05 00:00:00', NULL, 'Active'),
-(4, 4, NULL, 'shop', 'Ravi kirana, Navrangpura', 7, NULL, NULL, 0, '2019-12-05 19:01:51', 1, '2019-12-05 00:00:00', NULL, 'Active'),
-(5, 5, NULL, 'shop', 'nava vadaj', 1, NULL, NULL, 0, '2019-12-05 19:23:30', 1, '2019-12-05 00:00:00', NULL, 'Active'),
-(6, 6, NULL, 'shop', 'dinbai tower', 7, NULL, NULL, 0, '2019-12-06 12:44:54', 1, '2019-12-06 00:00:00', NULL, 'Active'),
-(7, 7, NULL, 'shop', 'mithakhali', 12, NULL, NULL, 0, '2019-12-06 12:48:56', 1, '2019-12-06 00:00:00', NULL, 'Active'),
-(8, 8, NULL, 'home', 'f/5', 1, 23.045265, 72.568810, 0, '2019-12-06 13:44:27', 1, '2019-12-06 00:00:00', NULL, 'Active'),
-(9, 8, NULL, 'home', 'eee', 1, 23.045265, 72.568810, 0, '2019-12-06 13:45:13', 1, '2019-12-06 00:00:00', NULL, 'Active'),
-(10, 9, NULL, 'Shop', 'vasna', 12, 23.045269, 72.568825, 0, '2019-12-09 11:18:57', 1, '2019-12-09 00:00:00', NULL, 'Active'),
-(11, 10, NULL, 'shop', 'law garden circle, law garden', 12, NULL, NULL, 0, '2019-12-09 13:15:44', 1, '2019-12-09 00:00:00', NULL, 'Active'),
-(12, 1, NULL, 'Officer', 'Sandwich', 7, 23.047407, 72.566879, 0, '2019-12-10 17:00:51', 1, NULL, NULL, 'Active'),
-(13, 11, NULL, 'office', 'sarkhej', 12, NULL, NULL, 0, '2019-12-11 10:50:51', 1, '2019-12-11 00:00:00', NULL, 'Active'),
-(14, 21, NULL, 'shop', 'Jamalpur', 12, NULL, NULL, 0, '2019-12-11 12:53:13', 1, '2019-12-11 00:00:00', NULL, 'Active'),
-(15, 22, NULL, 'test', 'jkdkd', 12, 23.045277, 72.568848, 0, '2019-12-16 18:12:02', 1, '2019-12-16 00:00:00', NULL, 'Active'),
-(16, 23, NULL, 'Home', 'F/5 Chandrika Appartment', 10, NULL, NULL, 0, '2019-12-17 14:15:05', 1, '2019-12-17 00:00:00', NULL, 'Active'),
-(17, 24, NULL, 'shop', 'mahalaxmi chaar rasta, paldi', 12, NULL, NULL, 0, '2019-12-17 14:33:14', 1, '2019-12-17 00:00:00', NULL, 'Active');
+(1, 1, NULL, 'Office', 'Income Tax', 8, 23.045263, 72.568550, 0, '2019-12-19 19:12:27', 5, '2019-12-19 00:00:00', NULL, 'Active'),
+(3, 2, NULL, 'Home', 'Bopal', 6, NULL, NULL, 0, '2019-12-19 19:53:03', 1, '2019-12-19 00:00:00', NULL, 'Active'),
+(4, 3, NULL, 'Home 2', 'Janta Colony', 12, 23.045237, 72.568642, 0, '2019-12-19 22:28:48', 1, '2019-12-19 00:00:00', NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -311,63 +262,10 @@ CREATE TABLE `client_product_inventory` (
 --
 
 INSERT INTO `client_product_inventory` (`id`, `dco_id`, `client_id`, `product_id`, `existing_quentity`, `new_delivered`, `empty_collected`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, NULL, 1, 4, 0, 5, 0, '2019-12-05 00:00:00', 4, NULL, NULL, 'Active'),
-(2, NULL, 2, 1, 0, 25, 15, '2019-12-05 00:00:00', 4, NULL, NULL, 'Active'),
-(3, NULL, 1, 7, 0, 8, 0, '2019-12-05 00:00:00', 3, NULL, NULL, 'Active'),
-(4, NULL, 2, 7, 0, 25, 2, '2019-12-06 00:00:00', 3, NULL, NULL, 'Active'),
-(5, NULL, 8, 0, 0, 0, 0, '2019-12-06 00:00:00', 3, NULL, NULL, 'Active'),
-(6, NULL, 8, 0, 0, 0, 0, '2019-12-06 00:00:00', 3, NULL, NULL, 'Active'),
-(7, NULL, 8, 0, 0, 0, 0, '2019-12-06 00:00:00', 3, NULL, NULL, 'Active'),
-(8, NULL, 5, 7, 0, 56, 63, '2019-12-06 00:00:00', 3, NULL, NULL, 'Active'),
-(9, NULL, 9, 0, 0, 0, 0, '2019-12-09 00:00:00', 3, NULL, NULL, 'Active'),
-(10, NULL, 10, 7, 0, 3, 0, '2019-12-09 00:00:00', 4, NULL, NULL, 'Active'),
-(11, NULL, 10, 7, 0, 3, 0, '2019-12-09 00:00:00', 4, NULL, NULL, 'Active'),
-(12, NULL, 21, 0, 0, 0, 0, '2019-12-11 00:00:00', 4, NULL, NULL, 'Active'),
-(13, NULL, 21, 7, 0, 3, 3, '2019-12-11 00:00:00', 4, NULL, NULL, 'Active'),
-(14, NULL, 19, 7, 0, 2, 2, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(15, NULL, 19, 7, 0, 2, 2, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(16, NULL, 19, 7, 0, 2, 2, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(17, NULL, 19, 7, 0, 2, 2, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(18, NULL, 19, 7, 0, 2, 2, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(19, NULL, 19, 7, 0, 2, 2, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(20, NULL, 19, 7, 0, 8, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(21, NULL, 11, 7, 0, 2, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(22, NULL, 3, 0, 0, 0, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(23, NULL, 3, 0, 0, 0, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(24, NULL, 3, 0, 0, 0, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(25, NULL, 3, 0, 0, 0, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(26, NULL, 3, 0, 0, 0, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(27, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(28, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(29, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(30, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(31, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(32, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(33, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(34, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(35, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(36, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(37, NULL, 14, 7, 0, 1, 1, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(38, NULL, 16, 7, 0, 8, 5, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(39, NULL, 24, 7, 0, 4, 3, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(40, NULL, 24, 7, 0, 4, 3, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(41, NULL, 24, 7, 0, 5, 0, '2019-12-17 00:00:00', 4, NULL, NULL, 'Active'),
-(42, NULL, 24, 7, 0, 5, 0, '2019-12-17 00:00:00', 4, NULL, NULL, 'Active'),
-(43, NULL, 24, 7, 0, 5, 0, '2019-12-17 00:00:00', 4, NULL, NULL, 'Active'),
-(44, NULL, 24, 7, 0, 5, 0, '2019-12-17 00:00:00', 4, NULL, NULL, 'Active'),
-(45, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(46, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(47, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(48, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(49, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(50, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(51, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(52, NULL, 17, 7, 0, 5, 6, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(53, NULL, 8, 0, 0, 0, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(54, NULL, 15, 7, 0, 5, 5, '2019-12-17 00:00:00', 4, NULL, NULL, 'Active'),
-(55, NULL, 7, 0, 0, 0, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(56, NULL, 18, 7, 0, 2, 0, '2019-12-17 00:00:00', 3, NULL, NULL, 'Active'),
-(57, NULL, 1, 0, 0, 0, 0, '2019-12-18 00:00:00', 3, NULL, NULL, 'Active');
+(9, 20, 1, 7, 0, 5, 0, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active'),
+(10, 21, 1, 7, 5, 10, 0, '2019-12-20 00:00:00', 3, NULL, NULL, 'Active'),
+(11, 22, 1, 7, 15, 20, 5, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active'),
+(12, 23, 1, 7, 30, 3, 5, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -392,222 +290,33 @@ CREATE TABLE `client_product_price` (
 --
 
 INSERT INTO `client_product_price` (`id`, `client_id`, `product_id`, `sale_price`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 1, 1, 265, '2019-12-05 14:26:27', NULL, '2019-12-10 11:34:16', 2, 'Active'),
-(2, 1, 2, 250, '2019-12-05 14:26:27', NULL, '2019-12-10 11:34:16', 2, 'Active'),
-(3, 1, 3, 255, '2019-12-05 14:26:27', NULL, '2019-12-10 11:34:16', 2, 'Active'),
-(4, 1, 4, 175, '2019-12-05 14:26:27', NULL, '2019-12-10 11:34:16', 2, 'Active'),
-(5, 1, 5, 190, '2019-12-05 14:26:27', NULL, '2019-12-10 11:34:16', 2, 'Active'),
-(6, 1, 7, 25, '2019-12-05 14:26:27', NULL, '2019-12-05 06:23:45', NULL, 'Active'),
-(7, 1, 8, 18, '2019-12-05 14:26:27', NULL, NULL, NULL, 'Active'),
-(8, 1, 9, 455, '2019-12-05 14:26:27', NULL, '2019-12-10 11:34:16', 2, 'Active'),
-(9, 2, 1, 235, '2019-12-05 14:52:06', NULL, '2019-12-10 11:35:05', 2, 'Active'),
-(10, 2, 2, 250, '2019-12-05 14:52:06', NULL, '2019-12-10 11:35:05', 2, 'Active'),
-(11, 2, 3, 265, '2019-12-05 14:52:06', NULL, '2019-12-10 11:35:05', 2, 'Active'),
-(12, 2, 4, 167, '2019-12-05 14:52:06', NULL, '2019-12-10 11:35:05', 2, 'Active'),
-(13, 2, 5, 200, '2019-12-05 14:52:06', NULL, '2019-12-10 11:35:05', 2, 'Active'),
-(14, 2, 7, 24.5, '2019-12-05 14:52:06', NULL, '2019-12-06 01:03:55', NULL, 'Active'),
-(15, 2, 8, 18, '2019-12-05 14:52:06', NULL, NULL, NULL, 'Active'),
-(16, 2, 9, 465, '2019-12-05 14:52:06', NULL, '2019-12-10 11:35:05', 2, 'Active'),
-(17, 3, 1, 267, '2019-12-05 18:19:39', NULL, '2019-12-17 04:45:06', 2, 'Active'),
-(18, 3, 2, 251, '2019-12-05 18:19:39', NULL, '2019-12-17 04:45:06', 2, 'Active'),
-(19, 3, 3, 275, '2019-12-05 18:19:39', NULL, '2019-12-10 11:36:58', 2, 'Active'),
-(20, 3, 4, 168, '2019-12-05 18:19:39', NULL, '2019-12-10 11:36:58', 2, 'Active'),
-(21, 3, 5, 210, '2019-12-05 18:19:39', NULL, '2019-12-10 11:36:58', 2, 'Active'),
-(22, 3, 7, 25, '2019-12-05 18:19:39', NULL, NULL, NULL, 'Active'),
-(23, 3, 8, 18, '2019-12-05 18:19:39', NULL, NULL, NULL, 'Active'),
-(24, 3, 9, 455, '2019-12-05 18:19:39', NULL, '2019-12-10 11:36:58', 2, 'Active'),
-(25, 4, 1, 245, '2019-12-05 19:02:02', NULL, '2019-12-10 12:04:52', 2, 'Active'),
-(26, 4, 2, 258, '2019-12-05 19:02:02', NULL, '2019-12-17 06:59:43', 2, 'Active'),
-(27, 4, 3, 157, '2019-12-05 19:02:02', NULL, '2019-12-10 12:04:52', 2, 'Active'),
-(28, 4, 4, 168, '2019-12-05 19:02:02', NULL, '2019-12-10 12:04:52', 2, 'Active'),
-(29, 4, 5, 192, '2019-12-05 19:02:02', NULL, '2019-12-10 12:04:52', 2, 'Active'),
-(30, 4, 7, 25, '2019-12-05 19:02:02', NULL, NULL, NULL, 'Active'),
-(31, 4, 8, 19, '2019-12-05 19:02:02', NULL, '2019-12-10 12:04:52', 2, 'Active'),
-(32, 4, 9, 454, '2019-12-05 19:02:02', NULL, '2019-12-10 12:04:52', 2, 'Active'),
-(33, 5, 1, 266, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(34, 5, 2, 248, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(35, 5, 3, 254, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(36, 5, 4, 166, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(37, 5, 5, 90, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(38, 5, 7, 24, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(39, 5, 8, 17, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(40, 5, 9, 452, '2019-12-05 19:23:47', NULL, '2019-12-10 12:05:31', 2, 'Active'),
-(41, 6, 1, 265, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(42, 6, 2, 245, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(43, 6, 3, 255, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(44, 6, 4, 165, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(45, 6, 5, 190, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(46, 6, 7, 25, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(47, 6, 8, 18, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(48, 6, 9, 45, '2019-12-06 12:45:00', NULL, NULL, NULL, 'Active'),
-(49, 7, 1, 260, '2019-12-06 12:49:02', NULL, '2019-12-17 04:43:37', NULL, 'Active'),
-(50, 7, 2, 241.5, '2019-12-06 12:49:02', NULL, '2019-12-17 04:43:37', NULL, 'Active'),
-(51, 7, 3, 254, '2019-12-06 12:49:02', NULL, '2019-12-17 04:43:37', NULL, 'Active'),
-(52, 7, 4, 165, '2019-12-06 12:49:02', NULL, NULL, NULL, 'Active'),
-(53, 7, 5, 190, '2019-12-06 12:49:02', NULL, NULL, NULL, 'Active'),
-(54, 7, 7, 25, '2019-12-06 12:49:02', NULL, NULL, NULL, 'Active'),
-(55, 7, 8, 18, '2019-12-06 12:49:02', NULL, NULL, NULL, 'Active'),
-(56, 7, 9, 45, '2019-12-06 12:49:02', NULL, NULL, NULL, 'Active'),
-(57, 8, 1, 200, '2019-12-06 13:51:03', NULL, '2019-12-17 06:29:05', NULL, 'Active'),
-(58, 8, 2, 245, '2019-12-06 13:51:03', NULL, NULL, NULL, 'Active'),
-(59, 8, 3, 255, '2019-12-06 13:51:03', NULL, NULL, NULL, 'Active'),
-(60, 8, 4, 165, '2019-12-06 13:51:03', NULL, NULL, NULL, 'Active'),
-(61, 8, 5, 190, '2019-12-06 13:51:03', NULL, NULL, NULL, 'Active'),
-(62, 8, 7, 25, '2019-12-06 13:51:03', NULL, NULL, NULL, 'Active'),
-(63, 8, 8, 18, '2019-12-06 13:51:03', NULL, NULL, NULL, 'Active'),
-(64, 8, 9, 45, '2019-12-06 13:51:03', NULL, NULL, NULL, 'Active'),
-(65, 9, 1, 261, '2019-12-09 11:19:10', NULL, '2019-12-17 06:44:54', NULL, 'Active'),
-(66, 9, 2, 245, '2019-12-09 11:19:10', NULL, '2019-12-17 06:44:54', NULL, 'Active'),
-(67, 9, 3, 255, '2019-12-09 11:19:10', NULL, NULL, NULL, 'Active'),
-(68, 9, 4, 165, '2019-12-09 11:19:10', NULL, NULL, NULL, 'Active'),
-(69, 9, 5, 190, '2019-12-09 11:19:10', NULL, NULL, NULL, 'Active'),
-(70, 9, 7, 25, '2019-12-09 11:19:10', NULL, NULL, NULL, 'Active'),
-(71, 9, 8, 18, '2019-12-09 11:19:10', NULL, NULL, NULL, 'Active'),
-(72, 9, 9, 455, '2019-12-09 11:19:10', NULL, NULL, NULL, 'Active'),
-(73, 10, 1, 260, '2019-12-09 13:15:51', NULL, '2019-12-17 04:40:15', NULL, 'Active'),
-(74, 10, 2, 245, '2019-12-09 13:15:51', NULL, NULL, NULL, 'Active'),
-(75, 10, 3, 255, '2019-12-09 13:15:51', NULL, NULL, NULL, 'Active'),
-(76, 10, 4, 165, '2019-12-09 13:15:51', NULL, NULL, NULL, 'Active'),
-(77, 10, 5, 190, '2019-12-09 13:15:51', NULL, NULL, NULL, 'Active'),
-(78, 10, 7, 25, '2019-12-09 13:15:51', NULL, NULL, NULL, 'Active'),
-(79, 10, 8, 18, '2019-12-09 13:15:51', NULL, NULL, NULL, 'Active'),
-(80, 10, 9, 455, '2019-12-09 13:15:51', NULL, NULL, NULL, 'Active'),
-(81, 11, 1, 265, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(82, 11, 2, 245, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(83, 11, 3, 255, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(84, 11, 4, 165, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(85, 11, 5, 190, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(86, 11, 7, 25, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(87, 11, 8, 18, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(88, 11, 9, 455, '2019-12-11 10:51:03', NULL, NULL, NULL, 'Active'),
-(89, 12, 1, 265, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(90, 12, 2, 245, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(91, 12, 3, 255, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(92, 12, 4, 165, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(93, 12, 5, 190, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(94, 12, 7, 25, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(95, 12, 8, 18, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(96, 12, 9, 455, '2019-12-11 10:51:25', NULL, NULL, NULL, 'Active'),
-(97, 13, 1, 265, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(98, 13, 2, 245, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(99, 13, 3, 255, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(100, 13, 4, 165, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(101, 13, 5, 190, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(102, 13, 7, 25, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(103, 13, 8, 18, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(104, 13, 9, 455, '2019-12-11 10:51:31', NULL, NULL, NULL, 'Active'),
-(105, 14, 1, 265, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(106, 14, 2, 245, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(107, 14, 3, 255, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(108, 14, 4, 165, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(109, 14, 5, 190, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(110, 14, 7, 25, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(111, 14, 8, 18, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(112, 14, 9, 455, '2019-12-11 10:51:32', NULL, NULL, NULL, 'Active'),
-(113, 15, 1, 265, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(114, 15, 2, 245, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(115, 15, 3, 255, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(116, 15, 4, 165, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(117, 15, 5, 190, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(118, 15, 7, 25, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(119, 15, 8, 18, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(120, 15, 9, 455, '2019-12-11 10:51:33', NULL, NULL, NULL, 'Active'),
-(121, 16, 1, 265, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(122, 16, 2, 245, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(123, 16, 3, 255, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(124, 16, 4, 165, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(125, 16, 5, 190, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(126, 16, 7, 25, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(127, 16, 8, 18, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(128, 16, 9, 455, '2019-12-11 10:51:34', NULL, NULL, NULL, 'Active'),
-(129, 17, 1, 265, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(130, 17, 2, 245, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(131, 17, 3, 255, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(132, 17, 4, 165, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(133, 17, 5, 190, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(134, 17, 7, 25, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(135, 17, 8, 18, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(136, 17, 9, 455, '2019-12-11 10:51:35', NULL, NULL, NULL, 'Active'),
-(137, 18, 1, 265, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(138, 18, 2, 245, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(139, 18, 3, 255, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(140, 18, 4, 165, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(141, 18, 5, 190, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(142, 18, 7, 25, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(143, 18, 8, 18, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(144, 18, 9, 455, '2019-12-11 10:51:37', NULL, NULL, NULL, 'Active'),
-(145, 19, 1, 265, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(146, 19, 2, 245, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(147, 19, 3, 255, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(148, 19, 4, 165, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(149, 19, 5, 190, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(150, 19, 7, 25, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(151, 19, 8, 18, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(152, 19, 9, 455, '2019-12-11 10:51:46', NULL, NULL, NULL, 'Active'),
-(153, 20, 1, 265, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(154, 20, 2, 245, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(155, 20, 3, 255, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(156, 20, 4, 165, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(157, 20, 5, 190, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(158, 20, 7, 25, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(159, 20, 8, 18, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(160, 20, 9, 455, '2019-12-11 10:53:24', NULL, NULL, NULL, 'Active'),
-(161, 21, 1, 265, '2019-12-11 12:53:22', NULL, NULL, NULL, 'Active'),
-(162, 21, 2, 245, '2019-12-11 12:53:22', NULL, NULL, NULL, 'Active'),
-(163, 21, 3, 255, '2019-12-11 12:53:22', NULL, NULL, NULL, 'Active'),
-(164, 21, 4, 167, '2019-12-11 12:53:22', NULL, '2019-12-17 04:39:08', NULL, 'Active'),
-(165, 21, 5, 198, '2019-12-11 12:53:22', NULL, '2019-12-17 04:39:08', NULL, 'Active'),
-(166, 21, 7, 27, '2019-12-11 12:53:22', NULL, '2019-12-17 04:39:08', NULL, 'Active'),
-(167, 21, 8, 18, '2019-12-11 12:53:22', NULL, NULL, NULL, 'Active'),
-(168, 21, 9, 455, '2019-12-11 12:53:22', NULL, NULL, NULL, 'Active'),
-(169, 22, 1, 265, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(170, 22, 2, 245, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(171, 22, 3, 255, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(172, 22, 4, 165, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(173, 22, 5, 190, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(174, 22, 7, 25, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(175, 22, 8, 18, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(176, 22, 9, 455, '2019-12-16 18:15:08', NULL, NULL, NULL, 'Active'),
-(177, 23, 1, 2000, '2019-12-17 14:15:21', NULL, '2019-12-17 03:46:07', NULL, 'Active'),
-(178, 23, 2, 245, '2019-12-17 14:15:21', NULL, NULL, NULL, 'Active'),
-(179, 23, 3, 255, '2019-12-17 14:15:21', NULL, NULL, NULL, 'Active'),
-(180, 23, 4, 165, '2019-12-17 14:15:21', NULL, NULL, NULL, 'Active'),
-(181, 23, 5, 190, '2019-12-17 14:15:21', NULL, NULL, NULL, 'Active'),
-(182, 23, 7, 25, '2019-12-17 14:15:21', NULL, NULL, NULL, 'Active'),
-(183, 23, 8, 18, '2019-12-17 14:15:21', NULL, NULL, NULL, 'Active'),
-(184, 23, 9, 455, '2019-12-17 14:15:21', NULL, NULL, NULL, 'Active'),
-(185, 24, 1, 261, '2019-12-17 14:33:24', NULL, '2019-12-17 04:04:53', NULL, 'Active'),
-(186, 24, 2, 247, '2019-12-17 14:33:24', NULL, '2019-12-17 04:04:53', NULL, 'Active'),
-(187, 24, 3, 255, '2019-12-17 14:33:24', NULL, NULL, NULL, 'Active'),
-(188, 24, 4, 165, '2019-12-17 14:33:24', NULL, NULL, NULL, 'Active'),
-(189, 24, 5, 198, '2019-12-17 14:33:24', NULL, '2019-12-17 04:04:53', NULL, 'Active'),
-(190, 24, 7, 22, '2019-12-17 14:33:24', NULL, '2019-12-17 04:04:53', NULL, 'Active'),
-(191, 24, 8, 18, '2019-12-17 14:33:24', NULL, NULL, NULL, 'Active'),
-(192, 24, 9, 455, '2019-12-17 14:33:24', NULL, NULL, NULL, 'Active'),
-(193, 1, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(194, 2, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(195, 3, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(196, 4, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(197, 5, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(198, 6, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(199, 7, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(200, 8, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(201, 9, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(202, 10, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(203, 11, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(204, 12, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(205, 13, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(206, 14, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(207, 15, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(208, 16, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(209, 17, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(210, 18, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(211, 19, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(212, 20, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(213, 21, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(214, 22, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(215, 23, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active'),
-(216, 24, 10, 120, '2019-12-17 17:38:18', 2, NULL, NULL, 'Active');
+(1, 1, 1, 262, '2019-12-19 19:12:50', NULL, '2019-12-19 11:01:11', NULL, 'Active'),
+(2, 1, 2, 245, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
+(3, 1, 3, 250, '2019-12-19 19:12:50', NULL, '2019-12-19 08:44:20', NULL, 'Active'),
+(4, 1, 4, 165, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
+(5, 1, 5, 189, '2019-12-19 19:12:50', NULL, '2019-12-20 05:44:56', NULL, 'Active'),
+(6, 1, 7, 24, '2019-12-19 19:12:50', NULL, '2019-12-20 05:44:56', NULL, 'Active'),
+(7, 1, 8, 18, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
+(8, 1, 9, 455, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
+(9, 1, 10, 120, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
+(10, 2, 1, 260, '2019-12-19 19:53:36', NULL, '2019-12-20 04:52:04', NULL, 'Active'),
+(11, 2, 2, 245, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(12, 2, 3, 255, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(13, 2, 4, 165, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(14, 2, 5, 190, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(15, 2, 7, 25, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(16, 2, 8, 18, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(17, 2, 9, 455, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(18, 2, 10, 120, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
+(19, 3, 1, 263, '2019-12-19 22:29:01', NULL, '2019-12-20 04:18:42', NULL, 'Active'),
+(20, 3, 2, 245, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(21, 3, 3, 255, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(22, 3, 4, 165, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(23, 3, 5, 190, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(24, 3, 7, 25, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(25, 3, 8, 18, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(26, 3, 9, 455, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(27, 3, 10, 120, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -647,24 +356,6 @@ CREATE TABLE `client_visits` (
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `client_visits`
---
-
-INSERT INTO `client_visits` (`id`, `client_id`, `visit_date`, `visit_time`, `visit_type`, `opportunity`, `other_notes`, `visit_notes`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 6, '2019-12-09', '10:45:00', 'inperson', 'y es', NULL, NULL, '2019-12-06 12:45:41', 1, NULL, NULL),
-(2, 22, '2019-12-16', '06:16:00', 'inperson', '15 boxes monthly', NULL, 'falaja', '2019-12-16 18:17:06', 1, '2019-12-18 07:33:48', NULL),
-(3, 22, '2019-12-16', '06:16:00', 'inperson', '15 boxes monthly', NULL, 'falaja', '2019-12-16 18:17:06', 1, '2019-12-18 07:33:48', NULL),
-(4, 22, '2019-12-16', '06:16:00', 'inperson', '15 boxes monthly', NULL, 'falaja', '2019-12-16 18:17:06', 1, '2019-12-18 07:33:48', NULL),
-(5, 6, '2019-12-18', '11:55:00', 'inperson', '10 box', NULL, 'test', '2019-12-17 12:55:41', 1, '2019-12-18 07:33:41', NULL),
-(6, 6, '2019-12-18', '11:55:00', 'inperson', '10 box', NULL, 'test', '2019-12-17 12:55:41', 1, '2019-12-18 07:33:48', NULL),
-(7, 6, '2019-12-18', '11:55:00', 'inperson', '10 box', NULL, 'test', '2019-12-17 12:55:41', 1, '2019-12-18 07:33:48', NULL),
-(8, 6, '2019-12-18', '11:55:00', 'inperson', '10 box', NULL, 'test', '2019-12-17 12:55:42', 1, '2019-12-18 07:33:48', NULL),
-(9, 1, '2019-12-17', '12:59:00', 'inperson', NULL, NULL, NULL, '2019-12-17 12:59:52', 1, NULL, NULL),
-(10, 1, '2019-12-17', '15:00:00', 'inperson', 'hello', NULL, 'test', '2019-12-17 13:00:24', 1, '2019-12-18 07:33:48', NULL),
-(11, 1, '2019-12-18', '16:41:00', 'inperson', NULL, NULL, 'this is test note.', '2019-12-18 16:41:47', 1, '2019-12-18 07:33:48', NULL),
-(12, 2, '2019-12-18', '17:58:00', 'inperson', 'abcd', NULL, 'defg', '2019-12-18 17:58:27', 1, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -688,7 +379,7 @@ CREATE TABLE `coordinates` (
 
 CREATE TABLE `delivery` (
   `id` int(11) NOT NULL,
-  `expected_delivey_datetime` datetime DEFAULT NULL,
+  `expected_delivey_datetime` date DEFAULT NULL,
   `actual_delivey_datetime` datetime DEFAULT NULL,
   `pickup_location` varchar(50) DEFAULT NULL,
   `warehouse` int(11) DEFAULT NULL,
@@ -705,34 +396,14 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`id`, `expected_delivey_datetime`, `actual_delivey_datetime`, `pickup_location`, `warehouse`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(1, '2019-12-05 00:00:00', '2019-12-05 14:39:34', 'Office', NULL, '2019-12-05 14:30:38', 2, '2019-12-05 18:42:35', 2, 'Active', 0),
-(2, '2019-12-05 00:00:00', '2019-12-05 15:20:03', 'Office', NULL, '2019-12-05 14:53:39', 2, '2019-12-06 19:08:43', 2, 'Active', 0),
-(3, '2019-12-05 00:00:00', '2019-12-05 18:13:03', 'Office', NULL, '2019-12-05 16:54:15', 2, '2019-12-05 18:43:03', 2, 'Active', 0),
-(4, '2019-12-05 00:00:00', NULL, 'Office', NULL, '2019-12-05 18:23:52', 2, '2019-12-06 19:04:17', 2, 'Active', 0),
-(5, '2019-12-06 00:00:00', '2019-12-06 13:27:34', 'Office', NULL, '2019-12-06 11:34:23', 2, '2019-12-06 00:00:00', 3, 'Active', 0),
-(6, '2019-12-06 00:00:00', '2019-12-06 15:55:20', 'Warehouse', 2, '2019-12-06 14:33:29', 2, '2019-12-06 00:00:00', 3, 'Active', 0),
-(7, '2019-12-06 00:00:00', NULL, 'Office', NULL, '2019-12-06 15:01:08', 2, NULL, NULL, 'Active', 0),
-(8, '2019-12-09 00:00:00', '2019-12-09 11:54:57', 'Office', NULL, '2019-12-09 11:54:33', 2, '2019-12-09 00:00:00', 3, 'Active', 0),
-(9, '2019-12-09 00:00:00', '2019-12-09 18:53:03', 'Warehouse', 2, '2019-12-09 14:58:36', 2, '2019-12-09 00:00:00', 4, 'Active', 0),
-(10, '2019-12-11 00:00:00', '2019-12-11 12:59:23', 'Office', NULL, '2019-12-11 12:55:53', 2, '2019-12-11 00:00:00', 4, 'Active', 0),
-(11, '2019-12-11 00:00:00', '2019-12-11 13:06:27', 'Office', NULL, '2019-12-11 13:04:56', 2, '2019-12-11 00:00:00', 4, 'Active', 0),
-(12, '2019-12-16 00:00:00', NULL, 'Warehouse', 2, '2019-12-16 18:33:54', 2, NULL, NULL, 'Active', 0),
-(13, '2019-12-17 00:00:00', '2019-12-17 15:57:52', 'Office', NULL, '2019-12-17 13:46:29', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(14, '2019-12-17 00:00:00', '2019-12-17 16:02:49', 'Warehouse', 1, '2019-12-17 13:47:24', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(15, '2019-12-17 00:00:00', '2019-12-17 15:58:14', 'Office', NULL, '2019-12-17 13:48:20', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(16, '2019-12-17 00:00:00', '2019-12-17 17:19:26', 'Office', NULL, '2019-12-17 13:50:10', 2, '2019-12-17 00:00:00', 4, 'Active', 0),
-(17, '2019-12-17 00:00:00', '2019-12-17 16:02:53', 'Office', NULL, '2019-12-17 14:13:47', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(18, '2019-12-17 00:00:00', '2019-12-17 16:58:11', 'Office', NULL, '2019-12-17 14:16:25', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(19, '2019-12-17 00:00:00', '2019-12-17 18:04:56', 'Office', NULL, '2019-12-17 14:18:40', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(20, '2019-12-17 00:00:00', NULL, 'Office', NULL, '2019-12-17 14:23:04', 2, NULL, NULL, 'Active', 0),
-(21, '2019-12-17 00:00:00', NULL, 'Office', NULL, '2019-12-17 14:25:21', 2, NULL, NULL, 'Active', 0),
-(26, '2019-12-17 00:00:00', '2019-12-17 16:13:16', 'Office', NULL, '2019-12-17 15:09:49', 2, '2019-12-17 00:00:00', 4, 'Active', 0),
-(27, '2019-12-17 00:00:00', '2019-12-17 16:00:13', 'Office', NULL, '2019-12-17 15:16:19', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(39, '2019-12-17 00:00:00', NULL, 'Office', NULL, '2019-12-17 15:59:20', 2, '2019-12-17 15:59:49', 2, 'Active', 0),
-(40, '2019-12-17 00:00:00', '2019-12-17 17:06:53', 'Office', NULL, '2019-12-17 17:02:19', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(42, '2019-12-17 00:00:00', NULL, 'Office', NULL, '2019-12-17 17:56:07', 2, NULL, NULL, 'Active', 0),
-(43, '2019-12-18 00:00:00', NULL, 'Office', NULL, '2019-12-18 13:37:35', 2, NULL, NULL, 'Active', 0),
-(44, '2019-12-18 00:00:00', '2019-12-18 16:35:15', 'Office', NULL, '2019-12-18 13:38:42', 2, '2019-12-18 00:00:00', 3, 'Active', 0);
+(2, '2019-12-19', '2019-12-19 23:13:40', 'Warehouse', 1, '2019-12-19 23:03:23', 8, '2019-12-19 00:00:00', 4, 'Active', 0),
+(3, '2019-12-19', '2019-12-19 23:21:24', 'Office', NULL, '2019-12-19 23:05:23', 8, '2019-12-20 13:47:52', 8, 'Active', 0),
+(21, '2019-12-20', '2019-12-20 14:59:56', 'Office', NULL, '2019-12-20 13:47:52', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(22, '2019-12-20', '2019-12-20 16:08:09', 'Office', NULL, '2019-12-20 15:22:18', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(23, '2019-12-20', '2019-12-20 16:20:26', 'Office', NULL, '2019-12-20 16:15:33', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(24, '2019-12-20', '2019-12-20 16:29:02', 'Office', NULL, '2019-12-20 16:27:21', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(25, '2019-12-20', '2019-12-20 16:32:30', 'Office', NULL, '2019-12-20 16:31:46', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(26, '2019-12-20', '2019-12-20 16:53:13', 'Office', NULL, '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -759,34 +430,14 @@ CREATE TABLE `delivery_config` (
 --
 
 INSERT INTO `delivery_config` (`id`, `delivery_id`, `vehicle_id`, `driver_id`, `delivery_boy_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(9, 1, 1, 4, NULL, '2019-12-05 18:42:35', 2, NULL, NULL, 'Active', 0),
-(10, 3, 5, 4, 3, '2019-12-05 18:43:03', 2, NULL, NULL, 'Active', 0),
-(11, 5, 3, 4, 3, '2019-12-06 11:34:23', 2, NULL, NULL, 'Active', 0),
-(12, 6, 7, 4, 3, '2019-12-06 14:33:29', 2, NULL, NULL, 'Active', 0),
-(13, 7, 3, 4, 3, '2019-12-06 15:01:08', 2, NULL, NULL, 'Active', 0),
-(23, 4, 2, 4, NULL, '2019-12-06 19:04:17', 2, NULL, NULL, 'Active', 0),
-(24, 2, 1, 4, NULL, '2019-12-06 19:08:43', 2, NULL, NULL, 'Active', 0),
-(25, 8, 5, 4, 3, '2019-12-09 11:54:33', 2, NULL, NULL, 'Active', 0),
-(26, 9, 1, 4, NULL, '2019-12-09 14:58:36', 2, NULL, NULL, 'Active', 0),
-(27, 10, 1, 4, NULL, '2019-12-11 12:55:53', 2, NULL, NULL, 'Active', 0),
-(28, 11, 2, 4, NULL, '2019-12-11 13:04:56', 2, NULL, NULL, 'Active', 0),
-(29, 12, 5, 4, 3, '2019-12-16 18:33:54', 2, NULL, NULL, 'Active', 0),
-(30, 13, 5, 4, 3, '2019-12-17 13:46:29', 2, NULL, NULL, 'Active', 0),
-(31, 14, 1, 4, 3, '2019-12-17 13:47:24', 2, NULL, NULL, 'Active', 0),
-(32, 15, 2, 4, 3, '2019-12-17 13:48:20', 2, NULL, NULL, 'Active', 0),
-(33, 16, 2, 4, NULL, '2019-12-17 13:50:10', 2, NULL, NULL, 'Active', 0),
-(34, 17, 2, 4, 3, '2019-12-17 14:13:47', 2, NULL, NULL, 'Active', 0),
-(35, 18, 1, 4, 3, '2019-12-17 14:16:25', 2, NULL, NULL, 'Active', 0),
-(36, 19, 1, 4, 3, '2019-12-17 14:18:40', 2, NULL, NULL, 'Active', 0),
-(37, 20, 1, 4, 3, '2019-12-17 14:23:04', 2, NULL, NULL, 'Active', 0),
-(38, 21, 1, 4, 3, '2019-12-17 14:25:21', 2, NULL, NULL, 'Active', 0),
-(43, 26, 1, 4, 3, '2019-12-17 15:09:49', 2, NULL, NULL, 'Active', 0),
-(44, 27, 1, 4, 3, '2019-12-17 15:16:19', 2, NULL, NULL, 'Active', 0),
-(67, 39, 1, 4, NULL, '2019-12-17 15:59:49', 2, NULL, NULL, 'Active', 0),
-(68, 40, 1, 4, 3, '2019-12-17 17:02:19', 2, NULL, NULL, 'Active', 0),
-(70, 42, 1, 4, 3, '2019-12-17 17:56:07', 2, NULL, NULL, 'Active', 0),
-(71, 43, 1, 4, 3, '2019-12-18 13:37:35', 2, NULL, NULL, 'Active', 0),
-(72, 44, 1, 4, 3, '2019-12-18 13:38:42', 2, NULL, NULL, 'Active', 0);
+(2, 2, 1, 4, NULL, '2019-12-19 23:03:23', 8, NULL, NULL, 'Active', 0),
+(3, 3, 1, 6, 3, '2019-12-19 23:05:23', 8, NULL, NULL, 'Active', 0),
+(22, 21, 1, 4, 3, '2019-12-20 14:49:11', 8, NULL, NULL, 'Active', 0),
+(23, 22, 1, 4, NULL, '2019-12-20 15:22:18', 8, NULL, NULL, 'Active', 0),
+(24, 23, 1, 4, 3, '2019-12-20 16:15:33', 8, NULL, NULL, 'Active', 0),
+(26, 24, 1, 4, NULL, '2019-12-20 16:28:19', 8, NULL, NULL, 'Active', 0),
+(27, 25, 1, 4, 3, '2019-12-20 16:31:46', 8, NULL, NULL, 'Active', 0),
+(28, 26, 1, 4, NULL, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -803,6 +454,7 @@ CREATE TABLE `delivery_config_orders` (
   `payment_mode` varchar(50) DEFAULT NULL,
   `amount` float DEFAULT '0' COMMENT 'Amount Recieved at delivey time',
   `notes` varchar(500) DEFAULT NULL,
+  `delivery_datetime` datetime DEFAULT NULL,
   `signature_file` varchar(300) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
@@ -816,37 +468,21 @@ CREATE TABLE `delivery_config_orders` (
 -- Dumping data for table `delivery_config_orders`
 --
 
-INSERT INTO `delivery_config_orders` (`id`, `delivery_id`, `delivery_config_id`, `order_id`, `order_weight`, `payment_mode`, `amount`, `notes`, `signature_file`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(9, 1, 9, 1, 0, NULL, 0, NULL, NULL, '2019-12-05 18:42:35', 2, NULL, NULL, 'Active', 0),
-(10, 3, 10, 3, 0, NULL, 0, NULL, NULL, '2019-12-05 18:43:03', 2, NULL, NULL, 'Active', 0),
-(11, 5, 11, 7, 0, 'Cash', 25, 'This', '1575618989207.png', '2019-12-06 11:34:23', 2, '2019-12-06 00:00:00', 3, 'Active', 0),
-(12, 6, 12, 6, 0, 'Cash', 200, '', NULL, '2019-12-06 14:33:29', 2, '2019-12-06 00:00:00', 3, 'Active', 0),
-(13, 6, 12, 10, 0, 'Cash', 0, 'test', '15756278299572.png', '2019-12-06 14:33:29', 2, '2019-12-06 00:00:00', 3, 'Active', 0),
-(14, 7, 13, 9, 0, NULL, 0, NULL, NULL, '2019-12-06 15:01:08', 2, NULL, NULL, 'Active', 0),
-(24, 4, 23, 4, 0, NULL, 0, NULL, NULL, '2019-12-06 19:04:17', 2, NULL, NULL, 'Active', 0),
-(25, 2, 24, 2, 0, NULL, 0, NULL, NULL, '2019-12-06 19:08:43', 2, NULL, NULL, 'Active', 0),
-(26, 8, 25, 11, 0, 'Cash', 0, '', NULL, '2019-12-09 11:54:33', 2, '2019-12-09 00:00:00', 3, 'Active', 0),
-(27, 9, 26, 12, 0, 'Cash', 5100, '', '15758977669121.png', '2019-12-09 14:58:36', 2, '2019-12-09 08:42:59', 4, 'Active', 0),
-(28, 10, 27, 24, 0, 'Cash', 600, '', '1576049359024.png', '2019-12-11 12:55:53', 2, '2019-12-11 00:00:00', 4, 'Active', 0),
-(29, 11, 28, 25, 0, 'Cash', 2000, 'test', '1576049779930.png', '2019-12-11 13:04:56', 2, '2019-12-11 00:00:00', 4, 'Active', 0),
-(30, 12, 29, 15, 0, NULL, 0, NULL, NULL, '2019-12-16 18:33:54', 2, NULL, NULL, 'Active', 0),
-(31, 12, 29, 16, 0, NULL, 0, NULL, NULL, '2019-12-16 18:33:54', 2, NULL, NULL, 'Active', 0),
-(32, 13, 30, 22, 0, 'Cash', 258, '', '15765784172776.png', '2019-12-17 13:46:29', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(33, 14, 31, 17, 0, 'Cash', 50, '', NULL, '2019-12-17 13:47:24', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(34, 15, 32, 14, 0, 'Cash', 56, '', NULL, '2019-12-17 13:48:20', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(35, 16, 33, 18, 0, 'Cash', 2873.75, 'test', '1576583345026.png', '2019-12-17 13:50:10', 2, '2019-12-17 00:00:00', 4, 'Active', 0),
-(36, 17, 34, 19, 0, 'Cash', 5, 'dd', '1576578764461.png', '2019-12-17 14:13:47', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(37, 18, 35, 20, 0, 'Cash', 5, '', NULL, '2019-12-17 14:16:25', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(38, 19, 36, 21, 0, 'Cash', 200, 'gg', NULL, '2019-12-17 14:18:40', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(39, 20, 37, 23, 0, NULL, 0, NULL, NULL, '2019-12-17 14:23:04', 2, NULL, NULL, 'Active', 0),
-(40, 21, 38, 26, 0, NULL, 0, NULL, NULL, '2019-12-17 14:25:21', 2, NULL, NULL, 'Active', 0),
-(45, 26, 43, 29, 0, 'CashCash', 940.6, 'submit by postman', 'saajan-july-83.jpg', '2019-12-17 15:09:49', 2, '2019-12-17 00:00:00', 4, 'Active', 0),
-(46, 27, 44, 28, 0, 'Cash', 2222.05, '', '15765785969564.png', '2019-12-17 15:16:19', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(69, 39, 67, 32, 0, NULL, 0, NULL, NULL, '2019-12-17 15:59:49', 2, NULL, NULL, 'Active', 0),
-(70, 40, 68, 38, 0, 'Cash', 5000, '', NULL, '2019-12-17 17:02:19', 2, '2019-12-17 00:00:00', 3, 'Active', 0),
-(73, 42, 70, 35, 0, NULL, 0, NULL, NULL, '2019-12-17 17:56:07', 2, NULL, NULL, 'Active', 0),
-(74, 43, 71, 33, 0, NULL, 0, NULL, NULL, '2019-12-18 13:37:35', 2, NULL, NULL, 'Active', 0),
-(75, 44, 72, 13, 0, 'Cash', 200, 'rakesh test', '1576667103304.png', '2019-12-18 13:38:42', 2, '2019-12-18 00:00:00', 3, 'Active', 0);
+INSERT INTO `delivery_config_orders` (`id`, `delivery_id`, `delivery_config_id`, `order_id`, `order_weight`, `payment_mode`, `amount`, `notes`, `delivery_datetime`, `signature_file`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
+(3, 2, 2, 5, 0, 'Cash', 6270, 'Product recieved and 6270 rs given.', '2019-12-19 23:13:40', '1576777396279.png', '2019-12-19 23:03:23', 8, '2019-12-19 00:00:00', 4, 'Active', 0),
+(4, 3, 3, 1, 0, 'Cash', 19357, '5 jars recieved', '2019-12-19 23:21:24', '1576777855169.png', '2019-12-19 23:05:23', 8, '2019-12-20 01:06:03', 3, 'Active', 0),
+(11, 21, 22, 2, 0, 'Cash', 25200, 'ashish recieved order', '2019-12-20 14:52:17', '1576833719966.png', '2019-12-20 14:49:11', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(12, 21, 22, 6, 0, 'Cash', 2499, 'rakesh recieved order', '2019-12-20 14:58:53', '1576834115242.png', '2019-12-20 14:49:11', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(13, 21, 22, 7, 0, 'Cash', 1245, 'milan ne lia', '2019-12-20 14:59:56', '1576834186386.png', '2019-12-20 14:49:11', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(14, 22, 23, 8, 0, 'Cash', 125, '9 inv', '2019-12-20 15:24:30', '1576835599335.png', '2019-12-20 15:22:18', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(15, 22, 23, 9, 0, 'Cash', 1235, 'ashish given 1235 rs', '2019-12-20 16:08:09', '15768382502811.png', '2019-12-20 15:22:18', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(16, 23, 24, 10, 0, 'Cash', 2408, 'milan gave 2408 rs', '2019-12-20 16:17:05', '1576838810264.png', '2019-12-20 16:15:33', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(17, 23, 24, 11, 0, 'Cash', 125, '5', '2019-12-20 16:18:34', '1576838873735.png', '2019-12-20 16:15:33', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(18, 23, 24, 12, 0, 'Cash', 310, '9', '2019-12-20 16:20:26', '1576839006894.png', '2019-12-20 16:15:33', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(20, 24, 26, 13, 0, 'Cash', 124, '5 dropped', '2019-12-20 16:29:02', '1576839517719.png', '2019-12-20 16:28:19', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(21, 25, 27, 14, 0, 'Cash', 0, '5 old 10 new 0 collected', '2019-12-20 16:32:30', NULL, '2019-12-20 16:31:46', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
+(22, 26, 28, 15, 0, 'Cash', 9433, '20 drop 5 taken', '2019-12-20 16:37:21', '1576840024764.png', '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(23, 26, 28, 16, 0, 'Cash', 72, '5 collected', '2019-12-20 16:53:13', '1576840978330.png', '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -871,38 +507,18 @@ CREATE TABLE `delivery_routes` (
 --
 
 INSERT INTO `delivery_routes` (`id`, `delivery_id`, `zip_code_group_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
-(10, 1, 2, '2019-12-05 18:42:35', 2, NULL, NULL, 'Active', 0),
-(11, 3, 1, '2019-12-05 18:43:03', 2, NULL, NULL, 'Active', 0),
-(12, 3, 2, '2019-12-05 18:43:03', 2, NULL, NULL, 'Active', 0),
-(13, 5, 1, '2019-12-06 11:34:23', 2, NULL, NULL, 'Active', 0),
-(14, 6, 1, '2019-12-06 14:33:29', 2, NULL, NULL, 'Active', 0),
-(15, 6, 2, '2019-12-06 14:33:29', 2, NULL, NULL, 'Active', 0),
-(16, 7, 1, '2019-12-06 15:01:08', 2, NULL, NULL, 'Active', 0),
-(26, 4, 1, '2019-12-06 19:04:17', 2, NULL, NULL, 'Active', 0),
-(27, 2, 1, '2019-12-06 19:08:43', 2, NULL, NULL, 'Active', 0),
-(28, 8, 1, '2019-12-09 11:54:33', 2, NULL, NULL, 'Active', 0),
-(29, 9, 1, '2019-12-09 14:58:36', 2, NULL, NULL, 'Active', 0),
-(30, 10, 1, '2019-12-11 12:55:53', 2, NULL, NULL, 'Active', 0),
-(31, 11, 1, '2019-12-11 13:04:56', 2, NULL, NULL, 'Active', 0),
-(32, 12, 1, '2019-12-16 18:33:54', 2, NULL, NULL, 'Active', 0),
-(33, 13, 1, '2019-12-17 13:46:29', 2, NULL, NULL, 'Active', 0),
-(34, 14, 1, '2019-12-17 13:47:24', 2, NULL, NULL, 'Active', 0),
-(35, 15, 1, '2019-12-17 13:48:20', 2, NULL, NULL, 'Active', 0),
-(36, 16, 1, '2019-12-17 13:50:10', 2, NULL, NULL, 'Active', 0),
-(37, 17, 1, '2019-12-17 14:13:47', 2, NULL, NULL, 'Active', 0),
-(38, 18, 1, '2019-12-17 14:16:25', 2, NULL, NULL, 'Active', 0),
-(39, 19, 1, '2019-12-17 14:18:40', 2, NULL, NULL, 'Active', 0),
-(40, 20, 1, '2019-12-17 14:23:04', 2, NULL, NULL, 'Active', 0),
-(41, 21, 1, '2019-12-17 14:25:21', 2, NULL, NULL, 'Active', 0),
-(46, 26, 1, '2019-12-17 15:09:49', 2, NULL, NULL, 'Active', 0),
-(47, 27, 1, '2019-12-17 15:16:19', 2, NULL, NULL, 'Active', 0),
-(70, 39, 1, '2019-12-17 15:59:49', 2, NULL, NULL, 'Active', 0),
-(71, 40, 1, '2019-12-17 17:02:19', 2, NULL, NULL, 'Active', 0),
-(72, 40, 2, '2019-12-17 17:02:19', 2, NULL, NULL, 'Active', 0),
-(74, 42, 1, '2019-12-17 17:56:07', 2, NULL, NULL, 'Active', 0),
-(75, 43, 1, '2019-12-18 13:37:35', 2, NULL, NULL, 'Active', 0),
-(76, 44, 1, '2019-12-18 13:38:42', 2, NULL, NULL, 'Active', 0),
-(77, 44, 2, '2019-12-18 13:38:42', 2, NULL, NULL, 'Active', 0);
+(2, 2, 1, '2019-12-19 23:03:23', 8, NULL, NULL, 'Active', 0),
+(3, 3, 1, '2019-12-19 23:05:23', 8, NULL, NULL, 'Active', 0),
+(4, 4, 1, '2019-12-20 12:34:19', 8, NULL, NULL, 'Active', 0),
+(5, 5, 1, '2019-12-20 13:23:36', 8, NULL, NULL, 'Active', 0),
+(7, 7, 1, '2019-12-20 13:28:34', 8, NULL, NULL, 'Active', 0),
+(14, 14, 1, '2019-12-20 13:37:21', 8, NULL, NULL, 'Active', 0),
+(22, 21, 1, '2019-12-20 14:49:11', 8, NULL, NULL, 'Active', 0),
+(23, 22, 1, '2019-12-20 15:22:18', 8, NULL, NULL, 'Active', 0),
+(24, 23, 1, '2019-12-20 16:15:33', 8, NULL, NULL, 'Active', 0),
+(26, 24, 1, '2019-12-20 16:28:19', 8, NULL, NULL, 'Active', 0),
+(27, 25, 1, '2019-12-20 16:31:46', 8, NULL, NULL, 'Active', 0),
+(28, 26, 1, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -914,8 +530,8 @@ CREATE TABLE `fcm_notifications` (
   `id` int(11) NOT NULL,
   `title` varchar(200) DEFAULT NULL,
   `message` varchar(500) DEFAULT NULL,
-  `user_arr` varchar(500) DEFAULT NULL,
-  `fcm_tokens` varchar(500) DEFAULT NULL,
+  `user_arr` varchar(1500) DEFAULT NULL,
+  `fcm_tokens` varchar(1000) DEFAULT NULL,
   `response` varchar(500) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
@@ -929,101 +545,20 @@ CREATE TABLE `fcm_notifications` (
 --
 
 INSERT INTO `fcm_notifications` (`id`, `title`, `message`, `user_arr`, `fcm_tokens`, `response`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(18, 'Order Delivery', 'New Delivery Created.', NULL, NULL, '{\"multicast_id\":5389625389295748395,\"success\":2,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575612263827559%c07a64c8c07a64c8\"},{\"message_id\":\"0:1575612263832674%c07a64c8c07a64c8\"}]}', '2019-12-06 01:04:23', NULL, NULL, NULL, 'Active'),
-(19, 'Order Delivery', 'New Delivery Created.', NULL, NULL, '{\"multicast_id\":1239844858012188108,\"success\":2,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575623009430167%c07a64c8c07a64c8\"},{\"message_id\":\"0:1575623009505982%c07a64c8c07a64c8\"}]}', '2019-12-06 04:03:29', NULL, NULL, NULL, 'Active'),
-(20, 'Order Approval', 'Order NO. - 9 has been approved.', NULL, NULL, '{\"multicast_id\":7623588580558967564,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575623099743788%c07a64c8c07a64c8\"}]}', '2019-12-06 04:04:59', NULL, NULL, NULL, 'Active'),
-(21, 'Order Delivery', 'New Delivery Created.', NULL, NULL, '{\"multicast_id\":8110661255051371828,\"success\":2,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575624668917512%c07a64c8c07a64c8\"},{\"message_id\":\"0:1575624668918040%c07a64c8c07a64c8\"}]}', '2019-12-06 04:31:08', NULL, NULL, NULL, 'Active'),
-(22, 'Order Delivery', 'New Delivery Created.', NULL, NULL, '{\"multicast_id\":2207432161792365832,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:16:55', NULL, NULL, NULL, 'Active'),
-(23, 'Order Delivery', 'New Delivery Created.', NULL, NULL, '{\"multicast_id\":3928608792198012981,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:21:40', NULL, NULL, NULL, 'Active'),
-(24, 'Order Delivery', 'New Delivery Created.', NULL, NULL, '{\"multicast_id\":5960762886321609486,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:21:40', NULL, NULL, NULL, 'Active'),
-(25, 'Order Delivery', 'Delivery created for Khanjan testing at F/5 Chandrika Appartment with expected delivery on {expected_delivery_date} having order amount Rs.1800 with Order Id 4', NULL, NULL, '{\"multicast_id\":5798941372634448162,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:24:15', NULL, NULL, NULL, 'Active'),
-(26, 'Order Delivery', 'Delivery created for Khanjan testing at F/5 Chandrika Appartment with expected delivery on 05-12-2019 having order amount Rs.1800 with Order Id 4', NULL, NULL, '{\"multicast_id\":1728222140155323572,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:27:13', NULL, NULL, NULL, 'Active'),
-(27, 'Order Delivery', 'Delivery created for Khanjan testing at F/5 Chandrika Appartment with expected delivery on 05-12-2019 having order amount Rs.1800 with Order Id 4', NULL, NULL, '{\"multicast_id\":717715863046705195,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:32:02', NULL, NULL, NULL, 'Active'),
-(28, 'Order Delivery', 'Delivery created for Khanjan testing at F/5 Chandrika Appartment with expected delivery on 05-12-2019 having order amount Rs.1800 with Order Id 4', NULL, NULL, '{\"multicast_id\":6015498547758655202,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:32:02', NULL, NULL, NULL, 'Active'),
-(29, 'Order Delivery', 'New Delivery Created.', NULL, NULL, '{\"multicast_id\":5588352647357117118,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:33:21', NULL, NULL, NULL, 'Active'),
-(30, 'Order Delivery', 'Delivery created for Khanjan testing at F/5 Chandrika Appartment with expected delivery on 05-12-2019 having order amount Rs.1800 with Order Id 4', NULL, NULL, '{\"multicast_id\":3880462405341631999,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-06 08:34:17', NULL, NULL, NULL, 'Active'),
-(31, 'Order Delivery', 'Delivery created for Gandhi soda at ganesh complex, paladi char rasta, Ahmedabad with expected delivery on 05-12-2019 having order amount Rs.1800 with Order Id 2', NULL, NULL, '{\"multicast_id\":1964759386881603436,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575639524170259%c07a64c8c07a64c8\"}]}', '2019-12-06 08:38:44', NULL, NULL, NULL, 'Active'),
-(32, 'Order Approval', 'Order NO. - 11 has been approved.', NULL, NULL, '{\"multicast_id\":4785042393477181129,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575872603377719%c07a64c8c07a64c8\"}]}', '2019-12-09 01:23:23', NULL, NULL, NULL, 'Active'),
-(33, 'Order Delivery', 'Delivery created for modi sandwich at vasna with expected delivery on 09-12-2019 having order amount Rs.1800 with Order Id 11', NULL, NULL, '{\"multicast_id\":4445379666504943329,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575872674156136%c07a64c8c07a64c8\"}]}', '2019-12-09 01:24:34', NULL, NULL, NULL, 'Active'),
-(34, 'Order Delivery', 'Delivery created for modi sandwich at vasna with expected delivery on 09-12-2019 having order amount Rs.1800 with Order Id 11', NULL, NULL, '{\"multicast_id\":1162249602699921839,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575872674601756%c07a64c8c07a64c8\"}]}', '2019-12-09 01:24:34', NULL, NULL, NULL, 'Active'),
-(35, 'Order Delivery', 'Delivery created for Harish pan parlour at law garden circle, law garden with expected delivery on 09-12-2019 having order amount Rs. 5100 with Order Id 12', NULL, NULL, '{\"multicast_id\":3197102693919015358,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1575883717099841%c07a64c8c07a64c8\"}]}', '2019-12-09 04:28:37', NULL, NULL, NULL, 'Active'),
-(36, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 11-12-2019 having order amount Rs. 1258.75 with Order Id 24', NULL, NULL, '{\"multicast_id\":630573397802003910,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576049153693748%c07a64c8c07a64c8\"}]}', '2019-12-11 02:25:53', NULL, NULL, NULL, 'Active'),
-(37, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 11-12-2019 having order amount Rs. 2508 with Order Id 25', NULL, NULL, '{\"multicast_id\":4525694612959343284,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576049697007961%c07a64c8c07a64c8\"}]}', '2019-12-11 02:34:57', NULL, NULL, NULL, 'Active'),
-(38, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 16-12-2019 having order amount Rs. 2873.75 with Order Id 15', NULL, NULL, '{\"multicast_id\":9170844293747566243,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576501435032544%c07a64c8c07a64c8\"}]}', '2019-12-16 08:03:55', NULL, NULL, NULL, 'Active'),
-(39, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 16-12-2019 having order amount Rs. 2873.75 with Order Id 15', NULL, NULL, '{\"multicast_id\":5388345115765385801,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576501435348943%c07a64c8c07a64c8\"}]}', '2019-12-16 08:03:55', NULL, NULL, NULL, 'Active'),
-(40, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 16-12-2019 having order amount Rs. 2873.75 with Order Id 16', NULL, NULL, '{\"multicast_id\":8821843949771648738,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576501435640932%c07a64c8c07a64c8\"}]}', '2019-12-16 08:03:55', NULL, NULL, NULL, 'Active'),
-(41, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 16-12-2019 having order amount Rs. 2873.75 with Order Id 16', NULL, NULL, '{\"multicast_id\":1862548147518429527,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576501435934084%c07a64c8c07a64c8\"}]}', '2019-12-16 08:03:55', NULL, NULL, NULL, 'Active'),
-(42, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 22', NULL, NULL, '{\"multicast_id\":7272899348855700750,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:16:30', NULL, NULL, NULL, 'Active'),
-(43, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 22', NULL, NULL, '{\"multicast_id\":8270735539922489281,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:16:30', NULL, NULL, NULL, 'Active'),
-(44, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 17', NULL, NULL, '{\"multicast_id\":5804568219358740511,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:17:24', NULL, NULL, NULL, 'Active'),
-(45, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 17', NULL, NULL, '{\"multicast_id\":1194758259096357820,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:17:25', NULL, NULL, NULL, 'Active'),
-(46, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 14', NULL, NULL, '{\"multicast_id\":3205742675372170325,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:18:20', NULL, NULL, NULL, 'Active'),
-(47, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 14', NULL, NULL, '{\"multicast_id\":728233556675177485,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:18:21', NULL, NULL, NULL, 'Active'),
-(48, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 18', NULL, NULL, '{\"multicast_id\":6626532176720872274,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:20:10', NULL, NULL, NULL, 'Active'),
-(49, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 19', NULL, NULL, '{\"multicast_id\":7213770850966200184,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:43:48', NULL, NULL, NULL, 'Active'),
-(50, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 19', NULL, NULL, '{\"multicast_id\":4122323547184553400,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572228262805%c07a64c8c07a64c8\"}]}', '2019-12-17 03:43:48', NULL, NULL, NULL, 'Active'),
-(51, 'Order Approval', 'Order NO. - 27 has been approved.', NULL, NULL, '{\"multicast_id\":6366069560429498933,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572368048452%c07a64c8c07a64c8\"}]}', '2019-12-17 03:46:08', NULL, NULL, NULL, 'Active'),
-(52, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 20', NULL, NULL, '{\"multicast_id\":244866731820504099,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:46:25', NULL, NULL, NULL, 'Active'),
-(53, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 20', NULL, NULL, '{\"multicast_id\":5998301644412285486,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572385686893%c07a64c8c07a64c8\"}]}', '2019-12-17 03:46:25', NULL, NULL, NULL, 'Active'),
-(54, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 21', NULL, '[\"fHkDUaHfLhI:APA91bFe3L_2Vjl5Cr78JdGLm9Q_K6smnS_tl8ZxqNbjdnSwpUzpQXtNt8zTRyQwYPsRRHQXDao9gzbsncCLy-ShUc29xKzfM_a-akH9LZY7eCc8rd94KjEF33vBcgvXPKXGYTSsPMhH\"]', '{\"multicast_id\":3849091509472904176,\"success\":0,\"failure\":1,\"canonical_ids\":0,\"results\":[{\"error\":\"NotRegistered\"}]}', '2019-12-17 03:48:40', NULL, NULL, NULL, 'Active'),
-(55, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 21', NULL, '[\"dUQ6_3RiqqM:APA91bHzkiJZ8CS9elbD4wT04-RNubATRHfP9LUScbfaDYwTx2YKaEn6sld8W9Ltrz4UOlCSNqFCKzMwstUHy930iNiNzuzRQHh6IyJ0qhAvjZNjcWR8jLjCmwWlP-SO9aiSl5llgjSQ\"]', '{\"multicast_id\":8563949178142093503,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572521215988%c07a64c8c07a64c8\"}]}', '2019-12-17 03:48:41', NULL, NULL, NULL, 'Active'),
-(56, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 23', '[{\"user_id\":\"4\",\"device_id\":\"dUQ6_3RiqqM:APA91bHzkiJZ8CS9elbD4wT04-RNubATRHfP9LUScbfaDYwTx2YKaEn6sld8W9Ltrz4UOlCSNqFCKzMwstUHy930iNiNzuzRQHh6IyJ0qhAvjZNjcWR8jLjCmwWlP-SO9aiSl5llgjSQ\"}]', '[\"dUQ6_3RiqqM:APA91bHzkiJZ8CS9elbD4wT04-RNubATRHfP9LUScbfaDYwTx2YKaEn6sld8W9Ltrz4UOlCSNqFCKzMwstUHy930iNiNzuzRQHh6IyJ0qhAvjZNjcWR8jLjCmwWlP-SO9aiSl5llgjSQ\"]', '{\"multicast_id\":4967251927987609843,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572784501000%c07a64c8c07a64c8\"}]}', '2019-12-17 03:53:04', NULL, NULL, NULL, 'Active'),
-(57, 'Order Delivery', 'Delivery created for Eminent hotel at sarkhej with expected delivery on 17-12-2019 having order amount Rs. 2873.75 with Order Id 23', '[{\"user_id\":\"3\",\"device_id\":\"etrtZZzxixA:APA91bGGTtdOgu4NlMIBDmvCitfHCLS0bkUl2M4wfnSVUt07WcLsND9FnUp84ke2GQBIdtiXauscSdJdzx9zkdOK-x6s7zMtRMEE6KbJr9Q4Jski6v2LlX-fqopAp6VLRfhymzMjbZ_q\"}]', '[\"etrtZZzxixA:APA91bGGTtdOgu4NlMIBDmvCitfHCLS0bkUl2M4wfnSVUt07WcLsND9FnUp84ke2GQBIdtiXauscSdJdzx9zkdOK-x6s7zMtRMEE6KbJr9Q4Jski6v2LlX-fqopAp6VLRfhymzMjbZ_q\"]', '{\"multicast_id\":7714197298910142597,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572784917404%c07a64c8c07a64c8\"}]}', '2019-12-17 03:53:04', NULL, NULL, NULL, 'Active'),
-(58, 'Order Delivery', 'Delivery created for yuk at jkdkd with expected delivery on 17-12-2019 having order amount Rs. 7039.5 with Order Id 26', '[{\"user_id\":\"4\",\"device_id\":\"etrtZZzxixA:APA91bGGTtdOgu4NlMIBDmvCitfHCLS0bkUl2M4wfnSVUt07WcLsND9FnUp84ke2GQBIdtiXauscSdJdzx9zkdOK-x6s7zMtRMEE6KbJr9Q4Jski6v2LlX-fqopAp6VLRfhymzMjbZ_q\"}]', '[\"etrtZZzxixA:APA91bGGTtdOgu4NlMIBDmvCitfHCLS0bkUl2M4wfnSVUt07WcLsND9FnUp84ke2GQBIdtiXauscSdJdzx9zkdOK-x6s7zMtRMEE6KbJr9Q4Jski6v2LlX-fqopAp6VLRfhymzMjbZ_q\"]', '{\"multicast_id\":2309574409847468795,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572921403942%c07a64c8c07a64c8\"}]}', '2019-12-17 03:55:21', NULL, NULL, NULL, 'Active'),
-(59, 'Order Delivery', 'Delivery created for yuk at jkdkd with expected delivery on 17-12-2019 having order amount Rs. 7039.5 with Order Id 26', '[{\"user_id\":\"3\",\"device_id\":\"eNznWnbKAvo:APA91bHrjDxe9Y2eCTxmSMTznPJQx_PN6xQDaFtcuBaiqrDyQszlhujKEQXEvI0-D1PYClspJzdNpeqnlP18sfhnEyKHv3-09JEqtU3CCAAR00c7es2CZt3AM5z9ngOulZNCP6pTJ2C9\"}]', '[\"eNznWnbKAvo:APA91bHrjDxe9Y2eCTxmSMTznPJQx_PN6xQDaFtcuBaiqrDyQszlhujKEQXEvI0-D1PYClspJzdNpeqnlP18sfhnEyKHv3-09JEqtU3CCAAR00c7es2CZt3AM5z9ngOulZNCP6pTJ2C9\"]', '{\"multicast_id\":3782488231619890520,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576572921700356%c07a64c8c07a64c8\"}]}', '2019-12-17 03:55:21', NULL, NULL, NULL, 'Active'),
-(64, 'Order Delivery', 'Delivery created for Reliance mart at mahalaxmi chaar rasta, paldi with expected delivery on 17-12-2019 having order amount Rs. 3940.6 with Order Id 29', '[{\"user_id\":\"3\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":5446527113028115002,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575357448503%c07a64c8c07a64c8\"}]}', '2019-12-17 04:35:57', NULL, NULL, NULL, 'Active'),
-(65, 'Order Delivery', 'Delivery created for Reliance mart at mahalaxmi chaar rasta, paldi with expected delivery on 17-12-2019 having order amount Rs. 3940.6 with Order Id 29', '[{\"user_id\":\"3\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":1596212381459161115,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575542562128%c07a64c8c07a64c8\"}]}', '2019-12-17 04:39:02', NULL, NULL, NULL, 'Active'),
-(66, 'Order Approval', 'Order NO. - 32 has been approved.', '[{\"user_id\":\"1\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":4092516476299442585,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575548229107%c07a64c8c07a64c8\"}]}', '2019-12-17 04:39:08', NULL, NULL, NULL, 'Active'),
-(67, 'Order Delivery', 'Delivery created for Reliance mart at mahalaxmi chaar rasta, paldi with expected delivery on 17-12-2019 having order amount Rs. 3940.6 with Order Id 29', '[{\"user_id\":\"3\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":409344172309386996,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575589521954%c07a64c8c07a64c8\"}]}', '2019-12-17 04:39:49', NULL, NULL, NULL, 'Active'),
-(68, 'Order Approval', 'Order NO. - 34 has been approved.', '[{\"user_id\":\"1\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":1414090404286169532,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575615544069%c07a64c8c07a64c8\"}]}', '2019-12-17 04:40:15', NULL, NULL, NULL, 'Active'),
-(69, 'Order Approval', 'Order NO. - 33 has been approved.', '[{\"user_id\":\"1\",\"device_id\":\"fSqWvzQIZfQ:APA91bEi9tk8aQVaV9HAOAMxinBSerN32X6e3X0_pATv9KAR9-R227uRd150NC5bQoJbxexFGQxNrkiCKIvfQdm1HGn-OADWP2HGOCK8_BYghd9H4Yft5KL4zxGKsEmXrUBk_h5B6c_9\"}]', '[\"fSqWvzQIZfQ:APA91bEi9tk8aQVaV9HAOAMxinBSerN32X6e3X0_pATv9KAR9-R227uRd150NC5bQoJbxexFGQxNrkiCKIvfQdm1HGn-OADWP2HGOCK8_BYghd9H4Yft5KL4zxGKsEmXrUBk_h5B6c_9\"]', '{\"multicast_id\":4696127266314602310,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575818088928%c07a64c8c07a64c8\"}]}', '2019-12-17 04:43:38', NULL, NULL, NULL, 'Active'),
-(70, 'Order Approval', 'Order NO. - 28 has been approved.', '[{\"user_id\":\"1\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":3211902199734188140,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575906382372%c07a64c8c07a64c8\"}]}', '2019-12-17 04:45:06', NULL, NULL, NULL, 'Active'),
-(71, 'Order Delivery', 'Delivery created for Khanjan testing at F/5 Chandrika Appartment with expected delivery on 17-12-2019 having order amount Rs. 2222.05 with Order Id 28', '[{\"user_id\":\"4\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":3219511231265175671,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575979407248%c07a64c8c07a64c8\"}]}', '2019-12-17 04:46:19', NULL, NULL, NULL, 'Active'),
-(72, 'Order Delivery', 'Delivery created for Khanjan testing at F/5 Chandrika Appartment with expected delivery on 17-12-2019 having order amount Rs. 2222.05 with Order Id 28', '[{\"user_id\":\"3\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":8170554418123931594,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576575979717719%c07a64c8c07a64c8\"}]}', '2019-12-17 04:46:19', NULL, NULL, NULL, 'Active'),
-(73, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":6204026516584210013,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576576017116508%c07a64c8c07a64c8\"}]}', '2019-12-17 04:46:57', NULL, NULL, NULL, 'Active'),
-(74, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"3\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":81863878939139822,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576576017431101%c07a64c8c07a64c8\"}]}', '2019-12-17 04:46:57', NULL, NULL, NULL, 'Active'),
-(75, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":7764811187092065838,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577089500396%c07a64c8c07a64c8\"}]}', '2019-12-17 05:04:49', NULL, NULL, NULL, 'Active'),
-(76, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"3\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":5030595469084856848,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577089845388%c07a64c8c07a64c8\"}]}', '2019-12-17 05:04:49', NULL, NULL, NULL, 'Active'),
-(77, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":8049424287297431049,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577127120054%c07a64c8c07a64c8\"}]}', '2019-12-17 05:05:27', NULL, NULL, NULL, 'Active'),
-(78, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"3\",\"device_id\":\"edk3k4lp0uA:APA91bGQEie1RJ68RKH0e_OEEZeQtpsIMbCzEmCJBPycFx91GzxFM2ayhH6abHZClKYrBA2zoLRbzTxlQQSgAHVtLr5DkjpRc05ZNjTQG1ku49PcidaKvFypIykMGd_Z6DgdnjTLCxK3\"}]', '[\"edk3k4lp0uA:APA91bGQEie1RJ68RKH0e_OEEZeQtpsIMbCzEmCJBPycFx91GzxFM2ayhH6abHZClKYrBA2zoLRbzTxlQQSgAHVtLr5DkjpRc05ZNjTQG1ku49PcidaKvFypIykMGd_Z6DgdnjTLCxK3\"]', '{\"multicast_id\":7351178217003609802,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577127435873%c07a64c8c07a64c8\"}]}', '2019-12-17 05:05:27', NULL, NULL, NULL, 'Active'),
-(79, 'Order Delivery', 'Delivery updated for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":3458791975197765424,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577147260949%c07a64c8c07a64c8\"}]}', '2019-12-17 05:05:47', NULL, NULL, NULL, 'Active'),
-(80, 'Order Delivery', 'Delivery updated for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"3\",\"device_id\":\"edk3k4lp0uA:APA91bGQEie1RJ68RKH0e_OEEZeQtpsIMbCzEmCJBPycFx91GzxFM2ayhH6abHZClKYrBA2zoLRbzTxlQQSgAHVtLr5DkjpRc05ZNjTQG1ku49PcidaKvFypIykMGd_Z6DgdnjTLCxK3\"}]', '[\"edk3k4lp0uA:APA91bGQEie1RJ68RKH0e_OEEZeQtpsIMbCzEmCJBPycFx91GzxFM2ayhH6abHZClKYrBA2zoLRbzTxlQQSgAHVtLr5DkjpRc05ZNjTQG1ku49PcidaKvFypIykMGd_Z6DgdnjTLCxK3\"]', '{\"multicast_id\":3913200353535592030,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577147582432%c07a64c8c07a64c8\"}]}', '2019-12-17 05:05:47', NULL, NULL, NULL, 'Active'),
-(81, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":6277748533064446551,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577206346826%c07a64c8c07a64c8\"}]}', '2019-12-17 05:06:46', NULL, NULL, NULL, 'Active'),
-(82, 'Order Delivery', 'Delivery updated for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', '{\"multicast_id\":1042553697338360744,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577223293218%c07a64c8c07a64c8\"}]}', '2019-12-17 05:07:03', NULL, NULL, NULL, 'Active'),
-(83, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":2369789002460679597,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577504863111%c07a64c8c07a64c8\"}]}', '2019-12-17 05:11:44', NULL, NULL, NULL, 'Active'),
-(84, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"3\",\"device_id\":\"fSqWvzQIZfQ:APA91bEi9tk8aQVaV9HAOAMxinBSerN32X6e3X0_pATv9KAR9-R227uRd150NC5bQoJbxexFGQxNrkiCKIvfQdm1HGn-OADWP2HGOCK8_BYghd9H4Yft5KL4zxGKsEmXrUBk_h5B6c_9\"}]', '[\"fSqWvzQIZfQ:APA91bEi9tk8aQVaV9HAOAMxinBSerN32X6e3X0_pATv9KAR9-R227uRd150NC5bQoJbxexFGQxNrkiCKIvfQdm1HGn-OADWP2HGOCK8_BYghd9H4Yft5KL4zxGKsEmXrUBk_h5B6c_9\"]', '{\"multicast_id\":1836009613666714645,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577505047357%c07a64c8c07a64c8\"}]}', '2019-12-17 05:11:45', NULL, NULL, NULL, 'Active'),
-(85, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":8157377779803625859,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577536262088%c07a64c8c07a64c8\"}]}', '2019-12-17 05:12:16', NULL, NULL, NULL, 'Active'),
-(86, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":3011784469560207334,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577553302856%c07a64c8c07a64c8\"}]}', '2019-12-17 05:12:33', NULL, NULL, NULL, 'Active'),
-(87, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":1026356309771779467,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577575358268%c07a64c8c07a64c8\"}]}', '2019-12-17 05:12:55', NULL, NULL, NULL, 'Active'),
-(88, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":7423934639167620665,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577751853862%c07a64c8c07a64c8\"}]}', '2019-12-17 05:15:51', NULL, NULL, NULL, 'Active'),
-(89, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":3570727342592098796,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577765661944%c07a64c8c07a64c8\"}]}', '2019-12-17 05:16:05', NULL, NULL, NULL, 'Active'),
-(90, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":1833785507791507671,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577776390862%c07a64c8c07a64c8\"}]}', '2019-12-17 05:16:16', NULL, NULL, NULL, 'Active'),
-(91, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":6210862950353726854,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576577792525339%c07a64c8c07a64c8\"}]}', '2019-12-17 05:16:32', NULL, NULL, NULL, 'Active'),
-(92, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":7641007573261056779,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578087006932%c07a64c8c07a64c8\"}]}', '2019-12-17 05:21:27', NULL, NULL, NULL, 'Active'),
-(93, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":7984810572810923118,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578172397123%c07a64c8c07a64c8\"}]}', '2019-12-17 05:22:52', NULL, NULL, NULL, 'Active'),
-(94, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":2961827600220376980,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578181445637%c07a64c8c07a64c8\"}]}', '2019-12-17 05:23:01', NULL, NULL, NULL, 'Active'),
-(95, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":593988792603239436,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578195231126%c07a64c8c07a64c8\"}]}', '2019-12-17 05:23:15', NULL, NULL, NULL, 'Active'),
-(96, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":3719723994386465679,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578206691702%c07a64c8c07a64c8\"}]}', '2019-12-17 05:23:26', NULL, NULL, NULL, 'Active'),
-(97, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":9000795366777045637,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578207463982%c07a64c8c07a64c8\"}]}', '2019-12-17 05:23:27', NULL, NULL, NULL, 'Active'),
-(98, 'Order Delivery', 'Delivery created for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":2945083808920875994,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578561057897%c07a64c8c07a64c8\"}]}', '2019-12-17 05:29:21', NULL, NULL, NULL, 'Active'),
-(99, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":3439098055250546594,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578571502858%c07a64c8c07a64c8\"}]}', '2019-12-17 05:29:31', NULL, NULL, NULL, 'Active'),
-(100, 'Order Delivery', 'Delivery updated for Queenland cafe at Jamalpur with expected delivery on 17-12-2019 having order amount Rs. 1648.25 with Order Id 32', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', '{\"multicast_id\":2243993442346575731,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576578589385735%c07a64c8c07a64c8\"}]}', '2019-12-17 05:29:49', NULL, NULL, NULL, 'Active'),
-(101, 'Order Approval', 'Order NO. - 38 has been approved.', '[{\"user_id\":\"1\",\"device_id\":\"edk3k4lp0uA:APA91bGQEie1RJ68RKH0e_OEEZeQtpsIMbCzEmCJBPycFx91GzxFM2ayhH6abHZClKYrBA2zoLRbzTxlQQSgAHVtLr5DkjpRc05ZNjTQG1ku49PcidaKvFypIykMGd_Z6DgdnjTLCxK3\"}]', '[\"edk3k4lp0uA:APA91bGQEie1RJ68RKH0e_OEEZeQtpsIMbCzEmCJBPycFx91GzxFM2ayhH6abHZClKYrBA2zoLRbzTxlQQSgAHVtLr5DkjpRc05ZNjTQG1ku49PcidaKvFypIykMGd_Z6DgdnjTLCxK3\"]', 'Field \"to\" must be a JSON string: [\"edk3k4lp0uA:APA91bGQEie1RJ68RKH0e_OEEZeQtpsIMbCzEmCJBPycFx91GzxFM2ayhH6abHZClKYrBA2zoLRbzTxlQQSgAHVtLr5DkjpRc05ZNjTQG1ku49PcidaKvFypIykMGd_Z6DgdnjTLCxK3\"]\n', '2019-12-17 06:29:06', NULL, NULL, NULL, 'Active'),
-(102, 'Order Delivery', 'Delivery created for Khanjan final testing at f/5 with expected delivery on 17-12-2019 having order amount Rs. 9500 with Order Id 38', '[{\"user_id\":\"4\",\"device_id\":\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"}]', '[\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]', 'Field \"to\" must be a JSON string: [\"dUbMuhY-IEQ:APA91bFsf0HuoWi77zrRa6CSV5MH8s3ZAWPrlXhWLFp4mRFVx2Klq3YYCf2PLoNZw4RchoHPb-sRdsHfdrbIAYgrNQo1DBSYLBz8b2nxWy4oRRW9nUxhZY-RuMDQxqvFWe2Y8reB-RD9\"]\n', '2019-12-17 06:32:19', NULL, NULL, NULL, 'Active'),
-(103, 'Order Delivery', 'Delivery created for Khanjan final testing at f/5 with expected delivery on 17-12-2019 having order amount Rs. 9500 with Order Id 38', '[{\"user_id\":\"3\",\"device_id\":\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"}]', '[\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]', 'Field \"to\" must be a JSON string: [\"d-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf\"]\n', '2019-12-17 06:32:20', NULL, NULL, NULL, 'Active'),
-(104, 'Order Approval', 'Order No. 35 for modi sandwich for products -  has been approved with final amount 4958.05. Delivery date is 2019-12-17', '[{\"user_id\":\"1\",\"device_id\":\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"}]', '[\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]', 'Field \"to\" must be a JSON string: [\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]\n', '2019-12-17 06:44:54', NULL, NULL, NULL, 'Active'),
-(105, 'Order Approval', 'Order NO. - 37 has been approved.', '[{\"user_id\":\"1\",\"device_id\":\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"}]', '[\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]', 'Field \"to\" must be a JSON string: [\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]\n', '2019-12-17 06:52:23', NULL, NULL, NULL, 'Active'),
-(106, 'Order No. 37 for Khanjan final testing has been approved with final amount 9500. Delivery date is 2019-12-17', 'New Notification', '[{\"user_id\":\"1\",\"device_id\":\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"}]', '[\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]', 'Field \"to\" must be a JSON string: [\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]\n', '2019-12-17 06:52:23', NULL, NULL, NULL, 'Active'),
-(107, 'Order Approval', 'Order NO. - 39 has been approved.', '[{\"user_id\":\"1\",\"device_id\":\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"}]', '[\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]', 'Field \"to\" must be a JSON string: [\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]\n', '2019-12-17 06:59:44', NULL, NULL, NULL, 'Active'),
-(108, 'Order No. 39 for Ravi Sandwich has been approved with final amount 2156.5. Delivery date is 2019-12-17', 'New Notification', '[{\"user_id\":\"1\",\"device_id\":\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"}]', '[\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]', 'Field \"to\" must be a JSON string: [\"eDM5wuIUEBs:APA91bGuGckmS0zmIcIBJI0AdhtsH3myilO2XRb43qzbErOIEtoAzWoDvl4Wrz0JIdhmG6S244UNS8quAI_3uDPH6rWypftHX1uFI8TBCRMM4BWLgGC65ldlHeWrZWnmhdWCec2tRy_N\"]\n', '2019-12-17 06:59:44', NULL, NULL, NULL, 'Active'),
-(109, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"4\",\"device_id\":\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"}]', '[\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]', 'Field \"to\" must be a JSON string: [\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]\n', '2019-12-17 07:09:47', NULL, NULL, NULL, 'Active');
-INSERT INTO `fcm_notifications` (`id`, `title`, `message`, `user_arr`, `fcm_tokens`, `response`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(110, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 17-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"3\",\"device_id\":\"frkHVSY6Qco:APA91bGb524a71vNnsKM5v5IzFr1t3_oAHgna4IhS-KVS9fst9e7wDxQ1LnLKXoTx0tmxaEfH63_7ewOn1u3MscwfTL4XGu0ieiSetLCG0lmdgvsXSA5ZdGRCTEztmYBbzID3ezt0kWp\"}]', '[\"frkHVSY6Qco:APA91bGb524a71vNnsKM5v5IzFr1t3_oAHgna4IhS-KVS9fst9e7wDxQ1LnLKXoTx0tmxaEfH63_7ewOn1u3MscwfTL4XGu0ieiSetLCG0lmdgvsXSA5ZdGRCTEztmYBbzID3ezt0kWp\"]', 'Field \"to\" must be a JSON string: [\"frkHVSY6Qco:APA91bGb524a71vNnsKM5v5IzFr1t3_oAHgna4IhS-KVS9fst9e7wDxQ1LnLKXoTx0tmxaEfH63_7ewOn1u3MscwfTL4XGu0ieiSetLCG0lmdgvsXSA5ZdGRCTEztmYBbzID3ezt0kWp\"]\n', '2019-12-17 07:09:47', NULL, NULL, NULL, 'Active'),
-(111, 'Order Delivery', 'Delivery created for Harish pan parlour at law garden circle, law garden with expected delivery on 17-12-2019 having order amount Rs. 7386.25 with Order Id 34', '[{\"user_id\":\"4\",\"device_id\":\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"}]', '[\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]', 'Field \"to\" must be a JSON string: [\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]\n', '2019-12-17 07:09:47', NULL, NULL, NULL, 'Active'),
-(112, 'Order Delivery', 'Delivery created for Harish pan parlour at law garden circle, law garden with expected delivery on 17-12-2019 having order amount Rs. 7386.25 with Order Id 34', '[{\"user_id\":\"3\",\"device_id\":\"frkHVSY6Qco:APA91bGb524a71vNnsKM5v5IzFr1t3_oAHgna4IhS-KVS9fst9e7wDxQ1LnLKXoTx0tmxaEfH63_7ewOn1u3MscwfTL4XGu0ieiSetLCG0lmdgvsXSA5ZdGRCTEztmYBbzID3ezt0kWp\"}]', '[\"frkHVSY6Qco:APA91bGb524a71vNnsKM5v5IzFr1t3_oAHgna4IhS-KVS9fst9e7wDxQ1LnLKXoTx0tmxaEfH63_7ewOn1u3MscwfTL4XGu0ieiSetLCG0lmdgvsXSA5ZdGRCTEztmYBbzID3ezt0kWp\"]', 'Field \"to\" must be a JSON string: [\"frkHVSY6Qco:APA91bGb524a71vNnsKM5v5IzFr1t3_oAHgna4IhS-KVS9fst9e7wDxQ1LnLKXoTx0tmxaEfH63_7ewOn1u3MscwfTL4XGu0ieiSetLCG0lmdgvsXSA5ZdGRCTEztmYBbzID3ezt0kWp\"]\n', '2019-12-17 07:09:48', NULL, NULL, NULL, 'Active'),
-(113, 'Order Delivery', 'Delivery created for modi sandwich at vasna with expected delivery on 17-12-2019 having order amount Rs. 4958.05 with Order Id 35', '[{\"user_id\":\"3\",\"device_id\":\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"}]', '[\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]', 'Field \"to\" must be a JSON string: [\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]\n', '2019-12-17 07:26:07', NULL, NULL, NULL, 'Active'),
-(114, 'Order Delivery', 'Delivery created for natural ice-cream at mithakhali with expected delivery on 18-12-2019 having order amount Rs. 4564.75 with Order Id 33', '[{\"user_id\":\"3\",\"device_id\":\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"}]', '[\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]', 'Field \"to\" must be a JSON string: [\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]\n', '2019-12-18 03:07:35', NULL, NULL, NULL, 'Active'),
-(115, 'Order Delivery', 'Delivery created for Sun Pharma at Home address with expected delivery on 18-12-2019 having order amount Rs. 265 with Order Id 13', '[{\"user_id\":\"3\",\"device_id\":\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"}]', '[\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]', 'Field \"to\" must be a JSON string: [\"fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB\"]\n', '2019-12-18 03:08:42', NULL, NULL, NULL, 'Active');
+(18, 'Order Approved', 'Order No. 2 for Ashish & Company has been approved with final amount 25200. Delivery date is 2019-12-21', '[{\"user_id\":\"1\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":7742440959677957222,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576775342350038%c07a64c8f9fd7ecd\"}]}', '2019-12-19 22:39:02', 8, NULL, NULL, 'Active'),
+(19, 'Order Approved', 'Order No. 5 for Rakesh & Company has been approved with final amount 6270. Delivery date is 2019-12-24', '[{\"user_id\":\"1\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":5084893789417760570,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576775377059514%c07a64c8f9fd7ecd\"}]}', '2019-12-19 22:39:37', 8, NULL, NULL, 'Active'),
+(20, 'Order Delivery', 'Delivery created for Rakesh & Company at Janta Colony with expected delivery on 19-12-2019 having order amount Rs. 6270 with Order Id 5', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":7122467444509149855,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576776804014650%c07a64c8f9fd7ecd\"}]}', '2019-12-19 23:03:24', 8, NULL, NULL, 'Active'),
+(21, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 19-12-2019 having order amount Rs. 19356.25 with Order Id 1', '[{\"user_id\":\"6\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":2752791447834859014,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576776923821661%c07a64c8f9fd7ecd\"}]}', '2019-12-19 23:05:23', 8, NULL, NULL, 'Active'),
+(22, 'Order Delivery', 'Delivery created for Ashish & Company at Bopal with expected delivery on 19-12-2019 having order amount Rs. 25200 with Order Id 2', '[{\"user_id\":\"6\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":6477479589139525396,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576776924125495%c07a64c8f9fd7ecd\"}]}', '2019-12-19 23:05:24', 8, NULL, NULL, 'Active'),
+(23, 'Order Delivery', 'Delivery created for Ashish & Company at Bopal with expected delivery on 20-12-2019 having order amount Rs. 25200 with Order Id 2', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":8981126976601616820,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576825459541601%c07a64c8f9fd7ecd\"}]}', '2019-12-20 12:34:19', 8, NULL, NULL, 'Active'),
+(24, 'Order Delivery', 'Delivery created for Ashish & Company at Bopal with expected delivery on 20-12-2019 having order amount Rs. 25200 with Order Id 2', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":644127184181993361,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576828416462460%c07a64c8f9fd7ecd\"}]}', '2019-12-20 13:23:36', 8, NULL, NULL, 'Active'),
+(25, 'Order Delivery', 'Delivery created for Ashish & Company at Bopal with expected delivery on 20-12-2019 having order amount Rs. 25200 with Order Id 2', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":5635498220516117058,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576828715147025%c07a64c8f9fd7ecd\"}]}', '2019-12-20 13:28:35', 8, NULL, NULL, 'Active'),
+(26, 'Order Delivery', 'Delivery created for Ashish & Company at Bopal with expected delivery on 20-12-2019 having order amount Rs. 25200 with Order Id 2', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":17994197461095674,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576829242213562%c07a64c8f9fd7ecd\"}]}', '2019-12-20 13:37:22', 8, NULL, NULL, 'Active'),
+(27, 'Order Delivery', 'Delivery created for Ashish & Company at Bopal with expected delivery on 20-12-2019 having order amount Rs. 25200 with Order Id 2', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":136433482616542714,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576829872813609%c07a64c8f9fd7ecd\"}]}', '2019-12-20 13:47:52', 8, NULL, NULL, 'Active'),
+(28, 'Order Approved', 'Order No. 12 for Milan & Company has been approved with final amount 310. Delivery date is 2019-12-20', '[{\"user_id\":\"5\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":4817469869684442473,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576838697151948%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:14:57', 8, NULL, NULL, 'Active'),
+(29, 'Order Delivery', 'Delivery updated for Milan & Company at Income Tax with expected delivery on 20-12-2019 having order amount Rs. 120 with Order Id 13', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":2423117427290443965,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576839499367816%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:28:19', 8, NULL, NULL, 'Active'),
+(30, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 20-12-2019 having order amount Rs. 9433.5 with Order Id 15', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":338459548843505674,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576839943424268%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:35:43', 8, NULL, NULL, 'Active'),
+(31, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 20-12-2019 having order amount Rs. 72 with Order Id 16', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":7628023269181147947,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576839943733382%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:35:43', 8, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -1048,107 +583,20 @@ CREATE TABLE `fcm_notification_user` (
 --
 
 INSERT INTO `fcm_notification_user` (`id`, `user_id`, `notification_id`, `is_read`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(51, 3, 18, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 3, 'Active'),
-(52, 4, 18, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(53, 3, 19, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 3, 'Active'),
-(54, 4, 19, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(55, 1, 20, 1, '2019-12-06 00:00:00', 0, '2019-12-10 00:00:00', 1, 'Active'),
-(56, 3, 21, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 3, 'Active'),
-(57, 4, 21, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(58, 4, 22, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(59, 4, 23, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(60, 3, 24, 1, '2019-12-06 00:00:00', 0, '2019-12-10 00:00:00', 3, 'Active'),
-(61, 4, 25, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(62, 4, 26, 0, '2019-12-06 00:00:00', 0, NULL, NULL, 'Active'),
-(63, 4, 27, 0, '2019-12-06 00:00:00', 0, NULL, NULL, 'Active'),
-(64, 3, 28, 1, '2019-12-06 00:00:00', 0, '2019-12-09 00:00:00', 3, 'Active'),
-(65, 4, 29, 0, '2019-12-06 00:00:00', 0, NULL, NULL, 'Active'),
-(66, 4, 30, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(67, 4, 31, 1, '2019-12-06 00:00:00', 0, '2019-12-06 00:00:00', 4, 'Active'),
-(68, 1, 32, 1, '2019-12-09 00:00:00', 0, '2019-12-10 00:00:00', 1, 'Active'),
-(69, 4, 33, 0, '2019-12-09 00:00:00', 0, NULL, NULL, 'Active'),
-(70, 3, 34, 1, '2019-12-09 00:00:00', 0, '2019-12-09 00:00:00', 3, 'Active'),
-(71, 4, 35, 1, '2019-12-09 00:00:00', 0, '2019-12-11 00:00:00', 4, 'Active'),
-(72, 4, 36, 1, '2019-12-11 00:00:00', 0, '2019-12-11 00:00:00', 4, 'Active'),
-(73, 4, 37, 1, '2019-12-11 00:00:00', 0, '2019-12-11 00:00:00', 4, 'Active'),
-(74, 4, 38, 0, '2019-12-16 00:00:00', 0, NULL, NULL, 'Active'),
-(75, 3, 39, 0, '2019-12-16 00:00:00', 0, NULL, NULL, 'Active'),
-(76, 4, 40, 0, '2019-12-16 00:00:00', 0, NULL, NULL, 'Active'),
-(77, 3, 41, 0, '2019-12-16 00:00:00', 0, NULL, NULL, 'Active'),
-(78, 4, 42, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(79, 3, 43, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(80, 4, 44, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(81, 3, 45, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(82, 4, 46, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(83, 3, 47, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(84, 4, 48, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(85, 4, 49, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(86, 3, 50, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(87, 1, 51, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(88, 4, 52, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(89, 3, 53, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(90, 4, 54, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(91, 3, 55, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(92, 4, 56, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(93, 3, 57, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(94, 4, 58, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(95, 3, 59, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(96, 1, 60, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(97, 4, 61, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(98, 3, 62, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(99, 3, 63, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(100, 3, 64, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(101, 3, 65, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(102, 1, 66, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(103, 3, 67, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(104, 1, 68, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(105, 1, 69, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(106, 1, 70, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(107, 4, 71, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(108, 3, 72, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 3, 'Active'),
-(109, 4, 73, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(110, 3, 74, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(111, 4, 75, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(112, 3, 76, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(113, 4, 77, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(114, 3, 78, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(115, 4, 79, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(116, 3, 80, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(117, 4, 81, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(118, 4, 82, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(119, 4, 83, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(120, 3, 84, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(121, 4, 85, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(122, 4, 86, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(123, 4, 87, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(124, 4, 88, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(125, 4, 89, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(126, 4, 90, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(127, 4, 91, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(128, 4, 92, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(129, 4, 93, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(130, 4, 94, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(131, 4, 95, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(132, 4, 96, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(133, 4, 97, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(134, 4, 98, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(135, 4, 99, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(136, 4, 100, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(137, 1, 101, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(138, 4, 102, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(139, 3, 103, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(140, 1, 104, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 1, 'Active'),
-(141, 1, 105, 1, '2019-12-17 00:00:00', 0, '2019-12-18 00:00:00', 1, 'Active'),
-(142, 1, 106, 1, '2019-12-17 00:00:00', 0, '2019-12-18 00:00:00', 1, 'Active'),
-(143, 1, 107, 1, '2019-12-17 00:00:00', 0, '2019-12-18 00:00:00', 1, 'Active'),
-(144, 1, 108, 1, '2019-12-17 00:00:00', 0, '2019-12-18 00:00:00', 1, 'Active'),
-(145, 4, 109, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(146, 3, 110, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 3, 'Active'),
-(147, 4, 111, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(148, 3, 112, 1, '2019-12-17 00:00:00', 0, '2019-12-17 00:00:00', 3, 'Active'),
-(149, 3, 113, 0, '2019-12-17 00:00:00', 0, NULL, NULL, 'Active'),
-(150, 3, 114, 0, '2019-12-18 00:00:00', 0, NULL, NULL, 'Active'),
-(151, 3, 115, 0, '2019-12-18 00:00:00', 0, NULL, NULL, 'Active');
+(30, 1, 18, 0, '2019-12-19 22:39:02', 8, NULL, NULL, 'Active'),
+(31, 1, 19, 0, '2019-12-19 22:39:37', 8, NULL, NULL, 'Active'),
+(32, 4, 20, 0, '2019-12-19 23:03:24', 8, NULL, NULL, 'Active'),
+(33, 6, 21, 0, '2019-12-19 23:05:23', 8, NULL, NULL, 'Active'),
+(34, 6, 22, 0, '2019-12-19 23:05:24', 8, NULL, NULL, 'Active'),
+(35, 4, 23, 0, '2019-12-20 12:34:19', 8, NULL, NULL, 'Active'),
+(36, 4, 24, 0, '2019-12-20 13:23:36', 8, NULL, NULL, 'Active'),
+(37, 4, 25, 0, '2019-12-20 13:28:35', 8, NULL, NULL, 'Active'),
+(38, 4, 26, 0, '2019-12-20 13:37:22', 8, NULL, NULL, 'Active'),
+(39, 4, 27, 0, '2019-12-20 13:47:52', 8, NULL, NULL, 'Active'),
+(40, 5, 28, 0, '2019-12-20 16:14:57', 8, NULL, NULL, 'Active'),
+(41, 4, 29, 0, '2019-12-20 16:28:19', 8, NULL, NULL, 'Active'),
+(42, 4, 30, 0, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active'),
+(43, 4, 31, 0, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -1172,13 +620,17 @@ CREATE TABLE `group_to_zip_code` (
 --
 
 INSERT INTO `group_to_zip_code` (`id`, `zip_code_group_id`, `zip_code_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 1, 5, '2019-11-25 13:04:38', 2, NULL, NULL, 'Active'),
-(2, 1, 6, '2019-11-25 13:04:38', 2, NULL, NULL, 'Active'),
-(7, 2, 1, '2019-12-05 14:30:05', 2, NULL, NULL, 'Active'),
-(8, 2, 2, '2019-12-05 14:30:05', 2, NULL, NULL, 'Active'),
-(9, 2, 3, '2019-12-05 14:30:05', 2, NULL, NULL, 'Active'),
-(10, 2, 4, '2019-12-05 14:30:05', 2, NULL, NULL, 'Active'),
-(11, 1, 12, '2019-12-06 14:37:04', 2, NULL, NULL, 'Active');
+(1, 1, 5, '2019-12-19 17:37:52', 2, NULL, NULL, 'Active'),
+(2, 1, 6, '2019-12-19 17:37:52', 2, NULL, NULL, 'Active'),
+(3, 1, 7, '2019-12-19 17:37:52', 2, NULL, NULL, 'Active'),
+(4, 1, 8, '2019-12-19 17:37:52', 2, NULL, NULL, 'Active'),
+(5, 1, 12, '2019-12-19 17:37:52', 2, NULL, NULL, 'Active'),
+(6, 2, 10, '2019-12-19 17:38:13', 2, NULL, NULL, 'Active'),
+(7, 3, 3, '2019-12-19 17:38:40', 2, NULL, NULL, 'Active'),
+(8, 3, 4, '2019-12-19 17:38:40', 2, NULL, NULL, 'Active'),
+(9, 3, 13, '2019-12-19 17:38:40', 2, NULL, NULL, 'Active'),
+(10, 4, 1, '2019-12-19 17:38:53', 2, NULL, NULL, 'Active'),
+(11, 4, 2, '2019-12-19 17:38:53', 2, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -1206,51 +658,10 @@ CREATE TABLE `leads` (
 --
 
 INSERT INTO `leads` (`id`, `company_name`, `contact_person_name`, `email`, `phone_1`, `phone_2`, `is_converted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_deleted`) VALUES
-(1, 'Sun Pharma', 'Snehal Trapsiya', 'snehal@gmail.com', '9166650505', NULL, 1, '2019-12-05 14:18:35', 1, '2019-12-05 03:56:27', NULL, 0),
-(2, 'Gandhi soda', 'priyanshu', 'priyanshu@gmail.com', '6598653265', '4477880055', 1, '2019-12-05 14:47:09', 1, '2019-12-05 04:22:06', NULL, 0),
-(3, 'Ravi Sandwich', 'Vasukaka', 'ehs.mehul@gmail.com', '8454813349', '8525329645', 1, '2019-12-05 15:23:43', 1, '2019-12-05 08:32:02', NULL, 0),
-(4, 'Khanjan testing', 'Khanjan Shah', 'khanjanshah06@gmail.com', '9429620022', NULL, 1, '2019-12-05 18:07:40', 1, '2019-12-05 07:49:39', NULL, 0),
-(5, 'star snacks', 'shivabhai', NULL, '9865326598', NULL, 1, '2019-12-05 18:22:17', 1, '2019-12-05 08:53:47', NULL, 0),
-(6, 'star snacks', 'shivabhai', NULL, '9865326598', NULL, 0, '2019-12-05 18:22:18', 1, '2019-12-11 00:12:05', NULL, 1),
-(7, 'hhuu', 'cfgg', 'khanjanan', '1234567891', '3214567891', 0, '2019-12-05 18:24:54', 1, '2019-12-10 03:33:58', NULL, 1),
-(8, 'hhuu', 'cfgg', 'khanjanan', '1234567891', '3214567891', 0, '2019-12-05 18:24:55', 1, '2019-12-10 03:33:50', NULL, 1),
-(9, 'natural ice-cream', 'divyesh bhai', NULL, '9865989898', NULL, 1, '2019-12-06 11:52:06', 1, '2019-12-06 02:19:02', NULL, 0),
-(10, 'Empire bakery', 'Mohsinbhai', NULL, '6459865329', NULL, 1, '2019-12-06 12:42:23', 1, '2019-12-06 02:15:00', NULL, 0),
-(11, 'test', 'test', 'ashish@gmail.com', '9166650111', NULL, 0, '2019-12-06 13:10:56', 2, '2019-12-06 02:41:04', NULL, 1),
-(12, 'Khanjan final testing', '9867777777', 'kh', '9429620022', NULL, 1, '2019-12-06 13:42:25', 1, '2019-12-10 03:34:09', NULL, 1),
-(13, 'Eminent hotel', 'Azam', 'azaz@yahoo.com', '9173021172', NULL, 1, '2019-12-06 19:21:14', 1, '2019-12-11 00:21:03', 2, 0),
-(14, 'modi sandwich', 'pranav modi', NULL, '9865487845', NULL, 1, '2019-12-09 11:13:35', 1, '2019-12-09 00:49:10', NULL, 0),
-(15, 'Harish pan parlour', 'Harish dave', 'hariah@aol.com', '7855669988', NULL, 1, '2019-12-09 13:13:50', 1, '2019-12-09 02:45:51', NULL, 0),
-(16, 'Queenland cafe', 'pritesh', NULL, '9468009966', NULL, 1, '2019-12-09 17:07:24', 1, '2019-12-11 02:23:22', NULL, 0),
-(17, 'sai pan parlor', 'mahesh', NULL, '6438959868', NULL, 0, '2019-12-09 17:07:52', 1, '2019-12-11 00:11:40', NULL, 1),
-(18, 'sai pan parlor', 'mahesh', NULL, '6438959868', NULL, 0, '2019-12-09 17:07:52', 1, '2019-12-10 03:34:21', NULL, 1),
-(19, 'sai pan parlor', 'mahesh', NULL, '6438959868', NULL, 0, '2019-12-09 17:07:52', 1, NULL, NULL, 0),
-(20, 'sai pan parlor', 'mahesh', NULL, '6438959868', NULL, 0, '2019-12-09 17:07:52', 1, '2019-12-11 00:11:58', NULL, 1),
-(21, 'sai pan parlor', 'mahesh', NULL, '6438959868', NULL, 0, '2019-12-09 17:07:53', 1, '2019-12-11 00:11:51', NULL, 1),
-(22, 'sai pan parlor', 'mahesh', NULL, '6438959868', NULL, 0, '2019-12-09 17:07:53', 1, '2019-12-11 00:11:34', NULL, 1),
-(23, 'Nutan restaurant', 'salim', NULL, '9865888664', NULL, 0, '2019-12-09 17:08:53', 1, '2019-12-11 00:11:25', NULL, 1),
-(24, 'Nutan restaurant', 'salim', NULL, '9865888664', NULL, 0, '2019-12-09 17:08:53', 1, '2019-12-10 03:33:38', NULL, 1),
-(25, 'Nutan restaurant', 'salim', NULL, '9865888664', NULL, 0, '2019-12-09 17:08:53', 1, '2019-12-10 03:33:29', NULL, 1),
-(26, 'Nutan restaurant', 'salim', NULL, '9865888664', NULL, 0, '2019-12-09 17:08:53', 1, '2019-12-10 03:33:19', NULL, 1),
-(27, 'Nutan restaurant', 'salim', NULL, '9865888664', NULL, 0, '2019-12-09 17:08:53', 1, '2019-12-11 00:11:15', NULL, 1),
-(28, 'Nutan restaurant', 'salim', NULL, '9865888664', NULL, 0, '2019-12-09 17:08:53', 1, NULL, NULL, 0),
-(29, 'freezeland sandwich', 'kamlesh pandya', NULL, '6865986536', NULL, 0, '2019-12-10 10:38:07', 1, NULL, NULL, 0),
-(30, 'freezeland sandwich', 'kamlesh pandya', NULL, '6865986536', NULL, 0, '2019-12-10 10:38:07', 1, '2019-12-10 03:33:05', NULL, 1),
-(31, 'freezeland sandwich', 'kamlesh pandya', NULL, '6865986536', NULL, 0, '2019-12-10 10:38:07', 1, '2019-12-11 00:10:07', NULL, 1),
-(32, 'freezeland sandwich', 'kamlesh pandya', NULL, '6865986536', NULL, 0, '2019-12-10 10:38:07', 1, '2019-12-10 03:32:55', NULL, 1),
-(33, 'freezeland sandwich', 'kamlesh pandya', NULL, '6865986536', NULL, 0, '2019-12-10 10:38:07', 1, '2019-12-11 00:09:55', NULL, 1),
-(34, 'freezeland sandwich', 'kamlesh pandya', NULL, '6865986536', NULL, 0, '2019-12-10 10:38:07', 1, '2019-12-11 00:10:00', NULL, 1),
-(35, 'vdb', 'shd', 'ehs.mehul@gmail.com', '6264646466', '9559494664', 0, '2019-12-10 11:12:14', 1, NULL, NULL, 0),
-(36, 'Ashok chawana mart', 'premjibhai', NULL, '6898699464', NULL, 0, '2019-12-10 13:58:08', 1, '2019-12-11 00:10:12', NULL, 1),
-(37, 'Ashok chawana mart', 'premjibhai', NULL, '6898699464', NULL, 0, '2019-12-10 13:58:09', 1, NULL, NULL, 0),
-(38, 'Twst', 'hd', 'hdhd@jsj.sjs', '6262625656', '9565655556', 0, '2019-12-10 14:01:23', 1, '2019-12-10 03:34:32', NULL, 1),
-(39, 'Reliance mart', 'Ashok Mishra', NULL, '9986649946', NULL, 1, '2019-12-10 14:02:16', 1, '2019-12-17 04:03:24', NULL, 0),
-(40, 'yuk', 'tres', 'test@test.com', '9723664556', NULL, 1, '2019-12-16 18:01:08', 1, '2019-12-16 07:45:08', NULL, 0),
-(41, 'Khanjanss', '9429629022', 'khanjanshah06@gmail.com', '9638527410', NULL, 1, '2019-12-17 14:12:39', 1, '2019-12-17 03:45:21', NULL, 0),
-(42, 'test rakesh', 'rakesh', 'rakesh123@test.com', '1231233212', NULL, 0, '2019-12-18 16:44:33', 1, NULL, NULL, 0),
-(43, 'ahish makwana', 'ahsih', 'ashi@test.com', '1212343456', NULL, 0, '2019-12-18 17:53:28', 1, NULL, NULL, 0),
-(44, 'test 1', 'test one', 'test11@gmail.com', '1593572585', NULL, 0, '2019-12-18 17:56:01', 1, NULL, NULL, 0),
-(45, 'xyz', 'xyz', 'asasa@gmail.com', '4545656528', NULL, 0, '2019-12-18 18:00:12', 1, NULL, NULL, 0);
+(1, 'Ashish & Company', 'Ashish Makwana', 'ashishm@letsenkindle.com', '9510335127', NULL, 1, '2019-12-19 18:12:16', 1, '2019-12-19 09:23:36', 2, 0),
+(2, 'Rakesh & Company', 'Rakesh Jangir', 'rakeshj@letsenkindle.com', '9166650505', NULL, 1, '2019-12-19 18:17:54', 1, '2019-12-19 11:59:01', NULL, 0),
+(4, 'Snehal & Company', 'Snehal Trapsiya', 'snehalt@letsenkindle.com', '9773083060', NULL, 0, '2019-12-19 18:45:30', 8, NULL, NULL, 0),
+(5, 'Milan & Company', 'Milan Soni', 'milans@letsenkindle.com', '7600265925', NULL, 1, '2019-12-19 19:05:21', 5, '2019-12-19 08:42:50', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1278,24 +689,10 @@ CREATE TABLE `lead_visits` (
 --
 
 INSERT INTO `lead_visits` (`id`, `lead_id`, `visit_date`, `visit_time`, `visit_type`, `opportunity`, `other_notes`, `visit_notes`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, '2019-12-05', '14:18:35', 'InPerson', NULL, NULL, NULL, '2019-12-05 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(2, 1, '2019-12-05', '14:19:00', 'inperson', 'Test opportunity', NULL, 'Notes of client', '2019-12-05 14:19:26', 1, '2019-12-18 07:34:31', NULL),
-(3, 2, '2019-12-05', '14:47:09', 'InPerson', NULL, NULL, NULL, '2019-12-05 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(4, 3, '2019-12-05', '15:23:43', 'InPerson', NULL, NULL, NULL, '2019-12-05 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(5, 4, '2019-12-05', '18:07:40', 'InPerson', NULL, NULL, NULL, '2019-12-05 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(6, 7, '2019-12-05', '18:24:54', 'InPerson', NULL, NULL, NULL, '2019-12-05 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(7, 8, '2019-12-05', '18:24:55', 'InPerson', NULL, NULL, NULL, '2019-12-05 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(8, 6, '2019-12-05', '23:40:00', 'phone', 'hello', NULL, 'test', '2019-12-06 13:41:00', 1, '2019-12-18 07:34:42', NULL),
-(9, 35, '2019-12-10', '11:12:14', 'InPerson', NULL, NULL, NULL, '2019-12-10 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(10, 38, '2019-12-10', '14:01:23', 'InPerson', NULL, NULL, NULL, '2019-12-10 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(11, 19, '2019-12-20', '11:36:00', 'phone', '105 box monthly for more than a year long period', NULL, 'this is for testing purpose only.\n', '2019-12-18 16:36:41', 1, '2019-12-18 07:34:42', NULL),
-(12, 35, '2019-12-22', '10:43:00', 'inperson', '200 carton', NULL, 'this is test notes', '2019-12-18 16:43:44', 1, '2019-12-18 07:34:42', NULL),
-(13, 42, '2019-12-18', '16:44:33', 'InPerson', NULL, NULL, NULL, '2019-12-18 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(14, 42, '2019-12-18', '16:57:00', 'inperson', '123', NULL, 'test rakesh 2', '2019-12-18 16:57:53', 1, '2019-12-18 07:34:42', NULL),
-(15, 43, '2019-12-18', '17:53:28', 'InPerson', NULL, NULL, NULL, '2019-12-18 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(16, 44, '2019-12-18', '17:56:01', 'InPerson', NULL, NULL, NULL, '2019-12-18 00:00:00', 1, '2019-12-18 07:34:23', NULL),
-(17, 19, '2019-12-18', '17:59:00', 'inperson', 'tera', NULL, NULL, '2019-12-18 17:59:36', 1, '2019-12-18 07:34:23', NULL),
-(18, 45, '2019-12-18', '18:00:12', 'InPerson', NULL, NULL, NULL, '2019-12-18 00:00:00', 1, '2019-12-18 07:34:23', NULL);
+(1, 1, '2019-12-19', '18:12:16', 'InPerson', NULL, NULL, 'Lead added by Salesman Ashish Makwana on 19-12-2019', '2019-12-19 00:00:00', 1, NULL, NULL),
+(2, 1, '2019-12-20', '21:46:00', 'phone', 'Monthly order for 20 ltr bottles', NULL, 'Nice Client', '2019-12-19 18:50:12', 1, NULL, NULL),
+(3, 5, '2019-12-19', '19:05:21', 'InPerson', NULL, NULL, 'Lead added by Rakesh Salesman on 19-12-2019', '2019-12-19 00:00:00', 5, NULL, NULL),
+(4, 5, '2019-12-19', '22:06:00', 'inperson', 'bhayankar opportunity hai boss', NULL, 'time pe ajana', '2019-12-19 19:06:15', 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1345,45 +742,20 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `client_id`, `delivery_address_id`, `scheme_id`, `priority`, `delivery_boy_id`, `expected_delivery_date`, `expected_delivery_date_in_deliver_table`, `actual_delivery_date`, `payable_amount`, `delivery_id`, `payment_mode`, `payment_schedule_date`, `payment_schedule_time`, `order_status`, `status`, `payment_status`, `need_admin_approval`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, 1, 2, 'High', NULL, '2019-12-05', NULL, '2019-12-05', 500.00, 1, 'Cash', '2019-12-05', '14:26:00', 'Delivered', 'Active', 'Paid', 1, '2019-12-05 14:26:27', 1, '2019-12-16 07:58:47', 4),
-(2, 2, 2, 1, 'Low', NULL, '2019-12-05', NULL, '2019-12-05', 2561.00, 2, 'Cash', '2019-12-05', '16:52:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-05 14:52:06', 1, '2019-12-06 08:38:44', 4),
-(3, 1, 1, 1, 'Low', NULL, '2019-12-05', NULL, '2019-12-05', 3950.00, 3, 'Cash', '2019-12-05', '00:00:00', 'Delivered', 'Active', 'Partial', 1, '2019-12-05 16:53:18', 1, '2019-12-16 07:58:47', 3),
-(4, 3, 3, 7, 'Low', NULL, '2019-12-05', NULL, NULL, 1575.00, 4, 'Cash', '2019-12-05', '12:15:00', 'Approved', 'Active', 'Paid', 1, '2019-12-05 18:19:39', 1, '2019-12-17 05:09:51', NULL),
-(5, 4, 4, 1, 'Low', NULL, '2019-12-05', NULL, NULL, 1742.50, NULL, 'Cash', '2019-12-05', '00:00:00', 'Approved', 'Active', 'Pending', 1, '2019-12-05 19:02:02', 1, '2019-12-06 07:25:41', NULL),
-(6, 5, 5, 0, 'Low', NULL, '2019-12-05', NULL, '2019-12-06', 225.00, 6, 'Cash', '2019-12-05', '00:00:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-05 19:23:47', 1, '2019-12-06 07:25:41', 3),
-(7, 2, 2, 1, 'Low', NULL, '2019-12-06', NULL, '2019-12-06', 1291.50, 5, 'Cash', '2019-12-06', '00:00:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-06 11:33:12', 1, '2019-12-06 07:25:41', 3),
-(8, 6, 6, 1, 'Low', NULL, '2019-12-06', NULL, NULL, 6282.00, NULL, 'Cash', '2019-12-06', '00:00:00', 'Approval Required', 'Active', 'Pending', 1, '2019-12-06 12:45:00', 1, '2019-12-06 07:25:41', NULL),
-(9, 7, 7, 1, 'Low', NULL, '2019-12-06', NULL, NULL, 3253.00, 7, 'Cash', '2019-12-06', '00:00:00', 'Approved', 'Active', 'Paid', 1, '2019-12-06 12:49:02', 1, '2019-12-17 05:09:18', NULL),
-(10, 8, 9, 1, 'Low', NULL, '2019-12-06', NULL, '2019-12-06', 42400.00, 6, 'Cash', '2019-12-06', '00:00:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-06 13:51:03', 1, '2019-12-06 07:25:41', 3),
-(11, 9, 10, 1, 'Low', NULL, '2019-12-09', NULL, '2019-12-09', 15861.00, 8, 'Cash', '2019-12-09', '11:19:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-09 11:19:10', 1, '2019-12-09 00:00:00', 3),
-(12, 10, 11, 7, 'Low', NULL, '2019-12-09', NULL, '2019-12-09', 5100.00, 9, 'Cash', '2019-12-09', '00:00:00', 'Delivered', 'Active', 'Paid', 0, '2019-12-09 13:15:51', 1, '2019-12-17 07:41:37', 4),
-(13, 1, 1, 0, 'Low', NULL, '2019-12-10', NULL, '2019-12-18', 265.00, 44, 'Cash', '2019-12-10', '00:00:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-10 17:30:30', 1, '2019-12-18 00:00:00', 3),
-(14, 11, 13, 1, 'Medium', NULL, '2019-12-11', NULL, '2019-12-17', 3025.00, 15, 'Cash', '2019-12-11', '11:51:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 10:51:03', 1, '2019-12-17 00:00:00', 3),
-(15, 12, 13, 1, 'Medium', NULL, '2019-12-11', NULL, NULL, 3025.00, 12, 'Cash', '2019-12-11', '11:51:00', 'Pending', 'Active', 'Pending', 0, '2019-12-11 10:51:25', 1, '2019-12-16 08:03:55', NULL),
-(16, 13, 13, 1, 'Medium', NULL, '2019-12-11', NULL, NULL, 3025.00, 12, 'Cash', '2019-12-11', '11:51:00', 'Pending', 'Active', 'Pending', 0, '2019-12-11 10:51:31', 1, '2019-12-16 08:03:55', NULL),
-(17, 14, 13, 1, 'Medium', NULL, '2019-12-11', NULL, '2019-12-17', 3025.00, 14, 'Cash', '2019-12-11', '11:51:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 10:51:32', 1, '2019-12-17 00:00:00', 3),
-(18, 15, 13, 1, 'Medium', NULL, '2019-12-11', NULL, '2019-12-17', 3025.00, 16, 'Cash', '2019-12-11', '11:51:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 10:51:33', 1, '2019-12-17 00:00:00', 4),
-(19, 16, 13, 1, 'Medium', NULL, '2019-12-11', NULL, '2019-12-17', 3025.00, 17, 'Cash', '2019-12-11', '11:51:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 10:51:34', 1, '2019-12-17 00:00:00', 3),
-(20, 17, 13, 1, 'Medium', NULL, '2019-12-11', NULL, '2019-12-17', 3025.00, 18, 'Cash', '2019-12-11', '11:51:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 10:51:35', 1, '2019-12-17 00:00:00', 3),
-(21, 18, 13, 1, 'Medium', NULL, '2019-12-11', NULL, '2019-12-17', 3025.00, 19, 'Cash', '2019-12-11', '11:51:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 10:51:37', 1, '2019-12-17 00:00:00', 3),
-(22, 19, 13, 1, 'Medium', NULL, '2019-12-11', NULL, '2019-12-17', 3025.00, 13, 'Cash', '2019-12-11', '11:51:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 10:51:46', 1, '2019-12-17 00:00:00', 3),
-(23, 20, 13, 1, 'Medium', NULL, '2019-12-11', NULL, NULL, 3025.00, 20, 'Cash', '2019-12-11', '11:51:00', 'Pending', 'Active', 'Pending', 0, '2019-12-11 10:53:24', 1, '2019-12-17 03:53:04', NULL),
-(24, 21, 14, 1, 'Low', NULL, '2019-12-11', NULL, '2019-12-11', 1325.00, 10, 'Cash', '2019-12-11', '12:53:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 12:53:22', 1, '2019-12-11 00:00:00', 4),
-(25, 21, 14, 1, 'Low', NULL, '2019-12-11', NULL, '2019-12-11', 2640.00, 11, 'Cash', '2019-12-11', '00:00:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-11 13:04:14', 1, '2019-12-11 00:00:00', 4),
-(26, 22, 15, 1, 'Low', NULL, '2019-12-16', NULL, NULL, 7410.00, 21, 'Cash', '2019-12-16', '18:15:00', 'Pending', 'Active', 'Pending', 0, '2019-12-16 18:15:07', 1, '2019-12-17 03:55:21', NULL),
-(27, 23, 16, 7, 'Low', NULL, '2019-12-17', NULL, NULL, 40000.00, NULL, 'Cash', '2019-12-17', '17:15:00', 'Approved', 'Active', 'Pending', 1, '2019-12-17 14:15:21', 1, '2019-12-17 03:46:07', NULL),
-(28, 3, 3, 1, 'Low', NULL, '2019-12-17', NULL, '2019-12-17', 2339.00, 27, 'Cash', '2019-12-17', '16:28:00', 'Delivered', 'Active', 'Partial', 1, '2019-12-17 14:28:47', 1, '2019-12-17 00:00:00', 3),
-(29, 24, 17, 1, 'Low', NULL, '2019-12-17', NULL, '2019-12-17', 4148.00, 26, 'Cash', '2019-12-17', '16:33:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-17 14:33:24', 1, '2019-12-17 00:00:00', 4),
-(30, 4, 4, 1, 'Low', NULL, '2019-12-17', NULL, NULL, 49000.00, NULL, 'Cash', '2019-12-17', '00:00:00', 'Pending', 'Active', 'Pending', 0, '2019-12-17 14:34:56', 1, NULL, NULL),
-(31, 4, 4, 1, 'Low', NULL, '2019-12-17', NULL, NULL, 49000.00, NULL, 'Cash', '2019-12-17', '00:00:00', 'Pending', 'Active', 'Pending', 0, '2019-12-17 14:34:57', 1, NULL, NULL),
-(32, 21, 14, 1, 'Low', NULL, '2019-12-17', NULL, NULL, 1735.00, 39, 'Cash', '2019-12-17', '20:37:00', 'Approved', 'Active', 'Pending', 1, '2019-12-17 14:37:16', 1, '2019-12-17 05:29:49', NULL),
-(33, 7, 7, 1, 'Low', NULL, '2019-12-17', NULL, '2019-12-17', 4805.00, 43, 'Cash', '2019-12-17', '00:00:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-17 14:53:44', 1, '2019-12-18 03:07:35', 3),
-(34, 10, 11, 1, 'Medium', NULL, '2019-12-17', NULL, NULL, 7775.00, NULL, 'Cash', '2019-12-17', '00:00:00', 'Approved', 'Active', 'Partial', 1, '2019-12-17 15:08:41', 1, '2019-12-18 03:07:21', NULL),
-(35, 9, 10, 1, 'Urgent', NULL, '2019-12-17', NULL, NULL, 5219.00, 42, 'Cash', '2019-12-17', '00:00:00', 'Approved', 'Active', 'Pending', 1, '2019-12-17 15:34:01', 1, '2019-12-17 07:26:07', NULL),
-(36, 8, 8, 1, 'Low', NULL, '2019-12-17', NULL, NULL, 10000.00, NULL, 'Cash', '2019-12-17', '22:57:00', 'Approval Required', 'Active', 'Pending', 1, '2019-12-17 16:57:28', 1, NULL, NULL),
-(37, 8, 8, 1, 'Low', NULL, '2019-12-17', NULL, NULL, 10000.00, NULL, 'Cash', '2019-12-17', '22:57:00', 'Approved', 'Active', 'Pending', 1, '2019-12-17 16:57:28', 1, '2019-12-17 06:52:23', NULL),
-(38, 8, 8, 1, 'Low', NULL, '2019-12-17', NULL, '2019-12-17', 10000.00, 40, 'Cash', '2019-12-17', '22:57:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-17 16:57:29', 1, '2019-12-17 00:00:00', 3),
-(39, 4, 4, 1, 'Low', NULL, '2019-12-17', NULL, NULL, 2270.00, NULL, 'Cash', '2019-12-17', '00:00:00', 'Approved', 'Active', 'Pending', 1, '2019-12-17 17:27:22', 1, '2019-12-17 06:59:43', NULL);
+(1, 1, 1, 1, 'High', NULL, '2019-12-20', '2019-12-19', '2019-12-19', 20375.00, 3, 'Cash', '2019-12-20', '22:00:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-19 19:12:50', 5, '2019-12-19 00:00:00', 3),
+(2, 2, 3, 2, 'Medium', NULL, '2019-12-21', '2019-12-20', '2019-12-20', 25300.00, 21, 'Cash', '2019-12-21', '19:53:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-19 19:53:36', 1, '2019-12-20 00:00:00', 3),
+(5, 3, 4, 1, 'Low', NULL, '2019-12-24', '2019-12-19', '2019-12-19', 6600.00, 2, 'Cash', '2019-12-24', '22:28:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-19 22:29:01', 1, '2019-12-19 00:00:00', 4),
+(6, 3, 4, 1, 'Medium', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 2630.00, 21, 'Cash', '2019-12-20', '12:22:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 12:22:10', 1, '2019-12-20 00:00:00', 3),
+(7, 1, 1, 1, 'Urgent', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 1310.00, 21, 'Cash', '2019-12-20', '14:48:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 14:48:15', 5, '2019-12-20 00:00:00', 3),
+(8, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 125.00, 22, 'Cash', '2019-12-20', '15:20:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 15:20:52', 1, '2019-12-20 00:00:00', 4),
+(9, 2, 3, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 1300.00, 22, 'Cash', '2019-12-20', '15:21:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 15:21:41', 1, '2019-12-20 00:00:00', 4),
+(10, 1, 1, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 2535.00, 23, 'Cash', '2019-12-20', '16:10:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:10:44', 5, '2019-12-20 00:00:00', 3),
+(11, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 125.00, 23, 'Cash', '2019-12-20', '16:11:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:11:43', 5, '2019-12-20 00:00:00', 3),
+(12, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 310.00, 23, 'Cash', '2019-12-20', '16:14:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 16:14:32', 5, '2019-12-20 00:00:00', 3),
+(13, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 120.00, 24, 'Cash', '2019-12-20', '16:26:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:26:57', 1, '2019-12-20 00:00:00', 4),
+(14, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 240.00, 25, 'Cash', '2019-12-20', '16:31:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:31:23', 1, '2019-12-20 00:00:00', 3),
+(15, 1, 1, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 9930.00, 26, 'Cash', '2019-12-20', '16:34:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:34:42', 1, '2019-12-20 00:00:00', 4),
+(16, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 72.00, 26, 'Cash', '2019-12-20', '16:35:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:35:05', 1, '2019-12-20 00:00:00', 4);
 
 -- --------------------------------------------------------
 
@@ -1426,122 +798,27 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `actual_price`, `effective_price`, `subtotal`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, 1, 10, 20, 20, '200.00', '2019-12-05 14:26:27', 1, NULL, NULL),
-(2, 1, 2, 10, 20, 20, '200.00', '2019-12-05 14:26:27', 1, NULL, NULL),
-(3, 1, 4, 20, 5, 5, '100.00', '2019-12-05 14:26:27', 1, '2019-12-05 03:59:06', NULL),
-(4, 2, 1, 40, 23.5, 23.5, '940.00', '2019-12-05 14:52:06', 1, '2019-12-05 04:22:34', NULL),
-(5, 2, 2, 60, 20.6, 20.6, '1236.00', '2019-12-05 14:52:06', 1, '2019-12-05 04:22:34', NULL),
-(6, 2, 5, 70, 5.5, 5.5, '385.00', '2019-12-05 14:52:06', 1, '2019-12-05 04:22:34', NULL),
-(7, 3, 7, 8, 25, 25, '200.00', '2019-12-05 16:53:18', 1, '2019-12-05 06:23:45', NULL),
-(8, 3, 5, 500, 5.5, 5.5, '2750.00', '2019-12-05 16:53:18', 1, '2019-12-05 06:23:45', NULL),
-(9, 3, 3, 50, 18, 18, '900.00', '2019-12-05 16:53:18', 1, NULL, NULL),
-(10, 3, 2, 5, 20, 20, '100.00', '2019-12-05 16:53:18', 1, NULL, NULL),
-(11, 4, 1, 5, 25, 25, '125.00', '2019-12-05 18:19:39', 1, '2019-12-05 07:51:00', NULL),
-(12, 4, 1, 8, 25, 25, '200.00', '2019-12-05 18:19:39', 1, '2019-12-05 07:51:00', NULL),
-(13, 4, 1, 50, 25, 25, '1250.00', '2019-12-05 18:19:39', 1, '2019-12-05 07:51:00', NULL),
-(14, 5, 1, 65, 24.5, 24.5, '1592.50', '2019-12-05 19:02:02', 1, '2019-12-05 08:34:40', NULL),
-(15, 5, 7, 6, 25, 25, '150.00', '2019-12-05 19:02:02', 1, NULL, NULL),
-(16, 6, 7, 9, 25, 25, '225.00', '2019-12-05 19:23:47', 1, NULL, NULL),
-(17, 7, 7, 7, 24.5, 24.5, '171.50', '2019-12-06 11:33:12', 1, '2019-12-06 01:03:55', NULL),
-(18, 7, 4, 10, 7, 7, '70.00', '2019-12-06 11:33:12', 1, NULL, NULL),
-(19, 7, 3, 70, 15, 15, '1050.00', '2019-12-06 11:33:12', 1, '2019-12-06 01:03:55', NULL),
-(20, 8, 1, 15, 265, 263, '3945.00', '2019-12-06 12:45:00', 1, NULL, NULL),
-(21, 8, 2, 6, 245, 252, '1512.00', '2019-12-06 12:45:00', 1, NULL, NULL),
-(22, 8, 4, 5, 165, 165, '825.00', '2019-12-06 12:45:00', 1, NULL, NULL),
-(23, 9, 1, 5, 265, 265, '1325.00', '2019-12-06 12:49:02', 1, NULL, NULL),
-(24, 9, 2, 8, 241, 241, '1928.00', '2019-12-06 12:49:02', 1, '2019-12-06 04:04:59', NULL),
-(25, 10, 1, 50, 265, 265, '13250.00', '2019-12-06 13:51:03', 1, NULL, NULL),
-(26, 10, 1, 10, 265, 265, '2650.00', '2019-12-06 13:51:03', 1, NULL, NULL),
-(27, 10, 1, 100, 265, 265, '26500.00', '2019-12-06 13:51:03', 1, NULL, NULL),
-(28, 11, 1, 5, 263, 263, '1315.00', '2019-12-09 11:19:10', 1, '2019-12-09 01:23:22', NULL),
-(29, 11, 2, 8, 247, 247, '1976.00', '2019-12-09 11:19:10', 1, '2019-12-09 01:23:22', NULL),
-(30, 11, 3, 4, 255, 255, '1020.00', '2019-12-09 11:19:10', 1, NULL, NULL),
-(31, 11, 4, 70, 165, 165, '11550.00', '2019-12-09 11:19:10', 1, NULL, NULL),
-(32, 12, 1, 3, 265, 265, '795.00', '2019-12-09 13:15:51', 1, NULL, NULL),
-(33, 12, 2, 5, 245, 245, '1225.00', '2019-12-09 13:15:51', 1, NULL, NULL),
-(34, 12, 7, 3, 25, 25, '75.00', '2019-12-09 13:15:51', 1, NULL, NULL),
-(35, 12, 5, 8, 190, 190, '1520.00', '2019-12-09 13:15:51', 1, NULL, NULL),
-(36, 12, 4, 9, 165, 165, '1485.00', '2019-12-09 13:15:51', 1, NULL, NULL),
-(37, 13, 1, 1, 265, 265, '265.00', '2019-12-10 17:30:30', 1, NULL, NULL),
-(38, 14, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:03', 1, NULL, NULL),
-(39, 14, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:03', 1, NULL, NULL),
-(40, 14, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:03', 1, NULL, NULL),
-(41, 14, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:03', 1, NULL, NULL),
-(42, 15, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:25', 1, NULL, NULL),
-(43, 15, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:25', 1, NULL, NULL),
-(44, 15, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:25', 1, NULL, NULL),
-(45, 15, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:25', 1, NULL, NULL),
-(46, 16, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:31', 1, NULL, NULL),
-(47, 16, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:31', 1, NULL, NULL),
-(48, 16, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:31', 1, NULL, NULL),
-(49, 16, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:31', 1, NULL, NULL),
-(50, 17, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:32', 1, NULL, NULL),
-(51, 17, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:32', 1, NULL, NULL),
-(52, 17, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:32', 1, NULL, NULL),
-(53, 17, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:32', 1, NULL, NULL),
-(54, 18, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:33', 1, NULL, NULL),
-(55, 18, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:33', 1, NULL, NULL),
-(56, 18, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:33', 1, NULL, NULL),
-(57, 18, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:33', 1, NULL, NULL),
-(58, 19, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:34', 1, NULL, NULL),
-(59, 19, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:34', 1, NULL, NULL),
-(60, 19, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:34', 1, NULL, NULL),
-(61, 19, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:34', 1, NULL, NULL),
-(62, 20, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:35', 1, NULL, NULL),
-(63, 20, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:35', 1, NULL, NULL),
-(64, 20, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:35', 1, NULL, NULL),
-(65, 20, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:35', 1, NULL, NULL),
-(66, 21, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:37', 1, NULL, NULL),
-(67, 21, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:37', 1, NULL, NULL),
-(68, 21, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:37', 1, NULL, NULL),
-(69, 21, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:37', 1, NULL, NULL),
-(70, 22, 1, 6, 265, 265, '1590.00', '2019-12-11 10:51:46', 1, NULL, NULL),
-(71, 22, 2, 4, 245, 245, '980.00', '2019-12-11 10:51:46', 1, NULL, NULL),
-(72, 22, 5, 2, 190, 190, '380.00', '2019-12-11 10:51:46', 1, NULL, NULL),
-(73, 22, 7, 3, 25, 25, '75.00', '2019-12-11 10:51:46', 1, NULL, NULL),
-(74, 23, 1, 6, 265, 265, '1590.00', '2019-12-11 10:53:24', 1, NULL, NULL),
-(75, 23, 2, 4, 245, 245, '980.00', '2019-12-11 10:53:24', 1, NULL, NULL),
-(76, 23, 5, 2, 190, 190, '380.00', '2019-12-11 10:53:24', 1, NULL, NULL),
-(77, 23, 7, 3, 25, 25, '75.00', '2019-12-11 10:53:24', 1, NULL, NULL),
-(78, 24, 1, 5, 265, 265, '1325.00', '2019-12-11 12:53:22', 1, NULL, NULL),
-(79, 25, 1, 6, 265, 265, '1590.00', '2019-12-11 13:04:14', 1, NULL, NULL),
-(80, 25, 7, 4, 25, 25, '100.00', '2019-12-11 13:04:14', 1, NULL, NULL),
-(81, 25, 5, 5, 190, 190, '950.00', '2019-12-11 13:04:14', 1, NULL, NULL),
-(82, 26, 1, 25, 265, 265, '6625.00', '2019-12-16 18:15:07', 1, NULL, NULL),
-(83, 26, 2, 3, 245, 245, '735.00', '2019-12-16 18:15:07', 1, NULL, NULL),
-(84, 26, 7, 2, 25, 25, '50.00', '2019-12-16 18:15:07', 1, NULL, NULL),
-(85, 27, 1, 20, 2000, 2000, '40000.00', '2019-12-17 14:15:21', 1, '2019-12-17 03:46:07', NULL),
-(86, 28, 1, 5, 267, 267, '1335.00', '2019-12-17 14:28:47', 1, '2019-12-17 04:45:06', NULL),
-(87, 28, 2, 4, 251, 251, '1004.00', '2019-12-17 14:28:47', 1, '2019-12-17 04:45:06', NULL),
-(88, 29, 1, 6, 261, 261, '1566.00', '2019-12-17 14:33:24', 1, '2019-12-17 04:04:53', NULL),
-(89, 29, 2, 6, 247, 247, '1482.00', '2019-12-17 14:33:24', 1, '2019-12-17 04:04:53', NULL),
-(90, 29, 5, 5, 198, 198, '990.00', '2019-12-17 14:33:24', 1, '2019-12-17 04:04:53', NULL),
-(91, 29, 7, 5, 22, 22, '110.00', '2019-12-17 14:33:24', 1, '2019-12-17 04:04:53', NULL),
-(92, 30, 1, 200, 245, 245, '49000.00', '2019-12-17 14:34:56', 1, NULL, NULL),
-(93, 31, 1, 200, 245, 245, '49000.00', '2019-12-17 14:34:57', 1, NULL, NULL),
-(94, 32, 4, 5, 167, 167, '835.00', '2019-12-17 14:37:16', 1, '2019-12-17 04:39:08', NULL),
-(95, 32, 5, 4, 198, 198, '792.00', '2019-12-17 14:37:16', 1, '2019-12-17 04:39:08', NULL),
-(96, 32, 7, 4, 27, 27, '108.00', '2019-12-17 14:37:16', 1, '2019-12-17 04:39:08', NULL),
-(97, 33, 1, 9, 260, 260, '2340.00', '2019-12-17 14:53:44', 1, '2019-12-17 04:43:37', NULL),
-(98, 33, 2, 6, 241.5, 241.5, '1449.00', '2019-12-17 14:53:44', 1, '2019-12-17 04:43:37', NULL),
-(99, 33, 3, 4, 254, 254, '1016.00', '2019-12-17 14:53:44', 1, '2019-12-17 04:43:37', NULL),
-(100, 34, 1, 10, 260, 260, '2600.00', '2019-12-17 15:08:41', 1, '2019-12-17 04:40:15', NULL),
-(101, 34, 2, 5, 245, 245, '1225.00', '2019-12-17 15:08:41', 1, NULL, NULL),
-(102, 34, 3, 6, 255, 255, '1530.00', '2019-12-17 15:08:41', 1, NULL, NULL),
-(103, 34, 4, 8, 165, 165, '1320.00', '2019-12-17 15:08:41', 1, NULL, NULL),
-(104, 34, 5, 5, 190, 190, '950.00', '2019-12-17 15:08:41', 1, NULL, NULL),
-(105, 34, 7, 6, 25, 25, '150.00', '2019-12-17 15:08:41', 1, NULL, NULL),
-(106, 35, 1, 4, 261, 261, '1044.00', '2019-12-17 15:34:01', 1, '2019-12-17 06:44:54', NULL),
-(107, 35, 2, 6, 245, 245, '1470.00', '2019-12-17 15:34:01', 1, '2019-12-17 06:44:54', NULL),
-(108, 35, 3, 4, 255, 255, '1020.00', '2019-12-17 15:34:01', 1, NULL, NULL),
-(109, 35, 4, 5, 165, 165, '825.00', '2019-12-17 15:34:01', 1, NULL, NULL),
-(110, 35, 5, 4, 190, 190, '760.00', '2019-12-17 15:34:01', 1, NULL, NULL),
-(111, 35, 7, 4, 25, 25, '100.00', '2019-12-17 15:34:01', 1, NULL, NULL),
-(112, 36, 1, 50, 265, 200, '10000.00', '2019-12-17 16:57:28', 1, NULL, NULL),
-(113, 37, 1, 50, 200, 200, '10000.00', '2019-12-17 16:57:28', 1, '2019-12-17 06:52:23', NULL),
-(114, 38, 1, 50, 200, 200, '10000.00', '2019-12-17 16:57:29', 1, '2019-12-17 06:29:05', NULL),
-(115, 39, 1, 4, 245, 245, '980.00', '2019-12-17 17:27:22', 1, NULL, NULL),
-(116, 39, 2, 5, 258, 258, '1290.00', '2019-12-17 17:27:22', 1, '2019-12-17 06:59:43', NULL);
+(1, 1, 3, 5, 250, 250, '1250.00', '2019-12-19 19:12:50', 5, '2019-12-19 08:44:20', NULL),
+(2, 1, 5, 100, 190, 190, '19000.00', '2019-12-19 19:12:50', 5, NULL, NULL),
+(3, 1, 7, 5, 25, 25, '125.00', '2019-12-19 19:12:50', 5, NULL, NULL),
+(4, 2, 1, 50, 261, 261, '13000.00', '2019-12-19 19:53:36', 1, '2019-12-19 09:26:51', NULL),
+(5, 2, 2, 50, 245, 245, '12250.00', '2019-12-19 19:53:36', 1, NULL, NULL),
+(8, 5, 1, 25, 264, 264, '6600.00', '2019-12-19 22:29:01', 1, '2019-12-19 12:00:10', NULL),
+(9, 6, 1, 10, 263, 263, '2630.00', '2019-12-20 12:22:10', 1, '2019-12-20 04:18:42', NULL),
+(10, 7, 1, 5, 262, 262, '1310.00', '2019-12-20 14:48:15', 5, NULL, NULL),
+(11, 8, 7, 5, 25, 25, '125.00', '2019-12-20 15:20:52', 1, NULL, NULL),
+(12, 9, 1, 5, 260, 260, '1300.00', '2019-12-20 15:21:41', 1, '2019-12-20 04:52:04', NULL),
+(13, 10, 1, 5, 262, 262, '1310.00', '2019-12-20 16:10:44', 5, NULL, NULL),
+(14, 10, 2, 5, 245, 245, '1225.00', '2019-12-20 16:10:44', 5, NULL, NULL),
+(15, 11, 7, 5, 25, 25, '125.00', '2019-12-20 16:11:43', 5, NULL, NULL),
+(16, 12, 5, 1, 189, 189, '189.00', '2019-12-20 16:14:32', 5, '2019-12-20 05:44:56', NULL),
+(17, 12, 7, 1, 24, 24, '25.00', '2019-12-20 16:14:32', 5, '2019-12-20 05:44:56', NULL),
+(18, 12, 7, 4, 24, 24, '96.00', '2019-12-20 16:14:32', 5, '2019-12-20 05:44:56', NULL),
+(19, 13, 7, 5, 24, 24, '120.00', '2019-12-20 16:26:57', 1, NULL, NULL),
+(20, 14, 7, 10, 24, 24, '240.00', '2019-12-20 16:31:23', 1, NULL, NULL),
+(21, 15, 5, 50, 189, 189, '9450.00', '2019-12-20 16:34:42', 1, NULL, NULL),
+(22, 15, 7, 20, 24, 24, '480.00', '2019-12-20 16:34:42', 1, NULL, NULL),
+(23, 16, 7, 3, 24, 24, '72.00', '2019-12-20 16:35:05', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1564,17 +841,6 @@ CREATE TABLE `payments` (
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`id`, `client_id`, `payment_mode`, `check_no`, `check_date`, `transection_no`, `paid_amount`, `credit_balance_used`, `previous_credit_balance`, `new_credit_balance`, `created_at`, `created_by`) VALUES
-(1, 1, 'Cash', NULL, NULL, NULL, '1000.00', '0.00', '0.00', '0.00', '2019-12-16 07:58:47', NULL),
-(2, 7, 'Cash', NULL, NULL, NULL, '3253.00', '0.00', '0.00', '0.00', '2019-12-17 05:09:18', NULL),
-(3, 3, 'Cash', NULL, NULL, NULL, '2500.00', '0.00', '0.00', '0.00', '2019-12-17 05:09:51', NULL),
-(4, 10, 'Cheque', '12454664', '2019-12-04', NULL, '2000.00', '0.00', '0.00', '0.00', '2019-12-17 07:40:19', NULL),
-(5, 10, 'Cheque', '121554', '2019-12-17', NULL, '5000.00', '0.00', '0.00', '0.00', '2019-12-17 07:41:37', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -1590,20 +856,6 @@ CREATE TABLE `payment_details` (
   `total_payment` decimal(14,2) NOT NULL DEFAULT '0.00',
   `status` varchar(10) DEFAULT NULL COMMENT 'PARTIAL | PENDING | PAID'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `payment_details`
---
-
-INSERT INTO `payment_details` (`id`, `order_id`, `payment_id`, `amount_used`, `credit_used`, `total_payment`, `status`) VALUES
-(1, 1, 1, '500.00', '0.00', '500.00', 'PAID'),
-(2, 3, 1, '500.00', '0.00', '500.00', 'PARTIAL'),
-(3, 9, 2, '3253.00', '0.00', '3253.00', 'PAID'),
-(4, 4, 3, '1575.00', '0.00', '1575.00', 'PAID'),
-(5, 28, 3, '925.00', '0.00', '925.00', 'PARTIAL'),
-(6, 12, 4, '2000.00', '0.00', '2000.00', 'PARTIAL'),
-(7, 12, 5, '3100.00', '0.00', '3100.00', 'PAID'),
-(8, 34, 5, '1900.00', '0.00', '1900.00', 'PARTIAL');
 
 -- --------------------------------------------------------
 
@@ -1852,10 +1104,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `role_id`, `username`, `password`, `status`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 'Ashish', 'Makwana', 'ashish@gmail.com', '76752681245', 2, 's', 'admin', 'Active', 0, '2019-11-25 14:11:53', 2, '2019-12-06 17:53:35', 2),
-(2, 'Devansh', 'Shah', 'admin@gmail.com', '8963015123', 1, 'admin', 'admin', 'Active', 0, '2019-11-25 14:12:28', 2, '2019-11-28 14:11:25', 2),
-(3, 'Rakesh', 'Jangir', 'rakesh@gmail.com', '8963015144', 3, 'd', 'admin', 'Active', 0, '2019-11-25 14:13:01', 2, '2019-12-05 04:15:35', NULL),
-(4, 'Ravi', 'Prajapati', 'ravi@gmail.com', '8963012121', 4, 'dr', 'admin', 'Active', 0, '2019-11-25 14:13:38', 2, '2019-12-05 04:15:49', NULL);
+(1, 'Ashish', 'Makwana', 'ashishm@letsenkindle.com', '9510335127', 2, 'ashish', 'admin', 'Active', 0, '2019-11-25 14:11:53', 2, '2019-12-19 19:31:27', 8),
+(2, 'Snehal', 'Trapsiya', 'snehalt@letsenkindle.com', '9773083060', 3, 'snehal', 'admin', 'Active', 0, '2019-11-25 14:12:28', 2, '2019-12-19 17:47:52', 2),
+(3, 'Milan', 'Soni', 'milans@letsenkindle.com', '7600265925', 3, 'milan', 'admin', 'Active', 0, '2019-11-25 14:13:01', 2, '2019-12-19 17:47:32', 2),
+(4, 'Ravi', 'Prajapati', 'ravip@letsenkindle.com', '7990535113', 4, 'ravi', 'admin', 'Active', 0, '2019-11-25 14:13:38', 2, '2019-12-19 17:47:46', 2),
+(5, 'Rakesh', 'Jangir', 'rakeshj@letsenkindle.com', '9166650505', 2, 'rakesh', 'admin', 'Active', 0, '2019-12-19 17:41:59', 2, '2019-12-19 19:03:46', 8),
+(6, 'Mehul', 'Patel', 'mehulp@letsenkindle.com', '8401036474', 4, 'mehul', 'admin', 'Active', 0, '2019-12-19 17:48:35', 2, '2019-12-19 17:55:12', 2),
+(8, 'Devansh', 'Shah', 'devansh@letsenkindle.com', '9723664556', 1, 'devansh', 'admin', 'Active', 0, '2019-12-19 18:44:32', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1875,9 +1130,7 @@ CREATE TABLE `user_devices` (
 --
 
 INSERT INTO `user_devices` (`id`, `user_id`, `device_id`, `created_at`) VALUES
-(144, 3, 'fUUm_AAKlXw:APA91bHHJG03k96jpU9dezNd3ddGS4M8olPt8OS2neL4zIMZSfYJL-OocY2nPR_C-odfUEkwfaqo0FrmNkZCfobCLbRM74fRrowUO0KrJIsxJukOsD9Pi1oslOhiIDRoH9z-taIiOITB', '2019-12-17 07:12:45'),
-(150, 1, 'd-Xna5UbCQg:APA91bGLw_2jpqsvcIuPA03WA0Y5oq18V4-aqFwN_6FBUDmLuynK6MiFeAsGDnlmzuDTG37BokbDDKxFhCNkwOwnQ-CRVTmM1AlDhsmHKhuedLBKkj_XIDVRozrN494nwrh0JjLjFVnf', '2019-12-18 06:04:45'),
-(151, 1, 'dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4', '2019-12-18 06:13:37');
+(50, 4, 'dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4', '2019-12-20 06:05:18');
 
 -- --------------------------------------------------------
 
@@ -1913,6 +1166,15 @@ CREATE TABLE `user_zip_codes` (
   `status` varchar(20) NOT NULL DEFAULT 'Active' COMMENT 'Active/Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `user_zip_codes`
+--
+
+INSERT INTO `user_zip_codes` (`id`, `user_id`, `zip_code_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
+(1, 1, 10, '2019-12-19 17:40:59', 2, NULL, NULL, 'Active'),
+(2, 5, 1, '2019-12-19 17:41:59', 2, NULL, NULL, 'Active'),
+(3, 5, 2, '2019-12-19 17:41:59', 2, NULL, NULL, 'Active');
+
 -- --------------------------------------------------------
 
 --
@@ -1935,8 +1197,8 @@ CREATE TABLE `user_zip_code_groups` (
 --
 
 INSERT INTO `user_zip_code_groups` (`id`, `user_id`, `zip_code_group_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(2, 3, 1, '2019-11-25 14:13:01', 2, NULL, NULL, 'Active'),
-(3, 4, 1, '2019-11-25 14:13:38', 2, NULL, NULL, 'Active');
+(2, 5, 3, '2019-12-19 17:41:59', 2, NULL, NULL, 'Active'),
+(3, 1, 1, '2019-12-19 19:31:27', 8, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -2055,8 +1317,10 @@ CREATE TABLE `zip_code_groups` (
 --
 
 INSERT INTO `zip_code_groups` (`id`, `group_name`, `state_id`, `city_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 'Ahmedabad-1', 2, 3, '2019-11-25 13:04:38', 2, '2019-12-06 14:37:04', 2, 'Active'),
-(2, 'Jaipur', 1, NULL, '2019-11-25 13:04:51', 2, '2019-12-05 14:30:05', 2, 'Active');
+(1, 'Ahmedabad City', 2, 3, '2019-12-19 17:37:52', 2, NULL, NULL, 'Active'),
+(2, 'Gandhinagar City', 2, 4, '2019-12-19 17:38:13', 2, NULL, NULL, 'Active'),
+(3, 'Jaipur City', 1, 1, '2019-12-19 17:38:40', 2, NULL, NULL, 'Active'),
+(4, 'Sikar City', 1, 2, '2019-12-19 17:38:53', 2, NULL, NULL, 'Active');
 
 --
 -- Indexes for dumped tables
@@ -2360,7 +1624,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `cash_collection`
 --
 ALTER TABLE `cash_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -2372,7 +1636,7 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `client_categories`
@@ -2390,7 +1654,7 @@ ALTER TABLE `client_contacts`
 -- AUTO_INCREMENT for table `client_delivery_addresses`
 --
 ALTER TABLE `client_delivery_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `client_location_images`
@@ -2402,13 +1666,13 @@ ALTER TABLE `client_location_images`
 -- AUTO_INCREMENT for table `client_product_inventory`
 --
 ALTER TABLE `client_product_inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `client_product_price`
 --
 ALTER TABLE `client_product_price`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `client_selesmans`
@@ -2420,7 +1684,7 @@ ALTER TABLE `client_selesmans`
 -- AUTO_INCREMENT for table `client_visits`
 --
 ALTER TABLE `client_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `coordinates`
@@ -2432,37 +1696,37 @@ ALTER TABLE `coordinates`
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `delivery_config`
 --
 ALTER TABLE `delivery_config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `delivery_config_orders`
 --
 ALTER TABLE `delivery_config_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `delivery_routes`
 --
 ALTER TABLE `delivery_routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `fcm_notifications`
 --
 ALTER TABLE `fcm_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `fcm_notification_user`
 --
 ALTER TABLE `fcm_notification_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `group_to_zip_code`
@@ -2474,13 +1738,13 @@ ALTER TABLE `group_to_zip_code`
 -- AUTO_INCREMENT for table `leads`
 --
 ALTER TABLE `leads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `lead_visits`
 --
 ALTER TABLE `lead_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `mail_template`
@@ -2492,7 +1756,7 @@ ALTER TABLE `mail_template`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_delivery_images`
@@ -2504,19 +1768,19 @@ ALTER TABLE `order_delivery_images`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment_details`
 --
 ALTER TABLE `payment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -2564,13 +1828,13 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `user_vehicle`
@@ -2582,13 +1846,13 @@ ALTER TABLE `user_vehicle`
 -- AUTO_INCREMENT for table `user_zip_codes`
 --
 ALTER TABLE `user_zip_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_zip_code_groups`
 --
 ALTER TABLE `user_zip_code_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `vehicle`
@@ -2612,7 +1876,7 @@ ALTER TABLE `zip_codes`
 -- AUTO_INCREMENT for table `zip_code_groups`
 --
 ALTER TABLE `zip_code_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

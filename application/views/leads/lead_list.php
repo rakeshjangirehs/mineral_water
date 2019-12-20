@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-12 col-md-8">
+    <div class="col-sm-12 col-md-12">
         <div class="page-body">
             <div class="row">
                 <div class="col-sm-12">
@@ -28,7 +28,8 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 col-md-4">
+    <!-- Display None for :: If salesman can see leads added by him only, then who will see leads added from admin panel? Currenly salesman can only see leads added by him only when creating a visit for lead.-->
+    <div class="col-sm-12 col-md-4" style="display:none;">
         <div class="page-body">
             <div class="row">
                 <div class="col-sm-12">

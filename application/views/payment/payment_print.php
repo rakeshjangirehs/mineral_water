@@ -144,7 +144,7 @@
                 $total_credit_used += floatval($invoices['credit_used']);
 
                 $payable_amount = number_format($invoices['payable_amount'],2);
-                $pending_amount = $invoices['payable_amount'] - $invoices['previously_paid'];
+                $pending_amount = sprintf('%0.2f', $invoices['payable_amount'] - $invoices['previously_paid']);
 
                 echo "<tr>
                             <td class='bb'>{$invoices['order_id']}</td>                                                    

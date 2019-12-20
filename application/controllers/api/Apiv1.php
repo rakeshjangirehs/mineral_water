@@ -668,7 +668,10 @@ class ApiV1 extends REST_Controller {
             if($user){
 
                 $this->db->delete("user_devices", array("device_id"=>$device_id));
-                $this->db->insert("user_devices", array("user_id"=>$user['user_id'], "device_id"=>$device_id));
+                $this->db->insert("user_devices", array(
+                    "user_id"=>$user['user_id'],
+                    "device_id"=>$device_id,
+                ));
 
                 // remove first created device ids if more than two
                 $sqlDeviceIds = $this->db->query("DELETE from user_devices 
@@ -811,7 +814,6 @@ class ApiV1 extends REST_Controller {
                 'email'=>$email,
                 'phone_1'=>$phone_1,
                 'phone_2'=>$phone_2,
-                'created_by'=>$user_id
             );
 
             $visitArr = ($visit_note) ? array(
@@ -825,6 +827,8 @@ class ApiV1 extends REST_Controller {
 
             if($lead_id){
                 $leadArr['updated_by'] = $user_id;
+            }else{
+                $leadArr['created_by'] = $user_id;
             }
 
             if($this->client->add_update_lead($leadArr, $visitArr,$lead_id)){
@@ -1098,12 +1102,7 @@ class ApiV1 extends REST_Controller {
         $entityBody = file_get_contents('php://input');
         // var_dump($entityBody);die;
         // $h = fopen("debug.txt","a+");
-        // fwrite($h,json_encode(array(
-        //     'date'=>date('Y-m-d H:i:s'),
-        //     'url'=>$_SERVER['PHP_SELF'],
-        //     'method'=>$this->input->server('REQUEST_METHOD'),
-        //     'data'=>$entityBody,
-        // )) . PHP_EOL);
+        // fwrite($h,json_encode($entityBody) . PHP_EOL);
         // fclose($h);
         
         /*
@@ -1216,7 +1215,7 @@ class ApiV1 extends REST_Controller {
                         $lead = $this->db->get_where("leads",["id"=>$id])->row_array();
                         
                         $arrClient = array(
-                            'client_name'       =>  $lead['company_name'],
+                            'client_name'       =>  (isset($orders['city_id']) && $orders['city_id']!='') ? $orders['city_id'] : $lead['company_name'],
                             'credit_limit'      =>  $this->system_setting['default_credit_limit'],
                             'lead_id'           =>  $id,
                             'contact_person_name_1'     =>  $lead['contact_person_name'],
@@ -1235,6 +1234,7 @@ class ApiV1 extends REST_Controller {
                             'created_at'                =>  date('Y-m-d H:i:s'),
                             'created_by'                =>  $user_id,
                         );
+                        //TODO update client_name and contact person 1 details if provided in app
                     }
 
                     $need_admin_approval = false;
@@ -1792,6 +1792,10 @@ class ApiV1 extends REST_Controller {
     */
     public function deliver_order_post(){
         
+        // $h = fopen("debug.txt","a+");
+        // fwrite($h,json_encode($_POST) . PHP_EOL);
+        // fclose($h);
+
         $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
 
         $user_id = $this->input->post('user_id');
@@ -1880,6 +1884,7 @@ class ApiV1 extends REST_Controller {
             $dco_data = $this->db->select("
                                         delivery_config_orders.delivery_id,
                                         delivery_config_orders.order_id,
+                                        delivery_config_orders.delivery_config_id,
                                         orders.client_id")
                                 ->join("orders","orders.id = delivery_config_orders.order_id","left")
                                 ->get_where("delivery_config_orders","delivery_config_orders.id = {$dco_id}")
@@ -1896,26 +1901,39 @@ class ApiV1 extends REST_Controller {
                 
                 $this->db->where("id = {$dco_data['order_id']}")->update("orders",$order_data);
 
-                $delivery_data = array(
-                    'actual_delivey_datetime'  =>  date('Y-m-d H:i:s'),
-                    'updated_at'    =>  date('Y-m-d'),
-                    'updated_by'    =>  $user_id,
-                );
-
-                //TODO - Update only when there is no delivery order pending, check sideeffects.
+                //Update only when there is no delivery order pending, check sideeffects.
+                $if_any_delivered_pending_qry = "SELECT
+                                                count(*) AS `pending_count`
+                                            FROM delivery_config_orders
+                                            WHERE delivery_config_orders.delivery_config_id = {$dco_data['delivery_config_id']}
+                                            AND delivery_config_orders.delivery_datetime IS NULL";
                 
-                $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
+                $if_any_delivered_pending = $this->db->query($if_any_delivered_pending_qry)->row_array();
+                
+                // log_message('error',"Order_model".__LINE__.$this->db->last_query()." Pending: ".$if_any_delivered_pending['pending_count']);
+                
+                if($if_any_delivered_pending['pending_count'] == 0){
+                    
+                    $delivery_data = array(
+                        'actual_delivey_datetime'  =>  date('Y-m-d H:i:s'),
+                        'updated_at'    =>  date('Y-m-d'),
+                        'updated_by'    =>  $user_id,
+                    );
+                    $this->db->where("id = {$dco_data['delivery_id']}")->update("delivery",$delivery_data);
+                }
 
-                $this->db->insert("client_product_inventory",array(
-                    'dco_id'            =>  $dco_id,
-                    'client_id'         =>  $dco_data['client_id'],
-                    'product_id'        =>  $product_id,
-                    'existing_quentity' =>  $existing_quentity,
-                    'new_delivered'     =>  $new_delivered,
-                    'empty_collected'   =>  $empty_collected,
-                    'created_at'        =>  date('Y-m-d'),
-                    'created_by'        =>  $user_id,
-                ));
+                if($manage_stock_needed==1){
+                    $this->db->insert("client_product_inventory",array(
+                        'dco_id'            =>  $dco_id,
+                        'client_id'         =>  $dco_data['client_id'],
+                        'product_id'        =>  $product_id,
+                        'existing_quentity' =>  $existing_quentity,
+                        'new_delivered'     =>  $new_delivered,
+                        'empty_collected'   =>  $empty_collected,
+                        'created_at'        =>  date('Y-m-d'),
+                        'created_by'        =>  $user_id,
+                    ));
+                }
             }
 
             $ord_data = $this->db->query("SELECT 

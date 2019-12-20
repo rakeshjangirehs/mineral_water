@@ -106,24 +106,29 @@
                                     <?php if(isset($order['order_items'])){
                                         foreach($order['order_items'] as $k=>$product){
                                             $sr = ++$k;
-                                            $product_price = $product['quantity'] * $product['effective_price'];
+                                            $effective_price = sprintf('%0.2f', $product['effective_price']);
+                                            $product_price = sprintf('%0.2f', $product['quantity'] * $product['effective_price']);
                                             echo "<tr>
                                                     <td>
                                                         <h6>{$product['product_name']} - {$product['product_code']}</h6>
                                                         <p>{$product['description']}</p>
                                                     </td>                                                    
                                                     <td>{$product['quantity']}</td>
-                                                    <td style='text-align:right;'>{$product['effective_price']}</td>
+                                                    <td style='text-align:right;'>{$effective_price}</td>
                                                     <td style='text-align:right;'>{$product_price}</td>
                                                 </tr>";
                                         }
                                         
+                                        $payable_amount = sprintf('%0.2f', $order['payable_amount']);
+
                                         if($order['scheme_id']){
                                             if($order['gift_mode'] == 'cash_benifit'){
 
                                                 $dis_type = ($order['discount_mode']=='percentage') ? "Discount ({$order['discount_value']}%) :" : "Discount(Rs.) :";
+                                                $computed_disc = sprintf('%0.2f', $order['computed_disc']);
+                                                $effective_amount = sprintf('%0.2f', $order['effective_amount']);                                                
 
-                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'></td><td style='text-align:right;'>{$order['payable_amount']}</td></tr>";
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'></td><td style='text-align:right;'>{$payable_amount}</td></tr>";
                                                 echo "<tr style='font-weight: 800;'>
                                                     <td>
                                                         Scheme
@@ -132,9 +137,9 @@
                                                     </td>
                                                     <td></td>
                                                     <td style='text-align:right;'>{$dis_type}</td>
-                                                    <td style='text-align:right;'>{$order['computed_disc']}</td>
+                                                    <td style='text-align:right;'>{$computed_disc}</td>
                                                 </tr>";
-                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$order['effective_amount']}</td></tr>";
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$effective_amount}</td></tr>";
                                             }else if($order['free_product']){
                                                 
                                                 echo "<tr>
@@ -151,10 +156,10 @@
                                                     <td style='text-align:right;'>0</td>
                                                     <td style='text-align:right;'>0</td>
                                                 </tr>";
-                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$order['payable_amount']}</td></tr>";
+                                                echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$payable_amount}</td></tr>";
                                             }
                                         }else{
-                                            echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$order['payable_amount']}</td></tr>";
+                                            echo "<tr style='font-weight: 800;'><td></td><td></td><td style='text-align:right;'>Total</td><td style='text-align:right;'>{$payable_amount}</td></tr>";
                                         }
 
                                         

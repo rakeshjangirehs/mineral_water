@@ -6,11 +6,12 @@ class Order_model extends MY_Model {
         parent::__construct();
     }
 
-    public function add_order($orders = array(), $order_items = array(),$client = null){	//
+    public function add_order($orders = array(), $order_items = array(),$client = null){
 
 		$this->db->trans_start();
 		
 		if($client){
+			
 			if($this->db->insert("clients",$client)){
 
 				$client_id = $this->db->insert_id();
@@ -23,6 +24,7 @@ class Order_model extends MY_Model {
 					'lead_id'	=>	null,
 					'client_id'	=>	$client_id,
 					'updated_at'=>	date('Y-m-d'),
+					'updated_by'=>	$orders['created_by'],
 				);
 
 				$this->db->where("lead_id = {$client['lead_id']}")->update("client_delivery_addresses",$client_delivery_addresses_data);
@@ -163,7 +165,7 @@ class Order_model extends MY_Model {
 		$order_user = $this->db
 						->select("users.id as user_id, user_devices.device_id")
 						->where("orders.id",$order_id)
-						->where("user_devices.device_id IS NOT NULL")
+						// ->where("user_devices.device_id IS NOT NULL")
 						->join("users","users.id = orders.created_by","left")
 						->join("user_devices","user_devices.user_id = users.id","left")
 						->group_by("users.id,user_devices.device_id")

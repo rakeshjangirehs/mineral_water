@@ -40,11 +40,13 @@
                     $where .= " AND delivery_id IS NOT NULL AND actual_delivey_datetime IS NULL";
                     $colsArr = array(
                         'id',
+                        'delivery_id',
                         'client_name',
                         'expected_delivery_date',
                         'payable_amount',
                         'effective_price',                        
                         'expected_delivey_datetime',
+                        'delivery_team',
                         'action'
                     );
                     break;
@@ -52,6 +54,7 @@
                     $where .= " AND actual_delivey_datetime IS NOT NULL";
                     $colsArr = array(
                         'id',
+                        'delivery_id',
                         'client_name',
                         'expected_delivery_date',
                         'payable_amount',
@@ -59,11 +62,14 @@
                         'expected_delivey_datetime',
                         'actual_delivey_datetime',
                         'amount_recieved',
+                        'delivery_team',
+                        'notes',
                         'action'
                     );
                     break;
             }
 
+            /*
             $query = "SELECT 
                     orders.*,
                     #`clients`.`id` AS `client_id`,
@@ -120,6 +126,49 @@
                     GROUP BY delivery_config.id
                 ) as tbl ON FIND_IN_SET(orders.id,tbl.orders)
                 GROUP BY `orders`.`id`";    //ORDER BY `orders`.`id`
+                */
+
+            $query = "SELECT 
+                        orders.*,
+                        #`clients`.`id` AS `client_id`,
+                        `clients`.`client_name`,
+                        `salesman`.`id` AS `salesman_id`, 
+                        CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`,
+                        #`deliveryboy`.`id` AS `deliveryboy_id`, 
+                        #CONCAT(`deliveryboy`.`first_name`,' ',IFNULL(`deliveryboy`.`last_name`, '')) as `deliveryboy_name`,	
+                        DATE_FORMAT(delivery.expected_delivey_datetime,'%Y-%m-%d') as expected_delivey_datetime,
+                        DATE_FORMAT(delivery_config_orders.delivery_datetime,'%Y-%m-%d') as actual_delivey_datetime,
+                        delivery.pickup_location,
+                        delivery.warehouse,
+                        (CASE
+                            WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                                WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                                ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                            END)
+                            ELSE orders.payable_amount
+                        END) AS `effective_price`,
+                        delivery_config_orders.amount AS amount_recieved,
+                        delivery_config_orders.notes,
+                        (CASE
+                            WHEN delivery.id IS NOT NULL
+                            THEN (CASE
+                                    WHEN delivery_boy.id IS NOT NULL
+                                    THEN CONCAT(delivery_boy.first_name, ' ', delivery_boy.last_name, '<br/>',driver.first_name, ' ',driver.last_name)
+                                    ELSE CONCAT(driver.first_name, ' ',driver.last_name)
+                                END)
+                            ELSE ''
+                        END) AS `delivery_team`                        
+                    FROM orders				
+                    LEFT JOIN clients ON clients.id = orders.client_id 
+                    LEFT JOIN users as salesman ON salesman.id = orders.created_by 
+                    #LEFT JOIN users as deliveryboy ON deliveryboy.id = orders.delivery_boy_id
+                    LEFT JOIN schemes ON schemes.id = orders.scheme_id                    
+                    LEFT JOIN delivery_config_orders ON delivery_config_orders.order_id = orders.id
+                    LEFT JOIN delivery_config ON delivery_config.id = delivery_config_orders.delivery_config_id
+                    LEFT JOIN users AS delivery_boy ON delivery_boy.id = delivery_config.delivery_boy_id
+                    LEFT JOIN users AS driver ON driver.id = delivery_config.driver_id
+                    LEFT JOIN delivery ON delivery.id = delivery_config.delivery_id
+                    GROUP BY `orders`.`id`";
 
                 $result = $this->model->common_datatable($colsArr, $query, $where,NULL,TRUE);                
                 // echo "<pre>".$this->db->last_query();die;

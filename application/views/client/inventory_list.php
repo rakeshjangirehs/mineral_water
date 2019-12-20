@@ -42,7 +42,7 @@
                         <thead>
                             <tr>
                                 <th>Delivery Date</th>
-                                <th>Existing Quantity</th>
+                                <!-- <th>Existing Quantity</th> -->
                                 <th>New Delivered</th>
                                 <th>Empty Collected</th>
                                 <th>Team</th>
@@ -114,9 +114,9 @@
                         if(response.payload.length>0){
                             client_name = response.payload[0]['client_name'];
                             $.each(response.payload, function(i,arr){
+                                // <td>"+arr.existing_quentity+"</td>\
                                 $str += "<tr>\
                                             <td>"+arr.delivey_date+"</td>\
-                                            <td>"+arr.existing_quentity+"</td>\
                                             <td>"+arr.new_delivered+"</td>\
                                             <td>"+arr.empty_collected+"</td>\
                                             <td>"+arr.team+"</td>\
