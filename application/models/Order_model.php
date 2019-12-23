@@ -86,12 +86,21 @@ class Order_model extends MY_Model {
 					`clients`.`contact_person_1_phone_1`,
                     `clients`.`credit_balance`,
                     SUM(`payment_details`.`total_payment`) AS `paid_amount`
+					,(CASE
+						WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+							WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+							ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+						END)
+						ELSE orders.payable_amount
+					END) AS effective_payment
                 FROM `orders`
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
+                LEFT JOIN schemes ON schemes.id = orders.scheme_id
                 LEFT JOIN `payment_details` ON `payment_details`.`order_id` = `orders`.`id`
                 WHERE `orders`.`client_id` = {$client_id}
                 GROUP BY `orders`.`id`
-                HAVING (SUM(`payment_details`.`total_payment`) IS NULL OR SUM(`payment_details`.`total_payment`) < `orders`.`payable_amount`)
+                #HAVING (SUM(`payment_details`.`total_payment`) IS NULL OR SUM(`payment_details`.`total_payment`) < `orders`.`payable_amount`)
+                HAVING (SUM(`payment_details`.`total_payment`) IS NULL OR SUM(`payment_details`.`total_payment`) < effective_payment)
                 ORDER BY `orders`.`created_at` ASC";
 
 	    return $this->db->query($sql)->result_array();

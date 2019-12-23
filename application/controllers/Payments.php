@@ -33,6 +33,7 @@ class Payments extends MY_Controller {
             $payments  =  ($this->input->post('payments')) ? $this->input->post('payments') : 0.00;
 
             $paymnent_data = array(
+                'payment_date'  =>  ($this->input->post('payment_date')) ? $this->input->post('payment_date') : date('Y-m-d'),
                 'client_id'  =>  ($this->input->post('client_id')) ? $this->input->post('client_id') : null,
                 'payment_mode'  =>  ($this->input->post('payment_mode')) ? $this->input->post('payment_mode') : null,
                 'check_no'  =>  ($this->input->post('check_no')) ? $this->input->post('check_no') : null,
@@ -111,6 +112,7 @@ class Payments extends MY_Controller {
         $this->data['client_detail'] = $this->client->get_client_by_id($client_id);
 //        echo "<pre>";print_r($this->data['client_detail']);die;
         $this->data['invoice_list'] = $this->order_model->get_invoice($client_id);
+    //    echo "<pre>";print_r($this->data['invoice_list']);die;
     //    echo "<pre>";print_r($this->data);die;
 //        echo "<pre>".$this->db->last_query();die;
         $this->data['page_title'] = 'Post Payment';
@@ -143,6 +145,7 @@ class Payments extends MY_Controller {
 
         $payment_data = $this->get_payments($payment_id);
 
+        // echo "<pre>";print_r($payment_data);die;
         $this->data['payment_data'] = $payment_data;
         $this->data['id'] = $payment_id;
         $this->data['page_title'] = 'Payment View';
@@ -246,6 +249,13 @@ class Payments extends MY_Controller {
             $invoice_query = "SELECT
                                 `payment_details`.*,
                                 `orders`.`payable_amount`,
+                                (CASE
+                                    WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                                        WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                                        ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                                    END)
+                                    ELSE orders.payable_amount
+                                END) AS effective_payment,
                                 (
                                     SELECT
                                         #GROUP_CONCAT(`pd_sub`.`id`)
@@ -256,6 +266,7 @@ class Payments extends MY_Controller {
                                 ) AS `previously_paid`
                             FROM `payment_details`
                             LEFT JOIN `orders` ON `orders`.`id` = `payment_details`.`order_id`
+                            LEFT JOIN schemes ON schemes.id = orders.scheme_id
                             WHERE `payment_details`.`payment_id` = {$payment_data['id']}";
 
             $payment_data['invoices'] = $this->db->query($invoice_query)->result_array();
@@ -270,7 +281,7 @@ class Payments extends MY_Controller {
         if($payment = $this->db->get_where("payments",array('id'=> $payment_id))->row_array()){
 
             $credit_balance_used = floatval($payment['credit_balance_used']);
-echo $credit_balance_used;die;
+
             $this->db->trans_start();
 
             if($credit_balance_used){

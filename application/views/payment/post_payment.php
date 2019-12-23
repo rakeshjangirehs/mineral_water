@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="page-body">
-            <form id="post_payment_form" method="post">
+            <form id="post_payment_form" method="post" autocomplete="off">
                 <input type="hidden" name="client_id" value="<?php echo $client_detail['id']; ?>"/>
                 <div class="card">
                     <div class="card-header">
@@ -32,6 +32,13 @@
                                             <option value="Credit Card">Credit Card</option>
                                         </select>
                                         <span class="messages"><?php echo form_error('payment_mode');?></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="payment_date" class="col-form-label col-md-4">Payment Date:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="payment_date" id="payment_date" class="form-control" value="<?php echo date('Y-m-d');?>" required/>
+                                        <span class="messages"><?php echo form_error('payment_date');?></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -63,8 +70,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="" class="col-form-label col-md-4">Available Credit Balance:</label>
-                                    <div class="col-sm-8">
+                                    <label for="" class="col-form-label col-md-5">Available Credit Balance:</label>
+                                    <div class="col-sm-7">
                                         <input type="hidden" name="original_credit_balance" id="original_credit_balance" value="<?php echo $client_detail['credit_balance']; ?>"/>
                                         <input type="hidden" name="credit_balance" id="credit_balance" value="<?php echo $client_detail['credit_balance']; ?>"/>
                                         <label for="" class="col-form-label" id="credit_balance_lbl"><?php echo $client_detail['credit_balance']; ?></label>
@@ -116,15 +123,16 @@
                                         <?php
                                             if(!empty($invoice_list)){
                                                 foreach($invoice_list as $k=>$invoice){
-                                                    $payable_amount = number_format($invoice['payable_amount'],2);
-                                                    $pending_amount = sprintf('%0.2f', $invoice['payable_amount'] - $invoice['paid_amount']);//number_format(($invoice['payable_amount'] - $invoice['paid_amount']), 2);
+                                                    // $payable_amount = number_format($invoice['effective_payment'],2);
+                                                    $payable_amount = sprintf('%0.2f', $invoice['effective_payment']);
+                                                    $pending_amount = sprintf('%0.2f', $invoice['effective_payment'] - $invoice['paid_amount']);//number_format(($invoice['payable_amount'] - $invoice['paid_amount']), 2);
                                                     echo "<tr>
                                                                 <th>
                                                                     <a title='View Order' href='{$this->baseUrl}orders/order_details/{$invoice['id']}' target='_blank'>{$invoice['id']}</a>
                                                                     <input type='hidden' name='payments[{$invoice['id']}][order_id]' value='{$invoice['id']}'/>
                                                                     <input type='hidden' name='payments[{$invoice['id']}][outstanding_amount]' value='{$pending_amount}'/>
                                                                 </th>
-                                                                <td>{$invoice['payable_amount']}</td>
+                                                                <td>{$payable_amount}</td>
                                                                 <td class='to_be_paid_amound'>{$pending_amount}</td>
                                                                 <td><input type='hidden' name='payments[{$invoice['id']}][amount_used]' class='amount_used'/><span class='amount_used_lbl'></span></td>
                                                                 <td><input type='hidden' name='payments[{$invoice['id']}][credit_used]' class='credit_used'/><span class='credit_used_lbl'></span></td>
@@ -163,12 +171,22 @@
     var $transection_no = $("#transection_no");
     var $check_date = $("#dropper-default");
 
-    $check_date.dateDropper({
-        dropWidth: 200,
-        dropPrimaryColor: "#1abc9c", 
-        dropBorder: "1px solid #1abc9c",
-        format: "Y-m-d",
+    $("#payment_date, #dropper-default").datepicker({
+        format		:	"yyyy-mm-dd",
+        autoclose	:	true,
+        todayBtn	:	"linked",
+        // clearBtn	:	true,
+        // endDate		: 	moment().format("YYYY-MM-DD"),
+        // maxViewMode : 	2
+        orientation: "bottom left"
     });
+
+    // $check_date.dateDropper({
+    //     dropWidth: 200,
+    //     dropPrimaryColor: "#1abc9c", 
+    //     dropBorder: "1px solid #1abc9c",
+    //     format: "Y-m-d",
+    // });
 
     var pending_amount = 0;
     $("#payments tr").each(function (e) {

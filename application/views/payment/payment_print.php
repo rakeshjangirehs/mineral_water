@@ -143,12 +143,14 @@
                 $total_amount_used += floatval($invoices['amount_used']);
                 $total_credit_used += floatval($invoices['credit_used']);
 
-                $payable_amount = number_format($invoices['payable_amount'],2);
-                $pending_amount = sprintf('%0.2f', $invoices['payable_amount'] - $invoices['previously_paid']);
+                // $payable_amount = number_format($invoices['payable_amount'],2);
+                $payable_amount = sprintf('%0.2f', $invoices['effective_payment']);
+                $pending_amount = sprintf('%0.2f', $invoices['effective_payment'] - $invoices['previously_paid']);
+                
 
                 echo "<tr>
                             <td class='bb'>{$invoices['order_id']}</td>                                                    
-                            <td class='tc bb'>{$invoices['payable_amount']}</td>
+                            <td class='tc bb'>{$payable_amount}</td>
                             <td class='tc bb'>{$pending_amount}</td>
                             <td class='tc bb'>{$invoices['amount_used']}</td>
                             <td class='tc bb'>{$invoices['credit_used']}</td>
