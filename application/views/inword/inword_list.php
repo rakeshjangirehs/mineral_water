@@ -21,6 +21,7 @@
                                         <th>Product</th>
                                         <th>Type</th>
                                         <th>Quantity</th>
+                                        <th>User Name</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -173,6 +174,7 @@
                 { "data": "product_name" },
                 { "data": "type" },
                 { "data": "quantity" },
+                { "data": "acted_by" },
                 {
                     "data": 'link',
                     "orderable" : false,

@@ -53,14 +53,16 @@ class Inwordcontroller extends MY_Controller {
                 'products.product_name',
                 'inward_outword.type',
                 'inward_outword.quantity',
+                'CONCAT(users.first_name, " ",IFNULL(users.last_name,""))',
 				'action'
 			);
 
             $query = $this
                 ->model
-                ->common_select('inward_outword.*,products.product_name,(CASE WHEN warehouses.name IS NOT NULL THEN warehouses.name ELSE "Office" END) as warehouse_name')
+                ->common_select('inward_outword.*,products.product_name,(CASE WHEN warehouses.name IS NOT NULL THEN warehouses.name ELSE "Office" END) as warehouse_name, CONCAT(users.first_name, " ",IFNULL(users.last_name,"")) AS acted_by')
                 ->common_join('products','products.id = inward_outword.product_id','LEFT')
                 ->common_join('warehouses','warehouses.id = inward_outword.warehouse_id','LEFT')
+                ->common_join('users','users.id = inward_outword.created_by','LEFT')
                 ->common_get('inward_outword');
 
 			echo $this->model->common_datatable($colsArr, $query, "",NULL,false);die;
