@@ -330,6 +330,7 @@
         $(".add_update_delivery_li").active();
         
         var config_template = $("#config_template").html();
+        var current_delivery_id = "<?php echo $delivery_id;?>";
                 
         <?php 
         $str = "";
@@ -666,9 +667,9 @@
                             
                             if(data && data.length>0){
                                 $.each(data,function(i,arr){
-                                    
+                                    // console.log(arr.delivery_id, current_delivery_id);
                                     var checked = '';//($.inArray(arr.id,selected_orders) != -1) ? 'checked' : '';
-                                    var tr_attribute = (arr.delivery_id) ? "class='miss_delivery' title='Missed Delivery'" : '';
+                                    var tr_attribute = (arr.delivery_id && arr.delivery_id != current_delivery_id) ? "class='miss_delivery' title='Missed Delivery'" : '';
                                     var str = `<tr ${tr_attribute}>
                                                     <td>
                                                         <div class='checkbox-fade fade-in-primary'>

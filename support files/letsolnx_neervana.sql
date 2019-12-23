@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 20, 2019 at 06:53 AM
+-- Generation Time: Dec 23, 2019 at 08:30 AM
 -- Server version: 10.1.43-MariaDB-cll-lve
 -- PHP Version: 7.2.7
 
@@ -140,8 +140,9 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`id`, `client_name`, `credit_limit`, `credit_balance`, `address`, `city_id`, `state_id`, `zip_code_id`, `lead_id`, `lat`, `lng`, `contact_person_name_1`, `contact_person_1_phone_1`, `contact_person_1_phone_2`, `contact_person_1_email`, `contact_person_name_2`, `contact_person_2_phone_1`, `contact_person_2_phone_2`, `contact_person_2_email`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `gst_no`, `category_id`) VALUES
 (1, 'Milan & Company', '0.00', 0.00, NULL, 3, 2, 8, 5, NULL, NULL, 'Milan Soni', '7600265925', NULL, 'milans@letsenkindle.com', NULL, NULL, NULL, NULL, 0, '2019-12-19 19:12:50', 5, NULL, NULL, 'Active', 'GJ 01 VV 1809', NULL),
-(2, 'Ashish & Company', '0.00', 0.00, NULL, 3, 2, 6, 1, NULL, NULL, 'Ashish Makwana', '9510335127', NULL, 'ashishm@letsenkindle.com', 'Rakesh Jangir', '9166650505', NULL, 'rakeshj@letsenkindle.com', 0, '2019-12-19 19:53:36', 1, NULL, NULL, 'Active', 'ASH 1234', NULL),
-(3, 'Rakesh & Company', '0.00', 0.00, NULL, 3, 2, 12, 2, NULL, NULL, 'Rakesh Jangir', '9166650505', NULL, 'rakeshj@letsenkindle.com', NULL, NULL, NULL, NULL, 0, '2019-12-19 22:29:01', 1, NULL, NULL, 'Active', 'GST 1234', NULL);
+(2, 'Ashish & Company', '0.00', 400.00, NULL, 3, 2, 6, 1, NULL, NULL, 'Ashish Makwana', '9510335127', NULL, 'ashishm@letsenkindle.com', 'Rakesh Jangir', '9166650505', NULL, 'rakeshj@letsenkindle.com', 0, '2019-12-19 19:53:36', 1, '2019-12-20 07:52:37', NULL, 'Active', 'ASH 1234', NULL),
+(3, 'Rakesh & Company', '0.00', 0.00, NULL, 3, 2, 12, 2, NULL, NULL, 'Rakesh Jangir', '9166650505', NULL, 'rakeshj@letsenkindle.com', NULL, NULL, NULL, NULL, 0, '2019-12-19 22:29:01', 1, NULL, NULL, 'Active', 'GST 1234', NULL),
+(4, 'sai pan parlour', '0.00', 0.00, NULL, 3, 2, 12, 6, NULL, NULL, 'Krunal pandya', '9865356895', NULL, 'sai.pan@gmail.com', NULL, NULL, NULL, NULL, 0, '2019-12-20 18:02:58', 5, NULL, NULL, 'Active', '22hdgyu7657jsu', NULL);
 
 -- --------------------------------------------------------
 
@@ -218,7 +219,8 @@ CREATE TABLE `client_delivery_addresses` (
 INSERT INTO `client_delivery_addresses` (`id`, `client_id`, `lead_id`, `title`, `address`, `zip_code_id`, `lat`, `lng`, `is_deleted`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
 (1, 1, NULL, 'Office', 'Income Tax', 8, 23.045263, 72.568550, 0, '2019-12-19 19:12:27', 5, '2019-12-19 00:00:00', NULL, 'Active'),
 (3, 2, NULL, 'Home', 'Bopal', 6, NULL, NULL, 0, '2019-12-19 19:53:03', 1, '2019-12-19 00:00:00', NULL, 'Active'),
-(4, 3, NULL, 'Home 2', 'Janta Colony', 12, 23.045237, 72.568642, 0, '2019-12-19 22:28:48', 1, '2019-12-19 00:00:00', NULL, 'Active');
+(4, 3, NULL, 'Home 2', 'Janta Colony', 12, 23.045237, 72.568642, 0, '2019-12-19 22:28:48', 1, '2019-12-19 00:00:00', NULL, 'Active'),
+(5, 4, NULL, 'Shop', 'din bai tower, lal darwaja', 12, NULL, NULL, 0, '2019-12-20 18:02:49', 5, '2019-12-20 00:00:00', 5, 'Active');
 
 -- --------------------------------------------------------
 
@@ -265,7 +267,8 @@ INSERT INTO `client_product_inventory` (`id`, `dco_id`, `client_id`, `product_id
 (9, 20, 1, 7, 0, 5, 0, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active'),
 (10, 21, 1, 7, 5, 10, 0, '2019-12-20 00:00:00', 3, NULL, NULL, 'Active'),
 (11, 22, 1, 7, 15, 20, 5, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active'),
-(12, 23, 1, 7, 30, 3, 5, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active');
+(12, 23, 1, 7, 30, 3, 5, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active'),
+(13, 24, 4, 7, 0, 3, 0, '2019-12-20 00:00:00', 4, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -290,7 +293,7 @@ CREATE TABLE `client_product_price` (
 --
 
 INSERT INTO `client_product_price` (`id`, `client_id`, `product_id`, `sale_price`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`) VALUES
-(1, 1, 1, 262, '2019-12-19 19:12:50', NULL, '2019-12-19 11:01:11', NULL, 'Active'),
+(1, 1, 1, 261, '2019-12-19 19:12:50', NULL, '2019-12-20 07:12:58', NULL, 'Active'),
 (2, 1, 2, 245, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
 (3, 1, 3, 250, '2019-12-19 19:12:50', NULL, '2019-12-19 08:44:20', NULL, 'Active'),
 (4, 1, 4, 165, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
@@ -299,7 +302,7 @@ INSERT INTO `client_product_price` (`id`, `client_id`, `product_id`, `sale_price
 (7, 1, 8, 18, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
 (8, 1, 9, 455, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
 (9, 1, 10, 120, '2019-12-19 19:12:50', NULL, NULL, NULL, 'Active'),
-(10, 2, 1, 260, '2019-12-19 19:53:36', NULL, '2019-12-20 04:52:04', NULL, 'Active'),
+(10, 2, 1, 268, '2019-12-19 19:53:36', NULL, '2019-12-20 07:56:44', NULL, 'Active'),
 (11, 2, 2, 245, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
 (12, 2, 3, 255, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
 (13, 2, 4, 165, '2019-12-19 19:53:36', NULL, NULL, NULL, 'Active'),
@@ -316,7 +319,16 @@ INSERT INTO `client_product_price` (`id`, `client_id`, `product_id`, `sale_price
 (24, 3, 7, 25, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
 (25, 3, 8, 18, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
 (26, 3, 9, 455, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
-(27, 3, 10, 120, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active');
+(27, 3, 10, 120, '2019-12-19 22:29:01', NULL, NULL, NULL, 'Active'),
+(28, 4, 1, 261, '2019-12-20 18:02:58', NULL, '2019-12-20 07:33:27', NULL, 'Active'),
+(29, 4, 2, 245, '2019-12-20 18:02:58', NULL, NULL, NULL, 'Active'),
+(30, 4, 3, 258, '2019-12-20 18:02:58', NULL, '2019-12-20 07:33:27', NULL, 'Active'),
+(31, 4, 4, 165, '2019-12-20 18:02:58', NULL, NULL, NULL, 'Active'),
+(32, 4, 5, 190, '2019-12-20 18:02:58', NULL, NULL, NULL, 'Active'),
+(33, 4, 7, 25, '2019-12-20 18:02:58', NULL, NULL, NULL, 'Active'),
+(34, 4, 8, 18, '2019-12-20 18:02:58', NULL, NULL, NULL, 'Active'),
+(35, 4, 9, 455, '2019-12-20 18:02:58', NULL, NULL, NULL, 'Active'),
+(36, 4, 10, 120, '2019-12-20 18:02:58', NULL, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -403,7 +415,9 @@ INSERT INTO `delivery` (`id`, `expected_delivey_datetime`, `actual_delivey_datet
 (23, '2019-12-20', '2019-12-20 16:20:26', 'Office', NULL, '2019-12-20 16:15:33', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
 (24, '2019-12-20', '2019-12-20 16:29:02', 'Office', NULL, '2019-12-20 16:27:21', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
 (25, '2019-12-20', '2019-12-20 16:32:30', 'Office', NULL, '2019-12-20 16:31:46', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
-(26, '2019-12-20', '2019-12-20 16:53:13', 'Office', NULL, '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0);
+(26, '2019-12-20', '2019-12-20 16:53:13', 'Office', NULL, '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(27, '2019-12-20', '2019-12-20 18:10:34', 'Office', NULL, '2019-12-20 18:09:28', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(28, '2019-12-23', NULL, 'Office', NULL, '2019-12-23 12:41:44', 8, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -437,7 +451,9 @@ INSERT INTO `delivery_config` (`id`, `delivery_id`, `vehicle_id`, `driver_id`, `
 (24, 23, 1, 4, 3, '2019-12-20 16:15:33', 8, NULL, NULL, 'Active', 0),
 (26, 24, 1, 4, NULL, '2019-12-20 16:28:19', 8, NULL, NULL, 'Active', 0),
 (27, 25, 1, 4, 3, '2019-12-20 16:31:46', 8, NULL, NULL, 'Active', 0),
-(28, 26, 1, 4, NULL, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active', 0);
+(28, 26, 1, 4, NULL, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active', 0),
+(29, 27, 5, 4, NULL, '2019-12-20 18:09:28', 8, NULL, NULL, 'Active', 0),
+(30, 28, 1, 4, NULL, '2019-12-23 12:41:44', 8, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -482,7 +498,11 @@ INSERT INTO `delivery_config_orders` (`id`, `delivery_id`, `delivery_config_id`,
 (20, 24, 26, 13, 0, 'Cash', 124, '5 dropped', '2019-12-20 16:29:02', '1576839517719.png', '2019-12-20 16:28:19', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
 (21, 25, 27, 14, 0, 'Cash', 0, '5 old 10 new 0 collected', '2019-12-20 16:32:30', NULL, '2019-12-20 16:31:46', 8, '2019-12-20 00:00:00', 3, 'Active', 0),
 (22, 26, 28, 15, 0, 'Cash', 9433, '20 drop 5 taken', '2019-12-20 16:37:21', '1576840024764.png', '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
-(23, 26, 28, 16, 0, 'Cash', 72, '5 collected', '2019-12-20 16:53:13', '1576840978330.png', '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0);
+(23, 26, 28, 16, 0, 'Cash', 72, '5 collected', '2019-12-20 16:53:13', '1576840978330.png', '2019-12-20 16:35:43', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(24, 27, 29, 18, 0, 'Cash', 0, 'this is for testing purpose only.', '2019-12-20 18:10:34', NULL, '2019-12-20 18:09:28', 8, '2019-12-20 00:00:00', 4, 'Active', 0),
+(25, 28, 30, 17, 0, 'Cash', 1240, 'neervana pet bottle 5', '2019-12-23 18:58:51', '1577107713853.png', '2019-12-23 12:41:44', 8, '2019-12-23 00:00:00', 4, 'Active', 0),
+(26, 28, 30, 19, 0, 'Cash', 3172, 'outward test', '2019-12-23 18:59:45', '1577107776296.png', '2019-12-23 12:41:44', 8, '2019-12-23 00:00:00', 4, 'Active', 0),
+(27, 28, 30, 20, 0, NULL, 0, NULL, NULL, NULL, '2019-12-23 12:41:44', 8, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -518,7 +538,9 @@ INSERT INTO `delivery_routes` (`id`, `delivery_id`, `zip_code_group_id`, `create
 (24, 23, 1, '2019-12-20 16:15:33', 8, NULL, NULL, 'Active', 0),
 (26, 24, 1, '2019-12-20 16:28:19', 8, NULL, NULL, 'Active', 0),
 (27, 25, 1, '2019-12-20 16:31:46', 8, NULL, NULL, 'Active', 0),
-(28, 26, 1, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active', 0);
+(28, 26, 1, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active', 0),
+(29, 27, 1, '2019-12-20 18:09:28', 8, NULL, NULL, 'Active', 0),
+(30, 28, 1, '2019-12-23 12:41:44', 8, NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -558,7 +580,14 @@ INSERT INTO `fcm_notifications` (`id`, `title`, `message`, `user_arr`, `fcm_toke
 (28, 'Order Approved', 'Order No. 12 for Milan & Company has been approved with final amount 310. Delivery date is 2019-12-20', '[{\"user_id\":\"5\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":4817469869684442473,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576838697151948%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:14:57', 8, NULL, NULL, 'Active'),
 (29, 'Order Delivery', 'Delivery updated for Milan & Company at Income Tax with expected delivery on 20-12-2019 having order amount Rs. 120 with Order Id 13', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":2423117427290443965,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576839499367816%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:28:19', 8, NULL, NULL, 'Active'),
 (30, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 20-12-2019 having order amount Rs. 9433.5 with Order Id 15', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":338459548843505674,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576839943424268%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:35:43', 8, NULL, NULL, 'Active'),
-(31, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 20-12-2019 having order amount Rs. 72 with Order Id 16', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":7628023269181147947,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576839943733382%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:35:43', 8, NULL, NULL, 'Active');
+(31, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 20-12-2019 having order amount Rs. 72 with Order Id 16', '[{\"user_id\":\"4\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":7628023269181147947,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576839943733382%c07a64c8f9fd7ecd\"}]}', '2019-12-20 16:35:43', 8, NULL, NULL, 'Active'),
+(32, 'Order Approved', 'Order No. 17 for Milan & Company has been approved with final amount 1239.75. Delivery date is 2019-12-20', '[{\"user_id\":\"5\",\"device_id\":null}]', NULL, 'Not a FCM Notification', '2019-12-20 17:51:48', 8, NULL, NULL, 'Active'),
+(33, 'Order Approved', 'Order No. 18 for sai pan parlour has been approved with final amount 3908. Delivery date is 2019-12-20', '[{\"user_id\":\"5\",\"device_id\":\"cSu9pvODshk:APA91bH2JRIwUxdPERCDKgn7V-MLYjKwVnVBDEwiesSAqY12Czsy4p2CZjvQNKEHT11Id_LxX67B-IheJRmdd_89EvvvSiqlSaOQV4nAUe_undVEWuQSl8IA34FWdkYw2ChlcTzmkNXu\"},{\"user_id\":\"5\",\"device_id\":\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"}]', '[\"cSu9pvODshk:APA91bH2JRIwUxdPERCDKgn7V-MLYjKwVnVBDEwiesSAqY12Czsy4p2CZjvQNKEHT11Id_LxX67B-IheJRmdd_89EvvvSiqlSaOQV4nAUe_undVEWuQSl8IA34FWdkYw2ChlcTzmkNXu\",\"dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4\"]', '{\"multicast_id\":7949577566821976477,\"success\":2,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576845207967837%c07a64c8f9fd7ecd\"},{\"message_id\":\"0:1576845207967841%c07a64c8f9fd7ecd\"}]}', '2019-12-20 18:03:28', 8, NULL, NULL, 'Active'),
+(34, 'Order Delivery', 'Delivery created for sai pan parlour at din bai tower, lal darwaja with expected delivery on 20-12-2019 having order amount Rs. 3908 with Order Id 18', '[{\"user_id\":\"4\",\"device_id\":\"cSu9pvODshk:APA91bH2JRIwUxdPERCDKgn7V-MLYjKwVnVBDEwiesSAqY12Czsy4p2CZjvQNKEHT11Id_LxX67B-IheJRmdd_89EvvvSiqlSaOQV4nAUe_undVEWuQSl8IA34FWdkYw2ChlcTzmkNXu\"}]', '[\"cSu9pvODshk:APA91bH2JRIwUxdPERCDKgn7V-MLYjKwVnVBDEwiesSAqY12Czsy4p2CZjvQNKEHT11Id_LxX67B-IheJRmdd_89EvvvSiqlSaOQV4nAUe_undVEWuQSl8IA34FWdkYw2ChlcTzmkNXu\"]', '{\"multicast_id\":3402363388593675462,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576845569014400%c07a64c8f9fd7ecd\"}]}', '2019-12-20 18:09:29', 8, NULL, NULL, 'Active'),
+(35, 'Order Approved', 'Order No. 19 for Ashish & Company has been approved with final amount 3171.1. Delivery date is 2019-12-20', '[{\"user_id\":\"1\",\"device_id\":\"cSu9pvODshk:APA91bH2JRIwUxdPERCDKgn7V-MLYjKwVnVBDEwiesSAqY12Czsy4p2CZjvQNKEHT11Id_LxX67B-IheJRmdd_89EvvvSiqlSaOQV4nAUe_undVEWuQSl8IA34FWdkYw2ChlcTzmkNXu\"}]', '[\"cSu9pvODshk:APA91bH2JRIwUxdPERCDKgn7V-MLYjKwVnVBDEwiesSAqY12Czsy4p2CZjvQNKEHT11Id_LxX67B-IheJRmdd_89EvvvSiqlSaOQV4nAUe_undVEWuQSl8IA34FWdkYw2ChlcTzmkNXu\"]', '{\"multicast_id\":6099862326446814811,\"success\":1,\"failure\":0,\"canonical_ids\":0,\"results\":[{\"message_id\":\"0:1576846605239590%c07a64c8f9fd7ecd\"}]}', '2019-12-20 18:26:45', 8, NULL, NULL, 'Active'),
+(36, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 23-12-2019 having order amount Rs. 1239.75 with Order Id 17', '[{\"user_id\":\"4\",\"device_id\":null}]', NULL, 'Not a FCM Notification', '2019-12-23 12:41:44', 8, NULL, NULL, 'Active'),
+(37, 'Order Delivery', 'Delivery created for Ashish & Company at Bopal with expected delivery on 23-12-2019 having order amount Rs. 3171.1 with Order Id 19', '[{\"user_id\":\"4\",\"device_id\":null}]', NULL, 'Not a FCM Notification', '2019-12-23 12:41:44', 8, NULL, NULL, 'Active'),
+(38, 'Order Delivery', 'Delivery created for Milan & Company at Income Tax with expected delivery on 23-12-2019 having order amount Rs. 1239.75 with Order Id 20', '[{\"user_id\":\"4\",\"device_id\":null}]', NULL, 'Not a FCM Notification', '2019-12-23 12:41:44', 8, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -596,7 +625,14 @@ INSERT INTO `fcm_notification_user` (`id`, `user_id`, `notification_id`, `is_rea
 (40, 5, 28, 0, '2019-12-20 16:14:57', 8, NULL, NULL, 'Active'),
 (41, 4, 29, 0, '2019-12-20 16:28:19', 8, NULL, NULL, 'Active'),
 (42, 4, 30, 0, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active'),
-(43, 4, 31, 0, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active');
+(43, 4, 31, 0, '2019-12-20 16:35:43', 8, NULL, NULL, 'Active'),
+(44, 5, 32, 0, '2019-12-20 17:51:48', 8, NULL, NULL, 'Active'),
+(45, 5, 33, 0, '2019-12-20 18:03:28', 8, NULL, NULL, 'Active'),
+(46, 4, 34, 1, '2019-12-20 18:09:29', 8, '2019-12-20 00:00:00', 4, 'Active'),
+(47, 1, 35, 0, '2019-12-20 18:26:45', 8, NULL, NULL, 'Active'),
+(48, 4, 36, 0, '2019-12-23 12:41:44', 8, NULL, NULL, 'Active'),
+(49, 4, 37, 0, '2019-12-23 12:41:44', 8, NULL, NULL, 'Active'),
+(50, 4, 38, 0, '2019-12-23 12:41:44', 8, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -630,7 +666,42 @@ INSERT INTO `group_to_zip_code` (`id`, `zip_code_group_id`, `zip_code_id`, `crea
 (8, 3, 4, '2019-12-19 17:38:40', 2, NULL, NULL, 'Active'),
 (9, 3, 13, '2019-12-19 17:38:40', 2, NULL, NULL, 'Active'),
 (10, 4, 1, '2019-12-19 17:38:53', 2, NULL, NULL, 'Active'),
-(11, 4, 2, '2019-12-19 17:38:53', 2, NULL, NULL, 'Active');
+(11, 4, 2, '2019-12-19 17:38:53', 2, NULL, NULL, 'Active'),
+(12, 2, 14, '2019-12-20 17:58:58', 8, NULL, NULL, 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inward_outword`
+--
+
+CREATE TABLE `inward_outword` (
+  `id` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL COMMENT 'Inward/Outward',
+  `quantity` float DEFAULT NULL,
+  `updated_quantity` float DEFAULT NULL,
+  `delivery_id` int(11) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int(11) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Active' COMMENT 'Active/Inactive',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `inward_outword`
+--
+
+INSERT INTO `inward_outword` (`id`, `date`, `warehouse_id`, `product_id`, `type`, `quantity`, `updated_quantity`, `delivery_id`, `created_by`, `created_at`, `updated_at`, `updated_by`, `status`, `is_deleted`) VALUES
+(4, '2019-12-23', NULL, 1, 'Outward', 5, NULL, NULL, 4, '2019-12-23 00:00:00', NULL, NULL, 'Active', 0),
+(5, '2019-12-23', NULL, 1, 'Outward', 6, NULL, NULL, 4, '2019-12-23 00:00:00', NULL, NULL, 'Active', 0),
+(6, '2019-12-23', NULL, 2, 'Outward', 4, NULL, NULL, 4, '2019-12-23 00:00:00', NULL, NULL, 'Active', 0),
+(7, '2019-12-23', NULL, 3, 'Outward', 1, NULL, NULL, 4, '2019-12-23 00:00:00', NULL, NULL, 'Active', 0),
+(8, '2019-12-23', NULL, 4, 'Outward', 3, NULL, NULL, 4, '2019-12-23 00:00:00', NULL, NULL, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -661,7 +732,9 @@ INSERT INTO `leads` (`id`, `company_name`, `contact_person_name`, `email`, `phon
 (1, 'Ashish & Company', 'Ashish Makwana', 'ashishm@letsenkindle.com', '9510335127', NULL, 1, '2019-12-19 18:12:16', 1, '2019-12-19 09:23:36', 2, 0),
 (2, 'Rakesh & Company', 'Rakesh Jangir', 'rakeshj@letsenkindle.com', '9166650505', NULL, 1, '2019-12-19 18:17:54', 1, '2019-12-19 11:59:01', NULL, 0),
 (4, 'Snehal & Company', 'Snehal Trapsiya', 'snehalt@letsenkindle.com', '9773083060', NULL, 0, '2019-12-19 18:45:30', 8, NULL, NULL, 0),
-(5, 'Milan & Company', 'Milan Soni', 'milans@letsenkindle.com', '7600265925', NULL, 1, '2019-12-19 19:05:21', 5, '2019-12-19 08:42:50', NULL, 0);
+(5, 'Milan & Company', 'Milan Soni', 'milans@letsenkindle.com', '7600265925', NULL, 1, '2019-12-19 19:05:21', 5, '2019-12-19 08:42:50', NULL, 0),
+(6, 'sai pan parlour', 'Krunal pandya', 'sai.pan@gmail.com', '9865356895', NULL, 1, '2019-12-20 18:00:57', 5, '2019-12-20 07:32:58', NULL, 0),
+(7, 'Zahid & Company', 'Zahid', 'zahidm@letsenkindle.com', '9173021172', NULL, 0, '2019-12-20 18:47:02', 5, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -692,7 +765,9 @@ INSERT INTO `lead_visits` (`id`, `lead_id`, `visit_date`, `visit_time`, `visit_t
 (1, 1, '2019-12-19', '18:12:16', 'InPerson', NULL, NULL, 'Lead added by Salesman Ashish Makwana on 19-12-2019', '2019-12-19 00:00:00', 1, NULL, NULL),
 (2, 1, '2019-12-20', '21:46:00', 'phone', 'Monthly order for 20 ltr bottles', NULL, 'Nice Client', '2019-12-19 18:50:12', 1, NULL, NULL),
 (3, 5, '2019-12-19', '19:05:21', 'InPerson', NULL, NULL, 'Lead added by Rakesh Salesman on 19-12-2019', '2019-12-19 00:00:00', 5, NULL, NULL),
-(4, 5, '2019-12-19', '22:06:00', 'inperson', 'bhayankar opportunity hai boss', NULL, 'time pe ajana', '2019-12-19 19:06:15', 5, NULL, NULL);
+(4, 5, '2019-12-19', '22:06:00', 'inperson', 'bhayankar opportunity hai boss', NULL, 'time pe ajana', '2019-12-19 19:06:15', 5, NULL, NULL),
+(5, 6, '2019-12-20', '18:00:57', 'InPerson', NULL, NULL, 'hello', '2019-12-20 00:00:00', 5, NULL, NULL),
+(6, 7, '2019-12-20', '18:47:02', 'InPerson', NULL, NULL, 'Zahid QA', '2019-12-20 00:00:00', 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -742,20 +817,24 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `client_id`, `delivery_address_id`, `scheme_id`, `priority`, `delivery_boy_id`, `expected_delivery_date`, `expected_delivery_date_in_deliver_table`, `actual_delivery_date`, `payable_amount`, `delivery_id`, `payment_mode`, `payment_schedule_date`, `payment_schedule_time`, `order_status`, `status`, `payment_status`, `need_admin_approval`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, 1, 1, 'High', NULL, '2019-12-20', '2019-12-19', '2019-12-19', 20375.00, 3, 'Cash', '2019-12-20', '22:00:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-19 19:12:50', 5, '2019-12-19 00:00:00', 3),
-(2, 2, 3, 2, 'Medium', NULL, '2019-12-21', '2019-12-20', '2019-12-20', 25300.00, 21, 'Cash', '2019-12-21', '19:53:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-19 19:53:36', 1, '2019-12-20 00:00:00', 3),
+(1, 1, 1, 1, 'High', NULL, '2019-12-20', '2019-12-19', '2019-12-19', 20375.00, 3, 'Cash', '2019-12-20', '22:00:00', 'Delivered', 'Active', 'Paid', 1, '2019-12-19 19:12:50', 5, '2019-12-23 02:18:33', 3),
+(2, 2, 3, 2, 'Medium', NULL, '2019-12-21', '2019-12-20', '2019-12-20', 25300.00, 21, 'Cash', '2019-12-21', '19:53:00', 'Delivered', 'Active', 'Paid', 1, '2019-12-19 19:53:36', 1, '2019-12-20 07:51:00', 3),
 (5, 3, 4, 1, 'Low', NULL, '2019-12-24', '2019-12-19', '2019-12-19', 6600.00, 2, 'Cash', '2019-12-24', '22:28:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-19 22:29:01', 1, '2019-12-19 00:00:00', 4),
 (6, 3, 4, 1, 'Medium', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 2630.00, 21, 'Cash', '2019-12-20', '12:22:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 12:22:10', 1, '2019-12-20 00:00:00', 3),
-(7, 1, 1, 1, 'Urgent', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 1310.00, 21, 'Cash', '2019-12-20', '14:48:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 14:48:15', 5, '2019-12-20 00:00:00', 3),
-(8, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 125.00, 22, 'Cash', '2019-12-20', '15:20:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 15:20:52', 1, '2019-12-20 00:00:00', 4),
-(9, 2, 3, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 1300.00, 22, 'Cash', '2019-12-20', '15:21:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 15:21:41', 1, '2019-12-20 00:00:00', 4),
-(10, 1, 1, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 2535.00, 23, 'Cash', '2019-12-20', '16:10:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:10:44', 5, '2019-12-20 00:00:00', 3),
+(7, 1, 1, 1, 'Urgent', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 1310.00, 21, 'Cash', '2019-12-20', '14:48:00', 'Delivered', 'Active', 'Paid', 0, '2019-12-20 14:48:15', 5, '2019-12-23 02:18:33', 3),
+(8, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 125.00, 22, 'Cash', '2019-12-20', '15:20:00', 'Delivered', 'Active', 'Paid', 0, '2019-12-20 15:20:52', 1, '2019-12-23 02:18:33', 4),
+(9, 2, 3, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 1300.00, 22, 'Cash', '2019-12-20', '15:21:00', 'Delivered', 'Active', 'Paid', 1, '2019-12-20 15:21:41', 1, '2019-12-20 07:52:37', 4),
+(10, 1, 1, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 2535.00, 23, 'Cash', '2019-12-20', '16:10:00', 'Delivered', 'Active', 'Partial', 0, '2019-12-20 16:10:44', 5, '2019-12-23 02:18:33', 3),
 (11, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 125.00, 23, 'Cash', '2019-12-20', '16:11:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:11:43', 5, '2019-12-20 00:00:00', 3),
 (12, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 310.00, 23, 'Cash', '2019-12-20', '16:14:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 16:14:32', 5, '2019-12-20 00:00:00', 3),
 (13, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 120.00, 24, 'Cash', '2019-12-20', '16:26:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:26:57', 1, '2019-12-20 00:00:00', 4),
 (14, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 240.00, 25, 'Cash', '2019-12-20', '16:31:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:31:23', 1, '2019-12-20 00:00:00', 3),
 (15, 1, 1, 1, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 9930.00, 26, 'Cash', '2019-12-20', '16:34:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:34:42', 1, '2019-12-20 00:00:00', 4),
-(16, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 72.00, 26, 'Cash', '2019-12-20', '16:35:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:35:05', 1, '2019-12-20 00:00:00', 4);
+(16, 1, 1, 0, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 72.00, 26, 'Cash', '2019-12-20', '16:35:00', 'Delivered', 'Active', 'Pending', 0, '2019-12-20 16:35:05', 1, '2019-12-20 00:00:00', 4),
+(17, 1, 1, 1, 'Low', NULL, '2019-12-20', '2019-12-23', '2019-12-23', 1305.00, 28, 'Cash', '2019-12-20', '17:42:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 17:42:13', 5, '2019-12-23 00:00:00', 4),
+(18, 4, 5, 7, 'Low', NULL, '2019-12-20', '2019-12-20', '2019-12-20', 3908.00, 27, 'Cash', '2019-12-20', '00:00:00', 'Delivered', 'Active', 'Partial', 1, '2019-12-20 18:02:58', 5, '2019-12-20 07:42:17', 4),
+(19, 2, 3, 1, 'Low', NULL, '2019-12-20', '2019-12-23', '2019-12-23', 3338.00, 28, 'Cash', '2019-12-20', '00:00:00', 'Delivered', 'Active', 'Pending', 1, '2019-12-20 18:26:23', 1, '2019-12-23 00:00:00', 4),
+(20, 1, 1, 1, 'Low', NULL, '2019-12-23', '2019-12-23', NULL, 1305.00, 28, 'Cash', '2019-12-23', '12:40:00', 'Pending', 'Active', 'Pending', 0, '2019-12-23 12:40:58', 1, '2019-12-23 02:11:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -818,7 +897,17 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `actual_p
 (20, 14, 7, 10, 24, 24, '240.00', '2019-12-20 16:31:23', 1, NULL, NULL),
 (21, 15, 5, 50, 189, 189, '9450.00', '2019-12-20 16:34:42', 1, NULL, NULL),
 (22, 15, 7, 20, 24, 24, '480.00', '2019-12-20 16:34:42', 1, NULL, NULL),
-(23, 16, 7, 3, 24, 24, '72.00', '2019-12-20 16:35:05', 1, NULL, NULL);
+(23, 16, 7, 3, 24, 24, '72.00', '2019-12-20 16:35:05', 1, NULL, NULL),
+(24, 17, 1, 5, 261, 261, '1305.00', '2019-12-20 17:42:13', 5, '2019-12-20 07:12:58', NULL),
+(25, 18, 1, 5, 261, 261, '1305.00', '2019-12-20 18:02:58', 5, '2019-12-20 07:33:27', NULL),
+(26, 18, 2, 4, 245, 245, '980.00', '2019-12-20 18:02:58', 5, NULL, NULL),
+(27, 18, 3, 6, 258, 258, '1548.00', '2019-12-20 18:02:58', 5, '2019-12-20 07:33:27', NULL),
+(28, 18, 7, 3, 25, 25, '75.00', '2019-12-20 18:02:58', 5, NULL, NULL),
+(29, 19, 1, 6, 268, 268, '1608.00', '2019-12-20 18:26:23', 1, '2019-12-20 07:56:44', NULL),
+(30, 19, 2, 4, 245, 245, '980.00', '2019-12-20 18:26:23', 1, NULL, NULL),
+(31, 19, 3, 1, 255, 255, '255.00', '2019-12-20 18:26:23', 1, NULL, NULL),
+(32, 19, 4, 3, 165, 165, '495.00', '2019-12-20 18:26:23', 1, NULL, NULL),
+(33, 20, 1, 5, 261, 261, '1305.00', '2019-12-23 12:40:58', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -841,6 +930,18 @@ CREATE TABLE `payments` (
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `client_id`, `payment_mode`, `check_no`, `check_date`, `transection_no`, `paid_amount`, `credit_balance_used`, `previous_credit_balance`, `new_credit_balance`, `created_at`, `created_by`) VALUES
+(1, 4, 'Cheque', '589658', '2019-12-23', NULL, '3000.00', '0.00', '0.00', '0.00', '2019-12-20 07:42:17', NULL),
+(2, 2, 'Cash', NULL, NULL, NULL, '26000.00', '0.00', '0.00', '0.00', '2019-12-20 07:51:00', NULL),
+(3, 2, 'Cash', NULL, NULL, NULL, '1000.00', '0.00', '0.00', '400.00', '2019-12-20 07:52:37', NULL),
+(4, 1, 'Cash', NULL, NULL, NULL, '2000.00', '0.00', '0.00', '0.00', '2019-12-23 02:15:11', NULL),
+(5, 1, 'Cash', NULL, NULL, NULL, '20000.00', '0.00', '0.00', '0.00', '2019-12-23 02:18:33', NULL),
+(6, 1, 'Cash', NULL, NULL, NULL, '20000.00', '0.00', '0.00', '0.00', '2019-12-23 02:18:34', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -856,6 +957,25 @@ CREATE TABLE `payment_details` (
   `total_payment` decimal(14,2) NOT NULL DEFAULT '0.00',
   `status` varchar(10) DEFAULT NULL COMMENT 'PARTIAL | PENDING | PAID'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payment_details`
+--
+
+INSERT INTO `payment_details` (`id`, `order_id`, `payment_id`, `amount_used`, `credit_used`, `total_payment`, `status`) VALUES
+(1, 18, 1, '3000.00', '0.00', '3000.00', 'PARTIAL'),
+(2, 2, 2, '25300.00', '0.00', '25300.00', 'PAID'),
+(3, 9, 2, '700.00', '0.00', '700.00', 'PARTIAL'),
+(4, 9, 3, '600.00', '0.00', '600.00', 'PAID'),
+(5, 1, 4, '2000.00', '0.00', '2000.00', 'PARTIAL'),
+(6, 1, 5, '18375.00', '0.00', '18375.00', 'PAID'),
+(7, 7, 5, '1310.00', '0.00', '1310.00', 'PAID'),
+(8, 8, 5, '125.00', '0.00', '125.00', 'PAID'),
+(9, 10, 5, '190.00', '0.00', '190.00', 'PARTIAL'),
+(10, 1, 6, '18375.00', '0.00', '18375.00', 'PAID'),
+(11, 7, 6, '1310.00', '0.00', '1310.00', 'PAID'),
+(12, 8, 6, '125.00', '0.00', '125.00', 'PAID'),
+(13, 10, 6, '190.00', '0.00', '190.00', 'PARTIAL');
 
 -- --------------------------------------------------------
 
@@ -1130,7 +1250,7 @@ CREATE TABLE `user_devices` (
 --
 
 INSERT INTO `user_devices` (`id`, `user_id`, `device_id`, `created_at`) VALUES
-(50, 4, 'dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4', '2019-12-20 06:05:18');
+(61, 4, 'dsIcxv1Cfa0:APA91bGQZqoNRLtObz-MqVUlsiVVQyP1o5O-ryqTvQy242Eyl0ImcJqky46MLc0_G51UK14TeQP4CHHDh3-VyGnFM-gNxjCxawvY5DFnoR6ouk09FDlNhfvFBGQDLjV1lwb3OfAjXdj4', '2019-12-23 03:23:17');
 
 -- --------------------------------------------------------
 
@@ -1292,7 +1412,8 @@ INSERT INTO `zip_codes` (`id`, `zip_code`, `city_id`, `state_id`, `area`, `creat
 (8, '382430', 3, 2, 'Kanbha', '2019-11-25 13:02:26', 1, NULL, NULL, 'Active'),
 (10, '382308', 4, 2, 'Hilol', '2019-11-25 13:03:35', 1, NULL, NULL, 'Active'),
 (12, '380001', 3, 2, 'Ahmedabad', '2019-12-06 12:43:40', 2, NULL, NULL, 'Active'),
-(13, '383940', 1, 1, 'Jhotwara s', '2019-12-06 17:52:27', 2, NULL, NULL, 'Active');
+(13, '383940', 1, 1, 'Jhotwara s', '2019-12-06 17:52:27', 2, NULL, NULL, 'Active'),
+(14, '382301', 4, 2, 'sector 1', '2019-12-20 17:58:58', 8, NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
 
@@ -1452,6 +1573,12 @@ ALTER TABLE `group_to_zip_code`
   ADD PRIMARY KEY (`id`),
   ADD KEY `zip_code_id` (`zip_code_id`),
   ADD KEY `zip_code_group_id` (`zip_code_group_id`);
+
+--
+-- Indexes for table `inward_outword`
+--
+ALTER TABLE `inward_outword`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `leads`
@@ -1636,7 +1763,7 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `client_categories`
@@ -1654,7 +1781,7 @@ ALTER TABLE `client_contacts`
 -- AUTO_INCREMENT for table `client_delivery_addresses`
 --
 ALTER TABLE `client_delivery_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `client_location_images`
@@ -1666,13 +1793,13 @@ ALTER TABLE `client_location_images`
 -- AUTO_INCREMENT for table `client_product_inventory`
 --
 ALTER TABLE `client_product_inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `client_product_price`
 --
 ALTER TABLE `client_product_price`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `client_selesmans`
@@ -1696,55 +1823,61 @@ ALTER TABLE `coordinates`
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `delivery_config`
 --
 ALTER TABLE `delivery_config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `delivery_config_orders`
 --
 ALTER TABLE `delivery_config_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `delivery_routes`
 --
 ALTER TABLE `delivery_routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `fcm_notifications`
 --
 ALTER TABLE `fcm_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `fcm_notification_user`
 --
 ALTER TABLE `fcm_notification_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `group_to_zip_code`
 --
 ALTER TABLE `group_to_zip_code`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `inward_outword`
+--
+ALTER TABLE `inward_outword`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `leads`
 --
 ALTER TABLE `leads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `lead_visits`
 --
 ALTER TABLE `lead_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `mail_template`
@@ -1756,7 +1889,7 @@ ALTER TABLE `mail_template`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `order_delivery_images`
@@ -1768,19 +1901,19 @@ ALTER TABLE `order_delivery_images`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `payment_details`
 --
 ALTER TABLE `payment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1834,7 +1967,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `user_vehicle`
@@ -1870,7 +2003,7 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `zip_codes`
 --
 ALTER TABLE `zip_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `zip_code_groups`

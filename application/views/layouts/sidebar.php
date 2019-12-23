@@ -53,6 +53,13 @@
                 </a>
             </li>
 
+            <li class="inword_li">
+                <a href="<?php echo $this->baseUrl; ?>inwordcontroller">
+                    <span class="pcoded-micon"><i class="fa fa-industry"></i></span>
+                    <span class="pcoded-mtext">Inward/ Outward</span>
+                </a>
+            </li>
+
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-layers"></i></span>

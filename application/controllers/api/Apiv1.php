@@ -1885,12 +1885,32 @@ class ApiV1 extends REST_Controller {
                                         delivery_config_orders.delivery_id,
                                         delivery_config_orders.order_id,
                                         delivery_config_orders.delivery_config_id,
+                                        delivery.warehouse,
                                         orders.client_id")
+                                ->join("delivery_config","delivery_config_orders.delivery_config_id = delivery_config.id","left")
+                                ->join("delivery","delivery_config.delivery_id = delivery.id","left")
                                 ->join("orders","orders.id = delivery_config_orders.order_id","left")
                                 ->get_where("delivery_config_orders","delivery_config_orders.id = {$dco_id}")
                                 ->row_array();
             
             if($dco_data){
+
+                if($order_items = $this->db->select("product_id,quantity")->where("order_id",$dco_data['order_id'])->get("order_items")->result_array()){
+                    $inward_data = array(
+                        'warehouse_id'  =>  $dco_data['warehouse'],
+                        'date'  =>  date('Y-m-d'),
+                        'type'  =>  'Outward',
+                        'created_at' => date('Y-m-d'),
+                        'created_by' => $user_id
+                    );
+
+                    $inward_data_array = array_map(function($arr) use($inward_data){
+                        return array_merge($inward_data,$arr);
+                    },$order_items);
+
+                    $this->db->insert_batch("inward_outword",$inward_data_array);
+
+                }                
                 
                 $order_data = array(
                     'actual_delivery_date'  =>  date('Y-m-d'),
@@ -2740,9 +2760,34 @@ class ApiV1 extends REST_Controller {
     private function get_order($id){    //order_id
 
         $order = $this->db
-            ->select("orders.*,`clients`.`client_name`,CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`")
+            ->select("
+                orders.*,
+                `clients`.`client_name`,
+                CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`,
+                schemes.name as scheme_name,
+                schemes.description,
+                schemes.gift_mode,
+                schemes.discount_mode,
+                schemes.discount_value,
+                schemes.free_product_id,
+                schemes.free_product_qty,
+                (CASE
+                    WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                        WHEN schemes.discount_mode='amount' THEN schemes.discount_value
+                        ELSE (orders.payable_amount*schemes.discount_value/100)
+                    END)
+                    ELSE 0
+                END) AS `computed_disc`,
+                (CASE
+                    WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                        WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                        ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                    END)
+                    ELSE orders.payable_amount
+                END) AS `effective_amount`")                
             ->where("orders.id = {$id}")
             ->from("orders")
+            ->join("schemes","schemes.id = orders.scheme_id","left")
             ->join("clients","clients.id = orders.client_id","left")
             ->join("users as salesman","salesman.id = orders.created_by","left")
             ->get()
@@ -2765,6 +2810,13 @@ class ApiV1 extends REST_Controller {
                 ->from("clients")
                 ->get()
                 ->row_array();
+
+            if($order['free_product_id']){
+                $order['free_product'] = $this->db->where("id",$order['free_product_id'])->get("products")->row_array();
+                // echo "<pre>";print_r($order['free_product']);die;
+            }else{
+                $order['free_product'] = null;
+            }
         }
         
         return $order;
