@@ -814,16 +814,18 @@ class ApiV1 extends REST_Controller {
                 'email'=>$email,
                 'phone_1'=>$phone_1,
                 'phone_2'=>$phone_2,
+                'notes' => $visit_note,
             );
 
-            $visitArr = ($visit_note) ? array(
-                'visit_date'    =>  date('Y-m-d'),
-                'visit_time'    =>  date('H:i:s'),
-                'visit_type'    =>  'InPerson',
-                'visit_notes'   => $visit_note,
-                'created_at'    =>  date('Y-m-d'),
-                'created_by'    =>  $user_id
-            ) : array();
+            // $visitArr = ($visit_note) ? array(
+            //     'visit_date'    =>  date('Y-m-d'),
+            //     'visit_time'    =>  date('H:i:s'),
+            //     'visit_type'    =>  'InPerson',
+            //     'visit_notes'   => $visit_note,
+            //     'created_at'    =>  date('Y-m-d'),
+            //     'created_by'    =>  $user_id
+            // ) : array();
+            $visitArr = [];
 
             if($lead_id){
                 $leadArr['updated_by'] = $user_id;

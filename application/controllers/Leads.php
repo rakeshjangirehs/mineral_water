@@ -71,6 +71,7 @@ class Leads extends MY_Controller {
                 'leads.phone_1',
                 "(CASE WHEN `leads`.`is_converted`=1 THEN 'Yes' ELSE 'No' END)",
                 "CONCAT(users.first_name,' ',IFNULL(users.last_name,''))",
+                "leads.notes",
 				'action'
 			);
 
