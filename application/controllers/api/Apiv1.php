@@ -2674,6 +2674,47 @@ class ApiV1 extends REST_Controller {
         }
     }
 
+    /*
+        Check whether user needs to update his app or not
+        @author Rakesh Jangir
+        @date 26-12-2019
+    */
+    public function check_update_post(){
+
+        $version = $this->input->post('version');
+        
+        if($version){
+            if($this->db->where("force_update", 1)->where("version > ",$version)->get("app_versions")->result_array()){
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'force_update' => 1,
+                        'message' => 'Update required'
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }else{
+                $this->response(
+                    array(
+                        'status' => TRUE,
+                        'force_update' => 0,
+                        'message' => 'No need to update'
+                    ),
+                    REST_Controller::HTTP_OK
+                );
+            }
+        }else{
+            $this->response(
+                array(
+                    'status' => FALSE,
+                    'force_update' => 0,
+                    'message' => 'Version missing'
+                ),
+                REST_Controller::HTTP_BAD_REQUEST
+            );
+        }
+    }
+
 
     // Helper Function
     private function check_in_range($start_date, $end_date, $date_from_user){
