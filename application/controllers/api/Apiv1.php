@@ -2225,9 +2225,19 @@ class ApiV1 extends REST_Controller {
         Delivery Boy Dashboard
         @author Rakesh Jangir
     */
-    public function delivery_boy_dashboard_get($user_id = NULL){
+    public function delivery_boy_dashboard_post(){
 
-        if($user_id){
+        $user_id = $this->input->post('user_id');
+        $version = $this->input->post('version');
+
+        $force_update = 0;
+
+        if($version && $this->db->where("force_update", 1)->where("version > ",$version)->get("app_versions")->result_array()){
+            $force_update = 1;
+        }
+
+
+        if($user_id && $version){
 
             $notification_count = count($this->get_notifications($user_id));
 
@@ -2269,6 +2279,7 @@ class ApiV1 extends REST_Controller {
                 $this->response(
                     array(
                         'status' => TRUE,
+                        'force_update' => $force_update,
                         'message' => "Missed Delivery found.",
                         'notification_count'    =>  $notification_count,
                         'today_delivery_count'=>$today_deliveriey_count,
@@ -2280,6 +2291,7 @@ class ApiV1 extends REST_Controller {
                 $this->response(
                     array(
                         'status' => FALSE,
+                        'force_update' => $force_update,
                         'message' => "Missed Delivery not found.",
                         'notification_count'    =>  $notification_count,
                         'today_delivery_count'=>$today_deliveriey_count,
@@ -2293,9 +2305,10 @@ class ApiV1 extends REST_Controller {
             $this->response(
                 array(
                     'status' => FALSE,
-                    'message' => "Please provide user_id.",
+                    'force_update' => $force_update,
+                    'message' => "Please provide user_id and version.",
                     'notification_count'    =>  0,
-                    'today_delivery_count' => null,
+                    'today_delivery_count' => 0,
                     'missed_deliveries'=>[],
                     'images' => $this->dashboard_images,
                 ),
@@ -2308,9 +2321,17 @@ class ApiV1 extends REST_Controller {
         Salesman Dashboard
         @author Rakesh Jangir
     */
-    public function salesman_dashboard_get($user_id = NULL){
+    public function salesman_dashboard_post(){
 
-        if($user_id){
+        $user_id = $this->input->post('user_id');
+        $version = $this->input->post('version');
+        $force_update = 0;
+
+        if($version && $this->db->where("force_update", 1)->where("version > ",$version)->get("app_versions")->result_array()){
+            $force_update = 1;
+        }
+
+        if($user_id && $version){
 
             $notification_count = count($this->get_notifications($user_id));
             
@@ -2364,6 +2385,7 @@ class ApiV1 extends REST_Controller {
             $this->response(
                 array(
                     'status' => TRUE,
+                    'force_update' => $force_update,
                     'message' => "Salesman Dashboard",
                     'notification_count'    =>  $notification_count,
                     'today_followup_count'=>$today_followup_count,
@@ -2378,7 +2400,8 @@ class ApiV1 extends REST_Controller {
             $this->response(
                 array(
                     'status' => FALSE,
-                    'message' => "Please provide user_id.",
+                    'force_update' => $force_update,
+                    'message' => "Please provide user_id and version.",
                     'notification_count'    =>  0,
                     'today_followup_count'=>null,
                     'today_orders_count'=>null,
