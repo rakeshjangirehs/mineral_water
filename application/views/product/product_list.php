@@ -17,8 +17,8 @@
                             <thead>
                             <tr>
                                 <th>Image</th>
-                                <th>Code</th>
-                                <th>Name</th>
+                                <th>Product Code</th>
+                                <th>Product Name</th>
                                 <th>Brand</th>
                                 <th>Weight (Kg)</th>
                                 <th>Cost Price</th>

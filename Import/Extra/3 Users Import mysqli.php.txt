@@ -1,0 +1,131 @@
+<?php
+/* 
+TRUNCATE TABLE `roles`;
+TRUNCATE TABLE `users`;
+TRUNCATE TABLE `user_zip_code_groups`;
+TRUNCATE TABLE `user_zip_codes`;
+ */
+
+$File = '4. Users.csv';
+
+$arrResult  = array();
+$handle     = fopen($File, "r");
+if(empty($handle) === false) {
+    while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
+        $arrResult[] = $data;
+    }
+    fclose($handle);
+}
+
+include_once("DB_Config.php");
+
+$created_at = date('Y-m-d H:i:s');
+$created_by = 999;
+
+$conn = new mysqli($host,$username,$password,$dbname);
+
+if ($conn -> connect_errno) {
+    echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+    exit();
+}
+
+// echo "<pre>";print_r($arrResult);die;
+
+if(!empty($arrResult)){
+    //echo sizeof($arrResult);exit;
+    foreach($arrResult as $k=>$row){
+        
+        // First Row is header row don't use it
+        if($k == 0) continue;
+        
+
+        // Insert Role if not exist and get role_id
+
+        $role_name = $row[4];        
+        $roleRS = $conn->query("SELECT * FROM `roles` WHERE `roles`.`role_name` = '{$role_name}'");
+        $role = $roleRS->fetch_assoc();
+
+        if ($role) {
+            $role_id = $role['id'];
+        } else {
+
+            $status = $conn->query("INSERT INTO `roles` (`role_name`, `created_at`, `created_by`) VALUES ('{$role_name}', '{$created_at}', '{$created_by}')");
+
+            if($status === TRUE) {
+                $role_id = $conn->insert_id;
+            }
+        }
+
+        if($role_id) {
+
+            $first_name = $row[0];
+            $last_name = ($row[1]) ? $row[1] : NULL;
+            $username = $row[5];
+            $password = $row[6];
+
+            $email = $row[2];
+            $phone = $row[3];
+
+            $userRS = $conn->query("SELECT * FROM `users` WHERE `users`.`email` = '{$email}' AND `users`.`phone` = '{$phone}'");
+            $user = $userRS->fetch_assoc();
+
+            if ($user) {
+                $user_id = $user['id'];
+            } else {
+
+                if($last_name) {
+                    $status = $conn->query("INSERT INTO `users` (`first_name`, `last_name`, `email`, `phone`, `role_id`, `username`, `password`, `created_at`, `created_by`) VALUES ('{$first_name}', '{$last_name}', '{$email}', '{$phone}', '{$role_id}', '{$username}', '{$password}', '{$created_at}', '{$created_by}')");
+                } else {
+                    $status = $conn->query("INSERT INTO `users` (`first_name`, `email`, `phone`, `role_id`, `username`, `password`, `created_at`, `created_by`) VALUES ('{$first_name}', '{$email}', '{$phone}', '{$role_id}', '{$username}', '{$password}', '{$created_at}', '{$created_by}')");
+                }
+                
+                if($status === TRUE) {
+                    $user_id = $conn->insert_id;
+                }                
+            }
+
+            if ($user_id) {
+
+                $group_name = $row[7];
+
+                echo "Group Name: $group_name, User Id: $user_id<br/>";
+
+                if ($group_name == "All") {
+                    
+                    $groupRS = $conn->query("SELECT * FROM `zip_code_groups`");
+                    $zip_code_groups = $groupRS->fetch_all(MYSQLI_ASSOC);
+                    echo "IN if<br/>";
+                    
+                    foreach($zip_code_groups AS $zip_code_group) {
+
+                        $zip_code_group_id = $zip_code_group['id'];
+                        $conn->query("INSERT INTO `user_zip_code_groups` (`user_id`, `zip_code_group_id`, `created_at`, `created_by`) VALUES ('{$user_id}', '{$zip_code_group_id}', '{$created_at}', '{$created_by}')");
+                        echo "A. INSERT INTO `user_zip_code_groups` (`user_id`, `zip_code_group_id`, `created_at`, `created_by`) VALUES ('{$user_id}', '{$zip_code_group_id}', '{$created_at}', '{$created_by}')<br/>";
+                    }
+
+                } else {
+                    echo "IN else<br/>";
+                    $groupRS = $conn->query("SELECT * FROM `zip_code_groups` WHERE `zip_code_groups`.`group_name` = '{$group_name}'");
+                    $zip_code_group = $groupRS->fetch_assoc();
+
+                    if ($zip_code_group) {
+                        
+                        $zip_code_group_id = $zip_code_group['id'];
+                        $conn->query("INSERT INTO `user_zip_code_groups` (`user_id`, `zip_code_group_id`, `created_at`, `created_by`) VALUES ('{$user_id}', '{$zip_code_group_id}', '{$created_at}', '{$created_by}')");
+                        echo "B. INSERT INTO `user_zip_code_groups` (`user_id`, `zip_code_group_id`, `created_at`, `created_by`) VALUES ('{$user_id}', '{$zip_code_group_id}', '{$created_at}', '{$created_by}')<br/>";
+                    }
+
+                }
+
+
+            } else {
+                echo "User Id Missing<br/>";
+            }
+
+        } else {
+            echo "Role Id Missing<br/>";
+        }
+
+        $conn->query("DELETE FROM `zip_code_groups` WHERE `zip_code_groups`.`group_name` = '{$group_name}'");
+    }
+}

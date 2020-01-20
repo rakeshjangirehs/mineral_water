@@ -240,6 +240,8 @@ class Clients extends MY_Controller {
 			$this->data['page_title'] = 'Update Client';
             $userArr = $this->client->get_client_by_id($id);
             
+            // echo "<pre>";print_r($userArr);die;
+
             if($state_id = $userArr['state_id']){
                 $this->data['cities'] = $this->db->get_where('cities',["is_deleted"=>0,'state_id'=>$state_id])->result_array();
                 $all_zip_code_where["state_id"] = $state_id;

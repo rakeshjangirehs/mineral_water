@@ -75,7 +75,7 @@ class Cashcollection extends MY_Controller {
             if ($this->form_validation->run() == TRUE) {
 
                 $pending_amount_hidden = $this->input->post('pending_amount_hidden');
-                $amount_clearing = $this->input->post('amount_clearing');
+                $amount_clearing = trim($this->input->post('amount_clearing'));
                 $salesman = $this->input->post('salesman');
 
                 $data = array(

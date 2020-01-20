@@ -106,7 +106,7 @@ class Product_model extends MY_Model {
                     ->common_get('products');
         echo $this->model->common_datatable($colsArr, $query,"products.is_deleted = 0","products.id",false,array(
             'path'  =>  'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR,
-            'no_image' => null,
+            'no_image' => 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'product_image_unavailable.png',
         ));die;
     }
 }

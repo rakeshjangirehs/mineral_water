@@ -27,17 +27,26 @@ class Products extends MY_Controller {
 			array(
 				'field' => 'weight',
 				'label' => 'Weight',
-				'rules' => 'trim|required|integer'
+				'rules' => 'trim|required|regex_match[/^(\d*\.)?\d+$/]',
+                'errors' => array(
+                    'regex_match' =>'This Field can only contain positive numbers.'
+                )
 			),
 			array(
 				'field' => 'cost_price',
 				'label' => 'Cost Price',
-				'rules' => 'trim|integer'
+				'rules' => 'trim|regex_match[/^(\d*\.)?\d+$/]',
+                'errors' => array(
+                    'regex_match' =>'This Field can only contain positive numbers.'
+                )
 			),
 			array(
 				'field' => 'sale_price',
 				'label' => 'Sale Price',
-				'rules' => 'trim|required|integer'
+				'rules' => 'trim|required|regex_match[/^(\d*\.)?\d+$/]',
+                'errors' => array(
+                    'regex_match' =>'This Field can only contain positive numbers.'
+                )
 			),
 			array(
 				'field' => 'brand_id',
@@ -93,10 +102,10 @@ class Products extends MY_Controller {
         		'product_name'		=> $this->input->post('product_name'),
         		'product_code'		=> $this->input->post('product_code'),
         		'description'		=> $this->input->post('description'),
-        		'weight'			=> $this->input->post('weight'),
+        		'weight'			=> ($this->input->post('weight')) ? trim($this->input->post('weight')) : null,
         		'dimension'			=> $this->input->post('dimension'),
-        		'cost_price'		=> $this->input->post('cost_price'),
-        		'sale_price'		=> $this->input->post('sale_price'),
+        		'cost_price'		=> ($this->input->post('cost_price')) ? trim($this->input->post('cost_price')) : NULL,
+        		'sale_price'		=> ($this->input->post('sale_price')) ? trim($this->input->post('sale_price')) : NULL,
         		'brand_id'			=> $this->input->post('brand_id'),
         		'manage_stock_needed'=> ($this->input->post('manage_stock_needed')) ? 1 : 0,
         	);

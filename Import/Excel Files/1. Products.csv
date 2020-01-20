@@ -1,0 +1,8 @@
+Brand Name,Product Name,Product Code,Description (Optional),Weight (KG),Cost Price (Optional),Sale Price,"Manage Inverntory of empty bottle (Y-yes, N-no)",Product Image File Name
+Neervana,20 Ltr ,NB20,Neernava Blue 20 Ltr Jar,20,,60,Y,
+Neervana,1 Ltr Box,NB1000,Neervana Blue 1 Ltr Box,12,,120,N,
+Neervana,500 ml Box,NB500,Neervana Blue 500 ml Box,12,,150,N,
+Neervana,200 ml Box,NB200,Neervana Blue 200 ml Box,10,,220,N,
+Neervana,1 Ltr Bottle,NB1000U,Neervana Blue 1 Ltr Bottle,1,,20,N,
+Neervana,500 ml Bottle,NB500U,Neervana Blue 500 ml Bottle,0.5,,10,N,
+Neervana,200 ml Bottle,NB200U,Neervana Blue 200 ml Bottle,0.2,,6,N,

@@ -172,17 +172,21 @@ class MY_Model extends CI_Model{
 			$data[$k]['link'] = $val;
 		}
 
-//        $h = fopen("debug.txt","a+");
-//		fwrite($h,$this->db->last_query());
-//		fclose($h);
+       	/* $h = fopen("debug.txt","a+");
+		fwrite($h,"ELSE".PHP_EOL);
+		fclose($h); */
 
         if($imag_include){
             foreach($data as $k=>$dt){
-                if(file_exists(FCPATH.$imag_include['path'].$dt['thumb'])){
+				
+                if($dt['thumb'] && file_exists(FCPATH.$imag_include['path'].$dt['thumb'])){
+					
                     $data[$k]['image_url'] = base_url().$imag_include['path'].$dt['thumb'];
                 }else{
-                    if($imag_include['no_image'] && file_exists($imag_include['no_image'])){
-                        $data[$k]['image_url'] = $imag_include['no_image'];
+					
+                    if($imag_include['no_image'] && file_exists(FCPATH.$imag_include['no_image'])){
+						
+                        $data[$k]['image_url'] = base_url().$imag_include['no_image'];
                     }else{
                         $data[$k]['image_url'] = null;
                     }
