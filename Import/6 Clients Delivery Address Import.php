@@ -63,8 +63,8 @@ if (!empty($arrResult)) {
                         $zip_code_id = $zip_code_arr['id'];
                     }
 
-                    $title = ($row[1]) ? $row[1] : NULL;
-                    $address = ($row[2]) ? $row[2] : NULL;
+                    $title = ($row[0]) ? $row[0] : NULL;
+                    $address = ($row[1]) ? $row[1] : NULL;
 
                     // Insert into client_delivery_addresses if not exist
 
@@ -78,6 +78,7 @@ if (!empty($arrResult)) {
                     if(!$client_delivery_address_arr) {
                         
                         $stmt = $con->prepare("INSERT INTO `client_delivery_addresses` (`client_id`, `title`, `address`, `zip_code_id`, `created_at`, `created_by`) VALUES (:client_id, :title, :address, :zip_code_id, :created_at, :created_by)");
+                       
                         $stmt->execute([
                             ':client_id' => $client_id,
                             ':title' => $title,

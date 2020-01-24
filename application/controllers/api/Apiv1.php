@@ -665,6 +665,10 @@ class ApiV1 extends REST_Controller {
             );
             $user = $this->user->getRows($con);
             
+            if(!$user['last_name']){
+                $user['last_name'] = "";
+            }
+
             if($user){
 
                 $this->db->delete("user_devices", array("device_id"=>$device_id));
