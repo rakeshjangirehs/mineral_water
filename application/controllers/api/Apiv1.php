@@ -665,12 +665,13 @@ class ApiV1 extends REST_Controller {
             );
             $user = $this->user->getRows($con);
             
-            if(!$user['last_name']){
-                $user['last_name'] = "";
-            }
-
+            
             if($user){
 
+                if(!$user['last_name']){
+                    $user['last_name'] = "";
+                }
+                
                 $this->db->delete("user_devices", array("device_id"=>$device_id));
                 $this->db->insert("user_devices", array(
                     "user_id"=>$user['user_id'],
@@ -1098,11 +1099,11 @@ class ApiV1 extends REST_Controller {
         }
     }
 
-    /*
-        Get List of applicable Schemes based on order_details
+     /*   Get List of applicable Schemes based on order_details
         @author Milan Soni
         @update by Rakesh Jangir - 21-11-2019
     */
+    
     public function make_order_post(){
 
         $entityBody = file_get_contents('php://input');
@@ -1176,7 +1177,7 @@ class ApiV1 extends REST_Controller {
                     if($type=='client'){
 
                         //Get Credit Limit for this client.
-                        $availableCreditLimit = $this->db->query("SELECT
+                        /*$availableCreditLimit = $this->db->query("SELECT
                                                                     (
                                                                         IFNULL(client.credit_limit,0)
                                                                         + IFNULL(client.credit_balance,0)
@@ -1208,14 +1209,44 @@ class ApiV1 extends REST_Controller {
                                                                     FROM clients
                                                                 ) AS client ON client.id = orders.client_id
                                                                 WHERE client_id = {$id}")
-                                                ->row_array()['available_credit_limit'];
+                                                            ->row_array()['available_credit_limit'];
+                            */
+                            
+                            $availableCreditLimit = $this->db->query("SELECT
+                                                                    	(
+                                                                    		IFNULL(clients.credit_limit,0)
+                                                                    		+ IFNULL(clients.credit_balance,0)
+                                                                    		- IFNULL(SUM(
+                                                                    			(CASE
+                                                                    				WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                                                                    					WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                                                                    					ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                                                                    				END)
+                                                                    				ELSE orders.payable_amount
+                                                                    			END) 
+                                                                    		),0)
+                                                                    		+ SUM(IFNULL(paid.paid_amount,0))
+                                                                    	)AS `available_credit_limit`
+                                                                    FROM `clients`
+                                                                    LEFT JOIN `orders` on `orders`.`client_id` = `clients`.`id` AND (orders.order_status <> 'Rejected')
+                                                                    LEFT JOIN `schemes` ON `schemes`.`id` = `orders`.`scheme_id`
+                                                                    LEFT JOIN (
+                                                                    	SELECT
+                                                                    		payment_details.order_id,
+                                                                    		SUM(payment_details.total_payment) AS paid_amount
+                                                                    	FROM payment_details
+                                                                    	GROUP BY payment_details.order_id
+                                                                    ) AS paid ON paid.order_id = orders.id
+                                                                    WHERE `clients`.`id` = {$id}
+                                                                    GROUP BY `clients`.`id`")
+                                                                ->row_array()['available_credit_limit'];
                         
                         // echo $availableCreditLimit."<br/>".$subtotal;die;
                         // Available credit limit logic verify - TODO
                         // $availableCreditLimit = 50000;
                         // echo $availableCreditLimit;die;
 
-                        if($subtotal > $availableCreditLimit){
+                        if($orders['payment_mode'] != 'Cash' && $subtotal > $availableCreditLimit){
                             $this->response([
                                 'status' => FALSE,
                                 'message' => 'Available credit limit exceeded. Please pay your outstanding.',
@@ -1228,7 +1259,7 @@ class ApiV1 extends REST_Controller {
                         $lead = $this->db->get_where("leads",["id"=>$id])->row_array();
                         
                         $arrClient = array(
-                            'client_name'       =>  (isset($orders['city_id']) && $orders['city_id']!='') ? $orders['city_id'] : $lead['company_name'],
+                            'client_name'       =>  (isset($orders['company_name']) && $orders['company_name']!='') ? $orders['company_name'] : $lead['company_name'],
                             'credit_limit'      =>  $this->system_setting['default_credit_limit'],
                             'lead_id'           =>  $id,
                             'contact_person_name_1'     =>  $lead['contact_person_name'],

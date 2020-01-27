@@ -26,7 +26,7 @@ class Users extends MY_Controller {
             array(
                 'field' => 'email',
                 'label' => 'Email',
-                'rules' => 'valid_email|max_length[300]|callback_check_duplicate_email'
+                'rules' => 'valid_email|max_length[300]',    //|callback_check_duplicate_email
             ),
             array(
                 'field' => 'username',
@@ -36,7 +36,7 @@ class Users extends MY_Controller {
             array(
                 'field' => 'phone',
                 'label' => 'Phone',
-                'rules' => 'required|integer|max_length[12]|min_length[6]|callback_check_duplicate_phone'
+                'rules' => 'required|integer|max_length[12]|min_length[6]', //callback_check_duplicate_phone
             ),
             array(
                 'field' => 'password',

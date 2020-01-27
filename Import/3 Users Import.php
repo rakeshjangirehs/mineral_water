@@ -80,6 +80,12 @@ if (!empty($arrResult)) {
 
                     if ($user) {
                         $user_id = $user['id'];
+                        // $user_id;
+                        // $stmt = $con->prepare("UPDATE `users` SET `email` = :email WHERE `id` = :$user_id");
+                        // $stmt->execute([
+                        //     ':email' =>  $email,
+                        //     ':user_id' =>  $user_id,
+                        // ]);
                     } else {
                         $stmt = $con->prepare("INSERT INTO `users` (`first_name`, `last_name`, `email`, `phone`, `role_id`, `username`, `password`, `created_at`, `created_by`) VALUES (:first_name, :last_name, :email, :phone, :role_id, :username, :password, :created_at, :created_by)");
                         $stmt->execute([

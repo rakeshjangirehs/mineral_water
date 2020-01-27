@@ -228,7 +228,7 @@ class Delivery extends MY_Controller {
                                 AND orders.expected_delivery_date_in_deliver_table< '{$today}'
                             )
                         )
-                    AND orders.order_status <> 'Approval Required'";
+                    AND orders.order_status <> 'Approval Required' AND orders.order_status <> 'Rejected'";
         }else{            
             $whr .= " AND ( 
                             orders.delivery_id IS NULL
@@ -238,7 +238,7 @@ class Delivery extends MY_Controller {
                                 AND orders.expected_delivery_date_in_deliver_table< '{$today}'
                             )
                         )
-                    AND orders.order_status <> 'Approval Required'";
+                    AND orders.order_status <> 'Approval Required' AND orders.order_status <> 'Rejected'";
         }
 
         if($zip_code_group_ids = $this->input->post('zip_code_group_ids')){

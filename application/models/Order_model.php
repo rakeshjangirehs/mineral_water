@@ -97,7 +97,7 @@ class Order_model extends MY_Model {
                 LEFT JOIN `clients` ON `clients`.`id` = `orders`.`client_id`
                 LEFT JOIN schemes ON schemes.id = orders.scheme_id
                 LEFT JOIN `payment_details` ON `payment_details`.`order_id` = `orders`.`id`
-                WHERE `orders`.`client_id` = {$client_id}
+                WHERE `orders`.`client_id` = {$client_id} AND orders.order_status = 'Delivered'
                 GROUP BY `orders`.`id`
                 #HAVING (SUM(`payment_details`.`total_payment`) IS NULL OR SUM(`payment_details`.`total_payment`) < `orders`.`payable_amount`)
                 HAVING (SUM(`payment_details`.`total_payment`) IS NULL OR SUM(`payment_details`.`total_payment`) < effective_payment)
@@ -108,36 +108,40 @@ class Order_model extends MY_Model {
 
 	public function order_approve($order_id,$action,$new_order_value,$quantity_update_product=[],$product_to_remove=null){
 
+
 		$this->db->trans_start();
+
+		
+		if($action == 'accept') {
+			//update sale price in client_product_list
+			if($quantity_update_product){
+
+				foreach($quantity_update_product as $prod){
+					$order_items_whr = array(
+						'order_id'	=>	$order_id,
+						'product_id'=>	$prod['product_id'],
+					);
+					$order_items_dt = array(
+						'effective_price'	=>	$prod['sale_price'],
+						'actual_price'		=>	$prod['sale_price'],
+					);
+					$this->db->where($order_items_whr)->update("order_items",$order_items_dt);
+
+					$cpp_whr = array(
+						'client_id'	=>	$prod['client_id'],
+						'product_id'=>	$prod['product_id'],
+					);
+					$cpp_dt = array(
+						'sale_price'	=>	$prod['sale_price'],
+					);
+					$this->db->where($cpp_whr)->update("client_product_price",$cpp_dt);
+				}
+			}
+		}
 
 		//remove products
 		if($product_to_remove){
 			$this->db->where("order_id",$order_id)->where_in("product_id",$product_to_remove)->delete("order_items");
-		}
-
-		//update sale price in client_product_list
-		if($quantity_update_product){
-
-			foreach($quantity_update_product as $prod){
-				$order_items_whr = array(
-					'order_id'	=>	$order_id,
-					'product_id'=>	$prod['product_id'],
-				);
-				$order_items_dt = array(
-					'effective_price'	=>	$prod['sale_price'],
-					'actual_price'		=>	$prod['sale_price'],
-				);
-				$this->db->where($order_items_whr)->update("order_items",$order_items_dt);
-
-				$cpp_whr = array(
-					'client_id'	=>	$prod['client_id'],
-					'product_id'=>	$prod['product_id'],
-				);
-				$cpp_dt = array(
-					'sale_price'	=>	$prod['sale_price'],
-				);
-				$this->db->where($cpp_whr)->update("client_product_price",$cpp_dt);
-			}
 		}
 
 		//change order status

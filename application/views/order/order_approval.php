@@ -97,7 +97,7 @@
                         <input type="hidden" name="client_id" value="<?php echo $order['order_client']['id'];?>"/>
 
                         <button type="submit" name="action" value="accept" class="btn btn-primary btn-print-invoice m-b-10 btn-sm waves-effect waves-light m-r-20">Update & Accept</button>
-                        <button type="submit" name="action" value="reject" class="btn btn-danger waves-effect m-b-10 btn-sm waves-light">Update & Reject</button>
+                        <button type="submit" name="action" value="reject" class="btn btn-danger waves-effect m-b-10 btn-sm waves-light">Reject</button>
                     </div>
                 </div>
             </form>

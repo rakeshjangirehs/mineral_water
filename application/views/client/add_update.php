@@ -80,8 +80,7 @@
                                         if(!empty($all_zipcodes)):
                                             foreach($all_zipcodes as $zip_codes_id=>$zip_code):
                                                 $check = (isset($_POST['zip_code_id']))? set_value('zip_code_id') : $user_data['zip_code_id'];
-                                                $selected = ($city['id'] == $check) ? 'selected' : '';
-
+                                                
                                                 $selected = ($zip_codes_id == $check) ? 'selected' : '';
                                                 ?>
                                                 <option value="<?php echo $zip_codes_id; ?>" <?php echo $selected; ?>><?php echo $zip_code; ?></option>

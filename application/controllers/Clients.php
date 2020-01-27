@@ -51,17 +51,17 @@ class Clients extends MY_Controller {
             array(
                 'field' => 'contact_person_1_phone_1',
                 'label' => 'Contact No',
-                'rules' => 'required|integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+                'rules' => 'required|integer|max_length[12]|min_length[6]|callback_not_equal_phone'
             ),
             array(
                 'field' => 'contact_person_1_phone_2',
                 'label' => 'Contact No',
-                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone'
             ),
             array(
                 'field' => 'contact_person_1_email',
                 'label' => 'Email',
-                'rules' => 'required|valid_email|max_length[200]|callback_check_duplicate_email'
+                'rules' => 'required|valid_email|max_length[200]'   //|callback_check_duplicate_email
             ),
 
             array(
@@ -72,17 +72,17 @@ class Clients extends MY_Controller {
             array(
                 'field' => 'contact_person_2_phone_1',
                 'label' => 'Contact No',
-                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone'  //|callback_check_duplicate_phone
             ),
             array(
                 'field' => 'contact_person_2_phone_2',
                 'label' => 'Contact No',
-                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone|callback_check_duplicate_phone'
+                'rules' => 'integer|max_length[12]|min_length[6]|callback_not_equal_phone'  //|callback_check_duplicate_phone
             ),
             array(
                 'field' => 'contact_person_2_email',
                 'label' => 'Email',
-                'rules' => 'valid_email|max_length[200]|callback_check_duplicate_email'
+                'rules' => 'valid_email|max_length[200]'    //|callback_check_duplicate_email
             ),
 
         );

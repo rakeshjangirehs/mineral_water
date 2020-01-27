@@ -123,9 +123,9 @@
                         "email"		:	{
                             maxlength: 200,
                             email: true,
-                            remote:	function(){
-                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=users&fieldsToCompare=email&fieldName=email&id=<?php echo $id;?>"
-                            },                            
+                            // remote:	function(){
+                            //     return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=users&fieldsToCompare=email&fieldName=email&id=<?php echo $id;?>"
+                            // },
                         },
                         "username"		:	{
                             required:true,
@@ -139,9 +139,9 @@
                             digits:true,
                             maxlength: 12,
                             minlength: 6,
-                            remote:	function(){
-                                return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=users&fieldsToCompare=phone&fieldName=phone&id=<?php echo $id;?>"
-                            }, 
+                            // remote:	function(){
+                            //     return "<?php echo $this->baseUrl.'zipcodes/check_unique_ajax'; ?>?table=users&fieldsToCompare=phone&fieldName=phone&id=<?php echo $id;?>"
+                            // }, 
                         },
                         "password"		:	{
                             maxlength: 200,
