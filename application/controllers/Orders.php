@@ -422,8 +422,15 @@
 
         $this->data['id'] = $id;
 
-        $this->data['order_edit'] =  $this->db->where("id",$id)->get("orders")->row_array();
+        $order_edit = $this->db->where("id",$id)->get("orders")->row_array();
+        $this->data['order_edit'] =  $order_edit;
         // echo "<pre>";print_r($this->data['order_edit']);die;
+        
+        // Redirect to order is associated with a delivery (rare case)
+        if($deliver_id = $order_edit['delivery_id']) {
+            $this->flash("error", "Order is allocated in delivery no #{$deliver_id}, can't be edited.");
+            redirect("orders");
+        }
 
         $client_id = $this->data['order_edit']['client_id'];        
         // echo $client_id;die;

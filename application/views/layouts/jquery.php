@@ -31,6 +31,8 @@
 <script src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery.cookie\js\jquery.cookie.js"></script>
 <script src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery.steps\js\jquery.steps.js"></script>
 <script src="<?php echo $this->assetsUrl; ?>files\bower_components\jquery-validation\js\jquery.validate.js"></script>
+<script src="<?php echo $this->assetsUrl; ?>files\additional-methods.min.js"></script>  <!-- https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js -->
+
 <!-- Validation js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>

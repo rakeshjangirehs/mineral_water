@@ -503,7 +503,7 @@
             // https://jqueryvalidation.org/rules/
             product_quantity.rules("add",{
                 required: true,
-
+                digits: true,
             });
             // console.log($element,$element.rules())
         },0);
@@ -511,6 +511,7 @@
             // https://jqueryvalidation.org/rules/
             product_new_price.rules("add",{
                 required: true,
+                number: true,
             });
             // console.log($element,$element.rules())
         },0);
@@ -530,13 +531,33 @@
         var $element = $(element);
         // console.log($element);
 
-        setTimeout(()=>{
-            // https://jqueryvalidation.org/rules/
-            $element.rules("add",{
-                required: true
-            });
-            // console.log($element,$element.rules())
-        },0);
+        if($element.hasClass("product_quantity")) {
+            setTimeout(()=>{
+                // https://jqueryvalidation.org/rules/
+                $element.rules("add",{
+                    required: true,
+                    digits: true,
+                });
+                // console.log($element,$element.rules())
+            },0);
+        } else if($element.hasClass("product_new_price")) {
+            setTimeout(()=>{
+                // https://jqueryvalidation.org/rules/
+                $element.rules("add",{
+                    required: true,
+                    number: true,
+                });
+                // console.log($element,$element.rules())
+            },0);
+        } else {
+            setTimeout(()=>{
+                // https://jqueryvalidation.org/rules/
+                $element.rules("add",{
+                    required: true,
+                });
+                // console.log($element,$element.rules())
+            },0);
+        }
 
         if($element.hasClass("product_select")){
             $element.select2({

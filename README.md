@@ -27,4 +27,15 @@
 # Payments List
     * Only most recent payment of a client can be deleted.
 
+# Order List
+    * In order list Order Edit button will be visible only if order is not waiting approval
+    * Order Edit
+        * Only orders which are pending (exluding approval required) can be edited.
+        * User can remove and add new items in order.
+        * Product quantity should be integer & price should be either integer or decimal value.
+        * User shoul'd not be able to remove all order items, at least 1 item must be present.
+        * After submit check for applicable scheme and if found let the user choose scheme from applicable schemes.
+        * Update Client specific product price if user changes price of a product.
+        * 
+
 TODO: Check scheme logic while approve order
