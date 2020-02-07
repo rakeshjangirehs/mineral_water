@@ -241,7 +241,13 @@ class Products extends MY_Controller {
 
 	public function delete($product_id){
 		
-		if($this->db->update("products",array('is_deleted'=>1),array('id'=>$product_id))){
+		$data = array(
+			'is_deleted'=>1,
+			'updated_at'=>  date('Y-m-d H:i:s'),
+			'updated_by'=>  USER_ID,
+		);
+
+		if($this->db->update("products",$data,array('id'=>$product_id))){
 			$this->flash("success","Product Deleted Successfully");
 		}else{
 			$this->flash("error","Product not Deleted");

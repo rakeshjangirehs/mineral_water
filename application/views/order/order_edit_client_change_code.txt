@@ -1,0 +1,62 @@
+<select class="form-control" name="client_id" id="client_id" data-placeholder="Choose Client" style="width:100%">
+	<option value=""></option>
+	<?php
+	if(!empty($clients)):
+		foreach($clients as $client):
+			$selected = ($order_edit['client_id'] == $client['id']) ? 'selected' : '';
+			?>
+			<option value="<?php echo $client['id']; ?>" <?php echo $selected; ?>><?php echo $client['client_name']; ?></option>
+		<?php
+		endforeach;
+	endif;
+	?>
+</select>
+
+//JS
+var $delivery_address_id = $("#delivery_address_id");
+$("#client_id").on('change',function(e){
+
+	//Changing clint is not possible
+	return;
+
+	/* var $this = $(this);
+	var selected_client = $this.val();
+
+	// Remove all addresses from delivery_address_id
+	$delivery_address_id.children().not(':first').remove();
+	
+	if(selected_client) {
+
+		// Get delivery addresseds based on client id
+		$.ajax({
+			"url"   :   "<?php //echo base_url()?>index.php/clients/delivery_addresses_get",
+			"method":   "post",
+			"dataType": "json",
+			"data": {
+				client_id: selected_client,
+			},
+			"success":  function(response){  
+
+				if(response.status && response.addresses.length>0) {
+					
+					var addresses_opt = "";
+					console.log(response.addresses);
+					$.each(response.addresses,function(i,address){
+						addresses_opt += "<option value='"+address.id+"' title='"+address.address+"'>"+address.title+" - "+address.zip_code+"</option>";
+					});
+
+					$delivery_address_id.append(addresses_opt);
+
+				} else {
+					
+				}
+			},
+			error: function (jqXHR, exception) {
+
+			}
+		});
+	} */
+}).select2({
+	allowClear:true,
+	dropdownParent: $("#client_id").parent()
+});

@@ -12,11 +12,11 @@
                                         <th>Company</th>
                                         <th>Contact Person</th>
                                         <th>Email</th>
-                                        <th>Phone 1</th>
-                                        <th>Status</th>
+                                        <th>Contact No.</th>
+                                        <th>Converted to Client</th>
                                         <th>Created By</th>
                                         <th>Notes</th>
-                                        <th>Action</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -173,16 +173,7 @@
                 { "data": "phone_1" },
                 { "data": "conversion_status" },
                 { "data": "created_by_emp" },
-                { "data": "notes" },
-                {
-                    "data": 'action',
-                    "orderable" : false,
-                    "render": function ( data, type, row, meta ) {
-                        /*return "<a class='' href='<?php echo $this->baseUrl; ?>leads/index/"+row.id+"' title='Edit Lead'><i class='feather icon-edit'></i></a>"+
-                            "<a class='text-danger' id='delete_vehicle' href='<?php echo $this->baseUrl; ?>leads/delete/"+row.id+"' title='Delete Lead'><i class='feather icon-trash-2'></i></a>";*/
-                            return "";//"<a class='text-danger' id='delete_vehicle' href='<?php echo $this->baseUrl; ?>leads/delete/"+row.id+"' title='Delete Lead'><i class='feather icon-trash-2'></i></a>";
-                    }
-                }
+                { "data": "notes" },                
             ],
             "createdRow": function ( row, data, index ) {
                 if(zipcodegroup_id == data.id){
@@ -211,5 +202,15 @@
                 }
             );
         });
+
+        /*{
+            "data": 'action',
+            "orderable" : false,
+            "render": function ( data, type, row, meta ) {
+                /*return "<a class='' href='<?php echo $this->baseUrl; ?>leads/index/"+row.id+"' title='Edit Lead'><i class='feather icon-edit'></i></a>"+
+                    "<a class='text-danger' id='delete_vehicle' href='<?php echo $this->baseUrl; ?>leads/delete/"+row.id+"' title='Delete Lead'><i class='feather icon-trash-2'></i></a>";*/
+                    //return "";//"<a class='text-danger' id='delete_vehicle' href='<?php echo $this->baseUrl; ?>leads/delete/"+row.id+"' title='Delete Lead'><i class='feather icon-trash-2'></i></a>";
+            //}
+        //}
 </script>
 @endscript

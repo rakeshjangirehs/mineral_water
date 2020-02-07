@@ -1,68 +1,244 @@
 Sr. No.,Client Name,Credit Limit,Address,City,State,ZIP Code,Contact Person Name,Contact Person Mobile,Contact Person Mobile 2 (Optional),Contact Person Email (Optional),GST No,Client Category
-N1,JP Infra Realty Pvt Ltd,0,"Vinay Nagar Rd, Kashimira, Ghodbunder, Mira Bhayandar, Maharashtra 401107",Thane,Maharashtra,401107,Joanita Salian,8369420036,_,joanita.salians@jpinfra.com,27AAOCS9607A1Z7,Corporate
-N2,JP Infra Residency Pvt Ltd,0,"Vinay Nagar Rd, Kashimira, Ghodbunder, Mira Bhayandar, Maharashtra 401107",Thane,Maharashtra,401107,Joanita Salian,8369420036,_,joanita.salians@jpinfra.com,27AAECJ6832E1ZL,Corporate
-N3,JP Infra Ventures Pvt Ltd,0,"4th Floor, Viraj Towers, Near WEH Metro Station, Western Express Hwy, Andheri East, Mumbai, Maharashtra 400093",Mumbai,Maharashtra,400093,Ms. Shruti,9702786661,_,chirag.gangurde@jpinfra.com,27AALFJ2933L1ZZ,Corporate
-N4,Cafe Filli - Andheri,0,"Royal classic Building Ground Floor Near Infinity Mall, A/1, New Link Rd, Laxmi Industrial Estate, Suresh Nagar, Andheri West, Mumbai, Maharashtra 400053",Mumbai,Maharashtra,400053,Ms. Amna,9820854164,_,_,27AAFCT7597P1Z7,HoReCa
-N5,Cafe Filli - Kurla,0,"Phoenix Market City 1st Floor, Kurla, Mumbai, Maharashtra 400070",Mumbai,Maharashtra,400070,,,_,_,27AAFCT7597P1Z7,HoReCa
-N6,Cafe Filli - Fort,0,"Commerce House, 140, Nagindas Master Rd, Fort, Mumbai, Maharashtra 400001",Mumbai,Maharashtra,400001,,,_,_,27AAFCT7597P1Z7,HoReCa
-N7,Hotel Anantha,0,"LBS Rd, near S' ward BMC office, Bhandup (W, Kanjurmarg West, Bhandup West, Mumbai, Maharashtra 400078",Mumbai,Maharashtra,400078,Mr. More,8779936649,9766548540,_,27AAACN7512P1Z3,HoReCa
-N8,Safal Teachers Training,0,"Shop No -115,1st floor, Shop zone Premises Co-op Society Ltd, MG Road, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Reception,8879334700,_,_,_,Corporate
-N9,Priya Telecommunication,0,"Shop-07, Kale Marg, Opp. Jay Jawan Garden, Bail Bazar, Kurla West. Mumbai- 400070",Mumbai,Maharashtra,400070,Ms. Priya,8976424755,_,_,_,GT
-N10,Chirag Telecommunication,0,"Shop-09, Bhave Shankar Mandir Compound, Near Parmar Industrial Estate, Kale Marg, Bail Bazar, Kurla West, Mumbai-70",Mumbai,Maharashtra,400070,Mr. Jain,9819632149,_,_,_,GT
-N11,Elite Enterprise,0,"111, 1st floor, Shop Zone Building, Ghatkopar - Mahul Road, MG Road, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Sagar,7977270839,_,_,27AAFFEE1375F1ZL,Corporate
-N12,Trikolla LLP,0,"Bhaveshwar Complex, G6,near, Kirol Village, Vidyavihar Station, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Reception,9372704144,_,_,27AAKFT3550N1ZP,Corporate
-N13,Speco Infrastructures,0,"Bhaveshwar Complex, G15,near, Kirol Village, Vidyavihar Station, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Gulab,9029016520,_,_,27ACEFS4960M1ZK,Corporate
-N14,Airtek,0,"Bhaveshwar Complex, 115,near, Kirol Village, Vidyavihar Station, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Suresh,8828512735,_,_,27ABCFA1858K1ZB,Corporate
-N15,Air Design HVAC,0,"Gala- 05, Shriram Upadhyay Industrial Estate, Kale Marg, Bail Bazar, Kurla West.",Mumbai,Maharashtra,400070,Sheru Bhai,,_,_,_,Corporate
-N16,Fitness Pitch Studio,0,"Garodia Nagar, Ghatkopar East, Mumbai, Maharashtra 400077",Mumbai,Maharashtra,400077,Reena Chaddha,9821310575,2225061862,_,_,Corporate
-N17,A Plus Analitics,0,"A-502, Shubham Center - 1, Cardinal Garcious Road, Chakala, Andheri (E), Mumbai, Maharashtra 400099",Mumbai,Maharashtra,400099,Tushar Gurav,9820301128,_,_,27AAZFA4025A1ZM,Corporate
-N18,Amrut Caterers,0,"Flat-8, Vanmali Bldg, Cheda Ng, Chembur West, Mumbai 400089",Mumbai,Maharashtra,400089,Priyank,8169216622,_,_,27AADPG4575H1Z0,Caterer
-N19,Top 10 Matunga,0,"SHOP NO-3/292 BHANU JYOTI BUILDING L.N ROAD, OPP MATUNGA RAILWAY STATION, MATUNGA EAST, Mumbai, Maharashtra 400019",Mumbai,Maharashtra,400019,Yugul,9833424359,_,_,27AADHA2340E1ZY,Corporate
-N20,Cell O City - Kurla,0,"Shop No.8,Dion Shelter Chs.,S. G, SG Barve Marg, near Railway station, Kurla E, Mumbai, Maharashtra 400024",Mumbai,Maharashtra,400024,Akbar Ansari,9773883557,_,_,27AMGPN6978E1ZK,Corporate
-N21,A-1 HEIGHTS & HOSPITALITY PVT LTD,0,"AUREOLE HOTEL , BIMA NAGAR BEHIND NATRAJ STUDIO, ANDHERI EAST MUMBAI",Mumbai,Maharashtra,400069,Mr. Satish,9920250583,,,27AAKCA8376N1ZU,HoReCa
-N22,Wine store ,0,"Add- Kamdhenu Co-op. Hsg. Soc. Ltd., shop no 3, Achole Road, Nalasophara, Palghar, Dist - Thane,",Thane,Maharashtra,401209,Living Liquidz,8446106425,9588468826,,27AAACK2613E1Z1,HoReCa
-N23,Dadar wines ,0,"Shop no 1,2 & 3, Pratigya Apts,Station Rd., Bhayander(W), Dist Thane,",Thane,Maharashtra,401101,Living Liquidz,9619881414,,,27AAACK2613E1Z1,HoReCa
-N24,Sunny Wines ,0,"Shah Bhimshi Gover, S.V.Road,Opp Khira Nagar, Santacruz (West),Mumbai - 400 054.",Mumbai,Maharashtra,400054,Living Liquidz,2226117949,8108030142,,27AAACK2613E1Z1,HoReCa
-N25,V Five wines ,0,"sidhivinayak bld, plot no 166, sec 31, vashi Gain , Navi Mumbai",Navi Mumbai,Maharashtra,400703,Living Liquidz,8422837222,6900094000,,27AAACK2613E1Z1,HoReCa
-N26,Blue bird wine shop,0,"shop no 123, K/776, Mira bhayander road, mira road",Thane,Maharashtra,401107,Living Liquidz,6900054000,2228124889,,27AAACK2613E1Z1,HoReCa
-N27,V.K wines.,0,"Add- Shop no 1 , Santosh Bhavan, gokhiware road, nalasopara east .",Thane,Maharashtra,401209,Living Liquidz,7276481525,9773654189,,27AAACK2613E1Z1,HoReCa
-N28,Ashwin wine shop,0,"Shop no 36/4/7, Gazdharband road, near laksdeep restaurant, Santa Cruz",Mumbai,Maharashtra,400054,Living Liquidz,9594950302,,,27AAACK2613E1Z1,HoReCa
-N29,Bridge wines,0,"shop no 6, near Radha Krishna hotel , m.v road, andheri east ",Mumbai,Maharashtra,400093,Living Liquidz,2226837777,2226837871,,27AAACK2613E1Z1,HoReCa
-N30,Centenary wines,0,"shop no 2, V.p road, a.b dalal building, vileparle west",Mumbai,Maharashtra,400056,Living Liquidz,7900007622,2226134159,,27AAACK2613E1Z1,HoReCa
-N31,Amrut wines,0,"shop no 2, caves road, jogeshwari east.near station",Mumbai,Maharashtra,400060,Living Liquidz,8692058432,2228346293,,27AAACK2613E1Z1,HoReCa
-N32,Fition wines,0,"shop no 1/2, juhu ekta society, new link road, andheri west",Mumbai,Maharashtra,400047,Living Liquidz,8108333528,2226247907,,27AAACK2613E1Z1,HoReCa
-N33,Mazda wines,0,"shop no 4 A, ventura shopping centre, Hiranandani park, powai.",Mumbai,Maharashtra,400022,Living Liquidz,7700070007,2249766733,,27AAACK2613E1Z1,HoReCa
-N34,Karishma wines,0,"shop no 3, casa blanca building, m.g road, vile parlr east, near suncity theatre",Mumbai,Maharashtra,400057,Living Liquidz,9594906937,2226189732,,27AAACK2613E1Z1,HoReCa
-N35,Sea face hotel,0,"hotel sea face bar and family restaurant nirmal, nalasopara west",Thane,Maharashtra,401304,Living Liquidz,8237591396,,,27AAACK2613E1Z1,HoReCa
-N36,Nalasopara wine shop,0,"shop no 7, raj yog apt, nagin das pada, prince park virar road, nalasopara east.",Thane,Maharashtra,401209,Living Liquidz,7758026378,,,27AAACK2613E1Z1,HoReCa
-N37,Sani Wine,0,"shop no 1, bld - A/11, golden building co- housing society, Ali road , Vasai east.",Thane,Maharashtra,401208,Living Liquidz,9920083601,,,27AAACK2613E1Z1,HoReCa
-N38,Luvish Wine,0,"Ground floor, Crystal point mall , Tata star bazaar, new link road, andheri west",Mumbai,Maharashtra,400053,Living Liquidz,9702715705,6900062000,,27AAACK2613E1Z1,HoReCa
-N39,Lucky wine ,0,"shop no 4, narottam niwas, opp gandhi market, Dr B A road ,Sion, ",Mumbai,Maharashtra,400022,Living Liquidz,7021925339,2224090233,,27AAACK2613E1Z1,HoReCa
-N40,Mazda Sion,0,"shop no 2, plot no 31, Sion Mansion, Sion west, Sindhi colony, Sion, ",Mumbai,Maharashtra,400022,Living Liquidz,9702761174,2224024106,,27AAACK2613E1Z1,HoReCa
-N41,Megzee wine,0,"Ramodiya mansion no 2, Shop no 3, 260, Dr A B Road, Opp century bazar, Worli.",Mumbai,Maharashtra,400025,Living Liquidz,9702343840,2224378759,,27AAACK2613E1Z1,HoReCa
-N42,Trimurti wine ,0,"Shop No 4, Monalis, Old Lbs Marg, Thane West, Thane - 400601, Near Hari Niwas Circle",Thane,Maharashtra,400601,Living Liquidz,8097919434,,,27AAACK2613E1Z1,HoReCa
-N43,Lemon Lokandwala,0,Shop no 6 Sheetal Apts Next to ICIC Back Lokhandwala Complex Andheri West.,Mumbai,Maharashtra,400053,Lemon Salon,9920969201,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
-N44,Lemon Oshiwara,0,Order for lemon Shop no. 17  Meera Tower Oshiwara Branch,Mumbai,Maharashtra,400053,Lemon Salon,8449906697,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
-N45,Lemon Malad,0,"Shop no 10, rustomjee ozone project , goregao mulund link road , goregao west",Mumbai,Maharashtra,400104,Lemon Salon,7715875138,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
-N46,Lemon Borivali,0,Shop no 8 kent gardens B factory lane opp jambli gali borivali west,Mumbai,Maharashtra,400092,Lemon Salon,9664666674,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
-N47,Lemon backroad,0,"Joggers' Park, Shop No. 1, Samarth Siddhi, Opp. Starbucks Near, Andheri (W, Mumbai, Maharashtra 400102",Mumbai,Maharashtra,400053,Lemon Salon,7710030778,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27CZKPS5636R1Z7,HoReCa
-N48,Lemon 7 bunglows,0,"Gold crown society, Shop no 5,7 bunglow, Opp icici bank Atm, Andheri west .",Mumbai,Maharashtra,400061,Lemon Salon,8459410087,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
-N49,Lemon Bandra,0,"Sunrise apartments shop no 4. Water field road,
+N1,JP Infra Realty Pvt Ltd,50000,"Vinay Nagar Rd, Kashimira, Ghodbunder, Mira Bhayandar, Maharashtra 401107",Thane,Maharashtra,401107,Joanita Salian,8369420036,_,joanita.salians@jpinfra.com,27AAOCS9607A1Z7,Corporate
+N2,JP Infra Residency Pvt Ltd,50000,"Vinay Nagar Rd, Kashimira, Ghodbunder, Mira Bhayandar, Maharashtra 401107",Thane,Maharashtra,401107,Joanita Salian,8369420036,_,joanita.salians@jpinfra.com,27AAECJ6832E1ZL,Corporate
+N3,JP Infra Ventures Pvt Ltd,50000,"4th Floor, Viraj Towers, Near WEH Metro Station, Western Express Hwy, Andheri East, Mumbai, Maharashtra 400093",Mumbai,Maharashtra,400093,Ms. Shruti,9702786661,_,chirag.gangurde@jpinfra.com,27AALFJ2933L1ZZ,Corporate
+N4,Cafe Filli - Andheri,30000,"Royal classic Building Ground Floor Near Infinity Mall, A/1, New Link Rd, Laxmi Industrial Estate, Suresh Nagar, Andheri West, Mumbai, Maharashtra 400053",Mumbai,Maharashtra,400053,Mr. Saud,9167198489,_,Prathmesh@deliverifynow.com,27AAFCT7597P1Z7,HoReCa
+N5,Cafe Filli - Kurla,30000,"Phoenix Market City 1st Floor, Kurla, Mumbai, Maharashtra 400070",Mumbai,Maharashtra,400070,Mr. Saud,9167198489,_,Prathmesh@deliverifynow.com,27AAFCT7597P1Z7,HoReCa
+N6,Cafe Filli - Fort,30000,"Commerce House, 140, Nagindas Master Rd, Fort, Mumbai, Maharashtra 400001",Mumbai,Maharashtra,400001,Mr. Saud,9167198489,_,Prathmesh@deliverifynow.com,27AAFCT7597P1Z7,HoReCa
+N7,Hotel Anantha,30000,"LBS Rd, near S' ward BMC office, Bhandup (W, Kanjurmarg West, Bhandup West, Mumbai, Maharashtra 400078",Mumbai,Maharashtra,400078,Mr. More,8779936649,9766548540,Prathmesh@deliverifynow.com,27AAACN7512P1Z3,HoReCa
+N8,Safal Teachers Training,3000,"Shop No -115,1st floor, Shop zone Premises Co-op Society Ltd, MG Road, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Reception,8879334700,_,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N9,Priya Telecommunication,3000,"Shop-07, Kale Marg, Opp. Jay Jawan Garden, Bail Bazar, Kurla West. Mumbai- 400070",Mumbai,Maharashtra,400070,Ms. Priya,8976424755,_,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N10,Chirag Telecommunication,3000,"Shop-09, Bhave Shankar Mandir Compound, Near Parmar Industrial Estate, Kale Marg, Bail Bazar, Kurla West, Mumbai-70",Mumbai,Maharashtra,400070,Mr. Jain,9819632149,_,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N11,Elite Enterprise,3000,"111, 1st floor, Shop Zone Building, Ghatkopar - Mahul Road, MG Road, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Sagar,7977270839,_,Prathmesh@deliverifynow.com,27AAFFEE1375F1ZL,Corporate
+N12,Trikolla LLP,3000,"Bhaveshwar Complex, G6,near, Kirol Village, Vidyavihar Station, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Reception,9372704144,_,Prathmesh@deliverifynow.com,27AAKFT3550N1ZP,Corporate
+N13,Speco Infrastructures,3000,"Bhaveshwar Complex, G15,near, Kirol Village, Vidyavihar Station, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Gulab,9029016520,_,Prathmesh@deliverifynow.com,27ACEFS4960M1ZK,Corporate
+N14,Airtek,3000,"Bhaveshwar Complex, 115,near, Kirol Village, Vidyavihar Station, Ghatkopar West, Mumbai, Maharashtra 400086",Mumbai,Maharashtra,400086,Suresh,8828512735,_,Prathmesh@deliverifynow.com,27ABCFA1858K1ZB,Corporate
+N15,Air Design HVAC,3000,"Gala- 05, Shriram Upadhyay Industrial Estate, Kale Marg, Bail Bazar, Kurla West.",Mumbai,Maharashtra,400070,Sheru Bhai,8657435741,_,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N16,Fitness Pitch Studio,3000,"Garodia Nagar, Ghatkopar East, Mumbai, Maharashtra 400077",Mumbai,Maharashtra,400077,Reena Chaddha,9821310575,2225061862,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N17,A Plus Analitics,3000,"A-502, Shubham Center - 1, Cardinal Garcious Road, Chakala, Andheri (E), Mumbai, Maharashtra 400099",Mumbai,Maharashtra,400099,Tushar Gurav,9820301128,_,Prathmesh@deliverifynow.com,27AAZFA4025A1ZM,Corporate
+N18,Amrut Caterers,20000,"Flat-8, Vanmali Bldg, Cheda Ng, Chembur West, Mumbai 400089",Mumbai,Maharashtra,400089,Priyank,8169216622,_,Prathmesh@deliverifynow.com,27AADPG4575H1Z0,Caterer
+N19,Top 10 Matunga,15000,"SHOP NO-3/292 BHANU JYOTI BUILDING L.N ROAD, OPP MATUNGA RAILWAY STATION, MATUNGA EAST, Mumbai, Maharashtra 400019",Mumbai,Maharashtra,400019,Yugul,9833424359,_,Prathmesh@deliverifynow.com,27AADHA2340E1ZY,Corporate
+N20,Cell O City - Kurla,15000,"Shop No.8,Dion Shelter Chs.,S. G, SG Barve Marg, near Railway station, Kurla E, Mumbai, Maharashtra 400024",Mumbai,Maharashtra,400024,Akbar Ansari,9773883557,_,Prathmesh@deliverifynow.com,27AMGPN6978E1ZK,Corporate
+N21,A-1 HEIGHTS & HOSPITALITY PVT LTD,50000,"AUREOLE HOTEL , BIMA NAGAR BEHIND NATRAJ STUDIO, ANDHERI EAST MUMBAI",Mumbai,Maharashtra,400069,Mr. Satish,9920250583,,Prathmesh@deliverifynow.com,27AAKCA8376N1ZU,HoReCa
+N22,Wine store ,30000,"Add- Kamdhenu Co-op. Hsg. Soc. Ltd., shop no 3, Achole Road, Nalasophara, Palghar, Dist - Thane,",Thane,Maharashtra,401209,Living Liquidz,8446106425,9588468826,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N23,Dadar wines ,30000,"Shop no 1,2 & 3, Pratigya Apts,Station Rd., Bhayander(W), Dist Thane,",Thane,Maharashtra,401101,Living Liquidz,9619881414,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N24,Sunny Wines ,30000,"Shah Bhimshi Gover, S.V.Road,Opp Khira Nagar, Santacruz (West),Mumbai - 400 054.",Mumbai,Maharashtra,400054,Living Liquidz,2226117949,8108030142,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N25,V Five wines ,30000,"sidhivinayak bld, plot no 166, sec 31, vashi Gain , Navi Mumbai",Navi Mumbai,Maharashtra,400703,Living Liquidz,8422837222,6900094000,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N26,Blue bird wine shop,30000,"shop no 123, K/776, Mira bhayander road, mira road",Thane,Maharashtra,401107,Living Liquidz,6900054000,2228124889,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N27,V.K wines.,30000,"Add- Shop no 1 , Santosh Bhavan, gokhiware road, nalasopara east .",Thane,Maharashtra,401209,Living Liquidz,7276481525,9773654189,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N28,Ashwin wine shop,30000,"Shop no 36/4/7, Gazdharband road, near laksdeep restaurant, Santa Cruz",Mumbai,Maharashtra,400054,Living Liquidz,9594950302,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N29,Bridge wines,30000,"shop no 6, near Radha Krishna hotel , m.v road, andheri east ",Mumbai,Maharashtra,400093,Living Liquidz,2226837777,2226837871,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N30,Centenary wines,30000,"shop no 2, V.p road, a.b dalal building, vileparle west",Mumbai,Maharashtra,400056,Living Liquidz,7900007622,2226134159,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N31,Amrut wines,30000,"shop no 2, caves road, jogeshwari east.near station",Mumbai,Maharashtra,400060,Living Liquidz,8692058432,2228346293,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N32,Fition wines,30000,"shop no 1/2, juhu ekta society, new link road, andheri west",Mumbai,Maharashtra,400047,Living Liquidz,8108333528,2226247907,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N33,Mazda wines,30000,"shop no 4 A, ventura shopping centre, Hiranandani park, powai.",Mumbai,Maharashtra,400022,Living Liquidz,7700070007,2249766733,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N34,Karishma wines,30000,"shop no 3, casa blanca building, m.g road, vile parlr east, near suncity theatre",Mumbai,Maharashtra,400057,Living Liquidz,9594906937,2226189732,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N35,Sea face hotel,30000,"hotel sea face bar and family restaurant nirmal, nalasopara west",Thane,Maharashtra,401304,Living Liquidz,8237591396,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N36,Nalasopara wine shop,30000,"shop no 7, raj yog apt, nagin das pada, prince park virar road, nalasopara east.",Thane,Maharashtra,401209,Living Liquidz,7758026378,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N37,Sani Wine,30000,"shop no 1, bld - A/11, golden building co- housing society, Ali road , Vasai east.",Thane,Maharashtra,401208,Living Liquidz,9920083601,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N38,Luvish Wine,30000,"Ground floor, Crystal point mall , Tata star bazaar, new link road, andheri west",Mumbai,Maharashtra,400053,Living Liquidz,9702715705,6900062000,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N39,Lucky wine ,30000,"shop no 4, narottam niwas, opp gandhi market, Dr B A road ,Sion, ",Mumbai,Maharashtra,400022,Living Liquidz,7021925339,2224090233,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N40,Mazda Sion,30000,"shop no 2, plot no 31, Sion Mansion, Sion west, Sindhi colony, Sion, ",Mumbai,Maharashtra,400022,Living Liquidz,9702761174,2224024106,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N41,Megzee wine,30000,"Ramodiya mansion no 2, Shop no 3, 260, Dr A B Road, Opp century bazar, Worli.",Mumbai,Maharashtra,400025,Living Liquidz,9702343840,2224378759,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N42,Trimurti wine ,30000,"Shop No 4, Monalis, Old Lbs Marg, Thane West, Thane - 400601, Near Hari Niwas Circle",Thane,Maharashtra,400601,Living Liquidz,8097919434,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N43,Lemon Lokandwala,30000,Shop no 6 Sheetal Apts Next to ICIC Back Lokhandwala Complex Andheri West.,Mumbai,Maharashtra,400053,Lemon Salon,9920969201,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
+N44,Lemon Oshiwara,30000,Order for lemon Shop no. 17  Meera Tower Oshiwara Branch,Mumbai,Maharashtra,400053,Lemon Salon,8449906697,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
+N45,Lemon Malad,30000,"Shop no 10, rustomjee ozone project , goregao mulund link road , goregao west",Mumbai,Maharashtra,400104,Lemon Salon,7715875138,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
+N46,Lemon Borivali,30000,Shop no 8 kent gardens B factory lane opp jambli gali borivali west,Mumbai,Maharashtra,400092,Lemon Salon,9664666674,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
+N47,Lemon backroad,30000,"Joggers' Park, Shop No. 1, Samarth Siddhi, Opp. Starbucks Near, Andheri (W, Mumbai, Maharashtra 400102",Mumbai,Maharashtra,400053,Lemon Salon,7710030778,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27CZKPS5636R1Z7,HoReCa
+N48,Lemon 7 bunglows,30000,"Gold crown society, Shop no 5,7 bunglow, Opp icici bank Atm, Andheri west .",Mumbai,Maharashtra,400061,Lemon Salon,8459410087,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27AIKPD5078K1ZW,HoReCa
+N49,Lemon Bandra,30000,"Sunrise apartments shop no 4. Water field road,
 Opp ojas eye hospital,
 bandra west.",Mumbai,Maharashtra,400050,Lemon Salon,7977244035,,"lemon.sumer@gmail.com, lemon.qurat@gmail.com",27CZKPS5636R1Z7,HoReCa
-N50,Rampunjab,0,"Shop No 6-11, Kavarana Terrace, Dr. Baba saheb Ambedkar Road, Byculla (E), Mumbai, Maharashtra 400027",Mumbai,Maharashtra,400027,Rampunjab,9987500086,9768792958,,,HoReCa
-N51,YOLO,0,"719, Tata Rd No 2, Charni Road East, Opera House, Girgaon, Mumbai, Maharashtra 400004",Mumbai,Maharashtra,400004,Jacky,9222222915,,,,HoReCa
-N52,F For Fries,0,"131, Rambhau Bhogle Marg, Anjeer Wadi, Mustafa Bazar, Mazgaon, Mumbai, Maharashtra 400010",Mumbai,Maharashtra,400010,Akbar,9821612044,,,27AAFFF7325L1Z5,HoReCa
-N53,Tuck Box,0,"The Tuckbox, M-1, Paras Centre, Tata Road No. 2, Opposite Central Plaza Theatre, Charni Road East, Opera House, Mumbai, 400004",Mumbai,Maharashtra,400004,Munna,9967012791,,,,HoReCa
-N54,Ashish Wines,0,"Shop no 6, Rajni Mahal, Tardeo Rd, Arya Nagar, Tulsiwadi, Tardeo, Mumbai, Maharashtra 400034",Mumbai,Maharashtra,400034,Ashish,9699799722,,,,HoReCa
-N55,Welcome Milk Centre,0,"Suklaji street, Tanki wala Bilding, Mumbai, Maharashtra 400008",Mumbai,Maharashtra,400008,Akhtar Bhai,9664038078,,,,GT
-N56,Tawakkal Pan House,0,"1, pearl arcade, Tata rd .no 2, Charni Road, Mumbai - 400004",Mumbai,Maharashtra,400004,Manoj,9653399265,,,,GT
-N57,Pandeyji Naaz,0,"Naaz Cinema Building, 393, Lamington Rd, Charni Road East, Grant Road East, Shapur Baug, Grant Road, Mumbai, Maharashtra 400004",Mumbai,Maharashtra,400004,Radheshaam Pandey,9987936042,,,,GT
-N58,Priya Bar,0,"Ahmed Building, Dr Baba Saheb Ambedkar Rd, Byculla West, Byculla, Mumbai, Maharashtra 400027",Mumbai,Maharashtra,400027,piklu,9957169449,,,,HoReCa
-N59,Deepesh Goyal,0,"1 & 2, Jai mahavir darshan, carter road no. 5, opp. Green's hotel, Borivali East, Mumbai, Maharashtra 400066",Mumbai,Maharashtra,400066,Deepesh,9898008306,7021527942,,27AQPG9605G1Z1,Distributor
-N60,Nazeer Shaikh,0,"shop no 93,Indra Nagar , KK Marg , 90feet Road,Dharavi ,Mumbai 400017",Mumbai,Maharashtra,400017,Mani,9029632220,,,,Distributor
-N61,Kartik Singh,0,"Near Grand Hyaat, Bandra Kurla Complex Vicinity, Off Western Express Highway, Santacruz East, Mumbai, Maharashtra 400055",Mumbai,Maharashtra,400055,Rajan,9004614359,,,,Distributor
-N62,Rajan Singh,0,"Thakur Village, Kandivali East Inside Thakur college of science and commerce Bldg. Ground floor, Singh Agri Estate, Mumbai, Maharashtra 400067",Mumbai,Maharashtra,400067,Rajan,9004614359,,,,Distributor
-N63,Jay Ambe Agency,0,Santacruz,Mumbai,Maharashtra,400054,Baban,9867856381,,,,Distributor
-N64,Diamond Queen,0,"Byculla West, Byculla, Mumbai, Maharashtra 400011",Mumbai,Maharashtra,400011,Rahul,9930918957,,,,HoReCa
-N65,Hotel Deepak,0,"Opposite Street Joseph's School, Plot No. 86, National Highway Road No.5 Sand Hurst Road, Mumbai, Maharashtra 400009",Mumbai,Maharashtra,400009,Naamdev,9920131721,,,,HoReCa
+N50,Rampunjab,30000,"Shop No 6-11, Kavarana Terrace, Dr. Baba saheb Ambedkar Road, Byculla (E), Mumbai, Maharashtra 400027",Mumbai,Maharashtra,400027,Rampunjab,9987500086,9768792958,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N51,YOLO,30000,"719, Tata Rd No 2, Charni Road East, Opera House, Girgaon, Mumbai, Maharashtra 400004",Mumbai,Maharashtra,400004,Jacky,9222222915,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N52,F For Fries,30000,"131, Rambhau Bhogle Marg, Anjeer Wadi, Mustafa Bazar, Mazgaon, Mumbai, Maharashtra 400010",Mumbai,Maharashtra,400010,Akbar,9821612044,,Prathmesh@deliverifynow.com,27AAFFF7325L1Z5,HoReCa
+N53,Tuck Box,30000,"The Tuckbox, M-1, Paras Centre, Tata Road No. 2, Opposite Central Plaza Theatre, Charni Road East, Opera House, Mumbai, 400004",Mumbai,Maharashtra,400004,Munna,9967012791,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N54,Ashish Wines,30000,"Shop no 6, Rajni Mahal, Tardeo Rd, Arya Nagar, Tulsiwadi, Tardeo, Mumbai, Maharashtra 400034",Mumbai,Maharashtra,400034,Ashish,9699799722,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N55,Welcome Milk Centre,3000,"Suklaji street, Tanki wala Bilding, Mumbai, Maharashtra 400008",Mumbai,Maharashtra,400008,Akhtar Bhai,9664038078,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N56,Tawakkal Pan House,3000,"1, pearl arcade, Tata rd .no 2, Charni Road, Mumbai - 400004",Mumbai,Maharashtra,400004,Manoj,9653399265,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N57,Pandeyji Naaz,3000,"Naaz Cinema Building, 393, Lamington Rd, Charni Road East, Grant Road East, Shapur Baug, Grant Road, Mumbai, Maharashtra 400004",Mumbai,Maharashtra,400004,Radheshaam Pandey,9987936042,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N58,Priya Bar,30000,"Ahmed Building, Dr Baba Saheb Ambedkar Rd, Byculla West, Byculla, Mumbai, Maharashtra 400027",Mumbai,Maharashtra,400027,piklu,9957169449,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N59,Deepesh Goyal,50000,"1 & 2, Jai mahavir darshan, carter road no. 5, opp. Green's hotel, Borivali East, Mumbai, Maharashtra 400066",Mumbai,Maharashtra,400066,Deepesh,9898008306,7021527942,Prathmesh@deliverifynow.com,27AQPG9605G1Z1,Distributor
+N60,Nazeer Shaikh,30000,"shop no 93,Indra Nagar , KK Marg , 90feet Road,Dharavi ,Mumbai 400017",Mumbai,Maharashtra,400017,Mani,9029632220,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Distributor
+N61,Kartik Singh,50000,"Near Grand Hyaat, Bandra Kurla Complex Vicinity, Off Western Express Highway, Santacruz East, Mumbai, Maharashtra 400055",Mumbai,Maharashtra,400055,Rajan,9004614359,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Distributor
+N62,Rajan Singh,50000,"Thakur Village, Kandivali East Inside Thakur college of science and commerce Bldg. Ground floor, Singh Agri Estate, Mumbai, Maharashtra 400067",Mumbai,Maharashtra,400067,Rajan,9004614359,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Distributor
+N63,Jay Ambe Agency,5000,Santacruz,Mumbai,Maharashtra,400054,Baban,9867856381,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Distributor
+N64,Diamond Queen,30000,"Byculla West, Byculla, Mumbai, Maharashtra 400011",Mumbai,Maharashtra,400011,Rahul,9930918957,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N65,Hotel Deepak,30000,"Opposite Street Joseph's School, Plot No. 86, National Highway Road No.5 Sand Hurst Road, Mumbai, Maharashtra 400009",Mumbai,Maharashtra,400009,Naamdev,9920131721,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N66,A-1 Zaika,3000,Prabhadevi,Mumbai,Maharashtra,400025,A-1 Zaika,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N67,Aarey - Opposite Maharashtra Store,3000,Dadar West,Mumbai,Maharashtra,400028,Aarey - Opposite Maharashtra Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N68,Aarey 257 G,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Aarey 257 G,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N69,Aarey 4245/Z,3000,Elphinston,Mumbai,Maharashtra,400014,Aarey 4245/Z,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N70,Aarey 5059,3000,Matunga West,Mumbai,Maharashtra,400016,Aarey 5059,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N71,Aarey 5315/Z,3000,Dadar West,Mumbai,Maharashtra,400028,Aarey 5315/Z,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N72,Aarey 5903/Z,3000,Dadar West,Mumbai,Maharashtra,400028,Aarey 5903/Z,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N73,Aarey Center  ,3000,Dadar West,Mumbai,Maharashtra,400028,Aarey Center  ,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N74,Aarey Dairy,3000,Dadar West,Mumbai,Maharashtra,400028,Aarey Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N75,Aarey Energy 135,3000,Mahim,Mumbai,Maharashtra,400016,Aarey Energy 135,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N76,Aarey matunga,3000,Matunga West,Mumbai,Maharashtra,400016,Aarey matunga,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N77,Aarey VS 23,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Aarey VS 23,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N78,Adarsh Milk Centre,3000,Matunga West,Mumbai,Maharashtra,400016,Adarsh Milk Centre,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N79,Aditaya fast food,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Aditaya fast food,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N80,Amul VadaPav,3000,Dadar West,Mumbai,Maharashtra,400028,Amul VadaPav,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N81,Annapurna Bhojnalay,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Annapurna Bhojnalay,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N82,Anusaya General Store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Anusaya General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N83,Aruna General Store,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Aruna General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N84,Ashtavinayak Pan Bidi Shop,3000,Worli,Mumbai,Maharashtra,400018,Ashtavinayak Pan Bidi Shop,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N85,Ashtavinayak Vadapav,3000,Elphinston,Mumbai,Maharashtra,400014,Ashtavinayak Vadapav,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N86,Asmita PCO,3000,Matunga West,Mumbai,Maharashtra,400016,Asmita PCO,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N87,Aswad Mithai Farsan,3000,Adarsh Nagar Worli,Mumbai,Maharashtra,400030,Aswad Mithai Farsan,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N88,Avani Dairy,3000,Dadar West,Mumbai,Maharashtra,400028,Avani Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N89,Badshah P/B Shop,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Badshah P/B Shop,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N90,Banglor Iyangar Bakery,3000,Elphinston,Mumbai,Maharashtra,400014,Banglor Iyangar Bakery,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N91,Banshi Nimbupani,3000,Dadar West,Mumbai,Maharashtra,400028,Banshi Nimbupani,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N92,Bhairav Catres,3000,Elphinston,Mumbai,Maharashtra,400014,Bhairav Catres,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N93,Bharat P/B Store,3000,Mahim,Mumbai,Maharashtra,400016,Bharat P/B Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N94,Bhavani Fast Food,3000,Mahim,Mumbai,Maharashtra,400016,Bhavani Fast Food,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N95,Bhavesh Vadapav,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Bhavesh Vadapav,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N96,Cake smith,3000,Lalbaug,Mumbai,Maharashtra,400012,Cake smith,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N97,Chetan store,3000,Dadar West,Mumbai,Maharashtra,400028,Chetan store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N98,Chintamani Fast Food,3000,"Agar Bazar, Dadar",Mumbai,Maharashtra,400028,Chintamani Fast Food,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N99,Coastal Tadka,3000,Elphinston,Mumbai,Maharashtra,400014,Coastal Tadka,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N100,Dadar Gupta Store,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Dadar Gupta Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N101,Deepak Farshan,3000,Elphinston,Mumbai,Maharashtra,400014,Deepak Farshan,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N102,Energy center 257,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Energy center 257,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N103,Hariya G store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Hariya G store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N104,Ishant General Store,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Ishant General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N105,Jagdish Biscuite Store,3000,Mahim,Mumbai,Maharashtra,400016,Jagdish Biscuite Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N106,Jai Maharashtra Store,3000,Dadar West,Mumbai,Maharashtra,400028,Jai Maharashtra Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N107,Jaiswal P/B Shop,3000,Prabhadevi,Mumbai,Maharashtra,400025,Jaiswal P/B Shop,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N108,just chill,3000,Elphinston,Mumbai,Maharashtra,400014,just chill,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N109,Kamgar society,3000,Matunga West,Mumbai,Maharashtra,400016,Kamgar society,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N110,Karba's Z-5295,3000,Dadar West,Mumbai,Maharashtra,400028,Karba's Z-5295,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N111,Kiran General Store,3000,"Agar Bazar, Dadar",Mumbai,Maharashtra,400028,Kiran General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N112,Korgaonkar P/B Shop,3000,"Hindmata, Dadar East",Mumbai,Maharashtra,400014,Korgaonkar P/B Shop,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N113,Krishna Hotel,3000,Dadar West,Mumbai,Maharashtra,400028,Krishna Hotel,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N114,Madhvi Dairy,3000,New Prabhadevi,Mumbai,Maharashtra,400025,Madhvi Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N115,Maharashtra Milk Dairy,3000,Dadar West,Mumbai,Maharashtra,400028,Maharashtra Milk Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N116,Maharashtra Mishthan,3000,Elphinston,Mumbai,Maharashtra,400014,Maharashtra Mishthan,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N117,Mahim Store,3000,Mahim,Mumbai,Maharashtra,400016,Mahim Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N118,Mauli PCO,3000,Worli,Mumbai,Maharashtra,400018,Mauli PCO,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N119,Milind General Store,3000,Elphinston,Mumbai,Maharashtra,400014,Milind General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N120,MK Bhelpuri,3000,Prabhadevi,Mumbai,Maharashtra,400025,MK Bhelpuri,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N121,Nagori Maharashtra Tea Point,3000,Prabhadevi,Mumbai,Maharashtra,400025,Nagori Maharashtra Tea Point,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N122,National Dairy,3000,"Koli Wada, Worli",Mumbai,Maharashtra,400030,National Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N123,New Arti Dairy,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,New Arti Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N124,New Gupta Store,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,New Gupta Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N125,New Maharashtra store,3000,Mahim,Mumbai,Maharashtra,400016,New Maharashtra store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N126,New National Dairy,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,New National Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N127,Nimbu Pani ,3000,Elphinston,Mumbai,Maharashtra,400014,Nimbu Pani ,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N128,Om Sai Communication,3000,Dadar West,Mumbai,Maharashtra,400028,Om Sai Communication,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N129,Om sai Ram Vada Pav,3000,Elphinston,Mumbai,Maharashtra,400014,Om sai Ram Vada Pav,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N130,Om sairam icecream,3000,Prabhadevi,Mumbai,Maharashtra,400025,Om sairam icecream,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N131,Om Stores,3000,Prabhadevi,Mumbai,Maharashtra,400025,Om Stores,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N132,Panday Panbeedi,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Panday Panbeedi,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N133,Parsi Bakery,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Parsi Bakery,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N134,Prabhadevi Bhelpuri,3000,Prabhadevi,Mumbai,Maharashtra,400025,Prabhadevi Bhelpuri,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N135,Pragati General store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Pragati General store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N136,Pranjal - Siddhivinayak Store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Pranjal - Siddhivinayak Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N137,Premacha chaha,3000,Elphinston,Mumbai,Maharashtra,400014,Premacha chaha,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N138,R R communication,3000,Mahim,Mumbai,Maharashtra,400016,R R communication,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N139,Radhe Krishna Dairy,3000,Prabhadevi,Mumbai,Maharashtra,400025,Radhe Krishna Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N140,Ravindra Store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Ravindra Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N141,Riddhi Siddhi Bhojnalay,3000,Elphinston,Mumbai,Maharashtra,400014,Riddhi Siddhi Bhojnalay,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N142,S G Gupta store,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,S G Gupta store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N143,S K Gupta store,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,S K Gupta store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N144,Sachidanand P/B Shop,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Sachidanand P/B Shop,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N145,sadguru icecream,3000,Dadar West,Mumbai,Maharashtra,400028,sadguru icecream,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N146,sadhana snacks,3000,Elphinston,Mumbai,Maharashtra,400014,sadhana snacks,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N147,Saidham Pan Bidi,3000,Dadar West,Mumbai,Maharashtra,400028,Saidham Pan Bidi,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N148,Sairaj Enterprises,3000,Matunga West,Mumbai,Maharashtra,400016,Sairaj Enterprises,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N149,salim Panbeedi,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,salim Panbeedi,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N150,Sambhaji Panbeedi shop,3000,Prabhadevi,Mumbai,Maharashtra,400025,Sambhaji Panbeedi shop,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N151,Sanjay Enterprise,3000,Dadar West,Mumbai,Maharashtra,400028,Sanjay Enterprise,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N152,Sanjay General Store,3000,Matunga West,Mumbai,Maharashtra,400016,Sanjay General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N153,sanvi supermarket,3000,New Prabhadevi,Mumbai,Maharashtra,400025,sanvi supermarket,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N154,Sarvottam Milk Centre,3000,Dadar West,Mumbai,Maharashtra,400028,Sarvottam Milk Centre,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N155,sharda beedi shop,3000,Dadar West,Mumbai,Maharashtra,400028,sharda beedi shop,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N156,Shivam General Stores,3000,"Koli Wada, Worli",Mumbai,Maharashtra,400030,Shivam General Stores,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N157,Shri Krishna dairy,3000,"Koli Wada, Worli",Mumbai,Maharashtra,400030,Shri Krishna dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N158,Shri Krishna Hotel,3000,Dadar West,Mumbai,Maharashtra,400028,Shri Krishna Hotel,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N159,Shri Radha Krishna Dairy,3000,"Koli Wada, Worli",Mumbai,Maharashtra,400030,Shri Radha Krishna Dairy,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N160,Shri Ram Avadh pan bhandhar,3000,Elphinston,Mumbai,Maharashtra,400014,Shri Ram Avadh pan bhandhar,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N161,Shri sadhguru Krupa,3000,"Century Market, Worli",Mumbai,Maharashtra,400025,Shri sadhguru Krupa,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N162,Shri Sai Communication,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Shri Sai Communication,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N163,Shri Sai Siddhi Bhojanalay,3000,Elphinston,Mumbai,Maharashtra,400014,Shri Sai Siddhi Bhojanalay,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N164,Shri Siddhivinayak Farsan Mart,3000,Prabhadevi,Mumbai,Maharashtra,400025,Shri Siddhivinayak Farsan Mart,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N165,Shri Siddhivinayak General Store,3000,Worli,Mumbai,Maharashtra,400018,Shri Siddhivinayak General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N166,Shri Siddhivinayak Ice Cream Parlor,3000,Prabhadevi,Mumbai,Maharashtra,400025,Shri Siddhivinayak Ice Cream Parlor,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N167,Shri siddhivinayak milk center,3000,Elphinston,Mumbai,Maharashtra,400014,Shri siddhivinayak milk center,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N168,Siddhivinayak aarey,3000,Prabhadevi,Mumbai,Maharashtra,400025,Siddhivinayak aarey,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N169,siddhivinayak fast food,3000,Elphinston,Mumbai,Maharashtra,400014,siddhivinayak fast food,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N170,Sonu General Store,3000,Elphinston,Mumbai,Maharashtra,400014,Sonu General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N171,Subhash Biscuites,3000,Prabhadevi,Mumbai,Maharashtra,400025,Subhash Biscuites,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N172,Sujata Dryfruit,3000,Dadar West,Mumbai,Maharashtra,400028,Sujata Dryfruit,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N173,Sundaram super Market,3000,Elphinston,Mumbai,Maharashtra,400014,Sundaram super Market,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N174,Super Roll Frankie,3000,Prabhadevi,Mumbai,Maharashtra,400025,Super Roll Frankie,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N175,Sushmita PCO,3000,Matunga West,Mumbai,Maharashtra,400016,Sushmita PCO,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N176,Swami Samarth ,3000,Prabhadevi,Mumbai,Maharashtra,400025,Swami Samarth ,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N177,Swastik Sandwhich Corner,3000,Elphinston,Mumbai,Maharashtra,400014,Swastik Sandwhich Corner,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N178,Swati communication,3000,Dadar West,Mumbai,Maharashtra,400028,Swati communication,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N179,Tiana Store,3000,Dadar West,Mumbai,Maharashtra,400028,Tiana Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N180,Ujjwal Dry Fruites,3000,Dadar West,Mumbai,Maharashtra,400028,Ujjwal Dry Fruites,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N181,Umashankar Panbeedi,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Umashankar Panbeedi,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N182,Vaishnavi General Store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Vaishnavi General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N183,Vinayak Store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Vinayak Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N184,Vindhyavasini General Store,3000,Elphinston,Mumbai,Maharashtra,400014,Vindhyavasini General Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N185,Welcome Store,3000,Prabhadevi,Mumbai,Maharashtra,400025,Welcome Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N186,Western Railway Society,3000,Matunga West,Mumbai,Maharashtra,400016,Western Railway Society,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N187,Xerox Store,3000,Dadar West,Mumbai,Maharashtra,400028,Xerox Store,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N188,Zakharia Caterers,3000,Dadar West,Mumbai,Maharashtra,400028,Zakharia Caterers,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N189,Zunka Bhakar,3000,"Phool Market, Dadar",Mumbai,Maharashtra,400028,Zunka Bhakar,9967521850,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,GT
+N190,A C N Fibre Private Limited,3000,"Akbar House, Shop No. 8, N.F. Road, Behind Taj Hotel,Nawroji Furdunji St., Colaba, Mumbai",Mumbai,Maharashtra,400005,A C N Fibre Private Limited,8291151617,,Prathmesh@deliverifynow.com,27AAPCA7216E1ZN,Corporate
+N191,Chamunda,3000,"8th Lane, Kamati Pura",Mumbai,Maharashtra,400008,Chamunda,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N192,CHIP COM,3000,"207/208, Aaditya Arcade, 2nd Floor, Topiwala Lane,Laminton Road, Mumbai. 400007",Mumbai,Maharashtra,400007,CHIP COM,8291151617,,Prathmesh@deliverifynow.com,27AACCC4318E1Z1,Corporate
+N193,Classic Travel Shoppe Pvt Ltd,3000,"4/4A, 482 Ground Floor,Sangharajka House,S. V. P Road, Opera House, Opera House, Mumbai - 400004",Mumbai,Maharashtra,400004,Classic Travel Shoppe Pvt Ltd,8291151617,,Prathmesh@deliverifynow.com,27AAACC4354N1ZG,Corporate
+N194,D.A.Technologies,3000,"383, Walker House, Ground Floor,,Lamington Road, Grant Road (E),, Mumbai, Maharashtra 400007",Mumbai,Maharashtra,400007,D.A.Technologies,8291151617,,Prathmesh@deliverifynow.com,27AACPM5890Q1ZW,Corporate
+N195,Galaxy Infotech,3000,"30, Shop No 2, 152, Agairy Lane,Modi Street, Fort, Mumbai - 400001",Mumbai,Maharashtra,400001,Galaxy Infotech,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N196,H.N.INFOTEK,3000,"Office No.12,1st Floor,Shanti Niketan,Padmaji Road,Near Dreamland Cinema,Grant Road(E), Mumbai - 400004",Mumbai,Maharashtra,400004,H.N.INFOTEK,8291151617,,Prathmesh@deliverifynow.com,27AALFH2477B1ZF,Corporate
+N197,I Stop India,3000,"Shuklaji Street, Kamati Pura",Mumbai,Maharashtra,400008,I Stop India,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N198,Jagdish Bhai,3000,"Shop No-A1, Shuklaji Street, Kamati Pura",Mumbai,Maharashtra,400008,Jagdish Bhai,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N199,Jogani Infotech Pvt Ltd,3000,"Office No: B,1ST Floor,7 Shanti Niwas,Tara Temple Lane,Lamington Road,Mumbai - 400007",Mumbai,Maharashtra,400007,Jogani Infotech Pvt Ltd,8291151617,,Prathmesh@deliverifynow.com,27AACCJ7277R1ZN,Corporate
+N200,King Tech,3000,"Second Floor, Yamuna Bldg, Lamington Rd.",Mumbai,Maharashtra,400007,King Tech,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N201,Laptop Station,3000,"339 Rajesh Building,Shop No 49,Opposite Lamington Road, Police Station,Grant Road€",Mumbai,Maharashtra,400001,Laptop Station,8291151617,,Prathmesh@deliverifynow.com,27CQCPB2946J1ZV,Corporate
+N202,Libra Infotech,3000,"Shop No.1, 317-A, Pahelvi Building,Opp 2 Lamington Road,Police Station,D.B.Marg, Grant Road, Mumbai - 400007,",Mumbai,Maharashtra,400007,Libra Infotech,8291151617,,Prathmesh@deliverifynow.com,27AVSPB5815F1ZI,Corporate
+N203,Mahavir Laptop Spares,3000,"315,1st Floor Pahelvi Blgd, R.No. 1A,New Empire Hotel Lamington Road,Mumbai - 400004",Mumbai,Maharashtra,400004,Mahavir Laptop Spares,8291151617,,Prathmesh@deliverifynow.com,27BFYPJ4755F1ZV,Corporate
+N204,Max World IT Solution,3000,"Shop No. 2, Ground Floor,Katayun Mansion, 290 Lamington Road Procter Rd,Grant Road East,Mumbai, Maharashtra 400007",Mumbai,Maharashtra,400007,Max World IT Solution,8291151617,,Prathmesh@deliverifynow.com,27ASJPJ2196F1ZL,Corporate
+N205,Mccann Info Solution,3000,"Laxmi Compound Bldg., Gr Flr. Shop No.:15/392,Opp.Vasant Bhavan Hotel, Grant Road,(East),Mumbai 400004",Mumbai,Maharashtra,400004,Mccann Info Solution,8291151617,,Prathmesh@deliverifynow.com,27ABAPJ2234L1ZT,Corporate
+N206,Mccann Infosys,3000,"347/45 Rajesh Building Ground Floor,Opposite Lamington Road Police Station,Dr D B Marg, Grant Road, Mumbai - 400007",Mumbai,Maharashtra,400007,Mccann Infosys,8291151617,,Prathmesh@deliverifynow.com,27AMHPM0681L1ZP,Corporate
+N207,Megahertz,3000,"4B, 2nd Floor Fir Mistry Building,Nr.Dreamland Cinema, Lamington Road,Grant Road(W),Mumbai 400004",Mumbai,Maharashtra,400004,Megahertz,8291151617,,Prathmesh@deliverifynow.com,27ARPPV9109H1Z2,Corporate
+N208,Micronn,3000,"Yamuna Building, Lamington Rd, Krishna Kunj,Grant Road East, Shapur Baug, Grant Road, Mumbai, Maharashtra 400007",Mumbai,Maharashtra,400007,Micronn,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N209,Modern Technologies NX,3000,"Hanuman Terrace, Ground Floor, Shop Number. 1,373, Lamington Rd, Grant Road East, Grant Road,Mumbai, Maharashtra 400007",Mumbai,Maharashtra,400007,Modern Technologies NX,8291151617,,Prathmesh@deliverifynow.com,27AAAHJ4011N1ZD,Corporate
+N210,My Laptop World,3000,"53/333,Rajesh Bldg, Lamington Road Police Stn.,Grant Road(E) Mumbai 400007",Mumbai,Maharashtra,400007,My Laptop World,8291151617,,Prathmesh@deliverifynow.com,27ARKPB2702M1ZV,Corporate
+N211,New Link,3000,Lamington Rd,Mumbai,Maharashtra,400007,New Link,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N212,Raj Tilak,3000,Grant Road,Mumbai,Maharashtra,400007,Raj Tilak,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N213,Rajguru International,3000,"Shop No.21,Yamuna Building,Tara Temple,Lamington Road,Grant Road East,Mumbai - 400007",Mumbai,Maharashtra,400007,Rajguru International,8291151617,,Prathmesh@deliverifynow.com,27ACIPJ6870D1ZI,Corporate
+N214,RAJGURU PERIPHERALS,3000,"shop no 307 3rd floor, aadtiya arcade,topiwala lane,Lamington Rd, Grant Road East, Mumbai, Maharashtra 400007",Mumbai,Maharashtra,400007,RAJGURU PERIPHERALS,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N215,Real Tech,3000,"Shop No:13, Yamuna Building,Topiwala Lane, Lamington Road,, Mumbai, Maharashtra 400007",Mumbai,Maharashtra,400007,Real Tech,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N216,Right Solution,3000,"Ground Floor, Janta Electronics,Om Niwas Building, 295,Opposite, Lamington Rd, Grant Road East,Mumbai, Maharashtra 400007.",Mumbai,Maharashtra,400007,Right Solution,8291151617,,Prathmesh@deliverifynow.com,27AODPJ2147L1ZV,Corporate
+N217,Technology Value,3000,"Shop No.106,1st Floor, Aaditya Arcade,Topiwala Lane,Opp.D.B. Marg Police Station,Lamington Road,Grant Road (E) Mumbai 400007",Mumbai,Maharashtra,400007,Technology Value,8291151617,,Prathmesh@deliverifynow.com,27AQWPJ0326Q1Z5,Corporate
+N218,V.R.Infotech,3000,"Ground Floor, Trimurty Building,Tribhuvan Road, Grant Road, Mumbai - 400004,",Mumbai,Maharashtra,400004,V.R.Infotech,8291151617,,Prathmesh@deliverifynow.com,27AFJPM1267R1ZQ,Corporate
+N219,Ultra Guard,3000,"Shop No 2, Hilla Height, Alibhai Premji Marg, Grant Road, Grant Road, Mumbai, Maharashtra 400007",Mumbai,Maharashtra,400007,Ultra Guard,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,Corporate
+N220,Garden Hotel,30000,Kamathipura,Mumbai,Maharashtra,400008,Garden Hotel,8291151617,,Prathmesh@deliverifynow.com,27AAAAA1111A1AA,HoReCa
+N221,Mumbai Wines,30000,"Shop no 3, opp shriram mills main gate, S.S Amrutwar Marg, Lower Parel West",Mumbai,Maharashtra,400013,Living Liquidz,9920521723,2224985765,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N222,Elorra Wines,30000,"shop no 14, santacruz mansion, near bus depot and santacruz railway station.",mumbai,Maharashtra,400055,Living liquidz,8169323754,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N223,Star hotel uttan ,30000,"star hotel, conzita apartment, shop no 1, uttan , bhayander west ",mumbai,maharashtra,401106,Living Liquidz,2228450221,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N224,Lemon Mira Road,30000,"Sai anand plaza, shop no 3/4, opp golden nest, mira bhayander road, Mira road east",Mumbai,Maharashtra,401107,Lemon Salon,8976203915,,Prathmesh@deliverifynow.com,27AIKPD5078K1ZW,HoReCa
+N225,Lemon Irla,30000,"Shop no 12, Majethia apartment, S. V road , Irla, Vileparle west",Mumbai,Maharashtra,400056,Lemon Salon,8291372214,,Prathmesh@deliverifynow.com,27AIKPD5078K1ZW,HoReCa
+N226,Lemon Kandivali,30000,"Shop no 2 Vaishali CHS, M.G road, Kandivali west",Mumbai,Maharashtra,400067,Lemon Salon,9082886384,,Prathmesh@deliverifynow.com,27AIKPD5078K1ZW,HoReCa
+N227,Yamuna Wines,30000,"House no 3017, Prahar, Vasai phata, near shree krisgna bar, vasai east",Mumbai,Maharashtra,401208,Living Liquidz,9304805731,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N228,Wine Korner,30000,"shop no 2. bld no 4, opp air india colony, D'souza compound, Kalina, santacruz east",Mumbai,Maharashtra,400029,Living Liquidz,9619959241,2226662821,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N229,The Wine Table powai,30000,"shop no 4 B, ventura shopping centre, Hiranandani park, powai",Mumbai,Maharashtra,400076,Living Liquidz,9987920846,9833238060,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N230,The Wine Table bandra,30000,"Darvesh royale bld, perry road, pali hill, bandra west",Mumbai,Maharashtra,400050,Living Liquidz,8425857730,8425857731,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N231,T2 beer Shop,30000,"gala no . W8/2141, Terminal chatrapati shivaji international, airport, sahar road, andheri east",Mumbai,Maharashtra,400099,Living Liquidz,9970615987,8767118809,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N232,star wines,30000,"G/6, fish market road, Saraswati Baug, prem nagar , jogeshwari east",Mumbai,Maharashtra,400060,Living Liquidz,2228370359,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N233,Spirits of mumbai,30000,"Chatrapati shivaji maharaj international airport, Terminal 1B, arrivals, opp parcos, santacruz east",Mumbai,Maharashtra,400099,Living Liquidz,9594950790,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N234,silver coin,30000,"shop no 1, jharna apartment, Dr ambedkar road, khar west mumbai",Mumbai,Maharashtra,400052,Living Liquidz,9702715701,2226496743,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N235,octega green,30000,"shop no 22, ground floor, big bazaar, viviana mall, thane west",Mumbai,Maharashtra,400603,Living Liquidz,8422837111,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N236,nalasopara beer shop,30000,"meheta chambers co-operative housing society, 10, nalasopara ast",Mumbai,Maharashtra,401209,Living Liquidz,9892948883,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N237,moksh wines,30000,"shop no 5, Brijkutir shopping centre, 68 A, napeansea road, mumbai",Mumbai,Maharashtra,400006,Living Liquidz,6900053000,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N238,manoj beer shop,30000,"Mumbai Wines & trades, hypercity, lower ground floor, inorbit mall, sec 30A, vashi,",Mumbai,Maharashtra,400703,Living Liquidz,9930075535,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N239,larani wines,30000,"Terminal 2, level 2, arrival, mumbai international airport, andheri east",Mumbai,Maharashtra,400099,Living Liquidz,9702705801,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N240,kings wines,30000,"G7, ground floor, high Street phoenix, Palladium Mall, Lower Parel , mumbai",Mumbai,Maharashtra,400013,Living Liquidz,8422837333,6900091000,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa
+N241,asha wines,30000,"shop no 3, Hypercity india pvt ltd, A-28-A, link road , goregaon",Mumbai,Maharashtra,400062,Living Liquidz,9702715710,,Prathmesh@deliverifynow.com,27AAACK2613E1Z1,HoReCa

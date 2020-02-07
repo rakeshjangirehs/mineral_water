@@ -22,7 +22,7 @@ if(empty($handle) === false) {
 // echo "<pre>";print_r($arrResult);die;
 
 if (!empty($arrResult)) {
-
+$x=1;
     try {
 
         //We start our transaction.
@@ -68,9 +68,10 @@ if (!empty($arrResult)) {
 
                     // Insert into client_delivery_addresses if not exist
 
-                    $stmt = $con->prepare("SELECT * FROM `client_delivery_addresses` WHERE `client_delivery_addresses`.`address` = :address");
+                    $stmt = $con->prepare("SELECT * FROM `client_delivery_addresses` WHERE `client_delivery_addresses`.`title` = :title AND `client_delivery_addresses`.`address` = :address");
                     $stmt->execute([
                         ':address' => $address,
+                        ':title' => $title,
                     ]);
 
                     $client_delivery_address_arr = $stmt->fetch(PDO::FETCH_ASSOC);

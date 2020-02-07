@@ -3,6 +3,14 @@
         position: absolute;
         left: 190px;
     }
+    .client_details tr td:first-child{
+        width: 150px;
+        line-height: 30px
+    }
+    .client_details tr td:not(:first-child){
+        white-space: initial;
+        line-height: 30px
+    }
 </style>
 <div class="row">
     <div class="col-sm-12">
@@ -28,8 +36,10 @@
                                         <select name="payment_mode" id="payment_mode" class="form-control">
                                             <option value="" disabled>Choose Payment Mode</option>
                                             <option value="Cash">Cash</option>
+                                            <option value="G-Pay">G-Pay</option>
+                                            <option value="Bank Transfer">Bank Transfer</option>
                                             <option value="Cheque">Cheque</option>
-                                            <option value="Credit Card">Credit Card</option>
+                                            <!-- <option value="Credit Card">Credit Card</option> -->
                                         </select>
                                         <span class="messages"><?php echo form_error('payment_mode');?></span>
                                     </div>
@@ -85,7 +95,30 @@
                                         Client Details
                                     </div>
                                     <div class="m-r-10">
-                                        <ul>
+                                        <table class="client_details">
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Name :</td>
+                                                <td><?php echo $client_detail['client_name']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Contact No. :</td>
+                                                <td><?php echo "{$client_detail['contact_person_name_1']} ({$client_detail['contact_person_1_phone_1']})"; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Credit Limit :</td>
+                                                <td><?php echo $client_detail['credit_limit']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Address :</td>
+                                                <td><?php echo $client_detail['address']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Amount Due :</td>
+                                                <td id="total_amount_due">NIL</td>
+                                            </tr>
+
+                                        </table>
+                                        <!--<ul>
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Name : <span class="details f-w-900"><?php echo $client_detail['client_name']; ?></span>
                                             </li>
@@ -99,9 +132,9 @@
                                                 <i class="icofont icofont-double-right text-success"></i> Address : <span class="details"><?php echo $client_detail['address']; ?></span>
                                             </li>
                                             <li class="p-t-10" style="font-weight: 800;">
-                                                <i class="icofont icofont-double-right text-success"></i> Amount Due : <span class="details" id="total_amount_due">NIL</span>
+                                                <i class="icofont icofont-double-right text-success"></i> Amount Due : <span class="details" >NIL</span>
                                             </li>
-                                        </ul>
+                                        </ul>-->
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +245,8 @@
                 $check_no.attr('required','required').removeAttr('readonly');
                 $check_date.attr('required','required').removeAttr('readonly');
                 break;
-            case 'Credit Card':
+            case 'Bank Transfer':
+            case 'G-Pay':
                 $transection_no.attr('required','required').removeAttr('readonly');
                 break;
         }

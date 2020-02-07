@@ -214,7 +214,7 @@
                         if(row.need_admin_approval==1 && row.order_status=='Approval Required'){
                             return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
                         }else{
-                            return "";
+                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_edit/"+data.id+"' title='Edit Order'><i class='fa fa-edit'></i></a>";
                         }
                     }
                 }

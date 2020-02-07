@@ -664,38 +664,47 @@ class ApiV1 extends REST_Controller {
                 'status' => 1
             );
             $user = $this->user->getRows($con);
-            
-            
+                        
             if($user){
 
-                if(!$user['last_name']){
-                    $user['last_name'] = "";
+                if(in_array($user['role'],APP_USER_ROLES)) {
+
+                    if(!$user['last_name']){
+                        $user['last_name'] = "";
+                    }
+                    
+                    $this->db->delete("user_devices", array("device_id"=>$device_id));
+                    $this->db->insert("user_devices", array(
+                        "user_id"=>$user['user_id'],
+                        "device_id"=>$device_id,
+                    ));
+
+                    // remove first created device ids if more than two
+                    $sqlDeviceIds = $this->db->query("DELETE from user_devices 
+                                                        WHERE id NOT IN(
+                                                            SELECT id FROM (
+                                                                SELECT 
+                                                                    id
+                                                                FROM user_devices
+                                                                WHERE user_id = {$user['user_id']}
+                                                                ORDER BY id DESC LIMIT 2
+                                                            ) foo
+                                                    ) AND user_id = {$user['user_id']}");
+
+                    // Set the response and exit
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => 'User login successful.',
+                        'data' => $user
+                    ], REST_Controller::HTTP_OK);
+                    
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => "Only " . implode(", ",APP_USER_ROLES) . " are allowed to login.",
+                        'data' => new stdClass()
+                    ], REST_Controller::HTTP_OK);
                 }
-                
-                $this->db->delete("user_devices", array("device_id"=>$device_id));
-                $this->db->insert("user_devices", array(
-                    "user_id"=>$user['user_id'],
-                    "device_id"=>$device_id,
-                ));
-
-                // remove first created device ids if more than two
-                $sqlDeviceIds = $this->db->query("DELETE from user_devices 
-                                                    WHERE id NOT IN(
-                                                        SELECT id FROM (
-                                                            SELECT 
-                                                                id
-                                                            FROM user_devices
-                                                            WHERE user_id = {$user['user_id']}
-                                                            ORDER BY id DESC LIMIT 2
-                                                        ) foo
-                                                ) AND user_id = {$user['user_id']}");
-
-                // Set the response and exit
-                $this->response([
-                    'status' => TRUE,
-                    'message' => 'User login successful.',
-                    'data' => $user
-                ], REST_Controller::HTTP_OK);
 
             }else{
                 // Set the response and exit
@@ -709,10 +718,10 @@ class ApiV1 extends REST_Controller {
         }else{
             // Set the response and exit
             $this->response([
-                    'status' => FALSE,
-                    'message' => "Provide username and password.",
-                    'data' => array()
-                ], REST_Controller::HTTP_BAD_REQUEST);
+                'status' => FALSE,
+                'message' => "Provide username and password.",
+                'data' => array()
+            ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
 
@@ -1099,6 +1108,43 @@ class ApiV1 extends REST_Controller {
         }
     }
 
+    /**
+     * Check Credit limit of client
+     * @author Rakesh Jangir
+     */
+    public function get_credit_limit($id)   //$client_id
+    {
+        $availableCreditLimit = $this->db->query("SELECT
+                                                    (
+                                                        IFNULL(clients.credit_limit,0)
+                                                        + IFNULL(clients.credit_balance,0)
+                                                        - IFNULL(SUM(
+                                                            (CASE
+                                                                WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                                                                    WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                                                                    ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                                                                END)
+                                                                ELSE orders.payable_amount
+                                                            END) 
+                                                        ),0)
+                                                        + SUM(IFNULL(paid.paid_amount,0))
+                                                    )AS `available_credit_limit`
+                                                FROM `clients`
+                                                LEFT JOIN `orders` on `orders`.`client_id` = `clients`.`id` AND (orders.order_status <> 'Rejected') AND (orders.order_status <> 'Pending')
+                                                LEFT JOIN `schemes` ON `schemes`.`id` = `orders`.`scheme_id`
+                                                LEFT JOIN (
+                                                    SELECT
+                                                        payment_details.order_id,
+                                                        SUM(payment_details.total_payment) AS paid_amount
+                                                    FROM payment_details
+                                                    GROUP BY payment_details.order_id
+                                                ) AS paid ON paid.order_id = orders.id
+                                                WHERE `clients`.`id` = {$id}
+                                                GROUP BY `clients`.`id`")
+                                            ->row_array()['available_credit_limit'];
+        return $availableCreditLimit;
+    }
+
      /*   Get List of applicable Schemes based on order_details
         @author Milan Soni
         @update by Rakesh Jangir - 21-11-2019
@@ -1176,80 +1222,14 @@ class ApiV1 extends REST_Controller {
 
                     if($type=='client'){
 
-                        //Get Credit Limit for this client.
-                        /*$availableCreditLimit = $this->db->query("SELECT
-                                                                    (
-                                                                        IFNULL(client.credit_limit,0)
-                                                                        + IFNULL(client.credit_balance,0)
-                                                                        - SUM(
-                                                                            (CASE
-                                                                                WHEN schemes.gift_mode='cash_benifit' THEN (CASE
-                                                                                    WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
-                                                                                    ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
-                                                                                END)
-                                                                                ELSE orders.payable_amount
-                                                                            END) 
-                                                                        )
-                                                                        + SUM(IFNULL(paid.paid_amount,0))
-                                                                    )AS available_credit_limit
-                                                                FROM orders
-                                                                LEFT JOIN schemes ON schemes.id = orders.scheme_id
-                                                                LEFT JOIN (
-                                                                    SELECT
-                                                                        payment_details.order_id,
-                                                                        SUM(payment_details.total_payment) AS paid_amount
-                                                                    FROM payment_details
-                                                                    GROUP BY payment_details.order_id
-                                                                ) AS paid ON paid.order_id = orders.id
-                                                                LEFT JOIN (
-                                                                    SELECT
-                                                                        clients.id,
-                                                                        clients.credit_balance,
-                                                                        clients.credit_limit
-                                                                    FROM clients
-                                                                ) AS client ON client.id = orders.client_id
-                                                                WHERE client_id = {$id}")
-                                                            ->row_array()['available_credit_limit'];
-                            */
-                            
-                            $availableCreditLimit = $this->db->query("SELECT
-                                                                    	(
-                                                                    		IFNULL(clients.credit_limit,0)
-                                                                    		+ IFNULL(clients.credit_balance,0)
-                                                                    		- IFNULL(SUM(
-                                                                    			(CASE
-                                                                    				WHEN schemes.gift_mode='cash_benifit' THEN (CASE
-                                                                    					WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
-                                                                    					ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
-                                                                    				END)
-                                                                    				ELSE orders.payable_amount
-                                                                    			END) 
-                                                                    		),0)
-                                                                    		+ SUM(IFNULL(paid.paid_amount,0))
-                                                                    	)AS `available_credit_limit`
-                                                                    FROM `clients`
-                                                                    LEFT JOIN `orders` on `orders`.`client_id` = `clients`.`id` AND (orders.order_status <> 'Rejected')
-                                                                    LEFT JOIN `schemes` ON `schemes`.`id` = `orders`.`scheme_id`
-                                                                    LEFT JOIN (
-                                                                    	SELECT
-                                                                    		payment_details.order_id,
-                                                                    		SUM(payment_details.total_payment) AS paid_amount
-                                                                    	FROM payment_details
-                                                                    	GROUP BY payment_details.order_id
-                                                                    ) AS paid ON paid.order_id = orders.id
-                                                                    WHERE `clients`.`id` = {$id}
-                                                                    GROUP BY `clients`.`id`")
-                                                                ->row_array()['available_credit_limit'];
-                        
-                        // echo $availableCreditLimit."<br/>".$subtotal;die;
-                        // Available credit limit logic verify - TODO
-                        // $availableCreditLimit = 50000;
-                        // echo $availableCreditLimit;die;
+                        //Get Credit Limit for this client.                            
+                        $availableCreditLimit = $this->get_credit_limit($id);
 
-                        if($orders['payment_mode'] != 'Cash' && $subtotal > $availableCreditLimit){
+                        if(in_array($orders['payment_mode'],['Credit','Bank Transfer','Cheque']) && $subtotal > $availableCreditLimit){
+                            
                             $this->response([
                                 'status' => FALSE,
-                                'message' => 'Available credit limit exceeded. Please pay your outstanding.',
+                                'message' => 'Available credit limit exceeded. Please pay your outstanding first.',
                             ], REST_Controller::HTTP_OK);
                             die;
                         }
@@ -1313,7 +1293,7 @@ class ApiV1 extends REST_Controller {
 
                     $arrOrder = array(
                         'client_id'     =>  $id,
-                        'scheme_id'     =>  (isset($orders['scheme_id'])) ? $orders['scheme_id'] : null,
+                        'scheme_id'     =>  (isset($orders['scheme_id']) && $orders['scheme_id']!=0) ? $orders['scheme_id'] : null,
                         'payable_amount'=>  $subtotal,
                         'delivery_address_id'   =>  $orders['delivery_address_id'],
                         'expected_delivery_date'=>  $orders['expected_delivery_date'],
@@ -1845,7 +1825,7 @@ class ApiV1 extends REST_Controller {
         $user_id = $this->input->post('user_id');
 
         $dco_id = $this->input->post('dco_id'); //delivery_config_orders        
-        $payment_mode = $this->input->post('payment_mode');        
+        $payment_mode = ($this->input->post('payment_mode')) ? trim($this->input->post('payment_mode')) : null;        
         $amount = $this->input->post('amount');        
         $notes = $this->input->post('notes');
 
@@ -1854,6 +1834,7 @@ class ApiV1 extends REST_Controller {
         $new_delivered = $this->input->post('new_delivered');
         $empty_collected = $this->input->post('empty_collected');
         $product_id = $this->input->post('inverntory_product_id');
+       
 
         if($user_id!='' && $dco_id!='' && $payment_mode!=''  && $manage_stock_needed!=''){
 
@@ -1866,65 +1847,7 @@ class ApiV1 extends REST_Controller {
                 die;
             }
 
-            $delivery_data = array(
-                'payment_mode'  =>  $payment_mode,
-                'amount'        =>  $amount,
-                'notes'         =>  $notes,
-                'signature_file'=>  null,
-                'delivery_datetime'=>  date('Y-m-d H:i:s'),
-                'updated_at'    =>  date('Y-m-d'),
-                'updated_by'    =>  $user_id,
-            );
-
-            if(isset($_FILES['signature']['name']) && $_FILES['signature']['error']==0){
-
-                $mime = $_FILES['signature']['type'];
-
-                if(in_array($mime, $allowed_mime_type_arr)){
-
-                    $config = array(
-                        'upload_path'   =>   $this->client_signature_path,
-                        'allowed_types' =>   'gif|jpg|png',
-                    );
-
-                    $this->load->library('upload', $config);
-
-                    if ($this->upload->do_upload('signature')) {
-                        
-                        $image_data = $this->upload->data();
-                        
-                        $delivery_data['signature_file'] = $image_data['file_name'];
-
-                    }else{
-
-                        $error = $this->upload->display_errors('','');                        
-
-                        $this->response(
-                            array(
-                                'status' => FALSE,
-                                'message' => $error
-                            ),
-                            REST_Controller::HTTP_BAD_REQUEST
-                        );
-                        die;
-                    }
-                }else{
-                    $this->response(
-                        array(
-                            'status' => FALSE,
-                            'message' => "Only image files are allowed as Signature."
-                        ),
-                        REST_Controller::HTTP_BAD_REQUEST
-                    );
-                    die;
-                }
-                    
-            }
-
-            $this->db->trans_start();
-
-            $this->db->where("id = {$dco_id}")->update("delivery_config_orders",$delivery_data);
-            
+            // Delivery Config Orders Data
             $dco_data = $this->db->select("
                                         delivery_config_orders.delivery_id,
                                         delivery_config_orders.order_id,
@@ -1936,9 +1859,115 @@ class ApiV1 extends REST_Controller {
                                 ->join("orders","orders.id = delivery_config_orders.order_id","left")
                                 ->get_where("delivery_config_orders","delivery_config_orders.id = {$dco_id}")
                                 ->row_array();
-            
-            if($dco_data){
 
+            //Get order payable amount and client_id
+            $result = $this->db->query("SELECT 
+                                            orders.client_id,
+                                            (CASE
+                                                WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                                                    WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                                                    ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                                                END)
+                                                ELSE orders.payable_amount
+                                            END) AS `effective_price`                     
+                                        FROM delivery_config_orders
+                                        LEFT JOIN orders ON orders.id = delivery_config_orders.order_id
+                                        LEFT JOIN schemes ON schemes.id = orders.scheme_id
+                                        WHERE `delivery_config_orders`.`id` = {$dco_id}
+                                        GROUP BY `orders`.`id`")->row_array();
+            $client_id = $result['client_id'];
+            
+            if($dco_data) {
+
+                // Check credit limit for client if payment mode is Credit.
+                if($payment_mode == "Credit") {
+                    
+                    $effective_price = $result['effective_price'];
+                    
+                    if($amount) {
+                        if($amount >= $effective_price) {
+                            $this->response([
+                                'status' => FALSE,
+                                'message' => "You have enough credit available than order amount.",
+                            ], REST_Controller::HTTP_OK);
+                            die;
+                        } else {
+                            $effective_price = $result['effective_price'] - $amount;
+                        }
+                    }
+
+                    //Get Credit Limit for this client.                            
+                    $availableCreditLimit = $this->get_credit_limit($client_id);                        
+
+                    if($effective_price > $availableCreditLimit) {
+                        
+                        $this->response([
+                            'status' => FALSE,
+                            'message' => 'Available credit limit exceeded. Please pay your outstanding.',
+                        ], REST_Controller::HTTP_OK);
+                        die;
+                    }
+                }
+
+                $delivery_data = array(
+                    'payment_mode'  =>  $payment_mode,
+                    'amount'        =>  $amount,
+                    'notes'         =>  $notes,
+                    'signature_file'=>  null,
+                    'delivery_datetime'=>  date('Y-m-d H:i:s'),
+                    'updated_at'    =>  date('Y-m-d'),
+                    'updated_by'    =>  $user_id,
+                );
+
+                if(isset($_FILES['signature']['name']) && $_FILES['signature']['error']==0){
+
+                    $mime = $_FILES['signature']['type'];
+
+                    if(in_array($mime, $allowed_mime_type_arr)){
+
+                        $config = array(
+                            'upload_path'   =>   $this->client_signature_path,
+                            'allowed_types' =>   'gif|jpg|png',
+                        );
+
+                        $this->load->library('upload', $config);
+
+                        if ($this->upload->do_upload('signature')) {
+                            
+                            $image_data = $this->upload->data();
+                            
+                            $delivery_data['signature_file'] = $image_data['file_name'];
+
+                        }else{
+
+                            $error = $this->upload->display_errors('','');                        
+
+                            $this->response(
+                                array(
+                                    'status' => FALSE,
+                                    'message' => $error
+                                ),
+                                REST_Controller::HTTP_BAD_REQUEST
+                            );
+                            die;
+                        }
+                    }else{
+                        $this->response(
+                            array(
+                                'status' => FALSE,
+                                'message' => "Only image files are allowed as Signature."
+                            ),
+                            REST_Controller::HTTP_BAD_REQUEST
+                        );
+                        die;
+                    }
+                        
+                }
+
+                $this->db->trans_start();
+
+                $this->db->where("id = {$dco_id}")->update("delivery_config_orders",$delivery_data);
+            
                 if($order_items = $this->db->select("product_id,quantity")->where("order_id",$dco_data['order_id'])->get("order_items")->result_array()){
                     $inward_data = array(
                         'warehouse_id'  =>  $dco_data['warehouse'],
@@ -1998,41 +2027,183 @@ class ApiV1 extends REST_Controller {
                         'created_by'        =>  $user_id,
                     ));
                 }
-            }
+                
+                // If payment mode is Cash or G-Pay , Payment posting will be done automatically.
+                if(in_array($payment_mode, ["Cash","G-Pay"]) && $amount) {  //paid_amount
 
-            $ord_data = $this->db->query("SELECT 
+                    $payments = array();
+                    $paid_amount = $amount;
+
+                    // Get List of pending payment invoices.
+                    $pending_invoice_list = $this->order->get_invoice($client_id);
+                    
+                    $client = $this->db->where("id",$client_id)->get("clients")->row_array();
+                    $original_credit_balance = $credit_balance = ($client['credit_balance']) ? $client['credit_balance'] : 0;
+
+                    foreach($pending_invoice_list as $k=>$invoice) {
+                        
+                        $payable_amount = sprintf('%0.2f', $invoice['effective_payment']);
+                        $amount_to_be_paid = sprintf('%0.2f', $invoice['effective_payment'] - $invoice['paid_amount']);
+
+                        $payments_child =  array(
+                            'order_id'  =>  $invoice['id'],
+                            'outstanding_amount' => $amount_to_be_paid,
+                            'amount_used'   => 0,
+                            'credit_used' => 0,
+                        );
+
+                        if($credit_balance>0){
+
+                            if($credit_balance >= $amount_to_be_paid){
+                                $payments_child['credit_used'] = $amount_to_be_paid;
+                                $credit_balance = sprintf('%0.2f', $credit_balance - $amount_to_be_paid);
+                                $amount_to_be_paid = 0;
+                            }else{
+                                $payments_child['credit_used'] = $credit_balance;
+                                $amount_to_be_paid = sprintf('%0.2f', $amount_to_be_paid - $credit_balance);
+                                $credit_balance =0;
+                            }
+                        }
+
+                        if($amount_to_be_paid>0){
+
+                            if($paid_amount > 0){
+
+                                if($paid_amount >= $amount_to_be_paid){
+                                    $payments_child['amount_used'] = $amount_to_be_paid;
+                                    $paid_amount = sprintf('%0.2f', $paid_amount - $amount_to_be_paid);
+                                }else{
+                                    $payments_child['amount_used'] = $paid_amount;
+                                    $paid_amount =0;
+                                }
+                            }else{                                
+                                $payments_child['amount_used'] = 0;
+                            }
+                        }
+
+                        $payments[] = $payments_child;
+                    }
+
+                    if($paid_amount>0 || $credit_balance>0){
+                        $credit_balance =  sprintf('%0.2f', $paid_amount+$credit_balance);
+                    }else{
+                        $credit_balance = 0;
+                    }
+            
+                    // echo "Credit Balance: {$credit_balance}<br/>";
+                    // echo "<pre>";print_r($payments);die;
+                    
+                    $paymnent_data = array(
+                        'payment_date'  =>  date('Y-m-d'),
+                        'client_id'  =>  $client_id,
+                        'payment_mode'  =>  $payment_mode,
+                        'check_no'  =>  null,
+                        'check_date'  =>  null,
+                        'transection_no'  =>  null,
+                        'paid_amount'  =>  $amount,
+                        'previous_credit_balance'  =>  $original_credit_balance,
+                        'new_credit_balance'  =>  $credit_balance,
+                        'created_at'    =>  date('Y-m-d H:i:s'),
+                        'created_by'    =>  $user_id,
+                    );
+
+                    $order_status_update = [];
+
+                    if($this->db->insert("payments",$paymnent_data)){
+
+                        $payment_id = $this->db->insert_id();
+        
+                        $total_credit_used = 0;
+
+                        foreach($payments as $k=>$payment){
+        
+                            $amount_used = floatval($payment['amount_used']);
+                            $credit_used = floatval($payment['credit_used']);
+                            $total_payment = $amount_used + $credit_used;
+        
+                            $total_credit_used += $credit_used;
+        
+                            $outstanding_amount = floatval($payment['outstanding_amount']);
+                            unset($payments[$k]['outstanding_amount']);
+        
+                            $payments[$k]['payment_id'] = $payment_id;
+                            $payments[$k]['total_payment'] = $total_payment;
+        
+                            if($total_payment == 0){
+                                unset($payments[$k]);
+                            }elseif($total_payment < $outstanding_amount){
+                                $payments[$k]['status'] = 'PARTIAL';
+                                $order_status_update[] = array(
+                                    'id'  =>  $payment['order_id'],
+                                    'payment_status' => 'Partial'
+                                );
+                            }else{
+                                $payments[$k]['status'] = 'PAID';
+                                $order_status_update[] = array(
+                                    'id'  =>  $payment['order_id'],
+                                    'payment_status' => 'Paid'
+                                );
+                            }
+                        }
+        
+                        if($total_credit_used){
+                            $this->db->update("payments",array('credit_balance_used'=>$total_credit_used),array('id'=>$payment_id));
+                        }
+        
+                        if($order_status_update){
+                            $this->db->update_batch("orders",$order_status_update,'id');
+                        }
+        
+                        if($payments){
+                            $this->db->insert_batch("payment_details",$payments);
+                        }
+        
+                        $this->db->update("clients",array('credit_balance'=>$credit_balance),array('id'=>$client_id));
+        
+                    }
+                }
+
+                $ord_data = $this->db->query("SELECT 
                                             delivery_config_orders.order_id,
                                             clients.contact_person_1_phone_1 AS `mobile`
                                         FROM delivery_config_orders 
                                         LEFT JOIN orders on orders.id = delivery_config_orders.order_id
                                         LEFT JOIN clients on clients.id = orders.client_id
                                         WHERE delivery_config_orders.id = {$dco_id}")->row_array();
+                
+                $this->db->trans_complete();
 
-            $this->db->trans_complete();
+                if($this->db->trans_status()){
 
-            if($this->db->trans_status()){
+                    //Send SMS to client.
+                    $dt = date('Y-m-d');
+                    $this->fcm->send_text($ord_data['mobile'],"Dear customer, Your order (Order Id : {$ord_data['order_id']}) was delivered on {$dt} from {$this->system_setting['system_name']}");
 
-                //Send SMS to client.
-                $dt = date('Y-m-d');
-                $this->fcm->send_text($ord_data['mobile'],"Dear customer, Your order (Order Id : {$ord_data['order_id']}) was delivered on {$dt} from {$this->system_setting['system_name']}");
-
-                $this->response(
-                    array(
-                        'status' => TRUE,
-                        'message' => 'Order Delivered'
-                    ),
-                    REST_Controller::HTTP_OK
-                );
-            }else{
+                    $this->response(
+                        array(
+                            'status' => TRUE,
+                            'message' => 'Order Delivered'
+                        ),
+                        REST_Controller::HTTP_OK
+                    );
+                }else{
+                    $this->response(
+                        array(
+                            'status' => FALSE,
+                            'message' => 'Please Try Again.'
+                        ),
+                        REST_Controller::HTTP_OK
+                    );
+                }
+            } else {
                 $this->response(
                     array(
                         'status' => FALSE,
-                        'message' => 'Please Try Again.'
+                        'message' => 'DCO Data not found.'
                     ),
                     REST_Controller::HTTP_OK
                 );
             }
-
         }else{
             $this->response([
                 'status' => FALSE,

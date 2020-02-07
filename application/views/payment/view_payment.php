@@ -7,6 +7,14 @@
         position: absolute;
         left: 220px;
     }
+    .client_details tr td:first-child{
+        width: 150px;
+        line-height: 30px
+    }
+    .client_details tr td:not(:first-child){
+        white-space: initial;
+        line-height: 30px
+    }
 </style>
 <div class="row">
     <div class="col-sm-12">
@@ -28,7 +36,34 @@
                                         Payment Details
                                     </div>
                                     <div class="m-r-10">
-                                        <ul>
+                                        <table class="client_details">
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Payment Mode :</td>
+                                                <td><?php echo $payment_data['payment_mode']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Paid Amount :</td>
+                                                <td><?php echo $payment_data['paid_amount']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Credit Balance Used :</td>
+                                                <td><?php echo $payment_data['credit_balance_used']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Cheque No. :</td>
+                                                <td><?php echo $payment_data['check_no']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Cheque Date. :</td>
+                                                <td><?php echo $payment_data['check_date']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Transaction No. :</td>
+                                                <td><?php echo $payment_data['transection_no']; ?></td>
+                                            </tr>
+
+                                        </table>
+                                        <!--<ul>
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Payment Mode : <span class="details-left f-w-900"><?php echo $payment_data['payment_mode']; ?></span>
                                             </li>
@@ -48,7 +83,7 @@
                                                 <i class="icofont icofont-double-right text-success"></i> Transaction No. : <span class="details-left"><?php echo $payment_data['transection_no']; ?></span>
                                             </li>
 
-                                        </ul>
+                                        </ul>-->
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +93,27 @@
                                         Client Details
                                     </div>
                                     <div class="m-r-10">
-                                        <ul>
+                                        <table class="client_details">                                            
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Name :</td>
+                                                <td><?php echo $payment_data['client_name']; ?></td>
+                                            </tr>                                            
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Contact No. :</td>
+                                                <td><?php echo "{$payment_data['contact_person_name_1']} ({$payment_data['contact_person_1_phone_1']})"; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Credit Limit :</td>
+                                                <td><?php echo $payment_data['credit_limit']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="icofont icofont-double-right text-success"></i> Address :</td>
+                                                <td><?php echo $payment_data['address']; ?></td>
+                                            </tr>
+
+
+                                        </table>
+                                        <!--<ul>
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Name : <span class="details f-w-900"><?php echo $payment_data['client_name']; ?></span>
                                             </li>
@@ -71,7 +126,7 @@
                                             <li class="p-t-10">
                                                 <i class="icofont icofont-double-right text-success"></i> Address : <span class="details"><?php echo $payment_data['address']; ?></span>
                                             </li>
-                                        </ul>
+                                        </ul>-->
                                     </div>
                                 </div>
                             </div>

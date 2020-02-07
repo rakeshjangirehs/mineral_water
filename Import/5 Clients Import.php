@@ -109,7 +109,7 @@ if (!empty($arrResult)) {
                     $gst_no = ($row[11] && $row[11]!='_') ? $row[11] : NULL;
                     
 
-                    $stmt = $con->prepare("SELECT * FROM `clients` WHERE `clients`.`client_name` = :client_name AND `clients`.`zip_code_id` = :zip_code_id");
+                    $stmt = $con->prepare("SELECT * FROM `clients` WHERE `clients`.`client_name` = :client_name AND `clients`.`zip_code_id` = :zip_code_id AND sr_no IS NOT NULL");
                     $stmt->execute([
                         ':client_name' => $client_name,
                         ':zip_code_id' => $zip_code_id,

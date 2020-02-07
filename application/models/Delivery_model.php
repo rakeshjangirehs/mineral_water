@@ -12,7 +12,7 @@ class Delivery_model extends CI_Model {
 		$expected_delivery_date = date('d-m-Y',strtotime($delivery_data['expected_delivey_datetime']));
 		$action = ($delivery_id) ? 'updated' : 'created';
 
-		$this->db->trans_start();		
+		$this->db->trans_start();
 
 		if($delivery_id){
 			
@@ -95,11 +95,11 @@ class Delivery_model extends CI_Model {
 						);
 
 						// If order is in missed delivery remove it from there and check if delivery is now empty remove it too.
-						if($tbl_delivery_config_orders = $this->db->where("order_id",$order_id)->get("delivery_config_orders")->row_array()){
+						if($tbl_delivery_config_orders_main = $this->db->where("order_id",$order_id)->get("delivery_config_orders")->row_array()){
 							
 							$this->db->where("order_id",$order_id)->delete("delivery_config_orders");
 
-							if($col_delivery_config_id = $tbl_delivery_config_orders['delivery_config_id']){
+							if($col_delivery_config_id = $tbl_delivery_config_orders_main['delivery_config_id']){
 																
 								if($tbl_delivery_config_orders = $this->db->where("delivery_config_id",$col_delivery_config_id)->get("delivery_config_orders")->result_array()){
 									
@@ -125,7 +125,7 @@ class Delivery_model extends CI_Model {
 									
 									$this->db->where("id",$col_delivery_config_id)->delete("delivery_config");
 																		
-									if($col_delivery_id = $tbl_delivery_config_orders['delivery_id']){
+									if($col_delivery_id = $tbl_delivery_config_orders_main['delivery_id']){	//check
 										
 										if(count($this->db->where("delivery_id",$col_delivery_id)->get("delivery_config")->result_array()) == 0){
 											$this->db->where("id",$col_delivery_id)->delete("delivery");											

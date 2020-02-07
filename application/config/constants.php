@@ -87,3 +87,14 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 // maintenance application constants
 defined('INACTIVITY_TIMER_START_TIME') 	OR define('INACTIVITY_TIMER_START_TIME', 54000);
 defined('INACTIVITY_TIMER_END_TIME')	OR define('INACTIVITY_TIMER_END_TIME', 60000);
+
+
+defined('APP_USER_ROLES')	OR define('APP_USER_ROLES', array(
+    // 'Admin',
+    'Sales',
+    'Delivery Boy',
+    'Driver'
+));
+
+
+defined('ADMIN')	OR define('ADMIN', 1);

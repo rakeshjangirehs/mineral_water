@@ -2,9 +2,9 @@ Title,Address,Zip Code,Client Sr. No. (Ref - Sr. No. Column in Clients.csv)
 JP Infra Realty Pvt Ltd,"Vinay Nagar Rd, Kashimira, Ghodbunder, Mira Bhayandar, Maharashtra 401107",401107,N1
 JP Infra Residency Pvt Ltd,"Vinay Nagar Rd, Kashimira, Ghodbunder, Mira Bhayandar, Maharashtra 401107",401107,N2
 JP Infra Ventures Pvt Ltd,"4th Floor, Viraj Towers, Near WEH Metro Station, Western Express Hwy, Andheri East, Mumbai, Maharashtra 400093",400093,N3
-Café Filli - Andheri,"Royal classic Building Ground Floor Near Infinity Mall, A/1, New Link Rd, Laxmi Industrial Estate, Suresh Nagar, Andheri West, Mumbai, Maharashtra 400053",400053,N4
-Café Filli - Kurla,"Phoenix Market City 1st Floor, Kurla, Mumbai, Maharashtra 400070",400070,N5
-Café Filli - Fort,"Commerce House, 140, Nagindas Master Rd, Fort, Mumbai, Maharashtra 400001",400001,N6
+Cafe Filli - Andheri,"Royal classic Building Ground Floor Near Infinity Mall, A/1, New Link Rd, Laxmi Industrial Estate, Suresh Nagar, Andheri West, Mumbai, Maharashtra 400053",400053,N4
+Cafe Filli - Kurla,"Phoenix Market City 1st Floor, Kurla, Mumbai, Maharashtra 400070",400070,N5
+Cafe Filli - Fort,"Commerce House, 140, Nagindas Master Rd, Fort, Mumbai, Maharashtra 400001",400001,N6
 Hotel Anantha,"LBS Rd, near S' ward BMC office, Bhandup (W, Kanjurmarg West, Bhandup West, Mumbai, Maharashtra 400078",400078,N7
 Safal Teachers Training,"Shop No -115,1st floor, Shop zone Premises Co-op Society Ltd, MG Road, Ghatkopar West, Mumbai, Maharashtra 400086",400086,N8
 Priya Telecommunication,"Shop-07, Kale Marg, Opp. Jay Jawan Garden, Bail Bazar, Kurla West. Mumbai- 400070",400070,N9
@@ -66,3 +66,179 @@ Rajan Singh,"Thakur Village, Kandivali East Inside Thakur college of science and
 Jay Ambe Agency,Santacruz,400054,N63
 Diamond Queen,"Byculla West, Byculla, Mumbai, Maharashtra 400011",400011,N64
 Hotel Deepak,"Opposite Street Joseph's School, Plot No. 86, National Highway Road No.5 Sand Hurst Road, Mumbai, Maharashtra 400009",400009,N65
+A-1 Zaika,Prabhadevi,400025,N66
+Aarey - Opposite Maharashtra Store,Dadar West,400028,N67
+Aarey 257 G,"Phool Market, Dadar",400028,N68
+Aarey 4245/Z,Elphinston,400014,N69
+Aarey 5059,Matunga West,400016,N70
+Aarey 5315/Z,Dadar West,400028,N71
+Aarey 5903/Z,Dadar West,400028,N72
+Aarey Center  ,Dadar West,400028,N73
+Aarey Dairy,Dadar West,400028,N74
+Aarey Energy 135,Mahim,400016,N75
+Aarey matunga,Matunga West,400016,N76
+Aarey VS 23,"Century Market, Worli",400025,N77
+Adarsh Milk Centre,Matunga West,400016,N78
+Aditaya fast food,"Century Market, Worli",400025,N79
+Amul VadaPav,Dadar West,400028,N80
+Annapurna Bhojnalay,"Phool Market, Dadar",400028,N81
+Anusaya General Store,Prabhadevi,400025,N82
+Aruna General Store,"Century Market, Worli",400025,N83
+Ashtavinayak Pan Bidi Shop,Worli,400018,N84
+Ashtavinayak Vadapav,Elphinston,400014,N85
+Asmita PCO,Matunga West,400016,N86
+Aswad Mithai Farsan,Adarsh Nagar Worli,400030,N87
+Avani Dairy,Dadar West,400028,N88
+Badshah P/B Shop,"Phool Market, Dadar",400028,N89
+Banglor Iyangar Bakery,Elphinston,400014,N90
+Banshi Nimbupani,Dadar West,400028,N91
+Bhairav Catres,Elphinston,400014,N92
+Bharat P/B Store,Mahim,400016,N93
+Bhavani Fast Food,Mahim,400016,N94
+Bhavesh Vadapav,"Phool Market, Dadar",400028,N95
+Cake smith,Lalbaug,400012,N96
+Chetan store,Dadar West,400028,N97
+Chintamani Fast Food,"Agar Bazar, Dadar",400028,N98
+Coastal Tadka,Elphinston,400014,N99
+Dadar Gupta Store,"Phool Market, Dadar",400028,N100
+Deepak Farshan,Elphinston,400014,N101
+Energy center 257,"Phool Market, Dadar",400028,N102
+Hariya G store,Prabhadevi,400025,N103
+Ishant General Store,"Century Market, Worli",400025,N104
+Jagdish Biscuite Store,Mahim,400016,N105
+Jai Maharashtra Store,Dadar West,400028,N106
+Jaiswal P/B Shop,Prabhadevi,400025,N107
+just chill,Elphinston,400014,N108
+Kamgar society,Matunga West,400016,N109
+Karba's Z-5295,Dadar West,400028,N110
+Kiran General Store,"Agar Bazar, Dadar",400028,N111
+Korgaonkar P/B Shop,"Hindmata, Dadar East",400014,N112
+Krishna Hotel,Dadar West,400028,N113
+Madhvi Dairy,New Prabhadevi,400025,N114
+Maharashtra Milk Dairy,Dadar West,400028,N115
+Maharashtra Mishthan,Elphinston,400014,N116
+Mahim Store,Mahim,400016,N117
+Mauli PCO,Worli,400018,N118
+Milind General Store,Elphinston,400014,N119
+MK Bhelpuri,Prabhadevi,400025,N120
+Nagori Maharashtra Tea Point,Prabhadevi,400025,N121
+National Dairy,"Koli Wada, Worli",400030,N122
+New Arti Dairy,"Century Market, Worli",400025,N123
+New Gupta Store,"Phool Market, Dadar",400028,N124
+New Maharashtra store,Mahim,400016,N125
+New National Dairy,"Century Market, Worli",400025,N126
+Nimbu Pani ,Elphinston,400014,N127
+Om Sai Communication,Dadar West,400028,N128
+Om sai Ram Vada Pav,Elphinston,400014,N129
+Om sairam icecream,Prabhadevi,400025,N130
+Om Stores,Prabhadevi,400025,N131
+Panday Panbeedi,"Century Market, Worli",400025,N132
+Parsi Bakery,"Century Market, Worli",400025,N133
+Prabhadevi Bhelpuri,Prabhadevi,400025,N134
+Pragati General store,Prabhadevi,400025,N135
+Pranjal - Siddhivinayak Store,Prabhadevi,400025,N136
+Premacha chaha,Elphinston,400014,N137
+R R communication,Mahim,400016,N138
+Radhe Krishna Dairy,Prabhadevi,400025,N139
+Ravindra Store,Prabhadevi,400025,N140
+Riddhi Siddhi Bhojnalay,Elphinston,400014,N141
+S G Gupta store,"Phool Market, Dadar",400028,N142
+S K Gupta store,"Century Market, Worli",400025,N143
+Sachidanand P/B Shop,"Century Market, Worli",400025,N144
+sadguru icecream,Dadar West,400028,N145
+sadhana snacks,Elphinston,400014,N146
+Saidham Pan Bidi,Dadar West,400028,N147
+Sairaj Enterprises,Matunga West,400016,N148
+salim Panbeedi,"Phool Market, Dadar",400028,N149
+Sambhaji Panbeedi shop,Prabhadevi,400025,N150
+Sanjay Enterprise,Dadar West,400028,N151
+Sanjay General Store,Matunga West,400016,N152
+sanvi supermarket,New Prabhadevi,400025,N153
+Sarvottam Milk Centre,Dadar West,400028,N154
+sharda beedi shop,Dadar West,400028,N155
+Shivam General Stores,"Koli Wada, Worli",400030,N156
+Shri Krishna dairy,"Koli Wada, Worli",400030,N157
+Shri Krishna Hotel,Dadar West,400028,N158
+Shri Radha Krishna Dairy,"Koli Wada, Worli",400030,N159
+Shri Ram Avadh pan bhandhar,Elphinston,400014,N160
+Shri sadhguru Krupa,"Century Market, Worli",400025,N161
+Shri Sai Communication,"Phool Market, Dadar",400028,N162
+Shri Sai Siddhi Bhojanalay,Elphinston,400014,N163
+Shri Siddhivinayak Farsan Mart,Prabhadevi,400025,N164
+Shri Siddhivinayak General Store,Worli,400018,N165
+Shri Siddhivinayak Ice Cream Parlor,Prabhadevi,400025,N166
+Shri siddhivinayak milk center,Elphinston,400014,N167
+Siddhivinayak aarey,Prabhadevi,400025,N168
+siddhivinayak fast food,Elphinston,400014,N169
+Sonu General Store,Elphinston,400014,N170
+Subhash Biscuites,Prabhadevi,400025,N171
+Sujata Dryfruit,Dadar West,400028,N172
+Sundaram super Market,Elphinston,400014,N173
+Super Roll Frankie,Prabhadevi,400025,N174
+Sushmita PCO,Matunga West,400016,N175
+Swami Samarth ,Prabhadevi,400025,N176
+Swastik Sandwhich Corner,Elphinston,400014,N177
+Swati communication,Dadar West,400028,N178
+Tiana Store,Dadar West,400028,N179
+Ujjwal Dry Fruites,Dadar West,400028,N180
+Umashankar Panbeedi,"Phool Market, Dadar",400028,N181
+Vaishnavi General Store,Prabhadevi,400025,N182
+Vinayak Store,Prabhadevi,400025,N183
+Vindhyavasini General Store,Elphinston,400014,N184
+Welcome Store,Prabhadevi,400025,N185
+Western Railway Society,Matunga West,400016,N186
+Xerox Store,Dadar West,400028,N187
+Zakharia Caterers,Dadar West,400028,N188
+Zunka Bhakar,"Phool Market, Dadar",400028,N189
+A C N Fibre Private Limited,"Akbar House, Shop No. 8, N.F. Road, Behind Taj Hotel,Nawroji Furdunji St., Colaba, Mumbai",400005,N190
+Chamunda,"8th Lane, Kamati Pura",400008,N191
+CHIP COM,"207/208, Aaditya Arcade, 2nd Floor, Topiwala Lane,Laminton Road, Mumbai. 400007",400007,N192
+Classic Travel Shoppe Pvt Ltd,"4/4A, 482 Ground Floor,Sangharajka House,S. V. P Road, Opera House, Opera House, Mumbai - 400004",400004,N193
+D.A.Technologies,"383, Walker House, Ground Floor,,Lamington Road, Grant Road (E),, Mumbai, Maharashtra 400007",400007,N194
+Galaxy Infotech,"30, Shop No 2, 152, Agairy Lane,Modi Street, Fort, Mumbai - 400001",400001,N195
+H.N.INFOTEK,"Office No.12,1st Floor,Shanti Niketan,Padmaji Road,Near Dreamland Cinema,Grant Road(E), Mumbai - 400004",400004,N196
+I Stop India,"Shuklaji Street, Kamati Pura",400008,N197
+Jagdish Bhai,"Shop No-A1, Shuklaji Street, Kamati Pura",400008,N198
+Jogani Infotech Pvt Ltd,"Office No: B,1ST Floor,7 Shanti Niwas,Tara Temple Lane,Lamington Road,Mumbai - 400007",400007,N199
+King Tech,"Second Floor, Yamuna Bldg, Lamington Rd.",400007,N200
+Laptop Station,"339 Rajesh Building,Shop No 49,Opposite Lamington Road, Police Station,Grant Road",400001,N201
+Libra Infotech,"Shop No.1, 317-A, Pahelvi Building,Opp 2 Lamington Road,Police Station,D.B.Marg, Grant Road, Mumbai - 400007,",400007,N202
+Mahavir Laptop Spares,"315,1st Floor Pahelvi Blgd, R.No. 1A,New Empire Hotel Lamington Road,Mumbai - 400004",400004,N203
+Max World IT Solution,"Shop No. 2, Ground Floor,Katayun Mansion, 290 Lamington Road Procter Rd,Grant Road East,Mumbai, Maharashtra 400007",400007,N204
+Mccann Info Solution,"Laxmi Compound Bldg., Gr Flr. Shop No.:15/392,Opp.Vasant Bhavan Hotel, Grant Road,(East),Mumbai 400004",400004,N205
+Mccann Infosys,"347/45 Rajesh Building Ground Floor,Opposite Lamington Road Police Station,Dr D B Marg, Grant Road, Mumbai - 400007",400007,N206
+Megahertz,"4B, 2nd Floor Fir Mistry Building,Nr.Dreamland Cinema, Lamington Road,Grant Road(W),Mumbai 400004",400004,N207
+Micronn,"Yamuna Building, Lamington Rd, Krishna Kunj,Grant Road East, Shapur Baug, Grant Road, Mumbai, Maharashtra 400007",400007,N208
+Modern Technologies NX,"Hanuman Terrace, Ground Floor, Shop Number. 1,373, Lamington Rd, Grant Road East, Grant Road,Mumbai, Maharashtra 400007",400007,N209
+My Laptop World,"53/333,Rajesh Bldg, Lamington Road Police Stn.,Grant Road(E) Mumbai 400007",400007,N210
+New Link,Lamington Rd,400007,N211
+Raj Tilak,Grant Road,400007,N212
+Rajguru International,"Shop No.21,Yamuna Building,Tara Temple,Lamington Road,Grant Road East,Mumbai - 400007",400007,N213
+RAJGURU PERIPHERALS,"shop no 307 3rd floor, aadtiya arcade,topiwala lane,Lamington Rd, Grant Road East, Mumbai, Maharashtra 400007",400007,N214
+Real Tech,"Shop No:13, Yamuna Building,Topiwala Lane, Lamington Road,, Mumbai, Maharashtra 400007",400007,N215
+Right Solution,"Ground Floor, Janta Electronics,Om Niwas Building, 295,Opposite, Lamington Rd, Grant Road East,Mumbai, Maharashtra 400007.",400007,N216
+Technology Value,"Shop No.106,1st Floor, Aaditya Arcade,Topiwala Lane,Opp.D.B. Marg Police Station,Lamington Road,Grant Road (E) Mumbai 400007",400007,N217
+V.R.Infotech,"Ground Floor, Trimurty Building,Tribhuvan Road, Grant Road, Mumbai - 400004,",400004,N218
+Ultra Guard,"Shop No 2, Hilla Height, Alibhai Premji Marg, Grant Road, Grant Road, Mumbai, Maharashtra 400007",400007,N219
+Garden Hotel,Kamathipura,400008,N220
+Mumbai Wines,"Shop no 3, opp shriram mills main gate, S.S Amrutwar Marg, Lower Parel West",400013,N221
+Elorra Wines,"shop no 14, santacruz mansion, near bus depot and santacruz railway station.",400055,N222
+Star hotel uttan ,"star hotel, conzita apartment, shop no 1, uttan , bhayander west ",401106,N223
+Lemon Mira Road,"Sai anand plaza, shop no 3/4, opp golden nest, mira bhayander road, Mira road east",401107,N224
+Lemon Irla,"Shop no 12, Majethia apartment, S. V road , Irla, Vileparle west",400056,N225
+Lemon Kandivali,"Shop no 2 Vaishali CHS, M.G road, Kandivali west",400067,N226
+Yamuna Wines,"House no 3017, Prahar, Vasai phata, near shree krisgna bar, vasai east",401208,N227
+Wine Korner,"shop no 2. bld no 4, opp air india colony, D'souza compound, Kalina, santacruz east",400029,N228
+The Wine Table powai,"shop no 4 B, ventura shopping centre, Hiranandani park, powai",400076,N229
+The Wine Table bandra,"Darvesh royale bld, perry road, pali hill, bandra west",400050,N230
+T2 beer Shop,"gala no . W8/2141, Terminal chatrapati shivaji international, airport, sahar road, andheri east",400099,N231
+star wines,"G/6, fish market road, Saraswati Baug, prem nagar , jogeshwari east",400060,N232
+Spirits of mumbai,"Chatrapati shivaji maharaj international airport, Terminal 1B, arrivals, opp parcos, santacruz east",400099,N233
+silver coin,"shop no 1, jharna apartment, Dr ambedkar road, khar west mumbai",400052,N234
+octega green,"shop no 22, ground floor, big bazaar, viviana mall, thane west",400603,N235
+nalasopara beer shop,"meheta chambers co-operative housing society, 10, nalasopara ast",401209,N236
+moksh wines,"shop no 5, Brijkutir shopping centre, 68 A, napeansea road, mumbai",400006,N237
+manoj beer shop,"Mumbai Wines & trades, hypercity, lower ground floor, inorbit mall, sec 30A, vashi,",400703,N238
+larani wines,"Terminal 2, level 2, arrival, mumbai international airport, andheri east",400099,N239
+kings wines,"G7, ground floor, high Street phoenix, Palladium Mall, Lower Parel , mumbai",400013,N240
+asha wines,"shop no 3, Hypercity india pvt ltd, A-28-A, link road , goregaon",400062,N241

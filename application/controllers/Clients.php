@@ -575,6 +575,39 @@ class Clients extends MY_Controller {
 
 		$this->load_content('client/client_delivery_addresses', $this->data);
     }
+
+    public function delivery_addresses_get(){
+
+        $client_id= ($this->input->post('client_id')) ? $this->input->post('client_id') : null;
+
+        if($client_id) {
+            $delivery_addresses = $this->db
+                                ->select("client_delivery_addresses.id,client_delivery_addresses.title,client_delivery_addresses.address,zip_codes.zip_code")
+                                ->join("zip_codes","zip_codes.id = client_delivery_addresses.zip_code_id")
+                                ->where("client_delivery_addresses.client_id",$client_id)->get("client_delivery_addresses")->result_array();
+            
+            if($delivery_addresses) {
+                echo json_encode([
+                    'status'    =>  true,
+                    'message'   =>  'Delivery address found',
+                    'addresses'   =>  $delivery_addresses
+                ]);
+            } else {
+                echo json_encode([
+                    'status'    =>  false,
+                    'message'   =>  'No delivery address found',
+                    'addresses'   =>  $delivery_addresses
+                ]);
+            }
+            
+        } else {
+            echo json_encode([
+                'status'    =>  false,
+                'message'   =>  'Client Id not provided',
+                'addresses'   =>  []
+            ]);
+        }
+    }
     
     public function add_location($id=null){
         echo "Feedback Required";
@@ -703,7 +736,7 @@ class Clients extends MY_Controller {
                     LEFT JOIN users AS delivery_boy ON delivery_boy.id = delivery_config.delivery_boy_id
                     LEFT JOIN users AS driver ON driver.id = delivery_config.driver_id
                     WHERE clients.id = {$client_id}
-                    ORDER BY delivery.actual_delivey_datetime DESC
+                    ORDER BY delivery_config_orders.delivery_datetime DESC
                     LIMIT 10";
             
             $inventory = $this->db->query($sql)->result_array();

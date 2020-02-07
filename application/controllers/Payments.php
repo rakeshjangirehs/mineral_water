@@ -42,6 +42,8 @@ class Payments extends MY_Controller {
                 'paid_amount'  =>  ($this->input->post('paid_amount')) ? $this->input->post('paid_amount') : 0,
                 'previous_credit_balance'  =>  ($this->input->post('original_credit_balance')) ? $this->input->post('original_credit_balance') : 0,
                 'new_credit_balance'  =>  ($this->input->post('credit_balance')) ? $this->input->post('credit_balance') : 0,
+                'created_at'    =>  date('Y-m-d H:i:s'),
+                'created_by'    =>  USER_ID,
             );
 
             $this->db->trans_start();
@@ -122,19 +124,49 @@ class Payments extends MY_Controller {
     public function payments_list(){
 
         if($this->input->is_ajax_request()){
+
             $colsArr = array(
                 '`clients`.`client_name`',
                 '`payments`.`payment_mode`',
                 '`payments`.`paid_amount`',
                 '`payments`.`created_at`',
                 '`clients`.`contact_person_1_email`',
+                'CONCAT(`users`.`first_name`," ",IFNULL(`users`.`last_name`,""))',
                 'links'
             );
 
-            $query = $this->model
-                        ->common_select('`payments`.*,DATE_FORMAT(`payments`.`created_at`, "%d-%m-%Y %h:%i:%s") AS `payment_date`,`clients`.`id` AS `client_id`,`clients`.`client_name`,`clients`.`contact_person_1_email` AS `client_email`')
-                        ->common_join("`clients`","`clients`.`id` = `payments`.`client_id`","left")
-                        ->common_get('payments');
+            $query = 'SELECT
+                        `payments`.*,
+                        DATE_FORMAT(`payments`.`created_at`, "%d-%m-%y %h:%i:%s") AS `payment_date`,
+                        `clients`.`id` AS `client_id`,
+                        `clients`.`client_name`,
+                        `clients`.`contact_person_1_email` AS `client_email`,	
+                        CONCAT(`users`.`first_name`," ",IFNULL(`users`.`last_name`,"")) AS `posted_by`,
+                        latest_payment.latest_payment_id,
+                        (CASE 
+                            WHEN `payments`.`id` = `latest_payment`.`latest_payment_id` THEN TRUE
+                            ELSE FALSE
+                        END) as `can_delete`
+                        #,(
+                        #	SELECT
+                        #		id
+                        #	FROM
+                        #	payments as latest_payment
+                        #	WHERE latest_payment.client_id = payments.client_id
+                        #	ORDER BY created_at DESC
+                        #	LIMIT 1
+                        #) AS msx,
+                    FROM `payments`
+                    LEFT JOIN `clients` ON `clients`.`id` = `payments`.`client_id`
+                    LEFT JOIN `users` ON `users`.`id` = `payments`.`created_by`
+                    LEFT JOIN (
+                        SELECT		
+                            client_id,
+                            max(id) as latest_payment_id
+                        FROM
+                        payments
+                        GROUP BY client_id
+                    ) AS latest_payment ON latest_payment.client_id = payments.client_id';
             echo $this->model->common_datatable($colsArr, $query);die;
         }
         $this->data['page_title'] = 'Payments';

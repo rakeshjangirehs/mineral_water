@@ -32,21 +32,30 @@
  			$redirect  = $this->input->post('redirect_url');
 
  			if($username && $password){
+
  				$query = $this->db->select("*")
  								  ->from('users')
  								  ->where("(users.email = '{$username}' OR users.username = '{$username}')")
  								  ->where('password', $password)
  								  ->get()
- 								  ->row_array();
+								   ->row_array();
+								   
  				if(!empty($query)){
- 					$msg = 'You are logged in successfully.';
- 					$type = 'message';
-					$response = array(
-						'error'=>false,
-						'message'=>$msg,
-						'redirect_url'=>$redirect
-					);
-					$this->session->set_userdata($query);
+
+					if($query['role_id'] == ADMIN) {
+						$msg = 'You are logged in successfully.';
+						$type = 'message';
+						$response = array(
+							'error'=>false,
+							'message'=>$msg,
+							'redirect_url'=>$redirect
+						);
+						$this->session->set_userdata($query);
+					} else {
+						$type = 'error';
+						$msg = 'Person having Admin role are only allowed to login.';
+						$response['message'] = $msg;	
+					}
  				}else{
  					$type = 'error';
  					$msg = 'Username or password is wrong.';

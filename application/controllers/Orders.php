@@ -411,4 +411,361 @@
         $this->data['page_title'] = 'Order - Admin Approval';
         $this->load_content('order/order_approval', $this->data);
     }
+
+    public function order_edit($id=NULL) //$order_id
+    {
+        // Redirect to order list if order_id not provided
+        if(!$id) {
+            $this->flash("error", "Order not selected");
+            redirect("orders");
+        }
+
+        $this->data['id'] = $id;
+
+        $this->data['order_edit'] =  $this->db->where("id",$id)->get("orders")->row_array();
+        // echo "<pre>";print_r($this->data['order_edit']);die;
+
+        $client_id = $this->data['order_edit']['client_id'];        
+        // echo $client_id;die;
+
+        $this->data['order_client'] = $this->db->where("id",$client_id)->get("clients")->row_array();
+        // echo "<pre>";print_r($this->data['order_client']);die;
+
+        $this->data['products'] =  $this->db
+                                        ->select("products.*,client_product_price.sale_price as client_sale_price")
+                                        ->join("client_product_price","client_product_price.product_id = products.id AND client_product_price.client_id={$client_id}","left")
+                                        ->get("products")->result_array();
+
+        // echo "<pre>";print_r($this->data['products']);die;
+        // echo "<pre>".$this->db->last_query();die;        
+
+        if($this->input->server("REQUEST_METHOD") == "POST"){
+
+            // echo "<pre>";print_r($_POST);echo "</pre>";
+            //die;
+
+            $order_item = ($this->input->post('order_item')) ? $this->input->post('order_item') : [];
+
+            $insert_order_items = [];
+            $update_client_price_list = [];
+            $product_prices = array_column($this->data['products'],'sale_price','id');
+            $subtotal = 0;
+
+            foreach($order_item as $k=>$item) {
+
+                $product_subtotal = $item['new_price'] * $item['quantity'];
+                $subtotal += $product_subtotal;
+                
+                $insert_order_items[] = array(
+                    'order_id'      =>  $id,
+                    'product_id'    =>  $item['product_id'],
+                    'quantity'      =>  $item['quantity'],
+                    'actual_price'  =>  $item['old_price'],  //Get Actual Price from product table
+                    'effective_price'=> $item['new_price'],
+                    'subtotal'      =>  $product_subtotal,
+                    'created_at'    =>  date('Y-m-d H:i:s'),
+                    'created_by'    =>  USER_ID,
+                );
+
+                // If there is price change for product, update new price in client_product_price as well
+                if($item['old_price'] != $item['new_price']) {
+
+                    $update_client_price_list[] = array(                            
+                        'sale_price'    =>  $item['new_price'],
+                        'updated_at'    =>  date('Y-m-d H:i:s'),
+                        'updated_by'    =>  USER_ID,
+                        'product_id'    =>  $item['product_id'],    //Used in where clause along with client_id
+                    );
+
+                }
+            }
+
+            // Order data
+            $order_data = [
+                // 'client_id'  =>  ($this->input->post('client_id')) ? trim($this->input->post('client_id')) : null,
+                'delivery_address_id'  =>  ($this->input->post('delivery_address_id')) ? trim($this->input->post('delivery_address_id')) : 'Low',
+                'scheme_id'  =>  ($this->input->post('scheme')) ? trim($this->input->post('scheme')) : null,
+                'priority'  =>  ($this->input->post('priority')) ? trim($this->input->post('priority')) : 'Low',
+                'expected_delivery_date'  =>  ($this->input->post('expected_delivery_date')) ? trim($this->input->post('expected_delivery_date')) : null,
+                'payment_mode'  =>  ($this->input->post('payment_mode')) ? trim($this->input->post('payment_mode')) : 'Cash',
+                'payment_schedule_date'  =>  ($this->input->post('payment_schedule_date')) ? trim($this->input->post('payment_schedule_date')) : null,
+                'payable_amount'    =>  $subtotal,
+                'updated_at'    =>  date('Y-m-d H:i:s'),
+                'updated_by'    =>  USER_ID,
+            ];
+
+
+            /* echo "<pre>";print_r($insert_order_items);echo "</pre>";
+            echo "<pre>";print_r($update_client_price_list);echo "</pre>";
+            echo "<pre>";print_r($order_data);echo "</pre>";
+            die; */
+
+            // Start DB Transection
+            $this->db->trans_start();
+
+
+            // Remove all Order Items
+            $this->db->where("order_id",$id)->delete("order_items");
+
+            // Insert Order Items recieved in post
+            if($insert_order_items) {
+                $this->db->insert_batch("order_items",$insert_order_items);
+            }
+
+            // Update client price list
+            if($update_client_price_list) {
+                $this->db->where("client_id",$client_id)->update_batch("client_product_price",$update_client_price_list,'product_id');
+                // echo "<pre>".$this->db->last_query()."</pre>";
+            }            
+
+            // Update Order table
+            $this->db->where("id",$id)->update("orders",$order_data);
+
+            // DB Transection End
+            $this->db->trans_complete();
+		
+            if($this->db->trans_status()){
+                $this->flash("success", "Updated Successfully");
+            }else{
+                $this->flash("error", "Not Updated");
+            }
+            redirect("orders");
+        }
+
+        $this->data['order_items'] =  $this->db->where("order_id",$id)->get("order_items")->result_array();
+        // echo "<pre>";print_r($this->data['order_items']);die;
+
+        $this->data['client_delivery_addresses'] = $this->db
+                                                    ->select("client_delivery_addresses.id,client_delivery_addresses.title,client_delivery_addresses.address,zip_codes.zip_code")
+                                                    ->join("zip_codes","zip_codes.id = client_delivery_addresses.zip_code_id")
+                                                    ->where("client_delivery_addresses.client_id",$client_id)->get("client_delivery_addresses")->result_array();
+        // echo "<pre>";print_r($this->data['client_delivery_addresses']);die;
+
+        $scheme_id = $this->data['order_edit']['scheme_id'];        
+        if($scheme_id) {
+            $this->data['applied_scheme'] = $this->db->where("id",$scheme_id)->get("schemes")->row_array();
+            // echo "<pre>";print_r($this->data['applied_scheme']);die;
+        }
+
+        $this->data['clients'] =  $this->db->get("clients")->result_array();
+        // echo "<pre>";print_r($this->data['clients']);die;
+        
+        $this->data['page_title'] = 'Edit Order';
+        $this->load_content('order/order_edit', $this->data);
+    }
+
+    public function get_applicable_scheme(){
+        
+        // sleep(3);
+        // echo json_encode($_POST);die;
+
+        $order_item = $this->input->post('order_item');
+
+        if($order_item && is_array($order_item) && count($order_item) > 0) {
+
+            $subtotal = 0;
+            $order_products = array_column($order_item,'quantity','product_id');
+
+            foreach($order_item as $k=>$item) {                
+                $subtotal += ($item['quantity']) * $item['new_price'];
+            }
+
+            $today = date('Y-m-d');
+            $applicable_scheme = [];
+
+            // Get All Schemes
+            $all_schemes = $this->db->where("'{$today}' BETWEEN `start_date` AND `end_date`")->get("schemes")->result_array();
+
+            foreach($all_schemes as $scheme){
+
+                $description = "";
+
+                // Get friendly description of scheme
+                if($scheme['gift_mode'] == 'cash_benifit'){
+                    if($scheme['discount_mode'] == 'amount'){
+                        $description = "Get discount of Rs. {$scheme['discount_value']}";
+                    }else{
+                        $description = "Get {$scheme['discount_value']} % discount on order value.";
+                    }
+                }else{
+                    if($free_product = $this->db->where("id = {$scheme['free_product_id']}")->get("products")->row_array()){
+                        $description = "Get {$scheme['free_product_qty']} {$free_product['product_name']} absolutely free.";
+                    }                                        
+                }
+
+                if($scheme['type']=='price_scheme'){
+
+                    if($subtotal >= $scheme['order_value']){
+
+                        $applicable_scheme[] = array(
+                            'id'             =>  $scheme['id'],
+                            'name'           =>  $scheme['name'],
+                            'description'    =>  $description,
+                        );
+                    }
+                }else{
+
+                    $scheme_products = $this->db->select("product_id,quantity")->where("scheme_id = {$scheme['id']}")->get("scheme_products")->result_array();
+
+                    if($scheme['match_mode']=='all'){
+
+                        $applicable = true;
+                        foreach($scheme_products as $sp){
+                            
+                            if(!(array_key_exists($sp['product_id'],$order_products) && $order_products[$sp['product_id']] >= $sp['quantity']) ){
+                                $applicable = false;
+                            }
+                        }
+
+                        if($applicable){
+                            $applicable_scheme[] = array(
+                                'id'             =>  $scheme['id'],
+                                'name'           =>  $scheme['name'],
+                                'description'    =>  $description,
+                            );
+                        }
+
+                    }else{
+
+                        $applicable = false;
+                        foreach($scheme_products as $sp){
+                            
+                            if(array_key_exists($sp['product_id'],$order_products) && $order_products[$sp['product_id']] >= $sp['quantity']){
+                                $applicable = true;
+                            }
+                        }
+
+                        if($applicable){
+                            $applicable_scheme[] = array(
+                                'id'             =>  $scheme['id'],
+                                'name'           =>  $scheme['name'],
+                                'description'    =>  $description,
+                            );
+                        }
+
+                    }
+
+                }                
+            }
+
+            if($applicable_scheme){
+
+                echo json_encode([
+                    'status'    =>  true,
+                    'message'   =>  'Schemes Found',
+                    'schemes'   =>  $applicable_scheme
+                ]);
+
+            } else {
+                echo json_encode([
+                    'status'    =>  false,
+                    'message'   =>  'No Scheme Found',
+                    'schemes'   =>  [],
+                ]);
+            }
+            
+        } else {
+            echo json_encode([
+                'status'    =>  false,
+                'message'   =>  'Unable to handle data',
+                'schemes'   =>  [],
+            ]);
+        }
+
+        // if(mt_rand(0,10)%2==0) {
+        /* if(true) {
+            echo json_encode([
+                'status'    =>  true,
+                'message'   =>  'Schemes Found',
+                'schemes'   =>  [
+                    [
+                        "id"    =>  1,
+                        "name"  =>  "Buy 1 Get 1 Free",
+                        "description"   => "Get discount of Rs. 500",
+                    ],
+                    [
+                        "id"    =>  2,
+                        "name"  =>  "Buy 1 Get 2 Free",
+                        "description"   => "Get discount of Rs. 1000",
+                    ],
+                    [
+                        "id"    =>  3,
+                        "name"  =>  "Buy 1 Get 3 Free",
+                        "description"   => "Get discount of Rs. 1500",
+                    ],
+                ]
+            ]);
+        } else {
+            echo json_encode([
+                'status'    =>  false,
+                'message'   =>  'No Schemes Found',
+                'schemes'   =>  null,
+            ]);
+        } */        
+    }
+
+    private function get_order_edit($id){    //order_id
+
+        $order = $this->db
+            ->select("
+                orders.*,
+                `clients`.`client_name`,
+                CONCAT(`salesman`.`first_name`,' ',IFNULL(`salesman`.`last_name`, '')) as `salesman_name`,
+                schemes.name as scheme_name,
+                schemes.description,
+                schemes.gift_mode,
+                schemes.discount_mode,
+                schemes.discount_value,
+                schemes.free_product_id,
+                schemes.free_product_qty,
+                (CASE
+                    WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                        WHEN schemes.discount_mode='amount' THEN schemes.discount_value
+                        ELSE (orders.payable_amount*schemes.discount_value/100)
+                    END)
+                    ELSE 0
+                END) AS `computed_disc`,
+                (CASE
+                    WHEN schemes.gift_mode='cash_benifit' THEN (CASE
+                        WHEN schemes.discount_mode='amount' THEN orders.payable_amount-schemes.discount_value
+                        ELSE orders.payable_amount-(orders.payable_amount*schemes.discount_value/100)
+                    END)
+                    ELSE orders.payable_amount
+                END) AS `effective_amount`")                
+            ->where("orders.id = {$id}")
+            ->from("orders")
+            ->join("schemes","schemes.id = orders.scheme_id","left")
+            ->join("clients","clients.id = orders.client_id","left")
+            ->join("users as salesman","salesman.id = orders.created_by","left")
+            ->get()
+            ->row_array();
+
+        $client_id = $order['client_id'];
+        
+        if($order){
+            $order['order_items'] = $this->db
+                ->select("order_items.*,products.product_name,products.product_code,products.description,products.weight,products.dimension,products.sale_price as original_sale_price")
+                ->where("order_id = {$order['id']}")
+                ->from("order_items")
+                ->join("products","products.id = order_items.product_id","left")
+                ->get()
+                ->result_array();
+
+            $order['order_client'] = $this->db
+                ->select("clients.*")
+                ->where("id = {$client_id}")
+                ->from("clients")
+                ->get()
+                ->row_array();
+
+            if($order['free_product_id']){
+                $order['free_product'] = $this->db->where("id",$order['free_product_id'])->get("products")->row_array();
+                // echo "<pre>";print_r($order['free_product']);die;
+            }else{
+                $order['free_product'] = null;
+            }
+        }
+        // echo "<pre>";print_r($order);die;
+        return $order;
+    }
 }

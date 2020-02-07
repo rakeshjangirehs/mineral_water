@@ -22,6 +22,7 @@
                                         <th>Paid Amount</th>
                                         <th>Payment Date</th>
                                         <th>Client Email</th>
+                                        <th>Posted By</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -66,15 +67,19 @@
                 { "data": "paid_amount" },
                 { "data": "payment_date" },
                 { "data": "client_email" },
+                { "data": "posted_by" },
                 {
                 	"data": null,
                 	"sortable": false,
-                	"render": function ( data, type, row, meta ) {
-				      return "<a class='' href='<?php echo $this->baseUrl; ?>payments/view_payment/"+data.id+"' title='View Payment'><i class='feather icon-eye'></i></a>" +
-                              "<a class='send_reciept' href='<?php echo $this->baseUrl; ?>payments/email_reciept/"+data.id+"' title='Send Reciept to Client'><i class='feather icon-mail'></i></a>"+
-                            "<a class='text-danger delete_payment' href='<?php echo $this->baseUrl; ?>payments/delete_payment/"+data.id+"' title='Delete Payment'><i class='feather icon-trash-2'></i></a>";
+                	"render": function ( data, type, row, meta ) {                        
+                        var $str = "<a class='' href='<?php echo $this->baseUrl; ?>payments/view_payment/"+data.id+"' title='View Payment'><i class='feather icon-eye'></i></a>" +
+                              "<a class='send_reciept' href='<?php echo $this->baseUrl; ?>payments/email_reciept/"+data.id+"' title='Send Reciept to Client'><i class='feather icon-mail'></i></a>";
+                        if(data.can_delete == 1) {
+                            $str += "<a class='text-danger delete_payment' href='<?php echo $this->baseUrl; ?>payments/delete_payment/"+data.id+"' title='Delete Payment'><i class='feather icon-trash-2'></i></a>";
+                        }
+                        return $str;
 				    }
-            	}
+            	},                
             ],
 		}).on('click','.send_reciept',function(e){
             e.preventDefault();
