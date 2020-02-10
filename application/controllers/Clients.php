@@ -723,8 +723,8 @@ class Clients extends MY_Controller {
                         #driver.first_name AS driver,
                         (CASE
                             WHEN delivery_boy.id IS NOT NULL
-                            THEN CONCAT(delivery_boy.first_name, ' ', delivery_boy.last_name, '<br/>',driver.first_name, ' ',driver.last_name)
-                            ELSE CONCAT(driver.first_name, ' ',driver.last_name)
+                            THEN CONCAT(delivery_boy.first_name, ' ', IFNULL(delivery_boy.last_name,''), '<br/>',driver.first_name, ' ',IFNULL(driver.last_name,''))
+                            ELSE CONCAT(driver.first_name, ' ',IFNULL(driver.last_name,''))
                         END) AS `team`,
                         delivery_config_orders.signature_file
                     FROM client_product_inventory

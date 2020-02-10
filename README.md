@@ -37,9 +37,23 @@
         * After submit check for applicable scheme and if found let the user choose scheme from applicable schemes.
         * Update Client specific product price if user changes price of a product.
 
-# Scheme Module
-    
+# Soft Delete Modules
+    * Product (products)
+    * Client Category (client_categories)
+    * Client (clients)
+    * 
+# Hard Delete Modules
+    * Scheme (scheme_products, schemes)
+    * Delivery (delivery_routes, delivery_config_orders, delivery_config, delivery)
+    * Order (order_items, order)
+    * Payment (payment_details, payments)
+    * 
+
+Note:
+    * There is no delete functionality in client delivery addresses    
 
 
 TODO: Check scheme logic while approve order
 TODO: mobile msg send is disabled in FCM library. (temporary)
+
+TODO: http://172.16.3.107/mineral_water/index.php/clients/client_inventory bug team is null
