@@ -109,7 +109,7 @@ class MY_Model extends CI_Model{
 		Date: 06-08-2019
 		Description: common data table function which is used for generate formal datatable
 	*/
-	public function common_datatable($columns = array(), $query, $whereClause = NULL,$group_by=NULL,$wrapable=false,$imag_include=array()){
+	public function common_datatable($columns = array(), $query, $whereClause = NULL,$group_by=NULL,$wrapable=false,$imag_include=array(),$image_column_name='thumb'){
 
 	    if($wrapable){
             $query = "SELECT * FROM ({$query}) AS `tmp`";
@@ -179,9 +179,9 @@ class MY_Model extends CI_Model{
         if($imag_include){
             foreach($data as $k=>$dt){
 				
-                if($dt['thumb'] && file_exists(FCPATH.$imag_include['path'].$dt['thumb'])){
+                if(isset($dt[$image_column_name]) && $dt[$image_column_name] && file_exists(FCPATH.$imag_include['path'].$dt[$image_column_name])){
 					
-                    $data[$k]['image_url'] = base_url().$imag_include['path'].$dt['thumb'];
+                    $data[$k]['image_url'] = base_url().$imag_include['path'].$dt[$image_column_name];
                 }else{
 					
                     if($imag_include['no_image'] && file_exists(FCPATH.$imag_include['no_image'])){

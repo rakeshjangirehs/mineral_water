@@ -12,6 +12,11 @@
         text-decoration-color: #007bff;
         text-decoration-line: underline;
     }
+
+    .signature-image{
+        height: 30px;
+        box-shadow: 1px 1px 3px #c5b7b7;
+    }
 </style>
 <div class="page-body">
     <div class="row">
@@ -103,6 +108,7 @@
                                                 <th>Actual Delivery Date</th>
                                                 <th>Delivery Team</th>
                                                 <th>Delivery Notes</th>
+                                                <th>Signature</th>
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -212,9 +218,11 @@
                     "sortable": false,
                     "render": function ( data, type, row, meta ) {
                         if(row.need_admin_approval==1 && row.order_status=='Approval Required'){
-                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>";
+                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>"+
+                                    " | <a class='text-danger' href='<?php echo $this->baseUrl; ?>orders/delete_order/"+data.id+"' title='Delete Order'><i class='fa fa-trash'></i></a>";
                         }else{
-                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_edit/"+data.id+"' title='Edit Order'><i class='fa fa-edit'></i></a>";
+                            return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_edit/"+data.id+"' title='Edit Order'><i class='fa fa-edit'></i></a>"+
+                                    " | <a class='text-danger' href='<?php echo $this->baseUrl; ?>orders/delete_order/"+data.id+"' title='Delete Order'><i class='fa fa-trash'></i></a>";
                         }
                     }
                 }
@@ -284,6 +292,21 @@
                 { "data": "actual_delivey_datetime" },
                 { "data": "delivery_team" },
                 { "data": "notes" },
+                {
+                    "data": 'image_url',
+                    "sortable": false,
+                    
+                    "render": function ( image_url, type, row, meta ) {
+                        if(image_url!=null) {                            
+                            // return "<a href='"+image_url+"' title='Click to view signature in new tab' target='_blank'><img src='"+image_url+"' alt='Signature' class='signature-image'/></a>";
+                            return "<a href='"+image_url+"' data-lightbox='"+row.id+"' data-title='Signature of the person who recieved the order.' title='Click to Enlarge Image'>"+
+                                        "<img src='"+image_url+"' alt='Sign' class='signature-image img-thumbnail'>"+
+                                    "</a>";
+                        } else {
+                            return '';
+                        }
+                    }
+                },
                 {
                     "data": 'link',
                     "sortable": false,
@@ -408,5 +431,11 @@
         //     $order_id.val('');
         // });
     });
+
+    // https://lokeshdhakar.com/projects/lightbox2/
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true
+    })
 </script>
 @endscript

@@ -80,6 +80,15 @@
                                     <label class="control-label" for="description">Description</label>
                                     <textarea class="form-control" cols="50" rows="5" name="description"><?php echo (isset($_POST['description'])) ? $_POST['description'] : $products['description']; ?></textarea>
                                 </div>
+                                <div class="form-group">
+                                    <div class="thumbnail">
+                                        <div class="thumb">
+                                            <a href="<?php echo $products['image_url'];?>" data-lightbox="5" data-title="My caption 5">
+                                                <img src="<?php echo $products['image_url'];?>" alt="" class="img-fluid img-thumbnail">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

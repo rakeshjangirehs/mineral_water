@@ -210,7 +210,7 @@ class Delivery_model extends CI_Model {
 						orders.*,
 						clients.client_name,
 						zip_codes.zip_code,
-						SUM(IFNULL(products.weight, 0)*IFNULL(order_items.quantity, 0)) as `order_weight`
+						ROUND(SUM(IFNULL(products.weight, 0)*IFNULL(order_items.quantity, 0)),2) as `order_weight`
 					FROM orders
 					LEFT JOIN clients on clients.id = orders.client_id
 					LEFT JOIN order_items on order_items.order_id = orders.id

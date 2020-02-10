@@ -166,12 +166,14 @@ class Fcm{
     public function send_text($mobile,$message){
         
         if($mobile){
-            $ch=curl_init();
+
+            // TODO: text messages stopped on live temporarily
+            /* $ch=curl_init();
             $msg = urlencode($message);        
             curl_setopt($ch,CURLOPT_URL,"http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR");
             curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
             $output =curl_exec($ch);
-            curl_close($ch);
+            curl_close($ch); */
 
             log_message('error',$mobile.' - '.$message.' - '.$output);
         }else{

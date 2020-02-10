@@ -84,13 +84,26 @@ class Products extends MY_Controller {
  			'sale_price'			=>	'',
  			'brand_id'				=>	'',
  			'manage_stock_needed'	=>	'',
+ 			'image_url'				=>	null,
 		);
 		 
  		$this->data['page_title'] = 'Add Product';
 		 
 		if($id){
 			
- 			$productsArr = $this->model->get("products", $id, 'id');
+			$dir_root = 'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'products'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR;
+			$productsArr = $this->model->get("products", $id, 'id');
+			
+			$productsImage = $this->db->where('product_id', $productsArr['id'])->get("product_images")->row_array();
+			 
+			if(isset($productsImage['thumb']) && $productsImage['thumb'] && file_exists(FCPATH.$dir_root.$productsImage['thumb'])){					
+				$productsArr['image_url'] = base_url().$dir_root.$productsImage['thumb'];
+			} else {
+				$productsArr['image_url'] = null;
+			}
+			
+			// echo "<pre>";print_r($productsArr);echo "</pre>";die;
+
  			$this->data['page_title'] = 'Update Product';
  		}
 

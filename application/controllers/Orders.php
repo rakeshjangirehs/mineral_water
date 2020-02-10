@@ -149,6 +149,7 @@
                         END) AS `effective_price`,
                         delivery_config_orders.amount AS amount_recieved,
                         delivery_config_orders.notes,
+                        delivery_config_orders.signature_file,
                         (CASE
                             WHEN delivery.id IS NOT NULL
                             THEN (CASE
@@ -170,7 +171,10 @@
                     LEFT JOIN delivery ON delivery.id = delivery_config.delivery_id
                     GROUP BY `orders`.`id`";
 
-                $result = $this->model->common_datatable($colsArr, $query, $where,NULL,TRUE);                
+                $result = $this->model->common_datatable($colsArr, $query, $where,NULL,TRUE,array(
+                    'path'  =>  'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'signatures'.DIRECTORY_SEPARATOR,
+                    'no_image' => null,//'files'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'product_image_unavailable.png',
+                ),'signature_file');                
                 // echo "<pre>".$this->db->last_query();die;
                 echo $result;die;
         }
@@ -423,6 +427,13 @@
         $this->data['id'] = $id;
 
         $order_edit = $this->db->where("id",$id)->get("orders")->row_array();
+
+        // Redirect if order not found
+        if(!$order_edit) {
+            $this->flash("error", "Order not found");
+            redirect("orders");
+        }
+
         $this->data['order_edit'] =  $order_edit;
         // echo "<pre>";print_r($this->data['order_edit']);die;
         
@@ -774,5 +785,37 @@
         }
         // echo "<pre>";print_r($order);die;
         return $order;
+    }
+
+    public function delete_order($order_id=null){
+        
+        if($order_id) {
+            if($this->db->where("id",$order_id)->get("orders")->row_array()) {
+
+                if($this->db->where("order_id",$order_id)->get("delivery_config_orders")->row_array()) {
+                    $this->flash("error", "Only pending orders can be deleted.");                
+                } else {
+                    // Start DB Transection
+                    $this->db->trans_start();
+                    
+                    $this->db->where("order_id",$order_id)->delete("order_items");
+                    $this->db->where("id",$order_id)->delete("orders");
+    
+                    // DB Transection End
+                    $this->db->trans_complete();
+                
+                    if($this->db->trans_status()){
+                        $this->flash("success", "Order deleted.");
+                    }else{
+                        $this->flash("error", "Order not deleted.");
+                    }
+                }
+            } else {
+                $this->flash("error", "Order not found");
+            }            
+        } else {
+            $this->flash("error","Order id missing.");
+        }        
+        redirect("orders");
     }
 }

@@ -54,6 +54,9 @@
 <!--<script type="text/javascript" src="--><?php //echo $this->assetsUrl; ?><!--files\bower_components\multiselect\js\jquery.multi-select.js"></script>-->
 <!--<script type="text/javascript" src="--><?php //echo $this->assetsUrl; ?><!--files\assets\js\jquery.quicksearch.js"></script>-->
 
+<!-- lightbox Fremwork -->
+<script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\bower_components\lightbox2\js\lightbox.min.js"></script>
+
 <!-- Custom js -->
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\assets\js\script.js"></script>
 <script type="text/javascript" src="<?php echo $this->assetsUrl; ?>files\maintenance.js"></script>
@@ -61,7 +64,7 @@
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <!--<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>-->
-<script>
+<script>    
     // window.dataLayer = window.dataLayer || [];
     // function gtag(){dataLayer.push(arguments);}
     // gtag('js', new Date());

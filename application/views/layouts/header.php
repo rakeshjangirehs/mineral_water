@@ -22,6 +22,9 @@
 <!-- Required Fremwork -->
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\bootstrap\css\bootstrap.min.css">
 
+<!-- lightbox Fremwork -->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\bower_components\lightbox2\css\lightbox.min.css">
+
 <!-- themify-icons line icon -->
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assetsUrl; ?>files\assets\icon\themify-icons\themify-icons.css">
 
