@@ -30,19 +30,14 @@
 # Order List
     * In order list Order Edit button will be visible only if order is not waiting approval
     * Order Edit
-        * Only orders which are pending (exluding approval required) can be edited.
+        * Only orders which are pending (exluding approval required) can be edited & deleted. (For others show error, rare case)
         * User can remove and add new items in order.
         * Product quantity should be integer & price should be either integer or decimal value.
         * User shoul'd not be able to remove all order items, at least 1 item must be present.
         * After submit check for applicable scheme and if found let the user choose scheme from applicable schemes.
         * Update Client specific product price if user changes price of a product.
 
+
+
 TODO: Check scheme logic while approve order
-
-
-TODO:
-upload index.php file in upload signature and product image to disable viewing directory structure
-file:///E:/XAMPP/htdocs/mineral_water/adminty-master/default/gallery-grid.htm
-
-product image http://172.16.3.107/mineral_water/index.php/products/add_update/3
-signature image  
+TODO: mobile msg send is disabled in FCM library. (temporary)
