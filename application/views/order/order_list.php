@@ -219,15 +219,36 @@
                     "render": function ( data, type, row, meta ) {
                         if(row.need_admin_approval==1 && row.order_status=='Approval Required'){
                             return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_prodcuts/"+data.id+"' title='Admin Approval Required'><i class='fa fa-check'></i></a>"+
-                                    " | <a class='text-danger' href='<?php echo $this->baseUrl; ?>orders/delete_order/"+data.id+"' title='Delete Order'><i class='fa fa-trash'></i></a>";
+                                    " | <a class='text-danger delete_order' href='<?php echo $this->baseUrl; ?>orders/delete_order/"+data.id+"' title='Delete Order'><i class='fa fa-trash'></i></a>";
                         }else{
                             return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_edit/"+data.id+"' title='Edit Order'><i class='fa fa-edit'></i></a>"+
-                                    " | <a class='text-danger' href='<?php echo $this->baseUrl; ?>orders/delete_order/"+data.id+"' title='Delete Order'><i class='fa fa-trash'></i></a>";
+                                    " | <a class='text-danger delete_order' href='<?php echo $this->baseUrl; ?>orders/delete_order/"+data.id+"' title='Delete Order'><i class='fa fa-trash'></i></a>";
                         }
                     }
                 }
             ],
             "createdRow": function ( row, data, index ) {}
+        }).on('click','.delete_order',function(e){
+		    e.preventDefault();
+
+		    var url = this.getAttribute('href');
+
+            swal(
+                {
+                    title: "Delete Order ?",
+                    text: "You will not be able to recover this order!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No"
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = url;
+                    }
+                }
+            );
         });
         
         $("#ontheway_orders").DataTable({

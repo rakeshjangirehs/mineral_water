@@ -91,11 +91,11 @@
                     // "sortable": false,
                 	"render": function ( data, type, row, meta ) {
 				      return "<a href='<?php echo $this->baseUrl; ?>users/add_update/"+data.id+"' title='Edit User'><i class='feather icon-edit'></i></a>"+
-                          "<a class='text-danger' id='delete_user' href='<?php echo $this->baseUrl; ?>users/delete/"+data.id+"' title='Delete User'><i class='feather icon-trash-2'></i></a>";
+                          "<a class='text-danger delete_user' href='<?php echo $this->baseUrl; ?>users/delete/"+data.id+"' title='Delete User'><i class='feather icon-trash-2'></i></a>";
 				    }
             	}
             ],
-		}).on('click','#delete_user',function(e){
+		}).on('click','.delete_user',function(e){
 		    e.preventDefault();
 
 		    var url = this.getAttribute('href');
