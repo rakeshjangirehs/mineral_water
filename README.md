@@ -3,26 +3,29 @@
     * Only person with Admin role have rights to login.
 # Login In Mobile App
     * Only Delivery Boy, Driver and Salesman can login through android application.
+# Zip Code & Zip Code Group
+    * Each Zip Code must be present in atleast one zipcode group.
+    * Each 
 
 # Cash & G-Pay are Payment on Delivery
-# At the time of new order placement 
-    * Payment Modes
-        * Credit,
-        * Cash
-        * G-Pay
-        * Bank Transfer,
-        * Cheque        
-    * Check credit limit for client if payment mode is in Credit, Bank Transfer & Cheque. not for Cash & G-Pay
+    # At the time of new order placement 
+        * Payment Modes
+            * Credit,
+            * Cash
+            * G-Pay
+            * Bank Transfer,
+            * Cheque        
+        * Check credit limit for client if payment mode is in Credit, Bank Transfer & Cheque. not for Cash & G-Pay
 
-# At the time of order delivery
-    * Payment Modes
-        * Credit,
-        * Cash
-        * G-Pay
-        * Bank Transfer,
-        * Cheque        
-    * Check credit limit for client if payment mode is Credit.
-    * If payment mode is Cash/G-Pay , Payment posting will be done automatically.
+    # At the time of order delivery
+        * Payment Modes
+            * Credit,
+            * Cash
+            * G-Pay
+            * Bank Transfer,
+            * Cheque        
+        * Check credit limit for client if payment mode is Credit.
+        * If payment mode is Cash/G-Pay , Payment posting will be done automatically.
 
 # Payments List
     * Only most recent payment of a client can be deleted.
@@ -41,19 +44,26 @@
     * Product (products)
     * Client Category (client_categories)
     * Client (clients)
-    * 
+    * User (users)
+    * Vehicle (vehicle)
+    * Brands (brands)
+    * Warehouse (warehouses)
 # Hard Delete Modules
     * Scheme (scheme_products, schemes)
     * Delivery (delivery_routes, delivery_config_orders, delivery_config, delivery)
     * Order (order_items, order)
-    * Payment (payment_details, payments)
-    * 
+    * Payment (payment_details, payments)    
 
-Note:
-    * There is no delete functionality in client delivery addresses    
+# Following Modules lack delete functionality
+    * Client Delivery Addresses
+    * ZIP Code
+    * ZIP Code Group
+    * Inward/ Outward
+    * Followup
+    * Leads
 
+# Order Approve/Reject
+    We are not checking scheme logic in this module.
 
-TODO: Check scheme logic while approve order
-TODO: mobile msg send is disabled in FCM library. (temporary)
-
-TODO: http://172.16.3.107/mineral_water/index.php/clients/client_inventory bug team is null
+# TODO: 
+    * mobile msg send is disabled in FCM library. (temporary)
