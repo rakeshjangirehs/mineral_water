@@ -1,11 +1,27 @@
 <?php
 
-// Database Configuration
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$dbname = 'letsolnx_neervana';
+define('ENVIRONMENT', 'development');
+// define('ENVIRONMENT', 'testing');
+// define('ENVIRONMENT', 'production');
 
+$config_file = "config-development.xml";
+switch (ENVIRONMENT)
+{
+	case 'development':
+		$config_file = "config-development.xml";
+	break;
+
+	case 'testing':
+		$config_file = "config-testing.xml";
+	case 'production':
+		$config_file = "config-production.xml";
+	    break;
+    default:
+        $config_file = "config-development.xml";
+}
+
+$config_path = "../".$config_file;
+require_once "../load_config_xml.php";
 
 function clean($string) {
     $clean_code = preg_replace('/[^a-zA-Z0-9]/', '', $string);

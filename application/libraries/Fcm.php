@@ -173,9 +173,11 @@ class Fcm{
             curl_setopt($ch,CURLOPT_URL,"http://ip.shreesms.net/smsserver/SMS10N.aspx?Userid=RAKPHR&UserPassword=12345&PhoneNumber=$mobile&Text=$msg&GSM=RAKPHR");
             curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
             $output =curl_exec($ch);
-            curl_close($ch); */
-
-            log_message('error',$mobile.' - '.$message.' - '.$output);
+            curl_close($ch);
+            log_message('error',$mobile.' - '.$message.' - '.$output); */
+            
+            log_message('error',$mobile.' - '.$message);
+            
         }else{
             log_message('error',"Mobile No Missing");
         }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<note>
+  <BASE_URL>http://172.16.3.107/mineral_water/</BASE_URL>
+  <MYSQL>
+    <HOST_NAME>localhost</HOST_NAME>
+    <USRE_NAME>root</USRE_NAME>
+    <PASSWORD></PASSWORD>
+    <DATABASE>letsolnx_neervana</DATABASE>
+  </MYSQL>
+  <body>Don't forget me this weekend!</body>
+</note>

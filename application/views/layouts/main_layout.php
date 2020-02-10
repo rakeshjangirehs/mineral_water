@@ -129,6 +129,15 @@
                         </li>
                         -->
                         <li class="user-profile header-notification">
+                            <?php if(ENVIRONMENT != 'production'):?>
+                            <span style="cursor: default;
+                                        margin-right: 50px;
+                                        background: orange;
+                                        padding: 8px 20px;
+                                        border-radius: 31px;
+                                        box-shadow: 1px 1px 4px grey;
+                                        color: #fff;"><?php echo ucfirst(ENVIRONMENT);?> Mode</span>
+                            <?php endif;?>
                             <div class="dropdown-primary dropdown">
                                 <div class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="<?php echo $this->assetsUrl; ?>files/assets/images/profile.png" class="img-radius" alt="User-Profile-Image">

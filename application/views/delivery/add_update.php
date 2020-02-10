@@ -613,6 +613,7 @@
                 })
                 .toArray()
                 .reduce(function(carry,val){
+                    val = parseFloat(val) || 0;
                     return carry+val;
                 },0);
                 // console.log(weight_sum);

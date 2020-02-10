@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<note>
+
+	<BASE_URL>https://www.zoopapps.com/neervana_test/</BASE_URL>
+
+	<MYSQL>
+		<HOST_NAME>localhost</HOST_NAME>
+		<USRE_NAME>letsolnx_neervana_user</USRE_NAME>
+		<PASSWORD>6JE=HZlVHNls</PASSWORD>
+		<DATABASE>letsolnx_neervana_t</DATABASE>
+
+	</MYSQL>
+
+</note>

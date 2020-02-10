@@ -54,7 +54,9 @@ date_default_timezone_set('Asia/Kolkata');
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('ENVIRONMENT', 'development');
+	// define('ENVIRONMENT', 'testing');
+	// define('ENVIRONMENT', 'production');
 
 /*
  *---------------------------------------------------------------
@@ -64,6 +66,8 @@ date_default_timezone_set('Asia/Kolkata');
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
+$config_file = "config-development.xml";
+
 switch (ENVIRONMENT)
 {
 	case 'development':
@@ -72,7 +76,19 @@ switch (ENVIRONMENT)
 	break;
 
 	case 'testing':
+		$config_file = "config-testing.xml";
+		ini_set('display_errors', 0);
+		if (version_compare(PHP_VERSION, '5.3', '>='))
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+		}
+		else
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+		}
+	break;
 	case 'production':
+		$config_file = "config-production.xml";
 		ini_set('display_errors', 0);
 		if (version_compare(PHP_VERSION, '5.3', '>='))
 		{
@@ -314,19 +330,8 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 
-$config_path = FCPATH."config.xml";
-if(file_exists($config_path)){
-    $xml=simplexml_load_file(FCPATH."config.xml") or die("Error: Cannot create object");
-    defined('BASE_URL')        OR define('BASE_URL', $xml->BASE_URL);
-    defined('HOST_NAME')        OR define('HOST_NAME', $xml->MYSQL->HOST_NAME);
-    defined('DATABASE')        OR define('DATABASE', $xml->MYSQL->DATABASE);
-    defined('USRE_NAME')        OR define('USRE_NAME', $xml->MYSQL->USRE_NAME);
-    defined('PASSWORD')        OR define('PASSWORD', $xml->MYSQL->PASSWORD);
+$config_path = FCPATH.$config_file;
 
-}else{
-    echo "Configuration Missing";
-    die;
-}
-
+require_once 'load_config_xml.php';
 
 require_once BASEPATH.'core/CodeIgniter.php';
