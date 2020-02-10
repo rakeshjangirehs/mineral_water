@@ -37,6 +37,8 @@
         * After submit check for applicable scheme and if found let the user choose scheme from applicable schemes.
         * Update Client specific product price if user changes price of a product.
 
+# Scheme Module
+    
 
 
 TODO: Check scheme logic while approve order

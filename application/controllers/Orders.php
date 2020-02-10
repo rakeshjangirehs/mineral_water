@@ -154,8 +154,8 @@
                             WHEN delivery.id IS NOT NULL
                             THEN (CASE
                                     WHEN delivery_boy.id IS NOT NULL
-                                    THEN CONCAT(delivery_boy.first_name, ' ', delivery_boy.last_name, '<br/>',driver.first_name, ' ',driver.last_name)
-                                    ELSE CONCAT(driver.first_name, ' ',driver.last_name)
+                                    THEN CONCAT(delivery_boy.first_name, ' ', IFNULL(delivery_boy.last_name,''), '<br/>',driver.first_name, ' ',IFNULL(driver.last_name,''))
+					                ELSE CONCAT(driver.first_name, ' ',IFNULL(driver.last_name,''))
                                 END)
                             ELSE ''
                         END) AS `delivery_team`                        
