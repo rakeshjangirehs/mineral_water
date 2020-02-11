@@ -140,7 +140,7 @@ class Products extends MY_Controller {
 
 	        	$productImageData = array(
 	        		'original_image_name'	=> $imageData['file_name'],
-	        		'thumb'					=> $thumb,
+	        		'thumb'					=> ($thumb) ? $thumb : null,
 	        		'is_primary'			=> 1
 	        	);
         	}
