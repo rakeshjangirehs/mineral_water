@@ -80,15 +80,11 @@
                                     <label class="control-label" for="description">Description</label>
                                     <textarea class="form-control" cols="50" rows="5" name="description"><?php echo (isset($_POST['description'])) ? $_POST['description'] : $products['description']; ?></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <div class="thumbnail">
-                                        <div class="thumb">
-                                            <a href="<?php echo $products['image_url'];?>" data-lightbox="5" data-title="My caption 5">
-                                                <img src="<?php echo $products['image_url'];?>" alt="" class="img-fluid img-thumbnail">
-                                            </a>
-                                        </div>
-                                    </div>
+                                <?php if($id):?>
+                                <div class="form-group text-center">
+                                    <img src="<?php echo $products['image_url'];?>" alt="Product Image" class="img-thumbnail"/>
                                 </div>
+                                <?php endif;?>
                             </div>
                         </div>
                     </div>
@@ -108,18 +104,5 @@
 <script type="text/javascript">
 	// to active the sidebar
     $('.add_product_li').active();
-    $('#id-input-file-1 , #id-input-file-2').ace_file_input({
-		no_file:'No File ...',
-		btn_choose:'Choose',
-		btn_change:'Change',
-		droppable:false,
-		onchange:null,
-		thumbnail:false //| true | large
-		// whitelist:'gif|png|jpg|jpeg'
-		//blacklist:'exe|php'
-		//onchange:''
-		//
-	});
-
 </script>
 @endscript
