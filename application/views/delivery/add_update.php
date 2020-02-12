@@ -101,7 +101,7 @@
                                         <fieldset>
                                             <div class="form-group row">
                                                 <div class="col-md-4 col-lg-3">
-                                                    <label for="expected_delivey_datetime" class="block">Expected Delivery Date <span class="text-danger">*</span></label>
+                                                    <label for="expected_delivey_datetime" class="block">To be attempt date <span class="text-danger">*</span></label>
                                                 </div>
                                                 <div class="col-md-8 col-lg-9">
                                                 <input type="text" name="expected_delivey_datetime" id="expected_delivey_datetime" class="form-control" value="<?php echo ($delivery_data['expected_delivey_datetime']) ? date('Y-m-d',strtotime($delivery_data['expected_delivey_datetime'])) : ''; ?>"/>

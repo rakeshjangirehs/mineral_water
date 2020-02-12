@@ -23,7 +23,7 @@
                             <tr>
                                 <th>Delivery Id</th>
                                 <th>Order Info</th>
-                                <th>Expected Delivery</th>
+                                <th>To be attempt date</th>
                                 <th>Actual Delivery</th>
                                 <th>Pickup Location</th>
                                 <th>Warehouse</th>

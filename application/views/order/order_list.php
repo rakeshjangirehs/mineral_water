@@ -58,7 +58,8 @@
                                                 <th>Order ID</th>
                                                 <th>Status</th>
                                                 <th>Client</th>
-                                                <th>C Delivery Dt</th>
+                                                <th>Order Create Date</th>
+                                                <th>Expected Delivery Date</th>
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
                                                 <th>Salesman</th>
@@ -79,11 +80,13 @@
                                                 <th>Order ID</th>
                                                 <th>Delivery Id</th>
                                                 <th>Client</th>
-                                                <th>C Delivery Dt</th>
+                                                <th>Order Create Date</th>
+                                                <th>Expected Delivery Date</th>
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
-                                                <th>Expected Delivery Date</th>
+                                                <th>To be attempt date</th>
                                                 <th>Delivery Team</th>
+                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -100,11 +103,12 @@
                                                 <th>Order ID</th>
                                                 <th>Delivery Id</th>
                                                 <th>Client</th>
-                                                <th>C Delivery Dt</th>
+                                                <th>Order Create Date</th>
+                                                <th>Expected Delivery Date</th>
                                                 <th>Order Amount</th>
                                                 <th>Final Amount</th>
                                                 <th>Received Payment</th>
-                                                <th>Expected Delivery Date</th>
+                                                <th>To be attempt date</th>
                                                 <th>Actual Delivery Date</th>
                                                 <th>Delivery Team</th>
                                                 <th>Delivery Notes</th>
@@ -209,6 +213,7 @@
                 },
                 { "data": "order_status" },
                 { "data": "client_name" },
+                { "data": "order_create_date" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },
@@ -273,11 +278,19 @@
                 },
                 { "data": 'delivery_id'},
                 { "data": "client_name" },
+                { "data": "order_create_date" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },
                 { "data": "expected_delivey_datetime" },
-                { "data": "delivery_team" }
+                { "data": "delivery_team" },
+                {
+                    "data": 'link',
+                    "sortable": false,
+                    "render": function ( data, type, row, meta ) {
+                        return "<a class='' href='<?php echo $this->baseUrl; ?>orders/order_edit/"+data.id+"/1' title='Edit Order'><i class='fa fa-edit'></i></a>";
+                    }
+                }
             ],
             "createdRow": function ( row, data, index ) {}
         });
@@ -305,6 +318,7 @@
                 },
                 { "data": 'delivery_id'},
                 { "data": "client_name" },
+                { "data": "order_create_date" },
                 { "data": "expected_delivery_date" },
                 { "data": "payable_amount" },
                 { "data": "effective_price" },

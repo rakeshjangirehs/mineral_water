@@ -38,6 +38,13 @@
         margin-right: 9px;
         font-size: 17px;
     }
+
+    .order_status_badge{
+        display: inline !important;
+        position: absolute !important;
+        right: 42px !important;
+        margin-top: 0px !important;
+    }
 </style>
 <div class="page-body">
     <div class="row">
@@ -45,7 +52,22 @@
             <form data-action="<?php echo $this->baseUrl; ?>orders/order_edit/<?php echo $id; ?>" id="order_approve_form" method="post">
                 <div class="card">
                     <div class="card-header">
-                        <h5><i class="feather icon-user-check"></i><mark>Client Name :</mark><?php echo $order_client['client_name'];?></h5>
+                        <h5>
+                            <i class="feather icon-user-check"></i><mark>Client Name :</mark><?php echo $order_client['client_name'];?>
+                            <?php 
+                                if($order_edit['order_status']=='Delivered'){
+                                    $class="label-success";
+                                    $text="Delivered";
+                                } elseif($order_edit['delivery_id']) {
+                                    $class="label-warning";
+                                    $text="Out For Delivery";
+                                } else {
+                                    $class="label-info";
+                                    $text=$order_edit['order_status'];                                    
+                                }
+                                echo "<span class='label {$class} order_status_badge'>{$text}</span>";
+                            ?>                            
+                        </h5>
                         <div class="card-header-right">
                             <ul class="list-unstyled card-option">
                                 <li><i class="feather icon-maximize full-card"></i></li>
@@ -111,7 +133,7 @@
                                     </select>
                                     <span class="messages"><?php echo form_error('delivery_address_id');?></span>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="<?php echo ($is_pending) ? 'display:none;' : '';?>">
                                     <label for="role" class="control-label">Expected Delivery Date:</label>
                                     <input type="text" name="expected_delivery_date" id="expected_delivery_date" class="form-control" value="<?php echo (isset($_POST['expected_delivery_date']))? set_value('expected_delivery_date') : $order_edit['expected_delivery_date']; ?>" />
                                     <span class="messages"><?php echo form_error('expected_delivery_date');?></span>

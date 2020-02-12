@@ -29,6 +29,7 @@
                     'id',
                     'order_status',
                     'client_name',
+                    'order_create_date',
                     'expected_delivery_date',
                     'payable_amount',
                     'effective_price',
@@ -42,6 +43,7 @@
                         'id',
                         'delivery_id',
                         'client_name',
+                        'order_create_date',
                         'expected_delivery_date',
                         'payable_amount',
                         'effective_price',                        
@@ -56,6 +58,7 @@
                         'id',
                         'delivery_id',
                         'client_name',
+                        'order_create_date',
                         'expected_delivery_date',
                         'payable_amount',
                         'effective_price',
@@ -64,6 +67,7 @@
                         'amount_recieved',
                         'delivery_team',
                         'notes',
+                        'signature_file',
                         'action'
                     );
                     break;
@@ -130,6 +134,7 @@
 
             $query = "SELECT 
                         orders.*,
+                        DATE_FORMAT(`orders`.`created_at`,'%Y-%m-%d') as `order_create_date`,
                         #`clients`.`id` AS `client_id`,
                         `clients`.`client_name`,
                         `salesman`.`id` AS `salesman_id`, 
@@ -416,8 +421,10 @@
         $this->load_content('order/order_approval', $this->data);
     }
 
-    public function order_edit($id=NULL) //$order_id
+    public function order_edit($id=NULL,$is_pending=0) //$order_id
     {
+        $this->data['is_pending'] = $is_pending;
+        
         // Redirect to order list if order_id not provided
         if(!$id) {
             $this->flash("error", "Order not selected");
@@ -438,8 +445,8 @@
         // echo "<pre>";print_r($this->data['order_edit']);die;
         
         // Redirect to order is associated with a delivery (rare case)
-        if($deliver_id = $order_edit['delivery_id']) {
-            $this->flash("error", "Order is allocated in delivery no #{$deliver_id}, can't be edited.");
+        if($order_edit['order_status']=="Delivered") {
+            $this->flash("error", "Order is already delivered, can't be edited.");
             redirect("orders");
         }
 
